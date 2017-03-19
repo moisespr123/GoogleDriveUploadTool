@@ -19,7 +19,7 @@ You have 2 options to upload a file.
 4. The download will start
 
 # How to open and compile the project?
-This project was made using Visual Studio 2017, in the Visual Basic .NET language. You'll need to have the Windows Desktop components installed to be able to open and edit this project to fit your needs and to compile it. You may also be prompted to download the NuGet packages for this project.
+This project was made using Visual Studio 2017, in the Visual Basic .NET language. You'll need to have the Windows Desktop components installed to be able to open and edit this project to fit your needs and to compile it. It also uses the Google Drive API which is available in the NuGet Package Manager. You may also be prompted to download the NuGet packages for this project.
 
 Enjoy!!!
 
