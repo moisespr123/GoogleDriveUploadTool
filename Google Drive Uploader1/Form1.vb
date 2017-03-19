@@ -19,13 +19,26 @@ Public Class Form1
     Public service As DriveService
     Private ResumeUpload As Boolean = False
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        If String.IsNullOrEmpty(My.Settings.Language) Then
+            My.Settings.Language = "English"
+            My.Settings.Save()
+            RadioButton1.Checked = True
+            EnglishLanguage()
+        Else
+            If My.Settings.Language = "English" Then
+                EnglishLanguage()
+                RadioButton1.Checked = True
+            Else
+                SpanishLanguage()
+                RadioButton2.Checked = True
+            End If
+        End If
         Dim credential As UserCredential
 
         Using stream = New FileStream("client_secret.json", FileMode.Open, FileAccess.Read)
             Dim credPath As String = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
             credPath = Path.Combine(credPath, ".credentials/drive-dotnet-quickstart.json")
             credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, Scopes, "user", CancellationToken.None, New FileDataStore(credPath, True)).Result
-            Console.WriteLine(Convert.ToString("Credential file saved to: ") & credPath)
         End Using
         ' Create Drive API service.
         Dim Initializer As New BaseClientService.Initializer()
@@ -101,7 +114,6 @@ Public Class Form1
         If uploadUri = Nothing Then
             UploadFile.UploadAsync(UploadCancellationToken)
         Else
-            Console.WriteLine("Restarting prior upload session.")
             UploadFile.ResumeAsync(uploadUri, UploadCancellationToken)
         End If
 
@@ -113,16 +125,16 @@ Public Class Form1
     Private Sub Upload_ProgressChanged(uploadStatusInfo As IUploadProgress)
         Select Case uploadStatusInfo.Status
             Case UploadStatus.Completed
-                UploadStatusText = "Completed!!"
+                If RadioButton1.Checked = True Then UploadStatusText = "Completed!!" Else UploadStatusText = "¡Completado!"
                 BytesSentText = My.Computer.FileSystem.GetFileInfo(TextBox1.Text).Length
                 UpdateBytesSent()
             Case UploadStatus.Starting
                 BytesSentText = "0"
-                UploadStatusText = "Starting..."
+                If RadioButton1.Checked = True Then UploadStatusText = "Starting..." Else UploadStatusText = "Comenzando..."
                 UpdateBytesSent()
             Case UploadStatus.Uploading
                 BytesSentText = uploadStatusInfo.BytesSent
-                UploadStatusText = "Uploading..."
+                If RadioButton1.Checked = True Then UploadStatusText = "Uploading..." Else UploadStatusText = "Subiendo..."
                 timespent = DateTime.Now - starttime
                 Try
                     secondsremaining = (timespent.TotalSeconds / ProgressBar1.Value * (ProgressBar1.Maximum - ProgressBar1.Value))
@@ -140,15 +152,15 @@ Public Class Form1
                     Dim StatusCode As Int32 = CInt(APIException.HttpStatusCode)
                     ' See https://developers.google.com/youtube/v3/guides/using_resumable_upload_protocol
                     If ((StatusCode / 100) = 4 OrElse ((StatusCode / 100) = 5 AndAlso Not (StatusCode = 500 Or StatusCode = 502 Or StatusCode = 503 Or StatusCode = 504))) Then
-                        MsgBox("Cannot retry upload...")
+                        If RadioButton1.Checked = True Then MsgBox("Cannot retry upload...") Else MsgBox("No se puede continuar subiendo este archivo desde el punto en que se interrumpió")
                     End If
                 End If
-                UploadStatusText = "Uploading..."
+                If RadioButton1.Checked = True Then UploadStatusText = "Failed..." Else UploadStatusText = "Error..."
                 UpdateBytesSent()
         End Select
     End Sub
     Private Sub Upload_ResponseReceived(file As Data.File)
-        UploadStatusText = "Completed!!"
+        If RadioButton1.Checked = True Then UploadStatusText = "Completed!!" Else UploadStatusText = "¡Completado!"
         BytesSentText = My.Computer.FileSystem.GetFileInfo(TextBox1.Text).Length
         UpdateBytesSent()
         RefreshFileList()
@@ -164,7 +176,18 @@ Public Class Form1
     Private Function GetSessionRestartUri() As Uri
         If My.Settings.ResumeUri.Length > 0 AndAlso My.Settings.ResumeFilename = TextBox1.Text Then
             ' An UploadUri from a previous execution is present, ask if a resume should be attempted
-            If MsgBox(String.Format("Resume previous upload?{0}{0}{1}", vbNewLine, TextBox1.Text), MsgBoxStyle.Question Or MsgBoxStyle.YesNo, "Resume Upload") = MsgBoxResult.Yes Then
+            Dim ResumeText1 As String = ""
+            Dim ResumeText2 As String = ""
+
+            If RadioButton1.Checked = True Then
+                ResumeText1 = "Resume previous upload?{0}{0}{1}"
+                ResumeText2 = "Resume Upload"
+            Else
+                ResumeText1 = "¿Resumir carga anterior?{0}{0}{1}"
+                ResumeText2 = "Resumir"
+            End If
+
+            If MsgBox(String.Format(ResumeText1, vbNewLine, TextBox1.Text), MsgBoxStyle.Question Or MsgBoxStyle.YesNo, ResumeText2) = MsgBoxResult.Yes Then
                 Return New Uri(My.Settings.ResumeUri)
             Else
                 Return Nothing
@@ -203,7 +226,11 @@ Public Class Form1
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        OpenFileDialog1.Title = "Select a file to Upload"
+        If RadioButton1.Checked = True Then
+            OpenFileDialog1.Title = "Select a file to Upload"
+        Else
+            OpenFileDialog1.Title = "Seleccione un archivo para subir"
+        End If
         OpenFileDialog1.FileName = My.Computer.FileSystem.GetName(TextBox1.Text)
         OpenFileDialog1.ShowDialog()
         TextBox1.Text = OpenFileDialog1.FileName
@@ -213,7 +240,11 @@ Public Class Form1
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
         FileIdsListBox.SelectedIndex = ListBox1.SelectedIndex
         FileSizeListBox.SelectedIndex = ListBox1.SelectedIndex
-        SaveFileDialog1.Title = "Browse for a location to save the file:"
+        If RadioButton1.Checked = True Then
+            SaveFileDialog1.Title = "Browse for a location to save the file:"
+        Else
+            SaveFileDialog1.Title = "Busque un lugar para descargar el archivo:"
+        End If
         SaveFileDialog1.FileName = ListBox1.SelectedItem
         Dim SFDResult As MsgBoxResult = SaveFileDialog1.ShowDialog()
         If SFDResult = MsgBoxResult.Ok Then
@@ -230,17 +261,17 @@ Public Class Form1
     Private Sub Download_ProgressChanged(progress As IDownloadProgress)
         Select Case progress.Status
             Case DownloadStatus.Completed
-                UploadStatusText = "Completed!!"
+                If RadioButton1.Checked = True Then UploadStatusText = "Completed!!" Else UploadStatusText = "¡Completado!"
                 FileToSave.Close()
                 BytesSentText = MaxFileSize
                 UpdateBytesSent()
 
             Case DownloadStatus.Downloading
                 BytesSentText = progress.BytesDownloaded
-                UploadStatusText = "Downloading..."
+                If RadioButton1.Checked = True Then UploadStatusText = "Downloading..." Else UploadStatusText = "Descargando..."
                 UpdateBytesSent()
             Case UploadStatus.Failed
-                UploadStatusText = "Failed..."
+                If RadioButton1.Checked = True Then UploadStatusText = "Failed..." Else UploadStatusText = "Error..."
                 UpdateBytesSent()
         End Select
     End Sub
@@ -282,4 +313,50 @@ Public Class Form1
             e.Effect = DragDropEffects.Copy
         End If
     End Sub
+
+    Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged
+        EnglishLanguage()
+        My.Settings.Language = "English"
+        My.Settings.Save()
+    End Sub
+
+    Private Sub RadioButton2_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton2.CheckedChanged
+        SpanishLanguage()
+        My.Settings.Language = "Spanish"
+        My.Settings.Save()
+    End Sub
+    Private Sub EnglishLanguage()
+        Label1.Text = "Length:"
+        Label2.Text = "Processed:"
+        Label5.Text = "Choose File to Upload"
+        Label6.Text = "By Moises Cardona" & vbNewLine & "v1.3"
+        Label7.Text = "Status:"
+        Label9.Text = "Percent: "
+        Label11.Text = "Latest Uploads:"
+        Label12.Text = "Upload to this folder ID (""root"" to upload to root folder):"
+        Label13.Text = "Time Left: "
+        Button1.Text = "More Results"
+        Button2.Text = "Upload"
+        Button3.Text = "Browse"
+        Button4.Text = "Refresh List"
+        Button5.Text = "Download File"
+
+    End Sub
+    Private Sub SpanishLanguage()
+        Label1.Text = "Tamaño:"
+        Label2.Text = "Procesado:"
+        Label5.Text = "Seleccione un archivo para subir"
+        Label6.Text = "Por Moises Cardona" & vbNewLine & "v1.3"
+        Label7.Text = "Estado:"
+        Label9.Text = "Porcentaje: "
+        Label11.Text = "Ultimos archivos subidos"
+        Label12.Text = "Subir a este ID de directorio (""root"" para subir a la raíz):"
+        Label13.Text = "Tiempo Est."
+        Button1.Text = "Más Resultados"
+        Button2.Text = "Subir"
+        Button3.Text = "Buscar"
+        Button4.Text = "Refrescar Lista"
+        Button5.Text = "Descargar Archivo"
+    End Sub
+
 End Class

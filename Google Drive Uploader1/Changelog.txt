@@ -1,4 +1,7 @@
-﻿v1.2 (3/19/2017)
+﻿v1.3 (3/19/2017)
+-Added Spanish Language
+
+v1.2 (3/19/2017)
 -Upload files to a Folder ID
 -Added Time Left for Upload/Download
 -Chunk Size reduced to 1MB to prevent timeout issues with slower internet connections
