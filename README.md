@@ -24,11 +24,19 @@ This project was made using Visual Studio 2017, in the Visual Basic .NET languag
 Enjoy!!!
 
 # Changelog:
-v1.1 
+v1.3 (3/19/2017)
+- Added Spanish Language
+
+v1.2 (3/19/2017)
+- Upload files to a Folder ID
+- Added Time Left for Upload/Download
+- Chunk Size reduced to 1MB to prevent timeout issues with slower internet connections
+
+v1.1 (3/19/2017)
 - Lists files in ListBox
 - Can download a selected file to a chosen directory
 - Can drag and drop a file to upload
 
-v1.0
+v1.0 (3/18/2017)
 - Initial Release
 - Ability to upload a file and resume if interrumpted
