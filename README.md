@@ -24,11 +24,11 @@ This project was made using Visual Studio 2017, in the Visual Basic .NET languag
 Enjoy!!!
 
 # Changelog:
-v1.1
--Lists files in ListBox
--Can download a selected file to a chosen directory
--Can drag and drop a file to upload
+v1.1 
+- Lists files in ListBox
+- Can download a selected file to a chosen directory
+- Can drag and drop a file to upload
 
 v1.0
--Initial Release
--Ability to upload a file and resume if interrumpted
+- Initial Release
+- Ability to upload a file and resume if interrumpted
