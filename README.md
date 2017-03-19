@@ -1,4 +1,4 @@
-# GDriveUploadTool
+# Google Drive Upload Tool
 A tool for Windows to upload files to Google Drive. It resumes uploads in case of an error or failure. Perfect for uploading large files or if your connection is unstable. Also, the software lists the latest uploads and allows you to download them to a chosen folder.
 
 # How to use?
