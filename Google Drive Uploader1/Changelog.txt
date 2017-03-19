@@ -1,6 +1,7 @@
 ﻿v1.1
 -Lists files in ListBox
 -Can download a selected file to a chosen directory
+-Can drag and drop a file to upload
 
 v1.0
 -Initial Release
