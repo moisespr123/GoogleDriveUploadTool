@@ -1,4 +1,4 @@
-# GDriveUploadTool
+# Google Drive Upload Tool
 A tool for Windows to upload files to Google Drive. It resumes uploads in case of an error or failure. Perfect for uploading large files or if your connection is unstable. Also, the software lists the latest uploads and allows you to download them to a chosen folder.
 
 # How to use?
@@ -10,7 +10,7 @@ A tool for Windows to upload files to Google Drive. It resumes uploads in case o
 You have 2 options to upload a file. 
 * The first is to press the Browse button and select a file, then press Upload. 
 * The second option is to drag and drop a file, then press Upload
-* If an upload is interrumpted or the software of PC crashes, you'll be prompted to continue the upload where it left of if you are uploading the same file as before. If you attempt to upload another file after the first one got interrumpted, you will lose the ability to resume the previous file.
+* If an upload is interrumpted or the software or the PC crashes, you'll be prompted to continue the upload where it left of if you are uploading the same file as before. If you attempt to upload another file after the first one got interrumpted, you will lose the ability to resume the previous file.
 
 # How to download a file?
 1. Choose a file from the list
@@ -19,7 +19,7 @@ You have 2 options to upload a file.
 4. The download will start
 
 # How to open and compile the project?
-This project was made using Visual Studio 2017, in the Visual Basic .NET language. You'll need to have the Windows Desktop components installed to be able to open and edit this project to fit your needs and to compile it. You may also be prompted to download the NuGet packages for this project.
+This project was made using Visual Studio 2017, in the Visual Basic .NET language. You'll need to have the Windows Desktop components installed to be able to open and edit this project to fit your needs and to compile it. It also uses the Google Drive API which is available in the NuGet Package Manager. You may also be prompted to download the NuGet packages for this project.
 
 Enjoy!!!
 
