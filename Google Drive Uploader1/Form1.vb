@@ -74,19 +74,30 @@ Public Class Form1
         End If
         pageToken = files.NextPageToken
     End Sub
-
+    Private starttime As DateTime
+    Private timespent As TimeSpan
+    Private secondsremaining As Integer = 0
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Label3.Text = String.Format("{0:F2} MB", My.Computer.FileSystem.GetFileInfo(TextBox1.Text).Length / 1024 / 1024)
         ProgressBar1.Maximum = My.Computer.FileSystem.GetFileInfo(TextBox1.Text).Length / 1024 / 1024
         Dim FileMetadata As New Data.File
         FileMetadata.Name = My.Computer.FileSystem.GetName(TextBox1.Text)
+        Dim FileFolder As New List(Of String)
+        If String.IsNullOrEmpty(TextBox2.Text) = False Then
+            FileFolder.Add(TextBox2.Text)
+        Else
+            FileFolder.Add("root")
+        End If
+        FileMetadata.Parents = FileFolder
         Dim UploadStream As New FileStream(TextBox1.Text, System.IO.FileMode.Open, System.IO.FileAccess.Read)
         Dim UploadFile As FilesResource.CreateMediaUpload = service.Files.Create(FileMetadata, UploadStream, "")
+        UploadFile.ChunkSize = ResumableUpload.MinimumChunkSize * 4
         AddHandler UploadFile.ProgressChanged, New Action(Of IUploadProgress)(AddressOf Upload_ProgressChanged)
         AddHandler UploadFile.ResponseReceived, New Action(Of Data.File)(AddressOf Upload_ResponseReceived)
         AddHandler UploadFile.UploadSessionData, AddressOf Upload_UploadSessionData
         UploadCancellationToken = New System.Threading.CancellationToken
         Dim uploadUri As Uri = GetSessionRestartUri()
+        starttime = DateTime.Now
         If uploadUri = Nothing Then
             UploadFile.UploadAsync(UploadCancellationToken)
         Else
@@ -112,6 +123,12 @@ Public Class Form1
             Case UploadStatus.Uploading
                 BytesSentText = uploadStatusInfo.BytesSent
                 UploadStatusText = "Uploading..."
+                timespent = DateTime.Now - starttime
+                Try
+                    secondsremaining = (timespent.TotalSeconds / ProgressBar1.Value * (ProgressBar1.Maximum - ProgressBar1.Value))
+                Catch
+                    secondsremaining = 0
+                End Try
                 UpdateBytesSent()
             Case UploadStatus.Failed
                 Dim APIException As Google.GoogleApiException = TryCast(uploadStatusInfo.Exception, Google.GoogleApiException)
@@ -126,11 +143,15 @@ Public Class Form1
                         MsgBox("Cannot retry upload...")
                     End If
                 End If
-                MsgBox("Failed...")
+                UploadStatusText = "Uploading..."
+                UpdateBytesSent()
         End Select
     End Sub
     Private Sub Upload_ResponseReceived(file As Data.File)
-        MsgBox("File Upload Completed!")
+        UploadStatusText = "Completed!!"
+        BytesSentText = My.Computer.FileSystem.GetFileInfo(TextBox1.Text).Length
+        UpdateBytesSent()
+        RefreshFileList()
     End Sub
     Private Sub Upload_UploadSessionData(ByVal uploadSessionData As IUploadSessionData)
         ' Save UploadUri.AbsoluteUri and FullPath Filename values for use if program faults and we want to restart the program
@@ -161,6 +182,10 @@ Public Class Form1
             Dim method As MethodInvoker = New MethodInvoker(AddressOf UpdateBytesSent)
             Invoke(method)
         End If
+        If Label14.InvokeRequired Then
+            Dim method As MethodInvoker = New MethodInvoker(AddressOf UpdateBytesSent)
+            Invoke(method)
+        End If
         If ProgressBar1.InvokeRequired Then
             Dim method As MethodInvoker = New MethodInvoker(AddressOf UpdateBytesSent)
             Invoke(method)
@@ -173,6 +198,8 @@ Public Class Form1
 
         End Try
         Label10.Text = String.Format("{0:F2}%", ((ProgressBar1.Value / ProgressBar1.Maximum) * 100))
+        Dim timeFormatted As TimeSpan = TimeSpan.FromSeconds(secondsremaining)
+        Label14.Text = String.Format("{0}:{1:mm}:{1:ss}", CInt(Math.Truncate(timeFormatted.TotalHours)), timeFormatted)
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
@@ -190,6 +217,7 @@ Public Class Form1
         SaveFileDialog1.FileName = ListBox1.SelectedItem
         Dim SFDResult As MsgBoxResult = SaveFileDialog1.ShowDialog()
         If SFDResult = MsgBoxResult.Ok Then
+            starttime = DateTime.Now
             Label3.Text = String.Format("{0:F2} MB", FileSizeListBox.SelectedItem / 1024 / 1024)
             ProgressBar1.Maximum = FileSizeListBox.SelectedItem / 1024 / 1024
             MaxFileSize = FileSizeListBox.SelectedItem
@@ -218,6 +246,10 @@ Public Class Form1
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        RefreshFileList()
+    End Sub
+
+    Private Sub RefreshFileList()
         ListBox1.Items.Clear()
         FileIdsListBox.Items.Clear()
         FileSizeListBox.Items.Clear()
@@ -239,7 +271,6 @@ Public Class Form1
             Next
         End If
     End Sub
-
     Private Sub Form1_DragDrop(sender As Object, e As DragEventArgs) Handles Me.DragDrop
         Dim filepath() As String = e.Data.GetData(DataFormats.FileDrop)
         For Each path In filepath
