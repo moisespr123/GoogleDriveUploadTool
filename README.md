@@ -10,7 +10,7 @@ A tool for Windows to upload files to Google Drive. It resumes uploads in case o
 You have 2 options to upload a file. 
 * The first is to press the Browse button and select a file, then press Upload. 
 * The second option is to drag and drop a file, then press Upload
-* If an upload is interrumpted or the software of PC crashes, you'll be prompted to continue the upload where it left of if you are uploading the same file as before. If you attempt to upload another file after the first one got interrumpted, you will lose the ability to resume the previous file.
+* If an upload is interrumpted or the software or the PC crashes, you'll be prompted to continue the upload where it left of if you are uploading the same file as before. If you attempt to upload another file after the first one got interrumpted, you will lose the ability to resume the previous file.
 
 # How to download a file?
 1. Choose a file from the list
