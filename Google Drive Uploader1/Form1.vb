@@ -108,7 +108,7 @@ Public Class Form1
         AddHandler UploadFile.ProgressChanged, New Action(Of IUploadProgress)(AddressOf Upload_ProgressChanged)
         AddHandler UploadFile.ResponseReceived, New Action(Of Data.File)(AddressOf Upload_ResponseReceived)
         AddHandler UploadFile.UploadSessionData, AddressOf Upload_UploadSessionData
-        UploadCancellationToken = New System.Threading.CancellationToken
+        UploadCancellationToken = New CancellationToken
         Dim uploadUri As Uri = GetSessionRestartUri()
         starttime = DateTime.Now
         If uploadUri = Nothing Then
