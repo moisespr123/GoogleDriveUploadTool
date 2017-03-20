@@ -14,7 +14,7 @@ Public Class Form1
     ' If modifying these scopes, delete your previously saved credentials
     ' at ~/.credentials/drive-dotnet-quickstart.json
     Shared Scopes As String() = {DriveService.Scope.DriveFile, DriveService.Scope.Drive}
-    Shared ApplicationName As String = "Drive API .NET Quickstart"
+    Shared ApplicationName As String = "Google Drive Uploader Tool"
     Public service As DriveService
     Private ResumeUpload As Boolean = False
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -36,7 +36,7 @@ Public Class Form1
 
         Using stream = New FileStream("client_secret.json", FileMode.Open, FileAccess.Read)
             Dim credPath As String = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
-            credPath = Path.Combine(credPath, ".credentials/drive-dotnet-quickstart.json")
+            credPath = Path.Combine(credPath, ".credentials/GoogleDriveUploaderTool.json")
             credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, Scopes, "user", CancellationToken.None, New FileDataStore(credPath, True)).Result
         End Using
         ' Create Drive API service.
@@ -44,7 +44,7 @@ Public Class Form1
         Initializer.HttpClientInitializer = credential
         Initializer.ApplicationName = ApplicationName
         service = New DriveService(Initializer)
-
+        service.HttpClient.Timeout = TimeSpan.FromSeconds(240)
         ' Define parameters of request.
         Dim listRequest As FilesResource.ListRequest = service.Files.List()
         listRequest.PageSize = 10
