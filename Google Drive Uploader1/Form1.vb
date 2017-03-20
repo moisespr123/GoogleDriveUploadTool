@@ -6,7 +6,6 @@ Imports System.IO
 Imports System.Threading
 Imports Google.Apis.Upload
 Imports Google.Apis.Download
-Imports System.Security.Cryptography
 
 Public Class Form1
     Private FileIdsListBox As New ListBox
@@ -103,6 +102,8 @@ Public Class Form1
         End If
         FileMetadata.Parents = FileFolder
         Dim UploadStream As New FileStream(TextBox1.Text, System.IO.FileMode.Open, System.IO.FileAccess.Read)
+        Dim FileToUploadDate = IO.File.GetLastWriteTimeUtc(TextBox1.Text)
+        FileMetadata.ModifiedTime = FileToUploadDate
         Dim UploadFile As FilesResource.CreateMediaUpload = service.Files.Create(FileMetadata, UploadStream, "")
         UploadFile.ChunkSize = ResumableUpload.MinimumChunkSize * 4
         AddHandler UploadFile.ProgressChanged, New Action(Of IUploadProgress)(AddressOf Upload_ProgressChanged)
@@ -329,7 +330,7 @@ Public Class Form1
         Label1.Text = "Length:"
         Label2.Text = "Processed:"
         Label5.Text = "Choose File to Upload"
-        Label6.Text = "By Moises Cardona" & vbNewLine & "v1.3"
+        Label6.Text = "By Moises Cardona" & vbNewLine & "v1.3.1"
         Label7.Text = "Status:"
         Label9.Text = "Percent: "
         Label11.Text = "Latest Uploads:"
@@ -346,7 +347,7 @@ Public Class Form1
         Label1.Text = "Tamaño:"
         Label2.Text = "Procesado:"
         Label5.Text = "Seleccione un archivo para subir"
-        Label6.Text = "Por Moises Cardona" & vbNewLine & "v1.3"
+        Label6.Text = "Por Moises Cardona" & vbNewLine & "v1.3.1"
         Label7.Text = "Estado:"
         Label9.Text = "Porcentaje: "
         Label11.Text = "Ultimos archivos subidos"
