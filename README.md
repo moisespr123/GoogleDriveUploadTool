@@ -24,6 +24,10 @@ This project was made using Visual Studio 2017, in the Visual Basic .NET languag
 Enjoy!!!
 
 # Changelog:
+v1.4 (3/20/2017)
+- Added Batch Upload
+- Uploaded Items list now shows 25 items per page
+
 v1.3.1 (3/19/2017)
 - Files get uploaded with the original file Modified Date
 
