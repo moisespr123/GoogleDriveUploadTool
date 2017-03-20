@@ -1,4 +1,8 @@
-﻿v1.3.1 (3/19/2017)
+﻿v1.4
+-Added Batch Upload
+-Uploaded Items list now shows 25 items per page
+
+v1.3.1 (3/19/2017)
 -Files get uploaded with the original file Modified Date
 
 v1.3 (3/19/2017)
