@@ -102,8 +102,7 @@ Public Class Form1
         End If
         FileMetadata.Parents = FileFolder
         Dim UploadStream As New FileStream(TextBox1.Text, System.IO.FileMode.Open, System.IO.FileAccess.Read)
-        Dim FileToUploadDate = IO.File.GetLastWriteTimeUtc(TextBox1.Text)
-        FileMetadata.ModifiedTime = FileToUploadDate
+        FileMetadata.ModifiedTime = IO.File.GetLastWriteTimeUtc(TextBox1.Text)
         Dim UploadFile As FilesResource.CreateMediaUpload = service.Files.Create(FileMetadata, UploadStream, "")
         UploadFile.ChunkSize = ResumableUpload.MinimumChunkSize * 4
         AddHandler UploadFile.ProgressChanged, New Action(Of IUploadProgress)(AddressOf Upload_ProgressChanged)
