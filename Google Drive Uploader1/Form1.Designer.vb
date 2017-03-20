@@ -184,9 +184,9 @@ Partial Class Form1
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(9, 153)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(136, 13)
+        Me.Label11.Size = New System.Drawing.Size(139, 13)
         Me.Label11.TabIndex = 17
-        Me.Label11.Text = "Uploads (By Date Modified)"
+        Me.Label11.Text = "Uploads (By Date Modified):"
         '
         'Button1
         '
