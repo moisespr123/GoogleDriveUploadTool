@@ -105,11 +105,11 @@ Public Class Form1
         End If
         UploadFiles(False)
     End Sub
-    Private Async Sub UploadFiles(ByVal ResumeFromError As Boolean)
+    Private Async Sub UploadFiles(ResumeFromError As Boolean)
         Dim NumberOfFilesToUpload As Integer = ListBox2.Items.Count
         For i As Integer = 0 To NumberOfFilesToUpload - 1
-            UploadFailed = False
             GetFile = ListBox2.Items.Item(0)
+            ResumeFromError = True
             Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
             ProgressBar1.Maximum = My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024
             Dim FileMetadata As New Data.File
@@ -126,7 +126,11 @@ Public Class Form1
             AddHandler UploadFile.UploadSessionData, AddressOf Upload_UploadSessionData
             UploadCancellationToken = New CancellationToken
             Dim uploadUri As Uri = Nothing
-            If ResumeFromError = False Then uploadUri = GetSessionRestartUri(True) Else uploadUri = GetSessionRestartUri(False)
+            If ResumeFromError = False Then
+                uploadUri = GetSessionRestartUri(True)
+            Else
+                uploadUri = GetSessionRestartUri(False)
+            End If
             starttime = DateTime.Now
             If uploadUri = Nothing Then
                 Await UploadFile.UploadAsync(UploadCancellationToken)
@@ -168,6 +172,7 @@ Public Class Form1
                 Dim APIException As Google.GoogleApiException = TryCast(uploadStatusInfo.Exception, Google.GoogleApiException)
                 If (APIException Is Nothing) OrElse (APIException.Error Is Nothing) Then
                     If uploadStatusInfo.Exception.Message.ToString.Contains("A task was cancelled") Then
+                        UploadFailed = False
                         UploadFiles(True)
                     End If
                     If RadioButton1.Checked = True Then UploadStatusText = "Retrying..." Else UploadStatusText = "Intentando..."
@@ -180,6 +185,7 @@ Public Class Form1
                     If ((StatusCode / 100) = 4 OrElse ((StatusCode / 100) = 5 AndAlso Not (StatusCode = 500 Or StatusCode = 502 Or StatusCode = 503 Or StatusCode = 504))) Then
                         If RadioButton1.Checked = True Then MsgBox("Upload Failed. Cannot retry upload...") Else MsgBox("Error al subir el archivo. No se puede continuar subiendo este archivo desde el punto en que se interrumpió")
                     Else
+                        UploadFailed = False
                         UploadFiles(True)
                     End If
                 End If
