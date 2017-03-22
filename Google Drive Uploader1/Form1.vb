@@ -85,7 +85,7 @@ Public Class Form1
         For i As Integer = 0 To NumberOfFilesToUpload - 1
             UploadFailed = False
             GetFile = ListBox2.Items.Item(0)
-            Label3.Text = String.Format("{0:F2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
+            Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
             ProgressBar1.Maximum = My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024
             Dim FileMetadata As New Data.File
             FileMetadata.Name = My.Computer.FileSystem.GetName(GetFile)
@@ -213,7 +213,7 @@ Public Class Form1
             Dim method As MethodInvoker = New MethodInvoker(AddressOf UpdateBytesSent)
             Invoke(method)
         End If
-        Label4.Text = String.Format("{0:F2} MB", BytesSentText / 1024 / 1024)
+        Label4.Text = String.Format("{0:N2} MB", BytesSentText / 1024 / 1024)
         Label8.Text = UploadStatusText
         Try
             ProgressBar1.Value = BytesSentText / 1024 / 1024
@@ -322,7 +322,7 @@ Public Class Form1
         My.Settings.Save()
     End Sub
     Private Sub EnglishLanguage()
-        Label1.Text = "Length:"
+        Label1.Text = "File Size:"
         Label2.Text = "Processed:"
         Label5.Text = "Drag and Drop Files to add them to the list"
         Label6.Text = "By Moises Cardona" & vbNewLine & "v1.4"

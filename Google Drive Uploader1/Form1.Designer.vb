@@ -67,9 +67,9 @@ Partial Class Form1
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(12, 277)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(46, 13)
+        Me.Label1.Size = New System.Drawing.Size(49, 13)
         Me.Label1.TabIndex = 3
-        Me.Label1.Text = "Length: "
+        Me.Label1.Text = "File Size:"
         '
         'Label2
         '
