@@ -18,6 +18,11 @@ Public Class Form1
     Public service As DriveService
     Private ResumeUpload As Boolean = False
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'Initialize Upload Queue Collection
+        If My.Settings.UploadQueue Is Nothing Then
+            My.Settings.UploadQueue = New Specialized.StringCollection
+        End If
+        'Checks whether the language was set. If not, apply English by default
         If String.IsNullOrEmpty(My.Settings.Language) Then
             My.Settings.Language = "English"
             My.Settings.Save()
@@ -32,8 +37,20 @@ Public Class Form1
                 RadioButton2.Checked = True
             End If
         End If
+        'Checks if there are items to upload and if there are, we add them to the list box
+        If My.Settings.UploadQueue.Count = 0 = False Then
+            If My.Settings.UploadQueue.Count > 0 Then
+                For Each item In My.Settings.UploadQueue
+                    ListBox2.Items.Add(item)
+                Next
+            End If
+        End If
+        'Loads the last used Folder ID
+        TextBox2.Text = My.Settings.LastFolder
+        'Checks if the Preserve Modified Date checkbox was checked in the last run.
+        If My.Settings.PreserveModifiedDate = True Then CheckBox1.Checked = True Else CheckBox1.Checked = False
+        'Google Drive initialization
         Dim credential As UserCredential
-
         Using stream = New FileStream("client_secret.json", FileMode.Open, FileAccess.Read)
             Dim credPath As String = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
             credPath = Path.Combine(credPath, ".credentials/GoogleDriveUploaderTool.json")
@@ -44,7 +61,7 @@ Public Class Form1
         Initializer.HttpClientInitializer = credential
         Initializer.ApplicationName = ApplicationName
         service = New DriveService(Initializer)
-        service.HttpClient.Timeout = TimeSpan.FromSeconds(240)
+        service.HttpClient.Timeout = TimeSpan.FromSeconds(120)
         ' List files.
         ShowList()
     End Sub
@@ -80,7 +97,15 @@ Public Class Form1
     Private secondsremaining As Integer = 0
     Private GetFile As String = ""
     Private UploadFailed As Boolean = False
-    Private Async Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        If String.IsNullOrEmpty(TextBox2.Text) = False Then
+            My.Settings.LastFolder = TextBox2.Text
+        Else
+            My.Settings.LastFolder = "root"
+        End If
+        UploadFiles(False)
+    End Sub
+    Private Async Sub UploadFiles(ByVal ResumeFromError As Boolean)
         Dim NumberOfFilesToUpload As Integer = ListBox2.Items.Count
         For i As Integer = 0 To NumberOfFilesToUpload - 1
             UploadFailed = False
@@ -90,21 +115,18 @@ Public Class Form1
             Dim FileMetadata As New Data.File
             FileMetadata.Name = My.Computer.FileSystem.GetName(GetFile)
             Dim FileFolder As New List(Of String)
-            If String.IsNullOrEmpty(TextBox2.Text) = False Then
-                FileFolder.Add(TextBox2.Text)
-            Else
-                FileFolder.Add("root")
-            End If
+            FileFolder.Add(My.Settings.LastFolder)
             FileMetadata.Parents = FileFolder
             Dim UploadStream As New FileStream(GetFile, System.IO.FileMode.Open, System.IO.FileAccess.Read)
-            FileMetadata.ModifiedTime = IO.File.GetLastWriteTimeUtc(GetFile)
+            If CheckBox1.Checked Then FileMetadata.ModifiedTime = IO.File.GetLastWriteTimeUtc(GetFile)
             Dim UploadFile As FilesResource.CreateMediaUpload = service.Files.Create(FileMetadata, UploadStream, "")
             UploadFile.ChunkSize = ResumableUpload.MinimumChunkSize * 4
             AddHandler UploadFile.ProgressChanged, New Action(Of IUploadProgress)(AddressOf Upload_ProgressChanged)
             AddHandler UploadFile.ResponseReceived, New Action(Of Data.File)(AddressOf Upload_ResponseReceived)
             AddHandler UploadFile.UploadSessionData, AddressOf Upload_UploadSessionData
             UploadCancellationToken = New CancellationToken
-            Dim uploadUri As Uri = GetSessionRestartUri()
+            Dim uploadUri As Uri = Nothing
+            If ResumeFromError = False Then uploadUri = GetSessionRestartUri(True) Else uploadUri = GetSessionRestartUri(False)
             starttime = DateTime.Now
             If uploadUri = Nothing Then
                 Await UploadFile.UploadAsync(UploadCancellationToken)
@@ -114,6 +136,7 @@ Public Class Form1
             If UploadFailed = False Then
                 ListBox2.Items.RemoveAt(0)
                 RefreshFileList()
+                My.Settings.UploadQueue.RemoveAt(0)
             End If
         Next
     End Sub
@@ -144,14 +167,20 @@ Public Class Form1
             Case UploadStatus.Failed
                 Dim APIException As Google.GoogleApiException = TryCast(uploadStatusInfo.Exception, Google.GoogleApiException)
                 If (APIException Is Nothing) OrElse (APIException.Error Is Nothing) Then
-                    MsgBox(uploadStatusInfo.Exception.Message)
+                    If uploadStatusInfo.Exception.Message.ToString.Contains("A task was cancelled") Then
+                        UploadFiles(True)
+                    End If
+                    If RadioButton1.Checked = True Then UploadStatusText = "Retrying..." Else UploadStatusText = "Intentando..."
+                    'MsgBox(uploadStatusInfo.Exception.Message)
                 Else
                     MsgBox(APIException.Error.ToString())
                     ' Do not retry if the request is in error
                     Dim StatusCode As Int32 = CInt(APIException.HttpStatusCode)
                     ' See https://developers.google.com/youtube/v3/guides/using_resumable_upload_protocol
                     If ((StatusCode / 100) = 4 OrElse ((StatusCode / 100) = 5 AndAlso Not (StatusCode = 500 Or StatusCode = 502 Or StatusCode = 503 Or StatusCode = 504))) Then
-                        If RadioButton1.Checked = True Then MsgBox("Cannot retry upload...") Else MsgBox("No se puede continuar subiendo este archivo desde el punto en que se interrumpió")
+                        If RadioButton1.Checked = True Then MsgBox("Upload Failed. Cannot retry upload...") Else MsgBox("Error al subir el archivo. No se puede continuar subiendo este archivo desde el punto en que se interrumpió")
+                    Else
+                        UploadFiles(True)
                     End If
                 End If
                 If RadioButton1.Checked = True Then UploadStatusText = "Failed..." Else UploadStatusText = "Error..."
@@ -173,7 +202,7 @@ Public Class Form1
         My.Settings.Save()
 
     End Sub
-    Private Function GetSessionRestartUri() As Uri
+    Private Function GetSessionRestartUri(Ask As Boolean) As Uri
         If My.Settings.ResumeUri.Length > 0 AndAlso My.Settings.ResumeFilename = GetFile Then
             ' An UploadUri from a previous execution is present, ask if a resume should be attempted
             Dim ResumeText1 As String = ""
@@ -186,11 +215,14 @@ Public Class Form1
                 ResumeText1 = "¿Resumir carga anterior?{0}{0}{1}"
                 ResumeText2 = "Resumir"
             End If
-
-            If MsgBox(String.Format(ResumeText1, vbNewLine, GetFile), MsgBoxStyle.Question Or MsgBoxStyle.YesNo, ResumeText2) = MsgBoxResult.Yes Then
-                Return New Uri(My.Settings.ResumeUri)
+            If Ask = True Then
+                If MsgBox(String.Format(ResumeText1, vbNewLine, GetFile), MsgBoxStyle.Question Or MsgBoxStyle.YesNo, ResumeText2) = MsgBoxResult.Yes Then
+                    Return New Uri(My.Settings.ResumeUri)
+                Else
+                    Return Nothing
+                End If
             Else
-                Return Nothing
+                Return New Uri(My.Settings.ResumeUri)
             End If
         Else
             Return Nothing
@@ -302,6 +334,7 @@ Public Class Form1
         Dim filepath() As String = e.Data.GetData(DataFormats.FileDrop)
         For Each path In filepath
             ListBox2.Items.Add(path)
+            My.Settings.UploadQueue.Add(path)
         Next
     End Sub
     Private Sub Form1_DragEnter(sender As System.Object, e As System.Windows.Forms.DragEventArgs) Handles Me.DragEnter
@@ -325,7 +358,7 @@ Public Class Form1
         Label1.Text = "File Size:"
         Label2.Text = "Processed:"
         Label5.Text = "Drag and Drop Files to add them to the list"
-        Label6.Text = "By Moises Cardona" & vbNewLine & "v1.4"
+        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.5"
         Label7.Text = "Status:"
         Label9.Text = "Percent: "
         Label11.Text = "Uploads (By Date Modified):"
@@ -336,12 +369,13 @@ Public Class Form1
         Button4.Text = "Refresh List"
         Button5.Text = "Download File"
         Button6.Text = "Remove selected file from list"
+        CheckBox1.Text = "Preserve File Modified Date"
     End Sub
     Private Sub SpanishLanguage()
         Label1.Text = "Tamaño:"
         Label2.Text = "Procesado:"
         Label5.Text = "Arrastre archivos aquí para añadirlos a la lista"
-        Label6.Text = "Por Moises Cardona" & vbNewLine & "v1.4"
+        Label6.Text = "Por Moisés Cardona" & vbNewLine & "v1.5"
         Label7.Text = "Estado:"
         Label9.Text = "Porcentaje: "
         Label11.Text = "Archivos subidos (Organizados por fecha de modificación):"
@@ -352,9 +386,22 @@ Public Class Form1
         Button4.Text = "Refrescar Lista"
         Button5.Text = "Descargar Archivo"
         Button6.Text = "Remover archivo de la lista"
+        CheckBox1.Text = "Preservar Fecha de Modificación del Archivo"
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
         ListBox2.Items.RemoveAt(ListBox2.SelectedIndex)
+    End Sub
+
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
+        If CheckBox1.Checked = True Then
+            My.Settings.PreserveModifiedDate = True
+        Else
+            My.Settings.PreserveModifiedDate = False
+        End If
+    End Sub
+
+    Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
+        My.Settings.LastFolder = TextBox2.Text
     End Sub
 End Class

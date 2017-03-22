@@ -89,6 +89,41 @@ Namespace My
                 Me("Language") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property PreserveModifiedDate() As Boolean
+            Get
+                Return CType(Me("PreserveModifiedDate"),Boolean)
+            End Get
+            Set
+                Me("PreserveModifiedDate") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property UploadQueue() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("UploadQueue"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("UploadQueue") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("root")>  _
+        Public Property LastFolder() As String
+            Get
+                Return CType(Me("LastFolder"),String)
+            End Get
+            Set
+                Me("LastFolder") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
