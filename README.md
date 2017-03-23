@@ -22,7 +22,7 @@ This project was made using Visual Studio 2017, in the Visual Basic .NET languag
 Enjoy!!!
 
 # Changelog:
-v1.5 (work in progress)
+v1.5 (3/23/2017)
 - Changed "Length" to "File Size"
 - Added comma in file size (ex. 10,000.00 MB instead of 10000.00 MB)
 - When an error occurs, the upload will be retried automatically and also resume from the point it was interrumpted.
