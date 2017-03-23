@@ -16,7 +16,6 @@ Public Class Form1
     Shared Scopes As String() = {DriveService.Scope.DriveFile, DriveService.Scope.Drive}
     Shared ApplicationName As String = "Google Drive Uploader Tool"
     Public service As DriveService
-    Private ResumeUpload As Boolean = False
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Initialize Upload Queue Collection
         If My.Settings.UploadQueue Is Nothing Then
@@ -103,11 +102,14 @@ Public Class Form1
         Else
             My.Settings.LastFolder = "root"
         End If
-        UploadFiles(False)
+        ResumeFromError = False
+        UploadFiles()
     End Sub
-    Private Async Sub UploadFiles(ResumeFromError As Boolean)
+    Private ResumeFromError As Boolean = False
+    Private Async Sub UploadFiles()
         Dim NumberOfFilesToUpload As Integer = ListBox2.Items.Count
         For i As Integer = 0 To NumberOfFilesToUpload - 1
+            If UploadFailed = True Then i = i - 1
             GetFile = ListBox2.Items.Item(0)
             Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
             ProgressBar1.Maximum = My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024
@@ -125,12 +127,12 @@ Public Class Form1
             AddHandler UploadFile.UploadSessionData, AddressOf Upload_UploadSessionData
             UploadCancellationToken = New CancellationToken
             Dim uploadUri As Uri = Nothing
+            starttime = DateTime.Now
             If ResumeFromError = False Then
                 uploadUri = GetSessionRestartUri(True)
             Else
                 uploadUri = GetSessionRestartUri(False)
             End If
-            starttime = DateTime.Now
             If uploadUri = Nothing Then
                 Await UploadFile.UploadAsync(UploadCancellationToken)
             Else
@@ -140,8 +142,10 @@ Public Class Form1
                 ListBox2.Items.RemoveAt(0)
                 RefreshFileList()
                 My.Settings.UploadQueue.RemoveAt(0)
+                ResumeFromError = False
             End If
         Next
+        If RadioButton1.Checked = True Then MsgBox("Uploads finished!") Else MsgBox("Los archivos han terminado de subir.")
     End Sub
     Private ErrorMessage As String = ""
     Private UploadCancellationToken As System.Threading.CancellationToken
@@ -151,12 +155,11 @@ Public Class Form1
         Select Case uploadStatusInfo.Status
             Case UploadStatus.Completed
                 UploadFailed = False
+                ResumeFromError = False
                 If RadioButton1.Checked = True Then UploadStatusText = "Completed!!" Else UploadStatusText = "¡Completado!"
                 BytesSentText = My.Computer.FileSystem.GetFileInfo(GetFile).Length
                 UpdateBytesSent()
             Case UploadStatus.Starting
-                UploadFailed = False
-                BytesSentText = "0"
                 If RadioButton1.Checked = True Then UploadStatusText = "Starting..." Else UploadStatusText = "Comenzando..."
                 UpdateBytesSent()
             Case UploadStatus.Uploading
@@ -193,9 +196,9 @@ Public Class Form1
                 'End If
                 UploadFailed = True
                 If RadioButton1.Checked = True Then UploadStatusText = "Retrying..." Else UploadStatusText = "Intentando..."
-                Thread.Sleep(5000)
-                UploadFiles(True)
                 UpdateBytesSent()
+                ResumeFromError = True
+                Thread.Sleep(1000)
         End Select
     End Sub
     Private Sub Upload_ResponseReceived(file As Data.File)
@@ -400,7 +403,9 @@ Public Class Form1
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
-        ListBox2.Items.RemoveAt(ListBox2.SelectedIndex)
+        If String.IsNullOrEmpty(ListBox2.SelectedItem) = False Then
+            ListBox2.Items.RemoveAt(ListBox2.SelectedIndex)
+        End If
     End Sub
 
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
@@ -414,4 +419,5 @@ Public Class Form1
     Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
         My.Settings.LastFolder = TextBox2.Text
     End Sub
+
 End Class
