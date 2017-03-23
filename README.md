@@ -24,7 +24,7 @@ Enjoy!!!
 # Changelog:
 v1.5 (work in progress)
 - Changed "Length" to "File Size"
-- Added comma in file name (ex. 10,000.00 MB instead of 10000.00 MB)
+- Added comma in file size (ex. 10,000.00 MB instead of 10000.00 MB)
 - When an error occurs, the upload will be retried automatically and also resume from the point it was interrumpted.
 - Timeout reduced to 2 minutes (120 seconds). Should be enough as the chunk size was reduced to 1MB in v1.2
 - Option to preserve file modified date added.
