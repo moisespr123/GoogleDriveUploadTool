@@ -442,6 +442,8 @@ Public Class Form1
         Label11.Text = "Uploads (By Date Modified):"
         Label12.Text = "Upload to this folder ID (""root"" to upload to root folder):"
         Label13.Text = "Time Left: "
+        Label15.Text = "Like this software?"
+        Label16.Text = "Folder Name:"
         Button1.Text = "More Results"
         Button2.Text = "Upload"
         Button3.Text = "Clear List"
@@ -449,6 +451,8 @@ Public Class Form1
         Button5.Text = "Download File"
         Button6.Text = "Remove selected file(s) from list"
         Button7.Text = "Browse Folder"
+        Button8.Text = "Donations"
+        Button9.Text = "Get Folder Name"
         CheckBox1.Text = "Preserve File Modified Date"
     End Sub
     Private Sub SpanishLanguage()
@@ -461,6 +465,8 @@ Public Class Form1
         Label11.Text = "Archivos subidos (Organizados por fecha de modificación):"
         Label12.Text = "Subir a este ID de directorio (""root"" para subir a la raíz):"
         Label13.Text = "Tiempo Est."
+        Label15.Text = "¿Te gusta esta programa?"
+        Label16.Text = "Nombre de la Carpeta:"
         Button1.Text = "Más Resultados"
         Button2.Text = "Subir"
         Button3.Text = "Borrar Lista"
@@ -468,6 +474,8 @@ Public Class Form1
         Button5.Text = "Descargar Archivo"
         Button6.Text = "Remover archivo(s) de la lista"
         Button7.Text = "Buscar Carpeta"
+        Button8.Text = "Donar"
+        Button9.Text = "Obtener Nombre de la Carpeta"
         CheckBox1.Text = "Preservar Fecha de Modificación del Archivo"
     End Sub
 
@@ -502,5 +510,19 @@ Public Class Form1
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
         SearchFolder.ShowDialog()
+    End Sub
+
+    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+        Donations.ShowDialog()
+    End Sub
+
+    Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+        Try
+            Dim GetFolderName As FilesResource.GetRequest = service.Files.Get(TextBox2.Text.ToString)
+            Dim FolderNameMetadata As Data.File = GetFolderName.Execute
+            TextBox1.Text = FolderNameMetadata.Name
+        Catch ex As Exception
+            MsgBox("Folder ID is incorrect.")
+        End Try
     End Sub
 End Class

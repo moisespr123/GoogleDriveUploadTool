@@ -5,17 +5,18 @@ Public Class SearchFolder
     Private PreviousFolderName As New ListBox
     Private PreviousFolderId As New ListBox
     Private Sub SearchFolder_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-        If Form1.CheckBox1.Checked = True Then
+        If Form1.RadioButton1.Checked = True Then
             Label1.Text = "Current Folder:"
             Label2.Text = "Current ID:"
             Button1.Text = "Select"
             Button2.Text = "Back"
+            Button3.Text = "New"
         Else
             Label1.Text = "Carpeta Actual"
             Label2.Text = "ID Actual:"
             Button1.Text = "Seleccionar"
             Button2.Text = "Atrás"
+            Button3.Text = "Nuevo"
         End If
         SearchFolders("root")
     End Sub
@@ -67,7 +68,47 @@ Public Class SearchFolder
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Form1.TextBox2.Text = TextBox2.Text
+        If String.IsNullOrEmpty(ListBox1.SelectedItem) Then
+            Form1.TextBox1.Text = TextBox1.Text
+            Form1.TextBox2.Text = TextBox2.Text
+        Else
+            Form1.TextBox1.Text = ListBox1.SelectedItem
+            Form1.TextBox2.Text = FolderIdsListBox.Items.Item(ListBox1.SelectedIndex)
+        End If
         Me.Close()
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Dim FolderNameToCreate As Object
+        Dim Message, Title As String
+        If Form1.RadioButton1.Checked = True Then
+            Message = "Enter a name for the new folder:"
+            Title = "Create new Folder"
+        Else
+            Message = "Escriba un nombre para la nueva carpeta:"
+            Title = "Crear nueva carpeta"
+        End If
+        FolderNameToCreate = InputBox(Message, Title)
+        If String.IsNullOrEmpty(FolderNameToCreate) = False Then
+            Dim FolderMetadata As New Data.File
+            FolderMetadata.Name = FolderNameToCreate
+            Dim ParentFolder As New List(Of String)
+            ParentFolder.Add(TextBox2.Text)
+            FolderMetadata.Parents = ParentFolder
+            FolderMetadata.MimeType = "application/vnd.google-apps.folder"
+            Dim CreateFolder As FilesResource.CreateRequest = Form1.service.Files.Create(FolderMetadata)
+            CreateFolder.Fields = "id"
+            Dim FolderID As Data.File = CreateFolder.Execute
+            If TextBox1.Text = "root" Then
+                PreviousFolderName.Items.Add("root")
+                PreviousFolderId.Items.Add("root")
+            Else
+                PreviousFolderName.Items.Add(TextBox1.Text)
+                PreviousFolderId.Items.Add(TextBox2.Text)
+            End If
+            TextBox1.Text = FolderNameToCreate
+            TextBox2.Text = FolderID.Id
+            SearchFolders(FolderID.Id)
+        End If
     End Sub
 End Class

@@ -29,6 +29,7 @@ Partial Class SearchFolder
         Me.Label2 = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.Button3 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'Label1
@@ -44,7 +45,7 @@ Partial Class SearchFolder
         '
         Me.Button1.Location = New System.Drawing.Point(8, 276)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(183, 23)
+        Me.Button1.Size = New System.Drawing.Size(102, 23)
         Me.Button1.TabIndex = 3
         Me.Button1.Text = "Select"
         Me.Button1.UseVisualStyleBackColor = True
@@ -94,11 +95,21 @@ Partial Class SearchFolder
         Me.TextBox2.TabIndex = 8
         Me.TextBox2.Text = "root"
         '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(116, 276)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(75, 23)
+        Me.Button3.TabIndex = 9
+        Me.Button3.Text = "New"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
         'SearchFolder
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(284, 310)
+        Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Label2)
@@ -122,4 +133,5 @@ Partial Class SearchFolder
     Friend WithEvents Label2 As Label
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents Button3 As Button
 End Class

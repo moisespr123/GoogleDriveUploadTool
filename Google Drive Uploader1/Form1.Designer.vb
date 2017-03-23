@@ -53,6 +53,11 @@ Partial Class Form1
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Button7 = New System.Windows.Forms.Button()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.Button8 = New System.Windows.Forms.Button()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.Button9 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -68,7 +73,7 @@ Partial Class Form1
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 277)
+        Me.Label1.Location = New System.Drawing.Point(9, 314)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(49, 13)
         Me.Label1.TabIndex = 3
@@ -77,7 +82,7 @@ Partial Class Form1
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(12, 290)
+        Me.Label2.Location = New System.Drawing.Point(9, 327)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(60, 13)
         Me.Label2.TabIndex = 4
@@ -85,7 +90,7 @@ Partial Class Form1
         '
         'ProgressBar1
         '
-        Me.ProgressBar1.Location = New System.Drawing.Point(12, 306)
+        Me.ProgressBar1.Location = New System.Drawing.Point(12, 343)
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(492, 23)
         Me.ProgressBar1.TabIndex = 5
@@ -93,7 +98,7 @@ Partial Class Form1
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(78, 277)
+        Me.Label3.Location = New System.Drawing.Point(78, 314)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(27, 13)
         Me.Label3.TabIndex = 6
@@ -102,7 +107,7 @@ Partial Class Form1
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(78, 290)
+        Me.Label4.Location = New System.Drawing.Point(78, 327)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(27, 13)
         Me.Label4.TabIndex = 7
@@ -124,7 +129,7 @@ Partial Class Form1
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(9, 332)
+        Me.Label6.Location = New System.Drawing.Point(9, 369)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(98, 26)
         Me.Label6.TabIndex = 11
@@ -133,7 +138,7 @@ Partial Class Form1
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(348, 290)
+        Me.Label7.Location = New System.Drawing.Point(423, 327)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(40, 13)
         Me.Label7.TabIndex = 12
@@ -142,7 +147,7 @@ Partial Class Form1
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(402, 290)
+        Me.Label8.Location = New System.Drawing.Point(477, 327)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(27, 13)
         Me.Label8.TabIndex = 13
@@ -151,7 +156,7 @@ Partial Class Form1
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(349, 277)
+        Me.Label9.Location = New System.Drawing.Point(424, 314)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(44, 13)
         Me.Label9.TabIndex = 14
@@ -160,7 +165,7 @@ Partial Class Form1
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(402, 277)
+        Me.Label10.Location = New System.Drawing.Point(477, 314)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(21, 13)
         Me.Label10.TabIndex = 15
@@ -214,7 +219,7 @@ Partial Class Form1
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(12, 235)
+        Me.Label12.Location = New System.Drawing.Point(9, 235)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(264, 13)
         Me.Label12.TabIndex = 23
@@ -230,7 +235,7 @@ Partial Class Form1
         'Label13
         '
         Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(208, 290)
+        Me.Label13.Location = New System.Drawing.Point(219, 327)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(57, 13)
         Me.Label13.TabIndex = 25
@@ -239,7 +244,7 @@ Partial Class Form1
         'Label14
         '
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(271, 290)
+        Me.Label14.Location = New System.Drawing.Point(282, 327)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(49, 13)
         Me.Label14.TabIndex = 26
@@ -249,7 +254,7 @@ Partial Class Form1
         '
         Me.GroupBox1.Controls.Add(Me.RadioButton2)
         Me.GroupBox1.Controls.Add(Me.RadioButton1)
-        Me.GroupBox1.Location = New System.Drawing.Point(363, 335)
+        Me.GroupBox1.Location = New System.Drawing.Point(363, 372)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(137, 37)
         Me.GroupBox1.TabIndex = 27
@@ -323,12 +328,61 @@ Partial Class Form1
         Me.Button7.Text = "Browse Folder"
         Me.Button7.UseVisualStyleBackColor = True
         '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(181, 372)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(95, 13)
+        Me.Label15.TabIndex = 33
+        Me.Label15.Text = "Like this software?"
+        '
+        'Button8
+        '
+        Me.Button8.Location = New System.Drawing.Point(184, 386)
+        Me.Button8.Name = "Button8"
+        Me.Button8.Size = New System.Drawing.Size(92, 23)
+        Me.Button8.TabIndex = 34
+        Me.Button8.Text = "Donations"
+        Me.Button8.UseVisualStyleBackColor = True
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Location = New System.Drawing.Point(9, 275)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(70, 13)
+        Me.Label16.TabIndex = 35
+        Me.Label16.Text = "Folder Name:"
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(12, 291)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.ReadOnly = True
+        Me.TextBox1.Size = New System.Drawing.Size(227, 20)
+        Me.TextBox1.TabIndex = 36
+        '
+        'Button9
+        '
+        Me.Button9.Location = New System.Drawing.Point(245, 291)
+        Me.Button9.Name = "Button9"
+        Me.Button9.Size = New System.Drawing.Size(162, 23)
+        Me.Button9.TabIndex = 37
+        Me.Button9.Text = "Get Folder Name" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Obtener Nombre de la carpeta"
+        Me.Button9.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1036, 384)
+        Me.ClientSize = New System.Drawing.Size(1036, 415)
+        Me.Controls.Add(Me.Button9)
+        Me.Controls.Add(Me.TextBox1)
+        Me.Controls.Add(Me.Label16)
+        Me.Controls.Add(Me.Button8)
+        Me.Controls.Add(Me.Label15)
         Me.Controls.Add(Me.Button7)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.CheckBox1)
@@ -395,4 +449,9 @@ Partial Class Form1
     Friend WithEvents CheckBox1 As CheckBox
     Friend WithEvents Button3 As Button
     Friend WithEvents Button7 As Button
+    Friend WithEvents Label15 As Label
+    Friend WithEvents Button8 As Button
+    Friend WithEvents Label16 As Label
+    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents Button9 As Button
 End Class
