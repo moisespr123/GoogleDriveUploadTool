@@ -6,6 +6,7 @@ Imports System.IO
 Imports System.Threading
 Imports Google.Apis.Upload
 Imports Google.Apis.Download
+Imports System.Collections.Specialized
 
 Public Class Form1
     Private FileIdsListBox As New ListBox
@@ -107,41 +108,81 @@ Public Class Form1
     End Sub
     Private ResumeFromError As Boolean = False
     Private Async Sub UploadFiles()
+        Dim DirectoryList As New StringCollection
+        Dim DirectoryListID As New StringCollection
+        Dim FolderCreated As Boolean = False
         Dim NumberOfFilesToUpload As Integer = ListBox2.Items.Count
         For i As Integer = 0 To NumberOfFilesToUpload - 1
             If UploadFailed = True Then i = i - 1
             GetFile = ListBox2.Items.Item(0)
-            Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
-            ProgressBar1.Maximum = My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024
-            Dim FileMetadata As New Data.File
-            FileMetadata.Name = My.Computer.FileSystem.GetName(GetFile)
-            Dim FileFolder As New List(Of String)
-            FileFolder.Add(My.Settings.LastFolder)
-            FileMetadata.Parents = FileFolder
-            Dim UploadStream As New FileStream(GetFile, System.IO.FileMode.Open, System.IO.FileAccess.Read)
-            If CheckBox1.Checked Then FileMetadata.ModifiedTime = IO.File.GetLastWriteTimeUtc(GetFile)
-            Dim UploadFile As FilesResource.CreateMediaUpload = service.Files.Create(FileMetadata, UploadStream, "")
-            UploadFile.ChunkSize = ResumableUpload.MinimumChunkSize * 4
-            AddHandler UploadFile.ProgressChanged, New Action(Of IUploadProgress)(AddressOf Upload_ProgressChanged)
-            AddHandler UploadFile.ResponseReceived, New Action(Of Data.File)(AddressOf Upload_ResponseReceived)
-            AddHandler UploadFile.UploadSessionData, AddressOf Upload_UploadSessionData
-            UploadCancellationToken = New CancellationToken
-            Dim uploadUri As Uri = Nothing
-            starttime = DateTime.Now
-            If ResumeFromError = False Then
-                uploadUri = GetSessionRestartUri(True)
-            Else
-                uploadUri = GetSessionRestartUri(False)
-            End If
-            If uploadUri = Nothing Then
-                Await UploadFile.UploadAsync(UploadCancellationToken)
-            Else
-                Await UploadFile.ResumeAsync(uploadUri, UploadCancellationToken)
+            If System.IO.File.Exists(GetFile) Then
+                Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
+                ProgressBar1.Maximum = My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024
+                Dim FileMetadata As New Data.File
+                FileMetadata.Name = My.Computer.FileSystem.GetName(GetFile)
+                Dim FileFolder As New List(Of String)
+                If FolderCreated = False Then
+                    FileFolder.Add(My.Settings.LastFolder)
+                Else
+                    Dim DirectoryName As String = ""
+                    DirectoryName = System.IO.Path.GetDirectoryName(GetFile)
+                    For Each directory In DirectoryList
+                        If DirectoryName = directory Then
+                            FileFolder.Add(DirectoryListID.Item(DirectoryList.IndexOf(directory)))
+                        End If
+                    Next
+                End If
+                FileMetadata.Parents = FileFolder
+                Dim UploadStream As New FileStream(GetFile, System.IO.FileMode.Open, System.IO.FileAccess.Read)
+                If CheckBox1.Checked Then FileMetadata.ModifiedTime = IO.File.GetLastWriteTimeUtc(GetFile)
+                Dim UploadFile As FilesResource.CreateMediaUpload = service.Files.Create(FileMetadata, UploadStream, "")
+                UploadFile.ChunkSize = ResumableUpload.MinimumChunkSize * 4
+                AddHandler UploadFile.ProgressChanged, New Action(Of IUploadProgress)(AddressOf Upload_ProgressChanged)
+                AddHandler UploadFile.ResponseReceived, New Action(Of Data.File)(AddressOf Upload_ResponseReceived)
+                AddHandler UploadFile.UploadSessionData, AddressOf Upload_UploadSessionData
+                UploadCancellationToken = New CancellationToken
+                Dim uploadUri As Uri = Nothing
+                starttime = DateTime.Now
+                If ResumeFromError = False Then
+                    uploadUri = GetSessionRestartUri(True)
+                Else
+                    uploadUri = GetSessionRestartUri(False)
+                End If
+                If uploadUri = Nothing Then
+                    Await UploadFile.UploadAsync(UploadCancellationToken)
+                Else
+                    Await UploadFile.ResumeAsync(uploadUri, UploadCancellationToken)
+                End If
+
+            ElseIf IO.Directory.Exists(GetFile) Then
+                Dim FolderMetadata As New Data.File
+                FolderMetadata.Name = My.Computer.FileSystem.GetName(GetFile)
+                Dim ParentFolder As New List(Of String)
+                If FolderCreated = True Then
+                    Dim DirectoryName As String = ""
+                    DirectoryName = System.IO.Path.GetDirectoryName(GetFile)
+                    For Each directory In DirectoryList
+                        If DirectoryName = directory Then
+                            ParentFolder.Add(DirectoryListID.Item(DirectoryList.IndexOf(directory)))
+                        End If
+                    Next
+                Else
+                    ParentFolder.Add(My.Settings.LastFolder)
+                End If
+                FolderMetadata.Parents = ParentFolder
+                FolderMetadata.MimeType = "application/vnd.google-apps.folder"
+                Dim CreateFolder As FilesResource.CreateRequest = service.Files.Create(FolderMetadata)
+                CreateFolder.Fields = "id"
+                Dim FolderID As Data.File = CreateFolder.Execute
+                DirectoryList.Add(GetFile)
+                DirectoryListID.Add(FolderID.Id)
+                FolderCreated = True
             End If
             If UploadFailed = False Then
                 ListBox2.Items.RemoveAt(0)
                 RefreshFileList()
                 My.Settings.UploadQueue.RemoveAt(0)
+                My.Settings.Save()
                 ResumeFromError = False
             End If
         Next
@@ -346,9 +387,27 @@ Public Class Form1
     Private Sub Form1_DragDrop(sender As Object, e As DragEventArgs) Handles Me.DragDrop
         Dim filepath() As String = e.Data.GetData(DataFormats.FileDrop)
         For Each path In filepath
-            ListBox2.Items.Add(path)
-            My.Settings.UploadQueue.Add(path)
+            If System.IO.Directory.Exists(path) Then
+                ListBox2.Items.Add(path)
+                My.Settings.UploadQueue.Add(path)
+                GetDirectoriesAndFiles(New IO.DirectoryInfo(path))
+            Else
+                ListBox2.Items.Add(path)
+                My.Settings.UploadQueue.Add(path)
+            End If
         Next
+        My.Settings.Save()
+    End Sub
+    Private Sub GetDirectoriesAndFiles(ByVal BaseFolder As IO.DirectoryInfo)
+        ListBox2.Items.AddRange((From FI As IO.FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
+        My.Settings.UploadQueue.AddRange((From FI As IO.FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
+        For Each subF As IO.DirectoryInfo In BaseFolder.GetDirectories()
+            Application.DoEvents()
+            ListBox2.Items.Add(subF.FullName)
+            My.Settings.UploadQueue.Add(subF.FullName)
+            GetDirectoriesAndFiles(subF)
+        Next
+        My.Settings.Save()
     End Sub
     Private Sub Form1_DragEnter(sender As System.Object, e As System.Windows.Forms.DragEventArgs) Handles Me.DragEnter
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
@@ -379,9 +438,10 @@ Public Class Form1
         Label13.Text = "Time Left: "
         Button1.Text = "More Results"
         Button2.Text = "Upload"
+        Button3.Text = "Clear List"
         Button4.Text = "Refresh List"
         Button5.Text = "Download File"
-        Button6.Text = "Remove selected file from list"
+        Button6.Text = "Remove selected file(s) from list"
         CheckBox1.Text = "Preserve File Modified Date"
     End Sub
     Private Sub SpanishLanguage()
@@ -396,28 +456,39 @@ Public Class Form1
         Label13.Text = "Tiempo Est."
         Button1.Text = "Más Resultados"
         Button2.Text = "Subir"
+        Button3.Text = "Borrar Lista"
         Button4.Text = "Refrescar Lista"
         Button5.Text = "Descargar Archivo"
-        Button6.Text = "Remover archivo de la lista"
+        Button6.Text = "Remover archivo(s) de la lista"
         CheckBox1.Text = "Preservar Fecha de Modificación del Archivo"
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
-        If String.IsNullOrEmpty(ListBox2.SelectedItem) = False Then
-            ListBox2.Items.RemoveAt(ListBox2.SelectedIndex)
-        End If
+        Do While (ListBox2.SelectedItems.Count > 0)
+            ListBox2.Items.Remove(ListBox2.SelectedItem)
+            My.Settings.UploadQueue.Remove(ListBox2.SelectedItem)
+            My.Settings.Save()
+        Loop
     End Sub
 
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
         If CheckBox1.Checked = True Then
             My.Settings.PreserveModifiedDate = True
+            My.Settings.Save()
         Else
             My.Settings.PreserveModifiedDate = False
+            My.Settings.Save()
         End If
     End Sub
 
     Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
         My.Settings.LastFolder = TextBox2.Text
+        My.Settings.Save()
     End Sub
 
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        ListBox2.Items.Clear()
+        My.Settings.UploadQueue.Clear()
+        My.Settings.Save()
+    End Sub
 End Class

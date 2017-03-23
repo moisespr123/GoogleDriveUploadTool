@@ -51,6 +51,7 @@ Partial Class Form1
         Me.ListBox2 = New System.Windows.Forms.ListBox()
         Me.Button6 = New System.Windows.Forms.Button()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.Button3 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -278,6 +279,7 @@ Partial Class Form1
         Me.ListBox2.FormattingEnabled = True
         Me.ListBox2.Location = New System.Drawing.Point(12, 25)
         Me.ListBox2.Name = "ListBox2"
+        Me.ListBox2.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
         Me.ListBox2.Size = New System.Drawing.Size(492, 173)
         Me.ListBox2.TabIndex = 28
         '
@@ -285,20 +287,29 @@ Partial Class Form1
         '
         Me.Button6.Location = New System.Drawing.Point(12, 204)
         Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(205, 23)
+        Me.Button6.Size = New System.Drawing.Size(168, 23)
         Me.Button6.TabIndex = 29
-        Me.Button6.Text = "Remove selected file from list"
+        Me.Button6.Text = "Remove selected file(s) from list"
         Me.Button6.UseVisualStyleBackColor = True
         '
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(239, 204)
+        Me.CheckBox1.Location = New System.Drawing.Point(348, 204)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(156, 17)
         Me.CheckBox1.TabIndex = 30
         Me.CheckBox1.Text = "Preserve File Modified Date"
         Me.CheckBox1.UseVisualStyleBackColor = True
+        '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(186, 204)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(75, 23)
+        Me.Button3.TabIndex = 31
+        Me.Button3.Text = "Clear List"
+        Me.Button3.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -306,6 +317,7 @@ Partial Class Form1
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1036, 384)
+        Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.Button6)
         Me.Controls.Add(Me.ListBox2)
@@ -368,4 +380,5 @@ Partial Class Form1
     Friend WithEvents ListBox2 As ListBox
     Friend WithEvents Button6 As Button
     Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents Button3 As Button
 End Class
