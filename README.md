@@ -27,10 +27,13 @@ v1.5 (work in progress)
 - Added comma in file size (ex. 10,000.00 MB instead of 10000.00 MB)
 - When an error occurs, the upload will be retried automatically and also resume from the point it was interrumpted.
 - Searches for every file and folder inside a folder to upload. The uploads maintain the same structure
-- Timeout reduced to 2 minutes (120 seconds). Should be enough as the chunk size was reduced to 1MB in v1.2
 - Option to preserve file modified date added.
+- Can now browse and create Folders to upload files
+- If copy/pasting folder ID from Google Drive, you can now press the Get Folder Name button to get the folder name based on its ID
+- Can drag and drop more files to upload to queue while uploading
 - Can select more than one file or folder to remove
 - Can now erase the entire upload list
+- Timeout reduced to 2 minutes (120 seconds). Should be enough as the chunk size was reduced to 1MB in v1.2
 
 v1.4 (3/20/2017)
 - Added Batch Upload
