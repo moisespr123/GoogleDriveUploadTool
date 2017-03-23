@@ -5,7 +5,7 @@
 -Searches for every file and folder inside a folder to upload. The uploads maintain the same structure
 -Option to preserve file modified date added.
 -Can now browse and create Folders to upload files
--IF copy/pasting folder ID from Google Drive, you can now press the Get Folder Name button to get the folder name based on its ID
+-If copy/pasting folder ID from Google Drive, you can now press the Get Folder Name button to get the folder name based on its ID
 -Can drag and drop more files to upload to queue while uploading
 -Can select more than one file or folder to remove
 -Can now erase the entire upload list
