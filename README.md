@@ -11,7 +11,7 @@ A tool for Windows to upload files to Google Drive. It resumes uploads in case o
 2. press "Upload". 
 
 * When uploading folders that contains subfolders and subfiles, The original file and folder structure will be kept in Google Drive.
-* If an upload is interrumpted or the software or the PC crashes, you'll be prompted to continue the upload where it left of if you are uploading the same file as before. If you attempt to upload another file after the first one got interrumpted, you will lose the ability to resume the previous file. If the software is still open and the connection is interrupted, it will attempt to continue the upload.
+* If an upload is interrupted or the software or the PC crashes, you'll be prompted to continue the upload where it left of if you are uploading the same file as before. If you attempt to upload another file after the first one got interrumpted, you will lose the ability to resume the previous file. If the software is still open and the connection is interrupted, it will attempt to continue the upload.
 
 # How to select a folder?
 1. Press "Browse Folder.
@@ -43,7 +43,7 @@ Enjoy!!!
 v1.5 (3/23/2017)
 - Changed "Length" to "File Size"
 - Added comma in file size (ex. 10,000.00 MB instead of 10000.00 MB)
-- When an error occurs, the upload will be retried automatically and also resume from the point it was interrumpted.
+- When an error occurs, the upload will be retried automatically and also resume from the point it was interrupted.
 - Searches for every file and folder inside a folder to upload. The uploads maintain the same structure
 - Option to preserve file modified date added.
 - Can now browse and create Folders to upload files
