@@ -22,6 +22,13 @@ This project was made using Visual Studio 2017, in the Visual Basic .NET languag
 Enjoy!!!
 
 # Changelog:
+v1.5 (work in progress)
+- Changed "Length" to "File Size"
+- Added comma in file name (ex. 10,000.00 MB instead of 10000.00 MB)
+- When an error occurs, the upload will be retried automatically and also resume from the point it was interrumpted.
+- Timeout reduced to 2 minutes (120 seconds). Should be enough as the chunk size was reduced to 1MB in v1.2
+- Option to preserve file modified date added.
+
 v1.4 (3/20/2017)
 - Added Batch Upload
 - Uploaded Items list now shows 25 items per page
