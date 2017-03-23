@@ -29,6 +29,8 @@ v1.5 (work in progress)
 - Searches for every file and folder inside a folder to upload. The uploads maintain the same structure
 - Timeout reduced to 2 minutes (120 seconds). Should be enough as the chunk size was reduced to 1MB in v1.2
 - Option to preserve file modified date added.
+- Can select more than one file or folder to remove
+- Can now erase the entire upload list
 
 v1.4 (3/20/2017)
 - Added Batch Upload
