@@ -7,7 +7,7 @@ A tool for Windows to upload files to Google Drive. It resumes uploads in case o
 3. Start uploading or downloading a file!
 
 # How to upload a file or folder?
-* drag and drop one or more file or folder, then press Upload. Original File Structure will be kept in Google Drive.
+1. drag and drop one or more file or folder, then press Upload. Original File Structure will be kept in Google Drive.
 * If an upload is interrumpted or the software or the PC crashes, you'll be prompted to continue the upload where it left of if you are uploading the same file as before. If you attempt to upload another file after the first one got interrumpted, you will lose the ability to resume the previous file. If the software is still open and the connection is interrupted, it will attempt to continue the upload.
 
 # How to select a folder?
