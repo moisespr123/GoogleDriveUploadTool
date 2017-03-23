@@ -17,8 +17,7 @@ Public Class Form1
     Shared Scopes As String() = {DriveService.Scope.DriveFile, DriveService.Scope.Drive}
     Shared ApplicationName As String = "Google Drive Uploader Tool"
     Public service As DriveService
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'Initialize Upload Queue Collection
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load        'Initialize Upload Queue Collection
         If My.Settings.UploadQueue Is Nothing Then
             My.Settings.UploadQueue = New Specialized.StringCollection
         End If
@@ -113,71 +112,78 @@ Public Class Form1
         Dim FolderCreated As Boolean = False
         Dim NumberOfFilesToUpload As Integer = ListBox2.Items.Count
         For i As Integer = 0 To NumberOfFilesToUpload - 1
-            If UploadFailed = True Then i = i - 1
-            GetFile = ListBox2.Items.Item(0)
-            If System.IO.File.Exists(GetFile) Then
-                Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
-                ProgressBar1.Maximum = My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024
-                Dim FileMetadata As New Data.File
-                FileMetadata.Name = My.Computer.FileSystem.GetName(GetFile)
-                Dim FileFolder As New List(Of String)
-                If FolderCreated = False Then
-                    FileFolder.Add(My.Settings.LastFolder)
-                Else
-                    Dim DirectoryName As String = ""
-                    DirectoryName = System.IO.Path.GetDirectoryName(GetFile)
-                    For Each directory In DirectoryList
-                        If DirectoryName = directory Then
-                            FileFolder.Add(DirectoryListID.Item(DirectoryList.IndexOf(directory)))
-                        End If
-                    Next
-                End If
-                FileMetadata.Parents = FileFolder
-                Dim UploadStream As New FileStream(GetFile, System.IO.FileMode.Open, System.IO.FileAccess.Read)
-                If CheckBox1.Checked Then FileMetadata.ModifiedTime = IO.File.GetLastWriteTimeUtc(GetFile)
-                Dim UploadFile As FilesResource.CreateMediaUpload = service.Files.Create(FileMetadata, UploadStream, "")
-                UploadFile.ChunkSize = ResumableUpload.MinimumChunkSize * 4
-                AddHandler UploadFile.ProgressChanged, New Action(Of IUploadProgress)(AddressOf Upload_ProgressChanged)
-                AddHandler UploadFile.ResponseReceived, New Action(Of Data.File)(AddressOf Upload_ResponseReceived)
-                AddHandler UploadFile.UploadSessionData, AddressOf Upload_UploadSessionData
-                UploadCancellationToken = New CancellationToken
-                Dim uploadUri As Uri = Nothing
-                starttime = DateTime.Now
-                If ResumeFromError = False Then
-                    uploadUri = GetSessionRestartUri(True)
-                Else
-                    uploadUri = GetSessionRestartUri(False)
-                End If
-                If uploadUri = Nothing Then
-                    Await UploadFile.UploadAsync(UploadCancellationToken)
-                Else
-                    Await UploadFile.ResumeAsync(uploadUri, UploadCancellationToken)
-                End If
+            Try
+                NumberOfFilesToUpload = ListBox2.Items.Count
+                If UploadFailed = True Then i = i - 1
+                GetFile = ListBox2.Items.Item(0)
+                If System.IO.File.Exists(GetFile) Then
+                    Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
+                    ProgressBar1.Maximum = My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024
+                    Dim FileMetadata As New Data.File
+                    FileMetadata.Name = My.Computer.FileSystem.GetName(GetFile)
+                    Dim FileFolder As New List(Of String)
+                    If FolderCreated = False Then
+                        FileFolder.Add(My.Settings.LastFolder)
+                    Else
+                        Dim DirectoryName As String = ""
+                        DirectoryName = System.IO.Path.GetDirectoryName(GetFile)
+                        For Each directory In DirectoryList
+                            If DirectoryName = directory Then
+                                FileFolder.Add(DirectoryListID.Item(DirectoryList.IndexOf(directory)))
+                            End If
+                        Next
+                        If FileFolder.Count = 0 Then FileFolder.Add(TextBox2.Text)
+                    End If
+                    FileMetadata.Parents = FileFolder
+                    Dim UploadStream As New FileStream(GetFile, System.IO.FileMode.Open, System.IO.FileAccess.Read)
+                    If CheckBox1.Checked Then FileMetadata.ModifiedTime = IO.File.GetLastWriteTimeUtc(GetFile)
+                    Dim UploadFile As FilesResource.CreateMediaUpload = service.Files.Create(FileMetadata, UploadStream, "")
+                    UploadFile.ChunkSize = ResumableUpload.MinimumChunkSize * 4
+                    AddHandler UploadFile.ProgressChanged, New Action(Of IUploadProgress)(AddressOf Upload_ProgressChanged)
+                    AddHandler UploadFile.ResponseReceived, New Action(Of Data.File)(AddressOf Upload_ResponseReceived)
+                    AddHandler UploadFile.UploadSessionData, AddressOf Upload_UploadSessionData
+                    UploadCancellationToken = New CancellationToken
+                    Dim uploadUri As Uri = Nothing
+                    starttime = DateTime.Now
+                    If ResumeFromError = False Then
+                        uploadUri = GetSessionRestartUri(True)
+                    Else
+                        uploadUri = GetSessionRestartUri(False)
+                    End If
+                    If uploadUri = Nothing Then
+                        Await UploadFile.UploadAsync(UploadCancellationToken)
+                    Else
+                        Await UploadFile.ResumeAsync(uploadUri, UploadCancellationToken)
+                    End If
 
-            ElseIf IO.Directory.Exists(GetFile) Then
-                Dim FolderMetadata As New Data.File
-                FolderMetadata.Name = My.Computer.FileSystem.GetName(GetFile)
-                Dim ParentFolder As New List(Of String)
-                If FolderCreated = True Then
-                    Dim DirectoryName As String = ""
-                    DirectoryName = System.IO.Path.GetDirectoryName(GetFile)
-                    For Each directory In DirectoryList
-                        If DirectoryName = directory Then
-                            ParentFolder.Add(DirectoryListID.Item(DirectoryList.IndexOf(directory)))
-                        End If
-                    Next
-                Else
-                    ParentFolder.Add(My.Settings.LastFolder)
+                ElseIf IO.Directory.Exists(GetFile) Then
+                    Dim FolderMetadata As New Data.File
+                    FolderMetadata.Name = My.Computer.FileSystem.GetName(GetFile)
+                    Dim ParentFolder As New List(Of String)
+                    If FolderCreated = True Then
+                        Dim DirectoryName As String = ""
+                        DirectoryName = System.IO.Path.GetDirectoryName(GetFile)
+                        For Each directory In DirectoryList
+                            If DirectoryName = directory Then
+                                ParentFolder.Add(DirectoryListID.Item(DirectoryList.IndexOf(directory)))
+                            End If
+                        Next
+                        If ParentFolder.Count = 0 Then ParentFolder.Add(TextBox2.Text)
+                    Else
+                        ParentFolder.Add(My.Settings.LastFolder)
+                    End If
+                    FolderMetadata.Parents = ParentFolder
+                    FolderMetadata.MimeType = "application/vnd.google-apps.folder"
+                    Dim CreateFolder As FilesResource.CreateRequest = service.Files.Create(FolderMetadata)
+                    CreateFolder.Fields = "id"
+                    Dim FolderID As Data.File = CreateFolder.Execute
+                    DirectoryList.Add(GetFile)
+                    DirectoryListID.Add(FolderID.Id)
+                    FolderCreated = True
                 End If
-                FolderMetadata.Parents = ParentFolder
-                FolderMetadata.MimeType = "application/vnd.google-apps.folder"
-                Dim CreateFolder As FilesResource.CreateRequest = service.Files.Create(FolderMetadata)
-                CreateFolder.Fields = "id"
-                Dim FolderID As Data.File = CreateFolder.Execute
-                DirectoryList.Add(GetFile)
-                DirectoryListID.Add(FolderID.Id)
-                FolderCreated = True
-            End If
+            Catch ex As Exception
+                UploadFailed = True
+            End Try
             If UploadFailed = False Then
                 ListBox2.Items.RemoveAt(0)
                 RefreshFileList()
@@ -490,5 +496,9 @@ Public Class Form1
         ListBox2.Items.Clear()
         My.Settings.UploadQueue.Clear()
         My.Settings.Save()
+    End Sub
+
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+        SearchFolder.ShowDialog()
     End Sub
 End Class
