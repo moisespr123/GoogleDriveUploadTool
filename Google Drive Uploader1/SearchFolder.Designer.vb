@@ -26,7 +26,7 @@ Partial Class SearchFolder
         Me.Button1 = New System.Windows.Forms.Button()
         Me.ListBox1 = New System.Windows.Forms.ListBox()
         Me.Button2 = New System.Windows.Forms.Button()
-        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
@@ -67,14 +67,14 @@ Partial Class SearchFolder
         Me.Button2.Text = "Back"
         Me.Button2.UseVisualStyleBackColor = True
         '
-        'Label3
+        'Label2
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(5, 39)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(58, 13)
-        Me.Label3.TabIndex = 6
-        Me.Label3.Text = "Current ID:"
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(5, 39)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(58, 13)
+        Me.Label2.TabIndex = 6
+        Me.Label2.Text = "Current ID:"
         '
         'TextBox1
         '
@@ -101,7 +101,7 @@ Partial Class SearchFolder
         Me.ClientSize = New System.Drawing.Size(284, 310)
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.TextBox1)
-        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.ListBox1)
         Me.Controls.Add(Me.Button1)
@@ -119,7 +119,7 @@ Partial Class SearchFolder
     Friend WithEvents Button1 As Button
     Friend WithEvents ListBox1 As ListBox
     Friend WithEvents Button2 As Button
-    Friend WithEvents Label3 As Label
+    Friend WithEvents Label2 As Label
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents TextBox2 As TextBox
 End Class

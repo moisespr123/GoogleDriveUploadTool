@@ -8,8 +8,14 @@ Public Class SearchFolder
 
         If Form1.CheckBox1.Checked = True Then
             Label1.Text = "Current Folder:"
+            Label2.Text = "Current ID:"
+            Button1.Text = "Select"
+            Button2.Text = "Back"
         Else
             Label1.Text = "Carpeta Actual"
+            Label2.Text = "ID Actual:"
+            Button1.Text = "Seleccionar"
+            Button2.Text = "Atrás"
         End If
         SearchFolders("root")
     End Sub

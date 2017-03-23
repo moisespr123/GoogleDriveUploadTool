@@ -448,6 +448,7 @@ Public Class Form1
         Button4.Text = "Refresh List"
         Button5.Text = "Download File"
         Button6.Text = "Remove selected file(s) from list"
+        Button7.Text = "Browse Folder"
         CheckBox1.Text = "Preserve File Modified Date"
     End Sub
     Private Sub SpanishLanguage()
@@ -466,6 +467,7 @@ Public Class Form1
         Button4.Text = "Refrescar Lista"
         Button5.Text = "Descargar Archivo"
         Button6.Text = "Remover archivo(s) de la lista"
+        Button7.Text = "Buscar Carpeta"
         CheckBox1.Text = "Preservar Fecha de Modificación del Archivo"
     End Sub
 

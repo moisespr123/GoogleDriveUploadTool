@@ -5,6 +5,7 @@
 -Searches for every file and folder inside a folder to upload. The uploads maintain the same structure
 -Option to preserve file modified date added.
 -Can now browse Folders to upload files
+-Can drag and drop more files to upload to queue while uploading
 -Can select more than one file or folder to remove
 -Can now erase the entire upload list
 -Timeout reduced to 2 minutes (120 seconds). Should be enough as the chunk size was reduced to 1MB in v1.2
