@@ -110,11 +110,8 @@ Public Class Form1
         Dim DirectoryList As New StringCollection
         Dim DirectoryListID As New StringCollection
         Dim FolderCreated As Boolean = False
-        Dim NumberOfFilesToUpload As Integer = ListBox2.Items.Count
-        'For i As Integer = 0 To NumberOfFilesToUpload - 1
         While ListBox2.Items.Count > 0
             Try
-                NumberOfFilesToUpload = ListBox2.Items.Count
                 'If UploadFailed = True Then i = i - 1
                 GetFile = ListBox2.Items.Item(0)
                 If System.IO.File.Exists(GetFile) Then
