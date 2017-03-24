@@ -111,10 +111,11 @@ Public Class Form1
         Dim DirectoryListID As New StringCollection
         Dim FolderCreated As Boolean = False
         Dim NumberOfFilesToUpload As Integer = ListBox2.Items.Count
-        For i As Integer = 0 To NumberOfFilesToUpload - 1
+        'For i As Integer = 0 To NumberOfFilesToUpload - 1
+        While ListBox2.Items.Count > 0
             Try
                 NumberOfFilesToUpload = ListBox2.Items.Count
-                If UploadFailed = True Then i = i - 1
+                'If UploadFailed = True Then i = i - 1
                 GetFile = ListBox2.Items.Item(0)
                 If System.IO.File.Exists(GetFile) Then
                     Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
@@ -191,7 +192,7 @@ Public Class Form1
                 My.Settings.Save()
                 ResumeFromError = False
             End If
-        Next
+        End While
         If RadioButton1.Checked = True Then MsgBox("Uploads finished!") Else MsgBox("Los archivos han terminado de subir.")
     End Sub
     Private ErrorMessage As String = ""
