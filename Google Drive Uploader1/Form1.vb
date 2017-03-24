@@ -112,7 +112,6 @@ Public Class Form1
         Dim FolderCreated As Boolean = False
         While ListBox2.Items.Count > 0
             Try
-                'If UploadFailed = True Then i = i - 1
                 GetFile = ListBox2.Items.Item(0)
                 If System.IO.File.Exists(GetFile) Then
                     Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
