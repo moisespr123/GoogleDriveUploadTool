@@ -21,6 +21,12 @@ Public Class Form1
         If My.Settings.UploadQueue Is Nothing Then
             My.Settings.UploadQueue = New Specialized.StringCollection
         End If
+        If My.Settings.FoldersCreated Is Nothing Then
+            My.Settings.FoldersCreated = New Specialized.StringCollection
+        End If
+        If My.Settings.FoldersCreatedID Is Nothing Then
+            My.Settings.FoldersCreatedID = New Specialized.StringCollection
+        End If
         'Checks whether the language was set. If not, apply English by default
         If String.IsNullOrEmpty(My.Settings.Language) Then
             My.Settings.Language = "English"
@@ -111,6 +117,12 @@ Public Class Form1
         Dim DirectoryList As New StringCollection
         Dim DirectoryListID As New StringCollection
         Dim FolderCreated As Boolean = False
+        'Checks if folders where created in the last run. If there are, it will load them to the DirectoryList Variable
+        If My.Settings.FolderCreated = True Then
+            FolderCreated = True
+            DirectoryList = My.Settings.FoldersCreated
+            DirectoryListID = My.Settings.FoldersCreatedID
+        End If
         While ListBox2.Items.Count > 0
             Try
                 GetFile = ListBox2.Items.Item(0)
@@ -177,7 +189,11 @@ Public Class Form1
                     Dim FolderID As Data.File = CreateFolder.Execute
                     DirectoryList.Add(GetFile)
                     DirectoryListID.Add(FolderID.Id)
+                    My.Settings.FoldersCreated.Add(GetFile)
+                    My.Settings.FoldersCreatedID.Add(FolderID.Id)
                     FolderCreated = True
+                    My.Settings.FolderCreated = True
+                    My.Settings.Save()
                 End If
             Catch ex As Exception
                 UploadFailed = True
@@ -191,6 +207,13 @@ Public Class Form1
             End If
         End While
         If RadioButton1.Checked = True Then MsgBox("Uploads finished!") Else MsgBox("Los archivos han terminado de subir.")
+        FolderCreated = False
+        My.Settings.FolderCreated = False
+        DirectoryListID.Clear()
+        DirectoryList.Clear()
+        My.Settings.FoldersCreated.Clear()
+        My.Settings.FoldersCreatedID.Clear()
+        My.Settings.Save()
         Button2.Enabled = True
     End Sub
     Private ErrorMessage As String = ""

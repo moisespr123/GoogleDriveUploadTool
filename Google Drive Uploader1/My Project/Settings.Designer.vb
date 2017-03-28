@@ -124,6 +124,52 @@ Namespace My
                 Me("LastFolder") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property UploadsOngoing() As Boolean
+            Get
+                Return CType(Me("UploadsOngoing"),Boolean)
+            End Get
+            Set
+                Me("UploadsOngoing") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property FoldersCreated() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("FoldersCreated"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("FoldersCreated") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property FolderCreated() As Boolean
+            Get
+                Return CType(Me("FolderCreated"),Boolean)
+            End Get
+            Set
+                Me("FolderCreated") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property FoldersCreatedID() As Global.System.Collections.Specialized.StringCollection
+            Get
+                Return CType(Me("FoldersCreatedID"),Global.System.Collections.Specialized.StringCollection)
+            End Get
+            Set
+                Me("FoldersCreatedID") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
