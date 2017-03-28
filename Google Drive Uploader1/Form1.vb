@@ -97,6 +97,7 @@ Public Class Form1
     Private GetFile As String = ""
     Private UploadFailed As Boolean = False
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Button2.Enabled = False
         If String.IsNullOrEmpty(TextBox2.Text) = False Then
             My.Settings.LastFolder = TextBox2.Text
         Else
@@ -190,6 +191,7 @@ Public Class Form1
             End If
         End While
         If RadioButton1.Checked = True Then MsgBox("Uploads finished!") Else MsgBox("Los archivos han terminado de subir.")
+        Button2.Enabled = True
     End Sub
     Private ErrorMessage As String = ""
     Private UploadCancellationToken As System.Threading.CancellationToken
