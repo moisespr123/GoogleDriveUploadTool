@@ -53,7 +53,7 @@ Public Class Form1
         'Loads the last used Folder ID
         TextBox2.Text = My.Settings.LastFolder
         'Gets Folder name from the Folder ID
-        GetFolderIDName()
+        GetFolderIDName(False)
         'Checks if the Preserve Modified Date checkbox was checked in the last run.
         If My.Settings.PreserveModifiedDate = True Then CheckBox1.Checked = True Else CheckBox1.Checked = False
         'Google Drive initialization
@@ -107,12 +107,24 @@ Public Class Form1
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Button2.Enabled = False
         If String.IsNullOrEmpty(TextBox2.Text) = False Then
-            My.Settings.LastFolder = TextBox2.Text
-        Else
-            My.Settings.LastFolder = "root"
+            If GetFolderIDName(False) = True Then
+                My.Settings.LastFolder = TextBox2.Text
+                ResumeFromError = False
+                UploadFiles()
+            Else
+                Dim Message As String = ""
+                If RadioButton1.Checked = True Then
+                    Message = "The specified folder is invalid. Do you want to change the folder? If you select No, your files will be uploaded to the root of Google Drive"
+                Else
+                    Message = "La carpeta especificada es invalida. Desea cambiar la carpeta? Si presiona No, sus archivos serán subidos a la raíz de Google Drive"
+                End If
+                If MsgBox(Message, MsgBoxStyle.Question Or MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+                    My.Settings.LastFolder = "root"
+                    ResumeFromError = False
+                    UploadFiles()
+                End If
+            End If
         End If
-        ResumeFromError = False
-        UploadFiles()
     End Sub
     Private ResumeFromError As Boolean = False
     Private Async Sub UploadFiles()
@@ -541,16 +553,22 @@ Public Class Form1
     End Sub
 
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+        GetFolderIDName(True)
     End Sub
-    Private Sub GetFolderIDName()
+
+    Private Function GetFolderIDName(ShowMessage As Boolean)
         If String.IsNullOrEmpty(TextBox2.Text) = False Then
             Try
                 Dim GetFolderName As FilesResource.GetRequest = service.Files.Get(TextBox2.Text.ToString)
                 Dim FolderNameMetadata As Data.File = GetFolderName.Execute
                 TextBox1.Text = FolderNameMetadata.Name
+                Return True
             Catch ex As Exception
-                MsgBox("Folder ID is incorrect.")
+                If ShowMessage = True Then MsgBox("Folder ID is incorrect.")
+                Return False
             End Try
+        Else
+            Return False
         End If
-    End Sub
+    End Function
 End Class
