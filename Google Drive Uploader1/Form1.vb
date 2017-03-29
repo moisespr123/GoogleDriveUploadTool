@@ -52,6 +52,8 @@ Public Class Form1
         End If
         'Loads the last used Folder ID
         TextBox2.Text = My.Settings.LastFolder
+        'Gets Folder name from the Folder ID
+        GetFolderIDName()
         'Checks if the Preserve Modified Date checkbox was checked in the last run.
         If My.Settings.PreserveModifiedDate = True Then CheckBox1.Checked = True Else CheckBox1.Checked = False
         'Google Drive initialization
@@ -539,12 +541,16 @@ Public Class Form1
     End Sub
 
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
-        Try
-            Dim GetFolderName As FilesResource.GetRequest = service.Files.Get(TextBox2.Text.ToString)
-            Dim FolderNameMetadata As Data.File = GetFolderName.Execute
-            TextBox1.Text = FolderNameMetadata.Name
-        Catch ex As Exception
-            MsgBox("Folder ID is incorrect.")
-        End Try
+    End Sub
+    Private Sub GetFolderIDName()
+        If String.IsNullOrEmpty(TextBox2.Text) = False Then
+            Try
+                Dim GetFolderName As FilesResource.GetRequest = service.Files.Get(TextBox2.Text.ToString)
+                Dim FolderNameMetadata As Data.File = GetFolderName.Execute
+                TextBox1.Text = FolderNameMetadata.Name
+            Catch ex As Exception
+                MsgBox("Folder ID is incorrect.")
+            End Try
+        End If
     End Sub
 End Class

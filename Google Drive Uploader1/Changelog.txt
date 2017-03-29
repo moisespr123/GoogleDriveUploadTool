@@ -1,4 +1,8 @@
-﻿v1.5 (3/23/2017)
+﻿v1.6 (not yet released)
+-Software now remembers the folders created when there are still uploads pending
+-Software now displays the Folder Name from the entered Folder ID when the software is launched
+
+v1.5 (3/23/2017)
 -Changed "Length" to "File Size"
 -Added comma in file size (ex. 10,000.00 MB instead of 10000.00 MB)
 -When an error occurs, the upload will be retried automatically and also resume from the point it was interrupted.
