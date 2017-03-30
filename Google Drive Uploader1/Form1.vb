@@ -408,6 +408,7 @@ Public Class Form1
         Dim listRequest As FilesResource.ListRequest = service.Files.List()
         listRequest.PageSize = 25
         listRequest.Fields = "nextPageToken, files(id, name, size)"
+        listRequest.Q = "mimeType != 'application/vnd.google-apps.folder'"
         listRequest.PageToken = ""
         ' List files.
         Try
