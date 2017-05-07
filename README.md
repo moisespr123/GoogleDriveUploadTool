@@ -34,12 +34,31 @@ A tool for Windows to upload files to Google Drive. It resumes uploads in case o
 3. Choose a folder and if you want, change the filename and press "Save"
 4. The download will start
 
+# How to save a Checksum file?
+1. Select a file
+2. Press the "Save Checksum File" button
+
+To save the checksums for more than 1 file:
+1. Select more than 1 file holding either Ctrl or Shift with the keyboard and selecting the files with the mouse
+2. A new button will appear right next to "Refresh List"
+3. Press the new button called "Save Checksums for selected files".
+
+These are the checksums for your files stored in Google Drive. You can use them to verify if the uploaded file matches the local file.
+
 # How to open and compile the project?
 This project was made using Visual Studio 2017, in the Visual Basic .NET language. You'll need to have the Windows Desktop components installed to be able to open and edit this project to fit your needs and to compile it. It also uses the Google Drive API which is available in the NuGet Package Manager. You may also be prompted to download the NuGet packages for this project.
 
 Enjoy!!!
 
 # Changelog:
+v1.6 (5/7/2017)
+- Software now remembers the folders created when there are still uploads pending
+- Software now displays the Folder Name from the entered Folder ID when the software is launched
+- Browse files and folders with the same structure as your Google Drive
+- See file details
+- Folder Browsing has been integrated in the Main Window. Select a folder to upload files to it.
+- Save Checksum file to test local file against uploaded file
+
 v1.5 (3/23/2017)
 - Changed "Length" to "File Size"
 - Added comma in file size (ex. 10,000.00 MB instead of 10000.00 MB)
