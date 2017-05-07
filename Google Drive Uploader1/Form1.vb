@@ -332,7 +332,7 @@ Public Class Form1
         Catch
 
         End Try
-        Label10.Text = String.Format("{0:F2}%", ((ProgressBar1.Value / ProgressBar1.Maximum) * 100))
+        Label10.Text = String.Format("{0:N2}%", ((ProgressBar1.Value / ProgressBar1.Maximum) * 100))
         Dim timeFormatted As TimeSpan = TimeSpan.FromSeconds(secondsremaining)
         Label14.Text = String.Format("{0}:{1:mm}:{1:ss}", CInt(Math.Truncate(timeFormatted.TotalHours)), timeFormatted)
     End Sub
@@ -350,7 +350,7 @@ Public Class Form1
         Dim SFDResult As MsgBoxResult = SaveFileDialog1.ShowDialog()
         If SFDResult = MsgBoxResult.Ok Then
             starttime = DateTime.Now
-            Label3.Text = String.Format("{0:F2} MB", FileSizeListBox.SelectedItem / 1024 / 1024)
+            Label3.Text = String.Format("{0:N2} MB", FileSizeListBox.SelectedItem / 1024 / 1024)
             ProgressBar1.Maximum = FileSizeListBox.SelectedItem / 1024 / 1024
             MaxFileSize = FileSizeListBox.SelectedItem
             FileToSave = New FileStream(SaveFileDialog1.FileName, FileMode.Create, FileAccess.Write)
@@ -630,7 +630,7 @@ Public Class Form1
             TextBox6.Text = FileModifiedTimeListBox.Items.Item(ListBox1.SelectedIndex)
             TextBox7.Text = FileMD5ListBox.Items.Item(ListBox1.SelectedIndex)
             TextBox8.Text = FileMIMEListBox.Items.Item(ListBox1.SelectedIndex)
-            TextBox9.Text = String.Format("{0:F2} MB", FileSizeListBox.Items.Item(ListBox1.SelectedIndex) / 1024 / 1024)
+            TextBox9.Text = String.Format("{0:N2} MB", FileSizeListBox.Items.Item(ListBox1.SelectedIndex) / 1024 / 1024)
         Else
             TextBox3.Text = ""
             TextBox4.Text = ""
