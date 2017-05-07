@@ -77,6 +77,7 @@ Partial Class Form1
         Me.Label24 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.SaveFileDialog2 = New System.Windows.Forms.SaveFileDialog()
+        Me.Button7 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
@@ -207,6 +208,7 @@ Partial Class Form1
         Me.ListBox1.HorizontalScrollbar = True
         Me.ListBox1.Location = New System.Drawing.Point(537, 233)
         Me.ListBox1.Name = "ListBox1"
+        Me.ListBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
         Me.ListBox1.Size = New System.Drawing.Size(391, 134)
         Me.ListBox1.TabIndex = 20
         '
@@ -556,12 +558,23 @@ Partial Class Form1
         Me.Button1.Text = "Save Checksum File"
         Me.Button1.UseVisualStyleBackColor = True
         '
+        'Button7
+        '
+        Me.Button7.Location = New System.Drawing.Point(732, 372)
+        Me.Button7.Name = "Button7"
+        Me.Button7.Size = New System.Drawing.Size(196, 23)
+        Me.Button7.TabIndex = 44
+        Me.Button7.Text = "Save Checksums for Selected Files"
+        Me.Button7.UseVisualStyleBackColor = True
+        Me.Button7.Visible = False
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1236, 415)
+        Me.Controls.Add(Me.Button7)
         Me.Controls.Add(Me.Button12)
         Me.Controls.Add(Me.Button10)
         Me.Controls.Add(Me.GroupBox2)
@@ -663,4 +676,5 @@ Partial Class Form1
     Friend WithEvents Label24 As Label
     Friend WithEvents Button1 As Button
     Friend WithEvents SaveFileDialog2 As SaveFileDialog
+    Friend WithEvents Button7 As Button
 End Class

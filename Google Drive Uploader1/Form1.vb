@@ -510,6 +510,7 @@ Public Class Form1
         Button4.Text = "Refresh List"
         Button5.Text = "Download File"
         Button6.Text = "Remove selected file(s) from list"
+        Button7.Text = "Save Checksums for Selected Files"
         Button8.Text = "Donations"
         Button9.Text = "Get Folder Name"
         Button10.Text = "Back"
@@ -541,6 +542,7 @@ Public Class Form1
         Button4.Text = "Refrescar Lista"
         Button5.Text = "Descargar Archivo"
         Button6.Text = "Remover archivo(s) de la lista"
+        Button7.Text = "Guardar Checksums de los archivos"
         Button8.Text = "Donar"
         Button9.Text = "Obtener Nombre de la Carpeta"
         Button10.Text = "Atrás"
@@ -606,6 +608,7 @@ Public Class Form1
             Dim GoToFolderID As String = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
             PreviousFolderId.Items.Add(CurrentFolder)
             CurrentFolder = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
+            Button7.Visible = False
             RefreshFileList(GoToFolderID)
         End If
     End Sub
@@ -636,6 +639,11 @@ Public Class Form1
             TextBox6.Text = ""
             TextBox7.Text = ""
             TextBox9.Text = ""
+        End If
+        If ListBox1.SelectedItems.Count > 1 Then
+            Button7.Visible = True
+        Else
+            Button7.Visible = False
         End If
     End Sub
 
@@ -696,5 +704,26 @@ Public Class Form1
                 My.Computer.FileSystem.WriteAllText(SaveFileDialog2.FileName, TextBox7.Text & " *" & ListBox1.SelectedItem, False)
             End If
         End If
+    End Sub
+
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+        If RadioButton1.Checked = True Then
+            SaveFileDialog2.Title = "Browse for a location to save the checksum file:"
+        Else
+            SaveFileDialog2.Title = "Busque un lugar para guardar el archivo del checksum:"
+        End If
+        SaveFileDialog2.FileName = "checksums.md5"
+        SaveFileDialog2.Filter = "MD5 Checksum|*.md5"
+        Dim SFDResult As MsgBoxResult = SaveFileDialog2.ShowDialog()
+        If SFDResult = MsgBoxResult.Ok Then
+            Dim Checksumfile As StreamWriter = New StreamWriter(SaveFileDialog2.FileName)
+            For Each item In ListBox1.SelectedItems
+                Checksumfile.WriteLine(FileMD5ListBox.Items.Item(ListBox1.Items.IndexOf(item)) & " *" & item)
+            Next
+            Checksumfile.Close()
+            MsgBox("Checksums saved")
+        End If
+
+
     End Sub
 End Class
