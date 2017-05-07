@@ -11,7 +11,14 @@ Imports System.Collections.Specialized
 Public Class Form1
     Private FileIdsListBox As New ListBox
     Private FileSizeListBox As New ListBox
+    Private FileMIMEListBox As New ListBox
+    Private FileModifiedTimeListBox As New ListBox
+    Private FileCreatedTimeListBox As New ListBox
+    Private FileMD5ListBox As New ListBox
+    Private FolderIdsListBox As New ListBox
+    Private PreviousFolderId As New ListBox
     Public pageToken As String = ""
+    Private CurrentFolder As String = "root"
     ' If modifying these scopes, delete your previously saved credentials
     ' at ~/.credentials/drive-dotnet-quickstart.json
     Shared Scopes As String() = {DriveService.Scope.DriveFile, DriveService.Scope.Drive}
@@ -53,7 +60,7 @@ Public Class Form1
         'Loads the last used Folder ID
         TextBox2.Text = My.Settings.LastFolder
         'Gets Folder name from the Folder ID
-        GetFolderIDName(False)
+
         'Checks if the Preserve Modified Date checkbox was checked in the last run.
         If My.Settings.PreserveModifiedDate = True Then CheckBox1.Checked = True Else CheckBox1.Checked = False
         'Google Drive initialization
@@ -70,35 +77,10 @@ Public Class Form1
         service = New DriveService(Initializer)
         service.HttpClient.Timeout = TimeSpan.FromSeconds(120)
         ' List files.
-        ShowList()
+        RefreshFileList("root")
+        GetFolderIDName(False)
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        ShowList()
-    End Sub
-    Private Sub ShowList()
-        Dim listRequest As FilesResource.ListRequest = service.Files.List()
-        listRequest.PageSize = 25
-        listRequest.Fields = "nextPageToken, files(id, name, size)"
-        listRequest.PageToken = pageToken
-        ' List files.
-        Try
-            Dim files = listRequest.Execute()
-            If files.Files IsNot Nothing AndAlso files.Files.Count > 0 Then
-                For Each file In files.Files
-                    ListBox1.Items.Add(file.Name)
-                    FileIdsListBox.Items.Add(file.Id)
-                    Try
-                        FileSizeListBox.Items.Add(file.Size)
-                    Catch
-                        FileSizeListBox.Items.Add("0")
-                    End Try
-                Next
-            End If
-            pageToken = files.NextPageToken
-        Catch ex As Exception
-        End Try
-    End Sub
     Private starttime As DateTime
     Private timespent As TimeSpan
     Private secondsremaining As Integer = 0
@@ -109,6 +91,7 @@ Public Class Form1
         If String.IsNullOrEmpty(TextBox2.Text) = False Then
             If GetFolderIDName(False) = True Then
                 My.Settings.LastFolder = TextBox2.Text
+                My.Settings.Save()
                 ResumeFromError = False
                 UploadFiles()
             Else
@@ -120,6 +103,7 @@ Public Class Form1
                 End If
                 If MsgBox(Message, MsgBoxStyle.Question Or MsgBoxStyle.YesNo) = MsgBoxResult.No Then
                     My.Settings.LastFolder = "root"
+                    My.Settings.Save()
                     ResumeFromError = False
                     UploadFiles()
                 End If
@@ -214,7 +198,7 @@ Public Class Form1
             End Try
             If UploadFailed = False Then
                 ListBox2.Items.RemoveAt(0)
-                RefreshFileList()
+                RefreshFileList(CurrentFolder)
                 My.Settings.UploadQueue.RemoveAt(0)
                 My.Settings.Save()
                 ResumeFromError = False
@@ -394,34 +378,66 @@ Public Class Form1
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        RefreshFileList()
+        If String.IsNullOrEmpty(ListBox3.SelectedItem) = False Then
+            RefreshFileList(FolderIdsListBox.Items.Item(ListBox3.SelectedIndex))
+        End If
     End Sub
-
-    Private Sub RefreshFileList()
+    Private Delegate Sub RefreshFileListInvoker(FolderID As String)
+    Private Sub RefreshFileList(FolderID As String)
         If ListBox1.InvokeRequired Then
-            Dim method As MethodInvoker = New MethodInvoker(AddressOf RefreshFileList)
-            Invoke(method)
+            ListBox1.Invoke(New RefreshFileListInvoker(AddressOf RefreshFileList), FolderID)
+        End If
+        If ListBox3.InvokeRequired Then
+            ListBox3.Invoke(New RefreshFileListInvoker(AddressOf RefreshFileList), FolderID)
+            'Dim method As MethodInvoker = New MethodInvoker(AddressOf RefreshFileList)
+            'Invoke(method)
         End If
         ListBox1.Items.Clear()
         FileIdsListBox.Items.Clear()
         FileSizeListBox.Items.Clear()
-        Dim listRequest As FilesResource.ListRequest = service.Files.List()
-        listRequest.PageSize = 25
-        listRequest.Fields = "nextPageToken, files(id, name, size)"
-        listRequest.Q = "mimeType != 'application/vnd.google-apps.folder'"
-        listRequest.PageToken = ""
-        ' List files.
+        FileModifiedTimeListBox.Items.Clear()
+        FileCreatedTimeListBox.Items.Clear()
+        FileMD5ListBox.Items.Clear()
+        FileMIMEListBox.Items.Clear()
+        Dim listRequest1 As FilesResource.ListRequest = service.Files.List()
+        listRequest1.Fields = "nextPageToken, files(id, name, size, createdTime, modifiedTime, md5Checksum, mimeType)"
+        listRequest1.Q = "mimeType!='application/vnd.google-apps.folder' and '" & FolderID & "' in parents"
+        listRequest1.OrderBy = "name"
         Try
-            Dim files = listRequest.Execute()
+            Dim files = listRequest1.Execute()
             If files.Files IsNot Nothing AndAlso files.Files.Count > 0 Then
                 For Each file In files.Files
                     ListBox1.Items.Add(file.Name)
                     FileIdsListBox.Items.Add(file.Id)
                     Try
                         FileSizeListBox.Items.Add(file.Size)
+                        FileModifiedTimeListBox.Items.Add(file.ModifiedTime)
+                        FileCreatedTimeListBox.Items.Add(file.CreatedTime)
+                        FileMD5ListBox.Items.Add(file.Md5Checksum)
+                        FileMIMEListBox.Items.Add(file.MimeType)
                     Catch
                         FileSizeListBox.Items.Add("0")
+                        FileMIMEListBox.Items.Add("Unknown")
+                        FileModifiedTimeListBox.Items.Add(file.ModifiedTime)
+                        FileCreatedTimeListBox.Items.Add(file.CreatedTime)
+                        FileMD5ListBox.Items.Add("")
                     End Try
+                Next
+            End If
+        Catch ex As Exception
+        End Try
+        ListBox3.Items.Clear()
+        FolderIdsListBox.Items.Clear()
+        Dim listRequest As FilesResource.ListRequest = service.Files.List()
+        listRequest.Q = "mimeType='application/vnd.google-apps.folder' and '" & FolderID & "' in parents"
+        listRequest.Fields = "nextPageToken, files(id, name)"
+        listRequest.OrderBy = "name"
+        Try
+            Dim files = listRequest.Execute()
+            If files.Files IsNot Nothing AndAlso files.Files.Count > 0 Then
+                For Each file In files.Files
+                    ListBox3.Items.Add(file.Name)
+                    FolderIdsListBox.Items.Add(file.Id)
                 Next
             End If
         Catch ex As Exception
@@ -473,7 +489,7 @@ Public Class Form1
         Label1.Text = "File Size:"
         Label2.Text = "Processed:"
         Label5.Text = "Drag and Drop Files to add them to the list"
-        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.5"
+        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.6"
         Label7.Text = "Status:"
         Label9.Text = "Percent: "
         Label11.Text = "Uploads (By Date Modified):"
@@ -481,22 +497,30 @@ Public Class Form1
         Label13.Text = "Time Left: "
         Label15.Text = "Like this software?"
         Label16.Text = "Folder Name:"
-        Button1.Text = "More Results"
+        Label18.Text = "File Name:"
+        Label19.Text = "File ID:"
+        Label20.Text = "Date Created:"
+        Label21.Text = "Date Modified:"
+        Label22.Text = "MD5 Checksum:"
+        Label23.Text = "MIME Type:"
+        Label24.Text = "File Size:"
+        Button1.Text = "Save Checksum File"
         Button2.Text = "Upload"
         Button3.Text = "Clear List"
         Button4.Text = "Refresh List"
         Button5.Text = "Download File"
         Button6.Text = "Remove selected file(s) from list"
-        Button7.Text = "Browse Folder"
         Button8.Text = "Donations"
         Button9.Text = "Get Folder Name"
+        Button10.Text = "Back"
+        Button12.Text = "Create New Folder"
         CheckBox1.Text = "Preserve File Modified Date"
     End Sub
     Private Sub SpanishLanguage()
         Label1.Text = "Tamaño:"
         Label2.Text = "Procesado:"
         Label5.Text = "Arrastre archivos aquí para añadirlos a la lista"
-        Label6.Text = "Por Moisés Cardona" & vbNewLine & "v1.5"
+        Label6.Text = "Por Moisés Cardona" & vbNewLine & "v1.6"
         Label7.Text = "Estado:"
         Label9.Text = "Porcentaje: "
         Label11.Text = "Archivos subidos (Organizados por fecha de modificación):"
@@ -504,15 +528,23 @@ Public Class Form1
         Label13.Text = "Tiempo Est."
         Label15.Text = "¿Te gusta esta programa?"
         Label16.Text = "Nombre de la Carpeta:"
-        Button1.Text = "Más Resultados"
+        Label18.Text = "Nombre:"
+        Label19.Text = "ID:"
+        Label20.Text = "Fecha Creada:"
+        Label21.Text = "Fecha Modificada:"
+        Label22.Text = "Checksum MD5:"
+        Label23.Text = "Tipo MIME:"
+        Label24.Text = "Tamaño:"
+        Button1.Text = "Guardar Archivo MD5"
         Button2.Text = "Subir"
         Button3.Text = "Borrar Lista"
         Button4.Text = "Refrescar Lista"
         Button5.Text = "Descargar Archivo"
         Button6.Text = "Remover archivo(s) de la lista"
-        Button7.Text = "Buscar Carpeta"
         Button8.Text = "Donar"
         Button9.Text = "Obtener Nombre de la Carpeta"
+        Button10.Text = "Atrás"
+        Button12.Text = "Crear Nueva Carpeta"
         CheckBox1.Text = "Preservar Fecha de Modificación del Archivo"
     End Sub
 
@@ -545,10 +577,6 @@ Public Class Form1
         My.Settings.Save()
     End Sub
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
-        SearchFolder.ShowDialog()
-    End Sub
-
     Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
         Donations.ShowDialog()
     End Sub
@@ -572,4 +600,101 @@ Public Class Form1
             Return False
         End If
     End Function
+
+    Private Sub ListBox3_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles ListBox3.MouseDoubleClick
+        If String.IsNullOrEmpty(ListBox3.SelectedItem) = False Then
+            Dim GoToFolderID As String = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
+            PreviousFolderId.Items.Add(CurrentFolder)
+            CurrentFolder = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
+            RefreshFileList(GoToFolderID)
+        End If
+    End Sub
+
+    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+        If CurrentFolder = "root" = False Then
+            Dim PreviousFolderIdBeforeRemoving = PreviousFolderId.Items.Item(PreviousFolderId.Items.Count - 1)
+            PreviousFolderId.Items.RemoveAt(PreviousFolderId.Items.Count - 1)
+            CurrentFolder = PreviousFolderIdBeforeRemoving
+            RefreshFileList(PreviousFolderIdBeforeRemoving)
+        End If
+    End Sub
+
+    Private Sub ListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox1.SelectedIndexChanged
+        If String.IsNullOrEmpty(ListBox1.SelectedItem) = False Then
+            TextBox3.Text = ListBox1.SelectedItem
+            TextBox4.Text = FileIdsListBox.Items.Item(ListBox1.SelectedIndex)
+            TextBox5.Text = FileCreatedTimeListBox.Items.Item(ListBox1.SelectedIndex)
+            TextBox6.Text = FileModifiedTimeListBox.Items.Item(ListBox1.SelectedIndex)
+            TextBox7.Text = FileMD5ListBox.Items.Item(ListBox1.SelectedIndex)
+            TextBox8.Text = FileMIMEListBox.Items.Item(ListBox1.SelectedIndex)
+            TextBox9.Text = String.Format("{0:F2} MB", FileSizeListBox.Items.Item(ListBox1.SelectedIndex) / 1024 / 1024)
+        Else
+            TextBox3.Text = ""
+            TextBox4.Text = ""
+            TextBox8.Text = ""
+            TextBox5.Text = ""
+            TextBox6.Text = ""
+            TextBox7.Text = ""
+            TextBox9.Text = ""
+        End If
+    End Sub
+
+
+    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
+        Dim FolderNameToCreate As Object
+        Dim Message, Title As String
+        If RadioButton1.Checked = True Then
+            Message = "Enter a name for the new folder:"
+            Title = "Create new Folder"
+        Else
+            Message = "Escriba un nombre para la nueva carpeta:"
+            Title = "Crear nueva carpeta"
+        End If
+        FolderNameToCreate = InputBox(Message, Title)
+        If String.IsNullOrEmpty(FolderNameToCreate) = False Then
+            Dim FolderMetadata As New Data.File
+            FolderMetadata.Name = FolderNameToCreate
+            Dim ParentFolder As New List(Of String)
+            ParentFolder.Add(CurrentFolder)
+            FolderMetadata.Parents = ParentFolder
+            FolderMetadata.MimeType = "application/vnd.google-apps.folder"
+            Dim CreateFolder As FilesResource.CreateRequest = service.Files.Create(FolderMetadata)
+            CreateFolder.Fields = "id"
+            Dim FolderID As Data.File = CreateFolder.Execute
+            If TextBox1.Text = "root" Then
+                PreviousFolderId.Items.Add("root")
+            Else
+                PreviousFolderId.Items.Add(CurrentFolder)
+            End If
+            TextBox1.Text = FolderNameToCreate
+            TextBox2.Text = FolderID.Id
+            CurrentFolder = FolderID.Id
+            RefreshFileList(FolderID.Id)
+        End If
+    End Sub
+
+    Private Sub ListBox3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox3.SelectedIndexChanged
+        If String.IsNullOrEmpty(ListBox3.SelectedItem) = False Then
+            If Button2.Enabled = True Then
+                TextBox2.Text = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
+                TextBox1.Text = ListBox3.SelectedItem
+            End If
+        End If
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        If String.IsNullOrEmpty(TextBox7.Text) = False Then
+            If RadioButton1.Checked = True Then
+                SaveFileDialog2.Title = "Browse for a location to save the checksum file:"
+            Else
+                SaveFileDialog2.Title = "Busque un lugar para guardar el archivo del checksum:"
+            End If
+            SaveFileDialog2.FileName = ListBox1.SelectedItem & ".md5"
+            SaveFileDialog2.Filter = "MD5 Checksum|*.md5"
+            Dim SFDResult As MsgBoxResult = SaveFileDialog2.ShowDialog()
+            If SFDResult = MsgBoxResult.Ok Then
+                My.Computer.FileSystem.WriteAllText(SaveFileDialog2.FileName, TextBox7.Text & " *" & ListBox1.SelectedItem, False)
+            End If
+        End If
+    End Sub
 End Class

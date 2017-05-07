@@ -1,6 +1,10 @@
-﻿v1.6 (not yet released)
+﻿v1.6 (5/7/2017)
 -Software now remembers the folders created when there are still uploads pending
 -Software now displays the Folder Name from the entered Folder ID when the software is launched
+-Browse files and folders with the same structure as your Google Drive
+-See file details
+-Folder Browsing has been integrated in the Main Window. Select a folder to upload files to it.
+-Save Checksum file to test local file against uploaded file
 
 v1.5 (3/23/2017)
 -Changed "Length" to "File Size"

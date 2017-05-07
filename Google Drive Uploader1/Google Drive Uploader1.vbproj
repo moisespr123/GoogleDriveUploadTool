@@ -124,12 +124,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SearchFolder.Designer.vb">
-      <DependentUpon>SearchFolder.vb</DependentUpon>
-    </Compile>
-    <Compile Include="SearchFolder.vb">
-      <SubType>Form</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Donations.resx">
@@ -143,9 +137,6 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SearchFolder.resx">
-      <DependentUpon>SearchFolder.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

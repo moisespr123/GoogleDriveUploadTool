@@ -36,7 +36,6 @@ Partial Class Form1
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.ListBox1 = New System.Windows.Forms.ListBox()
         Me.Button5 = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
@@ -52,20 +51,42 @@ Partial Class Form1
         Me.Button6 = New System.Windows.Forms.Button()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.Button3 = New System.Windows.Forms.Button()
-        Me.Button7 = New System.Windows.Forms.Button()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.Button8 = New System.Windows.Forms.Button()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Button9 = New System.Windows.Forms.Button()
+        Me.ListBox3 = New System.Windows.Forms.ListBox()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.TextBox8 = New System.Windows.Forms.TextBox()
+        Me.Label23 = New System.Windows.Forms.Label()
+        Me.TextBox7 = New System.Windows.Forms.TextBox()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.TextBox6 = New System.Windows.Forms.TextBox()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.TextBox5 = New System.Windows.Forms.TextBox()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.TextBox4 = New System.Windows.Forms.TextBox()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.TextBox3 = New System.Windows.Forms.TextBox()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.Button10 = New System.Windows.Forms.Button()
+        Me.Button12 = New System.Windows.Forms.Button()
+        Me.TextBox9 = New System.Windows.Forms.TextBox()
+        Me.Label24 = New System.Windows.Forms.Label()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.SaveFileDialog2 = New System.Windows.Forms.SaveFileDialog()
         Me.GroupBox1.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(351, 235)
+        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button2.Location = New System.Drawing.Point(291, 235)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(153, 39)
+        Me.Button2.Size = New System.Drawing.Size(213, 39)
         Me.Button2.TabIndex = 2
         Me.Button2.Text = "Upload"
         Me.Button2.UseVisualStyleBackColor = True
@@ -133,7 +154,7 @@ Partial Class Form1
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(98, 26)
         Me.Label6.TabIndex = 11
-        Me.Label6.Text = "By Moises Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.5"
+        Me.Label6.Text = "By Moises Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.6"
         '
         'Label7
         '
@@ -174,33 +195,24 @@ Partial Class Form1
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(534, 9)
+        Me.Label11.Location = New System.Drawing.Point(534, 217)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(139, 13)
+        Me.Label11.Size = New System.Drawing.Size(31, 13)
         Me.Label11.TabIndex = 17
-        Me.Label11.Text = "Uploads (By Date Modified):"
-        '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(934, 25)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(92, 23)
-        Me.Button1.TabIndex = 18
-        Me.Button1.Text = "More Results"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.Label11.Text = "Files:"
         '
         'ListBox1
         '
         Me.ListBox1.FormattingEnabled = True
         Me.ListBox1.HorizontalScrollbar = True
-        Me.ListBox1.Location = New System.Drawing.Point(537, 25)
+        Me.ListBox1.Location = New System.Drawing.Point(537, 233)
         Me.ListBox1.Name = "ListBox1"
-        Me.ListBox1.Size = New System.Drawing.Size(391, 342)
+        Me.ListBox1.Size = New System.Drawing.Size(391, 134)
         Me.ListBox1.TabIndex = 20
         '
         'Button5
         '
-        Me.Button5.Location = New System.Drawing.Point(934, 54)
+        Me.Button5.Location = New System.Drawing.Point(537, 372)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(92, 23)
         Me.Button5.TabIndex = 21
@@ -209,7 +221,7 @@ Partial Class Form1
         '
         'Button4
         '
-        Me.Button4.Location = New System.Drawing.Point(935, 343)
+        Me.Button4.Location = New System.Drawing.Point(635, 372)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(91, 23)
         Me.Button4.TabIndex = 22
@@ -319,15 +331,6 @@ Partial Class Form1
         Me.Button3.Text = "Clear List"
         Me.Button3.UseVisualStyleBackColor = True
         '
-        'Button7
-        '
-        Me.Button7.Location = New System.Drawing.Point(245, 249)
-        Me.Button7.Name = "Button7"
-        Me.Button7.Size = New System.Drawing.Size(100, 23)
-        Me.Button7.TabIndex = 32
-        Me.Button7.Text = "Browse Folder"
-        Me.Button7.UseVisualStyleBackColor = True
-        '
         'Label15
         '
         Me.Label15.AutoSize = True
@@ -372,18 +375,203 @@ Partial Class Form1
         Me.Button9.Text = "Get Folder Name" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Obtener Nombre de la carpeta"
         Me.Button9.UseVisualStyleBackColor = True
         '
+        'ListBox3
+        '
+        Me.ListBox3.FormattingEnabled = True
+        Me.ListBox3.HorizontalScrollbar = True
+        Me.ListBox3.Location = New System.Drawing.Point(537, 28)
+        Me.ListBox3.Name = "ListBox3"
+        Me.ListBox3.Size = New System.Drawing.Size(391, 160)
+        Me.ListBox3.TabIndex = 39
+        '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.Location = New System.Drawing.Point(534, 12)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(44, 13)
+        Me.Label17.TabIndex = 38
+        Me.Label17.Text = "Folders:"
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.Button1)
+        Me.GroupBox2.Controls.Add(Me.TextBox9)
+        Me.GroupBox2.Controls.Add(Me.Label24)
+        Me.GroupBox2.Controls.Add(Me.TextBox8)
+        Me.GroupBox2.Controls.Add(Me.Label23)
+        Me.GroupBox2.Controls.Add(Me.TextBox7)
+        Me.GroupBox2.Controls.Add(Me.Label22)
+        Me.GroupBox2.Controls.Add(Me.TextBox6)
+        Me.GroupBox2.Controls.Add(Me.Label21)
+        Me.GroupBox2.Controls.Add(Me.TextBox5)
+        Me.GroupBox2.Controls.Add(Me.Label20)
+        Me.GroupBox2.Controls.Add(Me.TextBox4)
+        Me.GroupBox2.Controls.Add(Me.Label19)
+        Me.GroupBox2.Controls.Add(Me.TextBox3)
+        Me.GroupBox2.Controls.Add(Me.Label18)
+        Me.GroupBox2.Location = New System.Drawing.Point(934, 12)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(281, 355)
+        Me.GroupBox2.TabIndex = 40
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "File Information:"
+        '
+        'TextBox8
+        '
+        Me.TextBox8.Location = New System.Drawing.Point(6, 149)
+        Me.TextBox8.Name = "TextBox8"
+        Me.TextBox8.Size = New System.Drawing.Size(269, 20)
+        Me.TextBox8.TabIndex = 11
+        '
+        'Label23
+        '
+        Me.Label23.AutoSize = True
+        Me.Label23.Location = New System.Drawing.Point(3, 133)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(65, 13)
+        Me.Label23.TabIndex = 10
+        Me.Label23.Text = "MIME Type:"
+        '
+        'TextBox7
+        '
+        Me.TextBox7.Location = New System.Drawing.Point(6, 265)
+        Me.TextBox7.Name = "TextBox7"
+        Me.TextBox7.Size = New System.Drawing.Size(269, 20)
+        Me.TextBox7.TabIndex = 9
+        '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.Location = New System.Drawing.Point(3, 250)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(86, 13)
+        Me.Label22.TabIndex = 8
+        Me.Label22.Text = "MD5 Checksum:"
+        '
+        'TextBox6
+        '
+        Me.TextBox6.Location = New System.Drawing.Point(6, 227)
+        Me.TextBox6.Name = "TextBox6"
+        Me.TextBox6.Size = New System.Drawing.Size(269, 20)
+        Me.TextBox6.TabIndex = 7
+        '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.Location = New System.Drawing.Point(3, 211)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(76, 13)
+        Me.Label21.TabIndex = 6
+        Me.Label21.Text = "Date Modified:"
+        '
+        'TextBox5
+        '
+        Me.TextBox5.Location = New System.Drawing.Point(6, 188)
+        Me.TextBox5.Name = "TextBox5"
+        Me.TextBox5.Size = New System.Drawing.Size(269, 20)
+        Me.TextBox5.TabIndex = 5
+        '
+        'Label20
+        '
+        Me.Label20.AutoSize = True
+        Me.Label20.Location = New System.Drawing.Point(3, 172)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(73, 13)
+        Me.Label20.TabIndex = 4
+        Me.Label20.Text = "Date Created:"
+        '
+        'TextBox4
+        '
+        Me.TextBox4.Location = New System.Drawing.Point(6, 71)
+        Me.TextBox4.Name = "TextBox4"
+        Me.TextBox4.Size = New System.Drawing.Size(269, 20)
+        Me.TextBox4.TabIndex = 3
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Location = New System.Drawing.Point(3, 55)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(40, 13)
+        Me.Label19.TabIndex = 2
+        Me.Label19.Text = "File ID:"
+        '
+        'TextBox3
+        '
+        Me.TextBox3.Location = New System.Drawing.Point(6, 32)
+        Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.Size = New System.Drawing.Size(269, 20)
+        Me.TextBox3.TabIndex = 1
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.Location = New System.Drawing.Point(3, 16)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(57, 13)
+        Me.Label18.TabIndex = 0
+        Me.Label18.Text = "File Name:"
+        '
+        'Button10
+        '
+        Me.Button10.Location = New System.Drawing.Point(537, 191)
+        Me.Button10.Name = "Button10"
+        Me.Button10.Size = New System.Drawing.Size(75, 23)
+        Me.Button10.TabIndex = 41
+        Me.Button10.Text = "Back"
+        Me.Button10.UseVisualStyleBackColor = True
+        '
+        'Button12
+        '
+        Me.Button12.Location = New System.Drawing.Point(618, 191)
+        Me.Button12.Name = "Button12"
+        Me.Button12.Size = New System.Drawing.Size(108, 23)
+        Me.Button12.TabIndex = 43
+        Me.Button12.Text = "Create new folder"
+        Me.Button12.UseVisualStyleBackColor = True
+        '
+        'TextBox9
+        '
+        Me.TextBox9.Location = New System.Drawing.Point(6, 110)
+        Me.TextBox9.Name = "TextBox9"
+        Me.TextBox9.Size = New System.Drawing.Size(269, 20)
+        Me.TextBox9.TabIndex = 13
+        '
+        'Label24
+        '
+        Me.Label24.AutoSize = True
+        Me.Label24.Location = New System.Drawing.Point(3, 94)
+        Me.Label24.Name = "Label24"
+        Me.Label24.Size = New System.Drawing.Size(49, 13)
+        Me.Label24.TabIndex = 12
+        Me.Label24.Text = "File Size:"
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(141, 291)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(134, 23)
+        Me.Button1.TabIndex = 14
+        Me.Button1.Text = "Save Checksum File"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1036, 415)
+        Me.ClientSize = New System.Drawing.Size(1236, 415)
+        Me.Controls.Add(Me.Button12)
+        Me.Controls.Add(Me.Button10)
+        Me.Controls.Add(Me.GroupBox2)
+        Me.Controls.Add(Me.ListBox3)
+        Me.Controls.Add(Me.Label17)
         Me.Controls.Add(Me.Button9)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Label16)
         Me.Controls.Add(Me.Button8)
         Me.Controls.Add(Me.Label15)
-        Me.Controls.Add(Me.Button7)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.Button6)
@@ -396,7 +584,6 @@ Partial Class Form1
         Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.ListBox1)
-        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.Label9)
@@ -410,10 +597,13 @@ Partial Class Form1
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Button2)
+        Me.MaximizeBox = False
         Me.Name = "Form1"
-        Me.Text = "Google Drive Uploader"
+        Me.Text = "Google Drive Uploader & Explorer"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -432,7 +622,6 @@ Partial Class Form1
     Friend WithEvents Label9 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents Label11 As Label
-    Friend WithEvents Button1 As Button
     Friend WithEvents ListBox1 As ListBox
     Friend WithEvents Button5 As Button
     Friend WithEvents Button4 As Button
@@ -448,10 +637,30 @@ Partial Class Form1
     Friend WithEvents Button6 As Button
     Friend WithEvents CheckBox1 As CheckBox
     Friend WithEvents Button3 As Button
-    Friend WithEvents Button7 As Button
     Friend WithEvents Label15 As Label
     Friend WithEvents Button8 As Button
     Friend WithEvents Label16 As Label
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Button9 As Button
+    Friend WithEvents ListBox3 As ListBox
+    Friend WithEvents Label17 As Label
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents TextBox4 As TextBox
+    Friend WithEvents Label19 As Label
+    Friend WithEvents TextBox3 As TextBox
+    Friend WithEvents Label18 As Label
+    Friend WithEvents TextBox7 As TextBox
+    Friend WithEvents Label22 As Label
+    Friend WithEvents TextBox6 As TextBox
+    Friend WithEvents Label21 As Label
+    Friend WithEvents TextBox5 As TextBox
+    Friend WithEvents Label20 As Label
+    Friend WithEvents Button10 As Button
+    Friend WithEvents Button12 As Button
+    Friend WithEvents TextBox8 As TextBox
+    Friend WithEvents Label23 As Label
+    Friend WithEvents TextBox9 As TextBox
+    Friend WithEvents Label24 As Label
+    Friend WithEvents Button1 As Button
+    Friend WithEvents SaveFileDialog2 As SaveFileDialog
 End Class
