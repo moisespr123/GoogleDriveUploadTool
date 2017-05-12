@@ -59,6 +59,9 @@ Partial Class Form1
         Me.ListBox3 = New System.Windows.Forms.ListBox()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.TextBox9 = New System.Windows.Forms.TextBox()
+        Me.Label24 = New System.Windows.Forms.Label()
         Me.TextBox8 = New System.Windows.Forms.TextBox()
         Me.Label23 = New System.Windows.Forms.Label()
         Me.TextBox7 = New System.Windows.Forms.TextBox()
@@ -73,9 +76,6 @@ Partial Class Form1
         Me.Label18 = New System.Windows.Forms.Label()
         Me.Button10 = New System.Windows.Forms.Button()
         Me.Button12 = New System.Windows.Forms.Button()
-        Me.TextBox9 = New System.Windows.Forms.TextBox()
-        Me.Label24 = New System.Windows.Forms.Label()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.SaveFileDialog2 = New System.Windows.Forms.SaveFileDialog()
         Me.Button7 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
@@ -155,7 +155,7 @@ Partial Class Form1
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(98, 26)
         Me.Label6.TabIndex = 11
-        Me.Label6.Text = "By Moises Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.6"
+        Me.Label6.Text = "By Moises Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.6.1"
         '
         'Label7
         '
@@ -419,6 +419,31 @@ Partial Class Form1
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "File Information:"
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(141, 291)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(134, 23)
+        Me.Button1.TabIndex = 14
+        Me.Button1.Text = "Save Checksum File"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'TextBox9
+        '
+        Me.TextBox9.Location = New System.Drawing.Point(6, 110)
+        Me.TextBox9.Name = "TextBox9"
+        Me.TextBox9.Size = New System.Drawing.Size(269, 20)
+        Me.TextBox9.TabIndex = 13
+        '
+        'Label24
+        '
+        Me.Label24.AutoSize = True
+        Me.Label24.Location = New System.Drawing.Point(3, 94)
+        Me.Label24.Name = "Label24"
+        Me.Label24.Size = New System.Drawing.Size(49, 13)
+        Me.Label24.TabIndex = 12
+        Me.Label24.Text = "File Size:"
+        '
         'TextBox8
         '
         Me.TextBox8.Location = New System.Drawing.Point(6, 149)
@@ -532,31 +557,6 @@ Partial Class Form1
         Me.Button12.TabIndex = 43
         Me.Button12.Text = "Create new folder"
         Me.Button12.UseVisualStyleBackColor = True
-        '
-        'TextBox9
-        '
-        Me.TextBox9.Location = New System.Drawing.Point(6, 110)
-        Me.TextBox9.Name = "TextBox9"
-        Me.TextBox9.Size = New System.Drawing.Size(269, 20)
-        Me.TextBox9.TabIndex = 13
-        '
-        'Label24
-        '
-        Me.Label24.AutoSize = True
-        Me.Label24.Location = New System.Drawing.Point(3, 94)
-        Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(49, 13)
-        Me.Label24.TabIndex = 12
-        Me.Label24.Text = "File Size:"
-        '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(141, 291)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(134, 23)
-        Me.Button1.TabIndex = 14
-        Me.Button1.Text = "Save Checksum File"
-        Me.Button1.UseVisualStyleBackColor = True
         '
         'Button7
         '

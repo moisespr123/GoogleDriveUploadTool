@@ -399,49 +399,59 @@ Public Class Form1
         FileCreatedTimeListBox.Items.Clear()
         FileMD5ListBox.Items.Clear()
         FileMIMEListBox.Items.Clear()
-        Dim listRequest1 As FilesResource.ListRequest = service.Files.List()
-        listRequest1.Fields = "nextPageToken, files(id, name, size, createdTime, modifiedTime, md5Checksum, mimeType)"
-        listRequest1.Q = "mimeType!='application/vnd.google-apps.folder' and '" & FolderID & "' in parents"
-        listRequest1.OrderBy = "name"
-        Try
-            Dim files = listRequest1.Execute()
-            If files.Files IsNot Nothing AndAlso files.Files.Count > 0 Then
-                For Each file In files.Files
-                    ListBox1.Items.Add(file.Name)
-                    FileIdsListBox.Items.Add(file.Id)
-                    Try
-                        FileSizeListBox.Items.Add(file.Size)
-                        FileModifiedTimeListBox.Items.Add(file.ModifiedTime)
-                        FileCreatedTimeListBox.Items.Add(file.CreatedTime)
-                        FileMD5ListBox.Items.Add(file.Md5Checksum)
-                        FileMIMEListBox.Items.Add(file.MimeType)
-                    Catch
-                        FileSizeListBox.Items.Add("0")
-                        FileMIMEListBox.Items.Add("Unknown")
-                        FileModifiedTimeListBox.Items.Add(file.ModifiedTime)
-                        FileCreatedTimeListBox.Items.Add(file.CreatedTime)
-                        FileMD5ListBox.Items.Add("")
-                    End Try
-                Next
-            End If
-        Catch ex As Exception
-        End Try
+        Dim PageToken1 As String = String.Empty
+        Do
+            Dim listRequest1 As FilesResource.ListRequest = service.Files.List()
+            listRequest1.Fields = "nextPageToken, files(id, name, size, createdTime, modifiedTime, md5Checksum, mimeType)"
+            listRequest1.Q = "mimeType!='application/vnd.google-apps.folder' and '" & FolderID & "' in parents"
+            listRequest1.OrderBy = "name"
+            listRequest1.PageToken = PageToken1
+            Try
+                Dim files = listRequest1.Execute()
+                If files.Files IsNot Nothing AndAlso files.Files.Count > 0 Then
+                    For Each file In files.Files
+                        ListBox1.Items.Add(file.Name)
+                        FileIdsListBox.Items.Add(file.Id)
+                        Try
+                            FileSizeListBox.Items.Add(file.Size)
+                            FileModifiedTimeListBox.Items.Add(file.ModifiedTime)
+                            FileCreatedTimeListBox.Items.Add(file.CreatedTime)
+                            FileMD5ListBox.Items.Add(file.Md5Checksum)
+                            FileMIMEListBox.Items.Add(file.MimeType)
+                        Catch
+                            FileSizeListBox.Items.Add("0")
+                            FileMIMEListBox.Items.Add("Unknown")
+                            FileModifiedTimeListBox.Items.Add(file.ModifiedTime)
+                            FileCreatedTimeListBox.Items.Add(file.CreatedTime)
+                            FileMD5ListBox.Items.Add("")
+                        End Try
+                    Next
+                End If
+                PageToken1 = files.NextPageToken
+            Catch ex As Exception
+            End Try
+        Loop While PageToken1 = String.Empty = False
         ListBox3.Items.Clear()
         FolderIdsListBox.Items.Clear()
-        Dim listRequest As FilesResource.ListRequest = service.Files.List()
-        listRequest.Q = "mimeType='application/vnd.google-apps.folder' and '" & FolderID & "' in parents"
-        listRequest.Fields = "nextPageToken, files(id, name)"
-        listRequest.OrderBy = "name"
-        Try
-            Dim files = listRequest.Execute()
-            If files.Files IsNot Nothing AndAlso files.Files.Count > 0 Then
-                For Each file In files.Files
-                    ListBox3.Items.Add(file.Name)
-                    FolderIdsListBox.Items.Add(file.Id)
-                Next
-            End If
-        Catch ex As Exception
-        End Try
+        Dim PageToken2 As String = String.Empty
+        Do
+            Dim listRequest As FilesResource.ListRequest = service.Files.List()
+            listRequest.Q = "mimeType='application/vnd.google-apps.folder' and '" & FolderID & "' in parents"
+            listRequest.Fields = "nextPageToken, files(id, name)"
+            listRequest.OrderBy = "name"
+            listRequest.PageToken = PageToken2
+            Try
+                Dim files = listRequest.Execute()
+                If files.Files IsNot Nothing AndAlso files.Files.Count > 0 Then
+                    For Each file In files.Files
+                        ListBox3.Items.Add(file.Name)
+                        FolderIdsListBox.Items.Add(file.Id)
+                    Next
+                End If
+                PageToken2 = files.NextPageToken
+            Catch ex As Exception
+            End Try
+        Loop While PageToken2 = String.Empty = False
     End Sub
     Private Sub Form1_DragDrop(sender As Object, e As DragEventArgs) Handles Me.DragDrop
         Dim filepath() As String = e.Data.GetData(DataFormats.FileDrop)
@@ -489,7 +499,7 @@ Public Class Form1
         Label1.Text = "File Size:"
         Label2.Text = "Processed:"
         Label5.Text = "Drag and Drop Files to add them to the list"
-        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.6"
+        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.6.1"
         Label7.Text = "Status:"
         Label9.Text = "Percent: "
         Label11.Text = "Files:"
@@ -521,7 +531,7 @@ Public Class Form1
         Label1.Text = "Tamaño:"
         Label2.Text = "Procesado:"
         Label5.Text = "Arrastre archivos aquí para añadirlos a la lista"
-        Label6.Text = "Por Moisés Cardona" & vbNewLine & "v1.6"
+        Label6.Text = "Por Moisés Cardona" & vbNewLine & "v1.6.1"
         Label7.Text = "Estado:"
         Label9.Text = "Porcentaje: "
         Label11.Text = "Archivos:"
