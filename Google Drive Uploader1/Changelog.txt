@@ -1,4 +1,7 @@
-﻿v1.6.1 (5/27/2017)
+﻿v1.6.2 (not yet released)
+-Can now enter a folder by selecting them and pressing the "Enter" key.
+
+v1.6.1 (5/27/2017)
 -Fixed: Explorer now shows all the files in a selected folder
 -Fixed: Lower Right ListBox should say "Files" instead of "Uploads (By Date Modified)"
 -Fixed: Some numbers not having a comma (ex. 10,000.00 MB instead of 10000.00 MB)

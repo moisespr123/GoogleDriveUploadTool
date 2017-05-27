@@ -621,14 +621,7 @@ Public Class Form1
     End Function
 
     Private Sub ListBox3_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles ListBox3.MouseDoubleClick
-        If String.IsNullOrEmpty(ListBox3.SelectedItem) = False Then
-            Dim GoToFolderID As String = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
-            PreviousFolderId.Items.Add(CurrentFolder)
-            CurrentFolder = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
-            Button7.Visible = False
-            Button10.Enabled = True
-            RefreshFileList(GoToFolderID)
-        End If
+        EnterFolder()
     End Sub
 
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
@@ -752,5 +745,22 @@ Public Class Form1
         End If
 
 
+    End Sub
+
+    Private Sub ListBox3_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ListBox3.KeyPress
+        If e.KeyChar = vbCr Then
+            EnterFolder()
+        End If
+    End Sub
+
+    Private Sub EnterFolder()
+        If String.IsNullOrEmpty(ListBox3.SelectedItem) = False Then
+            Dim GoToFolderID As String = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
+            PreviousFolderId.Items.Add(CurrentFolder)
+            CurrentFolder = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
+            Button7.Visible = False
+            Button10.Enabled = True
+            RefreshFileList(GoToFolderID)
+        End If
     End Sub
 End Class
