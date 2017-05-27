@@ -25,6 +25,7 @@ Public Class Form1
     Shared ApplicationName As String = "Google Drive Uploader Tool"
     Public service As DriveService
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load        'Initialize Upload Queue Collection
+        Button10.Enabled = False
         If My.Settings.UploadQueue Is Nothing Then
             My.Settings.UploadQueue = New Specialized.StringCollection
         End If
@@ -625,6 +626,7 @@ Public Class Form1
             PreviousFolderId.Items.Add(CurrentFolder)
             CurrentFolder = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
             Button7.Visible = False
+            Button10.Enabled = True
             RefreshFileList(GoToFolderID)
         End If
     End Sub
@@ -636,8 +638,13 @@ Public Class Form1
             CurrentFolder = PreviousFolderIdBeforeRemoving
             RefreshFileList(PreviousFolderIdBeforeRemoving)
             If Button2.Enabled = True Then
-                TextBox2.Text = CurrentFolder 'FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
+                TextBox2.Text = CurrentFolder
                 GetFolderIDName(False)
+            End If
+            If CurrentFolder = "root" Then
+                Button10.Enabled = False
+            Else
+                Button10.Enabled = True
             End If
         End If
     End Sub
