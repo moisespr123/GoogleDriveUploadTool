@@ -7,6 +7,7 @@ Imports System.Threading
 Imports Google.Apis.Upload
 Imports Google.Apis.Download
 Imports System.Collections.Specialized
+Imports Microsoft.VisualBasic.Devices
 
 Public Class Form1
     Private FileIdsListBox As New ListBox
@@ -410,7 +411,7 @@ Public Class Form1
         Do
             Dim listRequest1 As FilesResource.ListRequest = service.Files.List()
             listRequest1.Fields = "nextPageToken, files(id, name, size, createdTime, modifiedTime, md5Checksum, mimeType)"
-            listRequest1.Q = "mimeType!='application/vnd.google-apps.folder' and '" & FolderID & "' in parents"
+            listRequest1.Q = "mimeType!='application/vnd.google-apps.folder' and '" & FolderID & "' in parents and trashed = false"
             listRequest1.OrderBy = "name"
             listRequest1.PageToken = PageToken1
             Try
@@ -443,7 +444,7 @@ Public Class Form1
         Dim PageToken2 As String = String.Empty
         Do
             Dim listRequest As FilesResource.ListRequest = service.Files.List()
-            listRequest.Q = "mimeType='application/vnd.google-apps.folder' and '" & FolderID & "' in parents"
+            listRequest.Q = "mimeType='application/vnd.google-apps.folder' and '" & FolderID & "' in parents and trashed = false"
             listRequest.Fields = "nextPageToken, files(id, name)"
             listRequest.OrderBy = "name"
             listRequest.PageToken = PageToken2
@@ -747,9 +748,36 @@ Public Class Form1
 
     End Sub
 
-    Private Sub ListBox3_KeyPress(sender As Object, e As KeyPressEventArgs) Handles ListBox3.KeyPress
-        If e.KeyChar = vbCr Then
+    Private Sub ListBox3_KeyDown(sender As Object, e As KeyEventArgs) Handles ListBox3.KeyDown
+        If e.KeyCode = Keys.Delete Then
+            If ListBox3.SelectedItems.Count > 1 Then
+                If MsgBox("Do you really want to move the selected folders to the Trash?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                    Dim FileMetadata As New Data.File
+                    FileMetadata.Trashed = True
+                    For Each item In ListBox3.SelectedItems
+                        Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.Items.IndexOf(item)))
+                        RemoveFile.ExecuteAsync()
+                    Next
+                    Thread.Sleep(1000)
+                    RefreshFileList(CurrentFolder)
+                    MsgBox("Folder moved to trash")
+                End If
+            Else
+                If MsgBox("Do you really want to move the folder """ & ListBox3.SelectedItem & """ to the Trash?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                    Dim FileMetadata As New Data.File
+                    FileMetadata.Trashed = True
+                    Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.SelectedIndex))
+                    RemoveFile.ExecuteAsync()
+                    Thread.Sleep(1000)
+                    RefreshFileList(CurrentFolder)
+                    MsgBox("Folder moved to trash")
+                End If
+            End If
+        ElseIf e.KeyCode = Keys.Enter Then
             EnterFolder()
+        ElseIf e.KeyCode = Keys.F5 Then
+            RefreshFileList(CurrentFolder)
+            e.Handled = True
         End If
     End Sub
 
@@ -763,4 +791,36 @@ Public Class Form1
             RefreshFileList(GoToFolderID)
         End If
     End Sub
+
+    Private Sub ListBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles ListBox1.KeyDown
+        If e.KeyCode = Keys.Delete Then
+            If ListBox1.SelectedItems.Count > 1 Then
+                If MsgBox("Do you really want to move the selected files to the Trash?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                    Dim FileMetadata As New Data.File
+                    FileMetadata.Trashed = True
+                    For Each item In ListBox1.SelectedItems
+                        Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FileIdsListBox.Items.Item(ListBox1.Items.IndexOf(item)))
+                        RemoveFile.ExecuteAsync()
+                    Next
+                    Thread.Sleep(1000)
+                    RefreshFileList(CurrentFolder)
+                    MsgBox("Folder moved to trash")
+                End If
+            Else
+                If MsgBox("Do you really want to move the file """ & ListBox1.SelectedItem & """ to the Trash?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                    Dim FileMetadata As New Data.File
+                    FileMetadata.Trashed = True
+                    Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FileIdsListBox.Items.Item(ListBox1.SelectedIndex))
+                    RemoveFile.ExecuteAsync()
+                    Thread.Sleep(1000)
+                    RefreshFileList(CurrentFolder)
+                    MsgBox("File moved to trash")
+                End If
+            End If
+        ElseIf e.KeyCode = Keys.F5 Then
+            RefreshFileList(CurrentFolder)
+            e.Handled = True
+        End If
+    End Sub
+
 End Class

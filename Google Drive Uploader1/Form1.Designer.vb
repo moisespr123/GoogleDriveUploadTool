@@ -383,6 +383,7 @@ Partial Class Form1
         Me.ListBox3.HorizontalScrollbar = True
         Me.ListBox3.Location = New System.Drawing.Point(537, 28)
         Me.ListBox3.Name = "ListBox3"
+        Me.ListBox3.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
         Me.ListBox3.Size = New System.Drawing.Size(391, 160)
         Me.ListBox3.TabIndex = 39
         '

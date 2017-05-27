@@ -1,5 +1,8 @@
 ﻿v1.6.2 (not yet released)
 -Can now enter a folder by selecting them and pressing the "Enter" key.
+-Press the F5 key in the Folder or File List Box to refresh their contents
+-Press the "Delete" key in the Folder List Box to move the selected folder(s) to the Trash
+-Press the "Delete" key in the File List Box to move the selected file(s) to the Trash
 
 v1.6.1 (5/27/2017)
 -Fixed: Explorer now shows all the files in a selected folder
