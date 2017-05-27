@@ -370,6 +370,12 @@ Public Class Form1
             Case DownloadStatus.Downloading
                 BytesSentText = progress.BytesDownloaded
                 If RadioButton1.Checked = True Then UploadStatusText = "Downloading..." Else UploadStatusText = "Descargando..."
+                timespent = DateTime.Now - starttime
+                Try
+                    secondsremaining = (timespent.TotalSeconds / ProgressBar1.Value * (ProgressBar1.Maximum - ProgressBar1.Value))
+                Catch
+                    secondsremaining = 0
+                End Try
                 UpdateBytesSent()
             Case UploadStatus.Failed
                 If RadioButton1.Checked = True Then UploadStatusText = "Failed..." Else UploadStatusText = "Error..."

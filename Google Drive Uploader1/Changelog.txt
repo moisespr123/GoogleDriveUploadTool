@@ -2,6 +2,7 @@
 -Fixed: Explorer now shows all the files in a selected folder
 -Fixed: Lower Right ListBox should say "Files" instead of "Uploads (By Date Modified)"
 -Fixed: Some numbers not having a comma (ex. 10,000.00 MB instead of 10000.00 MB)
+-Fixed: Download Progress Bar and Remaining Time not working
 
 v1.6 (5/7/2017)
 -Software now remembers the folders created when there are still uploads pending
