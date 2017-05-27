@@ -635,6 +635,10 @@ Public Class Form1
             PreviousFolderId.Items.RemoveAt(PreviousFolderId.Items.Count - 1)
             CurrentFolder = PreviousFolderIdBeforeRemoving
             RefreshFileList(PreviousFolderIdBeforeRemoving)
+            If Button2.Enabled = True Then
+                TextBox2.Text = CurrentFolder 'FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
+                GetFolderIDName(False)
+            End If
         End If
     End Sub
 
