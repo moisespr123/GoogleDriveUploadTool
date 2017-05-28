@@ -751,7 +751,13 @@ Public Class Form1
     Private Sub ListBox3_KeyDown(sender As Object, e As KeyEventArgs) Handles ListBox3.KeyDown
         If e.KeyCode = Keys.Delete Then
             If ListBox3.SelectedItems.Count > 1 Then
-                If MsgBox("Do you really want to move the selected folders to the Trash?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                Dim Message As String = String.Empty
+                If RadioButton1.Checked Then
+                    Message = "Do you really want to move the selected folders to the Trash?"
+                Else
+                    Message = "¿Está seguro de querer mover las carpetas seleccionadas a la Basura?"
+                End If
+                If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
                     Dim FileMetadata As New Data.File
                     FileMetadata.Trashed = True
                     For Each item In ListBox3.SelectedItems
@@ -760,17 +766,31 @@ Public Class Form1
                     Next
                     Thread.Sleep(1000)
                     RefreshFileList(CurrentFolder)
-                    MsgBox("Folder moved to trash")
+                    If RadioButton1.Checked Then
+                        MsgBox("Folder moved to trash")
+                    Else
+                        MsgBox("La carpeta se movió a la basura")
+                    End If
                 End If
             Else
-                If MsgBox("Do you really want to move the folder """ & ListBox3.SelectedItem & """ to the Trash?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                Dim Message As String = String.Empty
+                If RadioButton1.Checked Then
+                    Message = "Do you really want to move the folder """ & ListBox3.SelectedItem & """ to the Trash?"
+                Else
+                    Message = "¿Está seguro de querer mover la carpeta """ & ListBox3.SelectedItem & """ a la Basura?"
+                End If
+                If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
                     Dim FileMetadata As New Data.File
                     FileMetadata.Trashed = True
                     Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.SelectedIndex))
                     RemoveFile.ExecuteAsync()
                     Thread.Sleep(1000)
                     RefreshFileList(CurrentFolder)
-                    MsgBox("Folder moved to trash")
+                    If RadioButton1.Checked Then
+                        MsgBox("Folder moved to trash")
+                    Else
+                        MsgBox("La carpeta se movió a la basura")
+                    End If
                 End If
             End If
         ElseIf e.KeyCode = Keys.Enter Then
@@ -795,7 +815,13 @@ Public Class Form1
     Private Sub ListBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles ListBox1.KeyDown
         If e.KeyCode = Keys.Delete Then
             If ListBox1.SelectedItems.Count > 1 Then
-                If MsgBox("Do you really want to move the selected files to the Trash?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                Dim Message As String = String.Empty
+                If RadioButton1.Checked = True Then
+                    Message = "Do you really want to move the selected files to the Trash?"
+                Else
+                    Message = "¿Está seguro de querer mover los archivos seleccionados a la Basura?"
+                End If
+                If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
                     Dim FileMetadata As New Data.File
                     FileMetadata.Trashed = True
                     For Each item In ListBox1.SelectedItems
@@ -804,17 +830,31 @@ Public Class Form1
                     Next
                     Thread.Sleep(1000)
                     RefreshFileList(CurrentFolder)
-                    MsgBox("Folder moved to trash")
+                    If RadioButton1.Checked = True Then
+                        MsgBox("File moved to trash")
+                    Else
+                        MsgBox("El archivo se movió a la basura.")
+                    End If
                 End If
             Else
-                If MsgBox("Do you really want to move the file """ & ListBox1.SelectedItem & """ to the Trash?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                Dim Message As String = String.Empty
+                    If RadioButton1.Checked = True Then
+                    Message = "Do you really want to move the file """ & ListBox1.SelectedItem & """ to the Trash?"
+                Else
+                    Message = "¿Está seguro de querer mover el archivo """ & ListBox1.SelectedItem & """ a la Basura?"
+                End If
+                If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
                     Dim FileMetadata As New Data.File
                     FileMetadata.Trashed = True
                     Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FileIdsListBox.Items.Item(ListBox1.SelectedIndex))
                     RemoveFile.ExecuteAsync()
                     Thread.Sleep(1000)
                     RefreshFileList(CurrentFolder)
-                    MsgBox("File moved to trash")
+                    If RadioButton1.Checked = True Then
+                        MsgBox("File moved to trash")
+                    Else
+                        MsgBox("El archivo se movió a la basura.")
+                    End If
                 End If
             End If
         ElseIf e.KeyCode = Keys.F5 Then
