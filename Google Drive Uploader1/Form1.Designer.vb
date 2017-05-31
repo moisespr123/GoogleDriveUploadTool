@@ -78,6 +78,7 @@ Partial Class Form1
         Me.Button12 = New System.Windows.Forms.Button()
         Me.SaveFileDialog2 = New System.Windows.Forms.SaveFileDialog()
         Me.Button7 = New System.Windows.Forms.Button()
+        Me.btnLogout = New System.Windows.Forms.Button()
         Me.RadioButton3 = New System.Windows.Forms.RadioButton()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -271,8 +272,10 @@ Partial Class Form1
         Me.GroupBox1.Controls.Add(Me.RadioButton3)
         Me.GroupBox1.Controls.Add(Me.RadioButton2)
         Me.GroupBox1.Controls.Add(Me.RadioButton1)
+        Me.GroupBox1.Location = New System.Drawing.Point(363, 343)
         Me.GroupBox1.Location = New System.Drawing.Point(315, 343)
         Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(137, 34)
         Me.GroupBox1.Size = New System.Drawing.Size(216, 34)
         Me.GroupBox1.TabIndex = 27
         Me.GroupBox1.TabStop = False
@@ -585,11 +588,22 @@ Partial Class Form1
         Me.RadioButton3.Text = "正體中文"
         Me.RadioButton3.UseVisualStyleBackColor = True
         '
+        'btnLogout
+        '
+        Me.btnLogout.Location = New System.Drawing.Point(1140, 341)
+        Me.btnLogout.Name = "btnLogout"
+        Me.btnLogout.Size = New System.Drawing.Size(75, 23)
+        Me.btnLogout.TabIndex = 45
+        Me.btnLogout.Text = "Logout"
+        Me.btnLogout.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.ClientSize = New System.Drawing.Size(1236, 383)
+        Me.Controls.Add(Me.btnLogout)
         Me.ClientSize = New System.Drawing.Size(1236, 383)
         Me.Controls.Add(Me.Button7)
         Me.Controls.Add(Me.Button12)
@@ -695,4 +709,5 @@ Partial Class Form1
     Friend WithEvents SaveFileDialog2 As SaveFileDialog
     Friend WithEvents Button7 As Button
     Friend WithEvents RadioButton3 As RadioButton
+    Friend WithEvents btnLogout As Button
 End Class
