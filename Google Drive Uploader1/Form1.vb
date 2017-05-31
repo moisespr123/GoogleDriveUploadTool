@@ -50,9 +50,13 @@ Public Class Form1
             If My.Settings.Language = "English" Then
                 EnglishLanguage()
                 RadioButton1.Checked = True
-            Else
+            ElseIf My.Settings.Language = "Spanish" Then
+
                 SpanishLanguage()
                 RadioButton2.Checked = True
+            Else
+                TChineseLanguage()
+                RadioButton3.Checked = True
             End If
         End If
         'Checks if there are items to upload and if there are, we add them to the list box
@@ -77,8 +81,11 @@ Public Class Form1
         Dim credential As UserCredential
         Using stream = New FileStream("client_secret.json", FileMode.Open, FileAccess.Read)
             Dim credPath As String = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
+            Debug.WriteLine(System.Environment.SpecialFolder.Personal)
             credPath = Path.Combine(credPath, ".credentials/GoogleDriveUploaderTool.json")
+            Debug.WriteLine(credPath)
             credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, Scopes, "user", CancellationToken.None, New FileDataStore(credPath, True)).Result
+            Debug.WriteLine(credential)
         End Using
         ' Create Drive API service.
         Dim Initializer As New BaseClientService.Initializer()
@@ -568,6 +575,7 @@ Public Class Form1
         End If
         Button12.Text = "Create New Folder"
         CheckBox1.Text = "Preserve File Modified Date"
+        btnLogout.Text = "Logout"
     End Sub
     Private Sub TChineseLanguage()
         Label1.Text = "文件大小:"
@@ -600,6 +608,7 @@ Public Class Form1
         Button10.Text = "返回"
         Button12.Text = "新增文件夾"
         CheckBox1.Text = "保留文件修改日期"
+        btnLogout.Text = "登岀"
     End Sub
     Private Sub SpanishLanguage()
         Label1.Text = "Tamaño:"
@@ -637,6 +646,7 @@ Public Class Form1
         End If
         Button12.Text = "Crear Nueva Carpeta"
         CheckBox1.Text = "Preservar Fecha de Modificación del Archivo"
+        btnLogout.Text = "Logout"
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
@@ -1031,6 +1041,15 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
+        Dim credPath As String = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
+        credPath = Path.Combine(credPath, ".credentials\GoogleDriveUploaderTool.json")
+        Dim credfiles As String() = Directory.GetFiles(credPath, "*.TokenResponse-user")
+        For Each credfile In credfiles
+            Debug.WriteLine(credfile)
+            File.Delete(credfile)
+        Next
+        Application.Exit()
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
         If Button11.Text = "View Trash" Or Button11.Text = "Ver Basura" Then
             ViewTrashedFiles()
