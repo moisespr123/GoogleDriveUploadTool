@@ -69,6 +69,7 @@ Public Class Form1
         Dim credential As UserCredential
         Using stream = New FileStream("client_secret.json", FileMode.Open, FileAccess.Read)
             Dim credPath As String = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
+            'Debug.WriteLine(System.Environment.SpecialFolder.Personal)
             credPath = Path.Combine(credPath, ".credentials/GoogleDriveUploaderTool.json")
             credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, Scopes, "user", CancellationToken.None, New FileDataStore(credPath, True)).Result
         End Using
@@ -838,7 +839,7 @@ Public Class Form1
                 End If
             Else
                 Dim Message As String = String.Empty
-                    If RadioButton1.Checked = True Then
+                If RadioButton1.Checked = True Then
                     Message = "Do you really want to move the file """ & ListBox1.SelectedItem & """ to the Trash?"
                 Else
                     Message = "¿Está seguro de querer mover el archivo """ & ListBox1.SelectedItem & """ a la Basura?"
@@ -863,4 +864,18 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub ListBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox2.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
+        Dim credPath As String = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
+        credPath = Path.Combine(credPath, ".credentials\GoogleDriveUploaderTool.json")
+        Dim credfiles As String() = Directory.GetFiles(credPath, "*.TokenResponse-user")
+        For Each credfile In credfiles
+            Debug.WriteLine(credfile)
+            File.Delete(credfile)
+        Next
+        Application.Exit()
+    End Sub
 End Class
