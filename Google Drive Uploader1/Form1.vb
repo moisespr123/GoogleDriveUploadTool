@@ -540,6 +540,7 @@ Public Class Form1
         Button10.Text = "Back"
         Button12.Text = "Create New Folder"
         CheckBox1.Text = "Preserve File Modified Date"
+        btnLogout.Text = "Logout"
     End Sub
     Private Sub TChineseLanguage()
         Label1.Text = "文件大小:"
@@ -572,6 +573,7 @@ Public Class Form1
         Button10.Text = "返回"
         Button12.Text = "新增文件夾"
         CheckBox1.Text = "保留文件修改日期"
+        btnLogout.Text = "登岀"
     End Sub
     Private Sub SpanishLanguage()
         Label1.Text = "Tamaño:"
@@ -604,6 +606,7 @@ Public Class Form1
         Button10.Text = "Atrás"
         Button12.Text = "Crear Nueva Carpeta"
         CheckBox1.Text = "Preservar Fecha de Modificación del Archivo"
+        btnLogout.Text = "Logout"
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
