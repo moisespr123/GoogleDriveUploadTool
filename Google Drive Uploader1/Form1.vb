@@ -13,6 +13,7 @@ Public Class Form1
     Private FileIdsListBox As New ListBox
     Private FileSizeListBox As New ListBox
     Private FileMIMEListBox As New ListBox
+    Private FolderToUploadFileListBox As New ListBox
     Private FileModifiedTimeListBox As New ListBox
     Private FileCreatedTimeListBox As New ListBox
     Private FileMD5ListBox As New ListBox
@@ -29,6 +30,9 @@ Public Class Form1
         Button10.Enabled = False
         If My.Settings.UploadQueue Is Nothing Then
             My.Settings.UploadQueue = New Specialized.StringCollection
+        End If
+        If My.Settings.UploadQueueFolders Is Nothing Then
+            My.Settings.UploadQueueFolders = New Specialized.StringCollection
         End If
         If My.Settings.FoldersCreated Is Nothing Then
             My.Settings.FoldersCreated = New Specialized.StringCollection
@@ -52,12 +56,16 @@ Public Class Form1
             End If
         End If
         'Checks if there are items to upload and if there are, we add them to the list box
-        If My.Settings.UploadQueue.Count = 0 = False Then
-            If My.Settings.UploadQueue.Count > 0 Then
-                For Each item In My.Settings.UploadQueue
-                    ListBox2.Items.Add(item)
-                Next
-            End If
+
+        If My.Settings.UploadQueue.Count > 0 Then
+            For Each item In My.Settings.UploadQueue
+                ListBox2.Items.Add(item)
+            Next
+        End If
+        If My.Settings.UploadQueueFolders.Count > 0 Then
+            For Each item In My.Settings.UploadQueueFolders
+                FolderToUploadFileListBox.Items.Add(item)
+            Next
         End If
         'Loads the last used Folder ID
         TextBox2.Text = My.Settings.LastFolder
@@ -126,6 +134,8 @@ Public Class Form1
         While ListBox2.Items.Count > 0
             Try
                 GetFile = ListBox2.Items.Item(0)
+                TextBox2.Text = FolderToUploadFileListBox.Items.Item(0)
+                GetFolderIDName(False)
                 If System.IO.File.Exists(GetFile) Then
                     Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                     ProgressBar1.Maximum = My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024
@@ -133,7 +143,7 @@ Public Class Form1
                     FileMetadata.Name = My.Computer.FileSystem.GetName(GetFile)
                     Dim FileFolder As New List(Of String)
                     If FolderCreated = False Then
-                        FileFolder.Add(My.Settings.LastFolder)
+                        FileFolder.Add(TextBox2.Text)
                     Else
                         Dim DirectoryName As String = ""
                         DirectoryName = System.IO.Path.GetDirectoryName(GetFile)
@@ -176,11 +186,12 @@ Public Class Form1
                         For Each directory In DirectoryList
                             If DirectoryName = directory Then
                                 ParentFolder.Add(DirectoryListID.Item(DirectoryList.IndexOf(directory)))
+                                Exit For
                             End If
                         Next
                         If ParentFolder.Count = 0 Then ParentFolder.Add(TextBox2.Text)
                     Else
-                        ParentFolder.Add(My.Settings.LastFolder)
+                        ParentFolder.Add(TextBox2.Text)
                     End If
                     FolderMetadata.Parents = ParentFolder
                     FolderMetadata.MimeType = "application/vnd.google-apps.folder"
@@ -200,8 +211,10 @@ Public Class Form1
             End Try
             If UploadFailed = False Then
                 ListBox2.Items.RemoveAt(0)
+                FolderToUploadFileListBox.Items.RemoveAt(0)
                 RefreshFileList(CurrentFolder)
                 My.Settings.UploadQueue.RemoveAt(0)
+                My.Settings.UploadQueueFolders.RemoveAt(0)
                 My.Settings.Save()
                 ResumeFromError = False
             End If
@@ -211,6 +224,8 @@ Public Class Form1
         My.Settings.FolderCreated = False
         DirectoryListID.Clear()
         DirectoryList.Clear()
+        My.Settings.UploadQueue.Clear()
+        My.Settings.UploadQueueFolders.Clear()
         My.Settings.FoldersCreated.Clear()
         My.Settings.FoldersCreatedID.Clear()
         My.Settings.Save()
@@ -386,9 +401,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        If String.IsNullOrEmpty(ListBox3.SelectedItem) = False Then
-            RefreshFileList(FolderIdsListBox.Items.Item(ListBox3.SelectedIndex))
-        End If
+        RefreshFileList(CurrentFolder)
     End Sub
     Private Delegate Sub RefreshFileListInvoker(FolderID As String)
     Private Sub RefreshFileList(FolderID As String)
@@ -460,17 +473,26 @@ Public Class Form1
             Catch ex As Exception
             End Try
         Loop While PageToken2 = String.Empty = False
+        If CurrentFolder = "root" Then
+            Button10.Enabled = False
+        Else
+            Button10.Enabled = True
+        End If
     End Sub
     Private Sub Form1_DragDrop(sender As Object, e As DragEventArgs) Handles Me.DragDrop
         Dim filepath() As String = e.Data.GetData(DataFormats.FileDrop)
         For Each path In filepath
             If System.IO.Directory.Exists(path) Then
                 ListBox2.Items.Add(path)
+                FolderToUploadFileListBox.Items.Add(TextBox2.Text)
                 My.Settings.UploadQueue.Add(path)
+                My.Settings.UploadQueueFolders.Add(TextBox2.Text)
                 GetDirectoriesAndFiles(New IO.DirectoryInfo(path))
             Else
                 ListBox2.Items.Add(path)
+                FolderToUploadFileListBox.Items.Add(TextBox2.Text)
                 My.Settings.UploadQueue.Add(path)
+                My.Settings.UploadQueueFolders.Add(TextBox2.Text)
             End If
         Next
         My.Settings.Save()
@@ -481,7 +503,9 @@ Public Class Form1
         For Each subF As IO.DirectoryInfo In BaseFolder.GetDirectories()
             Application.DoEvents()
             ListBox2.Items.Add(subF.FullName)
+            FolderToUploadFileListBox.Items.Add(TextBox2.Text)
             My.Settings.UploadQueue.Add(subF.FullName)
+            My.Settings.UploadQueueFolders.Add(TextBox2.Text)
             GetDirectoriesAndFiles(subF)
         Next
         My.Settings.Save()
@@ -532,6 +556,11 @@ Public Class Form1
         Button8.Text = "Donations"
         Button9.Text = "Get Folder Name"
         Button10.Text = "Back"
+        If Button11.Text = "Ver Basura" Then
+            Button11.Text = "View Trash"
+        ElseIf Button11.Text = "Ver Drive" Then
+            Button11.Text = "View Drive"
+        End If
         Button12.Text = "Create New Folder"
         CheckBox1.Text = "Preserve File Modified Date"
     End Sub
@@ -564,14 +593,22 @@ Public Class Form1
         Button8.Text = "Donar"
         Button9.Text = "Obtener Nombre de la Carpeta"
         Button10.Text = "Atrás"
+        If Button11.Text = "View Trash" Then
+            Button11.Text = "Ver Basura"
+        ElseIf Button11.Text = "View Drive" Then
+            Button11.Text = "Ver Drive"
+        End If
         Button12.Text = "Crear Nueva Carpeta"
         CheckBox1.Text = "Preservar Fecha de Modificación del Archivo"
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
         Do While (ListBox2.SelectedItems.Count > 0)
-            ListBox2.Items.Remove(ListBox2.SelectedItem)
-            My.Settings.UploadQueue.Remove(ListBox2.SelectedItem)
+            Dim CurrentIndex = ListBox2.SelectedIndex
+            ListBox2.Items.RemoveAt(CurrentIndex)
+            My.Settings.UploadQueue.RemoveAt(CurrentIndex)
+            FolderToUploadFileListBox.Items.RemoveAt(CurrentIndex)
+            My.Settings.UploadQueueFolders.RemoveAt(CurrentIndex)
             My.Settings.Save()
         Loop
     End Sub
@@ -594,6 +631,8 @@ Public Class Form1
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         ListBox2.Items.Clear()
         My.Settings.UploadQueue.Clear()
+        FolderToUploadFileListBox.Items.Clear()
+        My.Settings.UploadQueueFolders.Clear()
         My.Settings.Save()
     End Sub
 
@@ -626,20 +665,22 @@ Public Class Form1
     End Sub
 
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
-        If CurrentFolder = "root" = False Then
-            Dim PreviousFolderIdBeforeRemoving = PreviousFolderId.Items.Item(PreviousFolderId.Items.Count - 1)
-            PreviousFolderId.Items.RemoveAt(PreviousFolderId.Items.Count - 1)
-            CurrentFolder = PreviousFolderIdBeforeRemoving
-            RefreshFileList(PreviousFolderIdBeforeRemoving)
-            If Button2.Enabled = True Then
+        If Button11.Text = "View Trash" Or Button11.Text = "Ver Basura" Then
+            If CurrentFolder = "root" = False Then
+                Dim PreviousFolderIdBeforeRemoving = PreviousFolderId.Items.Item(PreviousFolderId.Items.Count - 1)
+                PreviousFolderId.Items.RemoveAt(PreviousFolderId.Items.Count - 1)
+                CurrentFolder = PreviousFolderIdBeforeRemoving
+                RefreshFileList(PreviousFolderIdBeforeRemoving)
                 TextBox2.Text = CurrentFolder
                 GetFolderIDName(False)
+                If CurrentFolder = "root" Then
+                    Button10.Enabled = False
+                Else
+                    Button10.Enabled = True
+                End If
             End If
-            If CurrentFolder = "root" Then
-                Button10.Enabled = False
-            Else
-                Button10.Enabled = True
-            End If
+        Else
+            ViewTrashedFiles()
         End If
     End Sub
 
@@ -704,10 +745,8 @@ Public Class Form1
 
     Private Sub ListBox3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox3.SelectedIndexChanged
         If String.IsNullOrEmpty(ListBox3.SelectedItem) = False Then
-            If Button2.Enabled = True Then
-                TextBox2.Text = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
-                TextBox1.Text = ListBox3.SelectedItem
-            End If
+            TextBox2.Text = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
+            TextBox1.Text = ListBox3.SelectedItem
         End If
     End Sub
 
@@ -798,6 +837,52 @@ Public Class Form1
         ElseIf e.KeyCode = Keys.F5 Then
             RefreshFileList(CurrentFolder)
             e.Handled = True
+        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.R Then
+            If Button11.Text = "View Drive" Or Button11.Text = "Ver Drive" Then
+                If ListBox3.SelectedItems.Count > 1 Then
+                    Dim Message As String = String.Empty
+                    If RadioButton1.Checked = True Then
+                        Message = "Do you want to restore the selected folders?"
+                    Else
+                        Message = "¿Está seguro de querer restaurar las carpetas seleccionados?"
+                    End If
+                    If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        Dim FileMetadata As New Data.File
+                        FileMetadata.Trashed = False
+                        For Each item In ListBox3.SelectedItems
+                            Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.Items.IndexOf(item)))
+                            RemoveFile.ExecuteAsync()
+                        Next
+                        Thread.Sleep(1000)
+                        ViewTrashedFiles()
+                        If RadioButton1.Checked = True Then
+                            MsgBox("Folders restored")
+                        Else
+                            MsgBox("Las carpetas han sido restaurados")
+                        End If
+                    End If
+                Else
+                    Dim Message As String = String.Empty
+                    If RadioButton1.Checked = True Then
+                        Message = "Do you want to restore the folder """ & ListBox3.SelectedItem & """ ?"
+                    Else
+                        Message = "¿Está seguro de querer restaurar la carpeta """ & ListBox3.SelectedItem & """?"
+                    End If
+                    If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        Dim FileMetadata As New Data.File
+                        FileMetadata.Trashed = False
+                        Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.SelectedIndex))
+                        RemoveFile.ExecuteAsync()
+                        Thread.Sleep(1000)
+                        ViewTrashedFiles()
+                        If RadioButton1.Checked = True Then
+                            MsgBox("Folder restored")
+                        Else
+                            MsgBox("La carpeta ha sido restaurado")
+                        End If
+                    End If
+                End If
+            End If
         End If
     End Sub
 
@@ -831,14 +916,14 @@ Public Class Form1
                     Thread.Sleep(1000)
                     RefreshFileList(CurrentFolder)
                     If RadioButton1.Checked = True Then
-                        MsgBox("File moved to trash")
+                        MsgBox("Files moved to trash")
                     Else
-                        MsgBox("El archivo se movió a la basura.")
+                        MsgBox("Los archivos se movieron a la basura.")
                     End If
                 End If
             Else
                 Dim Message As String = String.Empty
-                    If RadioButton1.Checked = True Then
+                If RadioButton1.Checked = True Then
                     Message = "Do you really want to move the file """ & ListBox1.SelectedItem & """ to the Trash?"
                 Else
                     Message = "¿Está seguro de querer mover el archivo """ & ListBox1.SelectedItem & """ a la Basura?"
@@ -860,7 +945,153 @@ Public Class Form1
         ElseIf e.KeyCode = Keys.F5 Then
             RefreshFileList(CurrentFolder)
             e.Handled = True
+        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.R Then
+            If Button11.Text = "View Drive" Or Button11.Text = "Ver Drive" Then
+                If ListBox1.SelectedItems.Count > 1 Then
+                    Dim Message As String = String.Empty
+                    If RadioButton1.Checked = True Then
+                        Message = "Do you want to restore the selected files?"
+                    Else
+                        Message = "¿Está seguro de querer restaurar los archivos seleccionados?"
+                    End If
+                    If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        Dim FileMetadata As New Data.File
+                        FileMetadata.Trashed = False
+                        For Each item In ListBox1.SelectedItems
+                            Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FileIdsListBox.Items.Item(ListBox1.Items.IndexOf(item)))
+                            RemoveFile.ExecuteAsync()
+                        Next
+                        Thread.Sleep(1000)
+                        ViewTrashedFiles()
+                        If RadioButton1.Checked = True Then
+                            MsgBox("Files restored")
+                        Else
+                            MsgBox("Los archivos han sido restaurados")
+                        End If
+                    End If
+                Else
+                    Dim Message As String = String.Empty
+                    If RadioButton1.Checked = True Then
+                        Message = "Do you want to restore the file """ & ListBox1.SelectedItem & """ ?"
+                    Else
+                        Message = "¿Está seguro de querer restaurar el archivo """ & ListBox1.SelectedItem & """?"
+                    End If
+                    If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        Dim FileMetadata As New Data.File
+                        FileMetadata.Trashed = False
+                        Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FileIdsListBox.Items.Item(ListBox1.SelectedIndex))
+                        RemoveFile.ExecuteAsync()
+                        Thread.Sleep(1000)
+                        ViewTrashedFiles()
+                        If RadioButton1.Checked = True Then
+                            MsgBox("File restored")
+                        Else
+                            MsgBox("El archivo ha sido restaurado")
+                        End If
+                    End If
+                End If
+            End If
         End If
     End Sub
 
+    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+        If Button11.Text = "View Trash" Or Button11.Text = "Ver Basura" Then
+            ViewTrashedFiles()
+            If RadioButton1.Checked Then
+                Button11.Text = "View Drive"
+            Else
+                Button11.Text = "Ver Drive"
+            End If
+        Else
+            If RadioButton1.Checked Then
+                Button11.Text = "View Trash"
+            Else
+                Button11.Text = "Ver Basura"
+            End If
+            PreviousFolderId.Items.Clear()
+            FolderIdsListBox.Items.Clear()
+            RefreshFileList("root")
+        End If
+
+    End Sub
+    Private Sub ViewTrashedFiles()
+        CurrentFolder = "root"
+        If ListBox1.InvokeRequired Then
+            ListBox1.Invoke(New RefreshFileListInvoker(AddressOf ViewTrashedFiles))
+        End If
+        If ListBox3.InvokeRequired Then
+            ListBox3.Invoke(New RefreshFileListInvoker(AddressOf ViewTrashedFiles))
+            'Dim method As MethodInvoker = New MethodInvoker(AddressOf RefreshFileList)
+            'Invoke(method)
+        End If
+        ListBox1.Items.Clear()
+        FileIdsListBox.Items.Clear()
+        FileSizeListBox.Items.Clear()
+        FileModifiedTimeListBox.Items.Clear()
+        FileCreatedTimeListBox.Items.Clear()
+        FileMD5ListBox.Items.Clear()
+        FileMIMEListBox.Items.Clear()
+        PreviousFolderId.Items.Clear()
+        Dim PageToken1 As String = String.Empty
+        Do
+            Dim listRequest1 As FilesResource.ListRequest = service.Files.List()
+            listRequest1.Fields = "nextPageToken, files(id, name, size, createdTime, modifiedTime, md5Checksum, mimeType)"
+            listRequest1.Q = "mimeType!='application/vnd.google-apps.folder' and trashed = true"
+            listRequest1.OrderBy = "name"
+            listRequest1.PageToken = PageToken1
+            Try
+                Dim files = listRequest1.Execute()
+                If files.Files IsNot Nothing AndAlso files.Files.Count > 0 Then
+                    For Each file In files.Files
+                        ListBox1.Items.Add(file.Name)
+                        FileIdsListBox.Items.Add(file.Id)
+                        Try
+                            FileSizeListBox.Items.Add(file.Size)
+                            FileModifiedTimeListBox.Items.Add(file.ModifiedTime)
+                            FileCreatedTimeListBox.Items.Add(file.CreatedTime)
+                            FileMD5ListBox.Items.Add(file.Md5Checksum)
+                            FileMIMEListBox.Items.Add(file.MimeType)
+                        Catch
+                            FileSizeListBox.Items.Add("0")
+                            FileMIMEListBox.Items.Add("Unknown")
+                            FileModifiedTimeListBox.Items.Add(file.ModifiedTime)
+                            FileCreatedTimeListBox.Items.Add(file.CreatedTime)
+                            FileMD5ListBox.Items.Add("")
+                        End Try
+                    Next
+                End If
+                PageToken1 = files.NextPageToken
+            Catch ex As Exception
+            End Try
+        Loop While PageToken1 = String.Empty = False
+        ListBox3.Items.Clear()
+        FolderIdsListBox.Items.Clear()
+        Dim PageToken2 As String = String.Empty
+        Do
+            Dim listRequest As FilesResource.ListRequest = service.Files.List()
+            listRequest.Q = "mimeType='application/vnd.google-apps.folder'and trashed = true"
+            listRequest.Fields = "nextPageToken, files(id, name)"
+            listRequest.OrderBy = "name"
+            listRequest.PageToken = PageToken2
+            Try
+                Dim files = listRequest.Execute()
+                If files.Files IsNot Nothing AndAlso files.Files.Count > 0 Then
+                    For Each file In files.Files
+                        ListBox3.Items.Add(file.Name)
+                        FolderIdsListBox.Items.Add(file.Id)
+                    Next
+                End If
+                PageToken2 = files.NextPageToken
+            Catch ex As Exception
+            End Try
+        Loop While PageToken2 = String.Empty = False
+        Button10.Enabled = False
+    End Sub
+
+    Private Sub ListBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox2.SelectedIndexChanged
+        If ListBox2.SelectedIndex <> -1 Then
+            TextBox2.Text = FolderToUploadFileListBox.Items.Item(ListBox2.SelectedIndex)
+            GetFolderIDName(False)
+        End If
+    End Sub
 End Class
