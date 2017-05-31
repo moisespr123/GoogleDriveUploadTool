@@ -46,9 +46,13 @@ Public Class Form1
             If My.Settings.Language = "English" Then
                 EnglishLanguage()
                 RadioButton1.Checked = True
-            Else
+            ElseIf My.Settings.Language = "Spanish" Then
+
                 SpanishLanguage()
                 RadioButton2.Checked = True
+            Else
+                TChineseLanguage()
+                RadioButton3.Checked = True
             End If
         End If
         'Checks if there are items to upload and if there are, we add them to the list box
@@ -69,9 +73,11 @@ Public Class Form1
         Dim credential As UserCredential
         Using stream = New FileStream("client_secret.json", FileMode.Open, FileAccess.Read)
             Dim credPath As String = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
-            'Debug.WriteLine(System.Environment.SpecialFolder.Personal)
+            Debug.WriteLine(System.Environment.SpecialFolder.Personal)
             credPath = Path.Combine(credPath, ".credentials/GoogleDriveUploaderTool.json")
+            Debug.WriteLine(credPath)
             credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, Scopes, "user", CancellationToken.None, New FileDataStore(credPath, True)).Result
+            Debug.WriteLine(credential)
         End Using
         ' Create Drive API service.
         Dim Initializer As New BaseClientService.Initializer()
