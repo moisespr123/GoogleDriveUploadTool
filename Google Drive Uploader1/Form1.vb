@@ -79,14 +79,24 @@ Public Class Form1
         If My.Settings.PreserveModifiedDate = True Then CheckBox1.Checked = True Else CheckBox1.Checked = False
         'Google Drive initialization
         Dim credential As UserCredential
-        Using stream = New FileStream("client_secret.json", FileMode.Open, FileAccess.Read)
-            Dim credPath As String = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
-            Debug.WriteLine(System.Environment.SpecialFolder.Personal)
-            credPath = Path.Combine(credPath, ".credentials/GoogleDriveUploaderTool.json")
-            Debug.WriteLine(credPath)
-            credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, Scopes, "user", CancellationToken.None, New FileDataStore(credPath, True)).Result
-            Debug.WriteLine(credential)
-        End Using
+        Try
+            Using stream = New FileStream("client_secret.json", FileMode.Open, FileAccess.Read)
+                Dim credPath As String = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
+                Debug.WriteLine(System.Environment.SpecialFolder.Personal)
+                credPath = Path.Combine(credPath, ".credentials/GoogleDriveUploaderTool.json")
+                Debug.WriteLine(credPath)
+                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, Scopes, "user", CancellationToken.None, New FileDataStore(credPath, True)).Result
+                Debug.WriteLine(credential)
+            End Using
+        Catch
+            If My.Settings.Language = "English" Then
+                MsgBox("client_secret.json file not found. Please follow Step 1 in this guide: https://developers.google.com/drive/v3/web/quickstart/dotnet" & vbCr & vbCrLf & "This file should be located in the folder where this software is located.")
+            ElseIf My.Settings.Language = "Spanish" Then
+                MsgBox("El archivo client_secret.json no fue encontrado. Por favor, siga el Paso 1 de esta guía: https://developers.google.com/drive/v3/web/quickstart/dotnet" & vbCr & vbCrLf & "Este archivo debe estar localizado en la carpeta donde se encuentra este programa.")
+            Else
+                'Chinese Translation goes here
+            End If
+        End Try
         ' Create Drive API service.
         Dim Initializer As New BaseClientService.Initializer()
         Initializer.HttpClientInitializer = credential
@@ -114,7 +124,7 @@ Public Class Form1
             Else
                 Dim Message As String = ""
                 If RadioButton1.Checked = True Then
-                    Message = "The specified folder is invalid. Do you want to change the folder? If you select No, your files will be uploaded to the root of Google Drive"
+                    Message = "The specified folder Is invalid. Do you want To change the folder? If you Select No, your files will be uploaded To the root Of Google Drive"
                 Else
                     Message = "La carpeta especificada es invalida. Desea cambiar la carpeta? Si presiona No, sus archivos serán subidos a la raíz de Google Drive"
                 End If
@@ -144,7 +154,7 @@ Public Class Form1
                 TextBox2.Text = FolderToUploadFileListBox.Items.Item(0)
                 GetFolderIDName(False)
                 If System.IO.File.Exists(GetFile) Then
-                    Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
+                    Label3.Text = String.Format("{0: N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                     ProgressBar1.Maximum = My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024
                     Dim FileMetadata As New Data.File
                     FileMetadata.Name = My.Computer.FileSystem.GetName(GetFile)
@@ -551,6 +561,7 @@ Public Class Form1
         Label13.Text = "Time Left: "
         Label15.Text = "Like this software?"
         Label16.Text = "Folder Name:"
+        Label17.Text = "Folders:"
         Label18.Text = "File Name:"
         Label19.Text = "File ID:"
         Label20.Text = "Date Created:"
@@ -568,6 +579,7 @@ Public Class Form1
         Button8.Text = "Donations"
         Button9.Text = "Get Folder Name"
         Button10.Text = "Back"
+        GroupBox2.Text = "File Information:"
         If Button11.Text = "Ver Basura" Then
             Button11.Text = "View Trash"
         ElseIf Button11.Text = "Ver Drive" Then
@@ -622,6 +634,7 @@ Public Class Form1
         Label13.Text = "Tiempo Est."
         Label15.Text = "¿Te gusta esta programa?"
         Label16.Text = "Nombre de la Carpeta:"
+        Label17.Text = "Carpetas:"
         Label18.Text = "Nombre:"
         Label19.Text = "ID:"
         Label20.Text = "Fecha Creada:"
@@ -639,6 +652,7 @@ Public Class Form1
         Button8.Text = "Donar"
         Button9.Text = "Obtener Nombre de la Carpeta"
         Button10.Text = "Atrás"
+        GroupBox2.Text = "Información del archivo:"
         If Button11.Text = "View Trash" Then
             Button11.Text = "Ver Basura"
         ElseIf Button11.Text = "View Drive" Then
