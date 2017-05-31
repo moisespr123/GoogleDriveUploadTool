@@ -80,6 +80,7 @@ Partial Class Form1
         Me.Button7 = New System.Windows.Forms.Button()
         Me.btnLogout = New System.Windows.Forms.Button()
         Me.RadioButton3 = New System.Windows.Forms.RadioButton()
+        Me.Button11 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
@@ -597,14 +598,23 @@ Partial Class Form1
         Me.btnLogout.Text = "Logout"
         Me.btnLogout.UseVisualStyleBackColor = True
         '
+        'Button11
+        '
+        Me.Button11.Location = New System.Drawing.Point(934, 372)
+        Me.Button11.Name = "Button11"
+        Me.Button11.Size = New System.Drawing.Size(101, 23)
+        Me.Button11.TabIndex = 45
+        Me.Button11.Text = "View Trash"
+        Me.Button11.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1236, 383)
         Me.Controls.Add(Me.btnLogout)
-        Me.ClientSize = New System.Drawing.Size(1236, 383)
+        Me.ClientSize = New System.Drawing.Size(1236, 415)
+        Me.Controls.Add(Me.Button11)
         Me.Controls.Add(Me.Button7)
         Me.Controls.Add(Me.Button12)
         Me.Controls.Add(Me.Button10)
@@ -710,4 +720,5 @@ Partial Class Form1
     Friend WithEvents Button7 As Button
     Friend WithEvents RadioButton3 As RadioButton
     Friend WithEvents btnLogout As Button
+    Friend WithEvents Button11 As Button
 End Class
