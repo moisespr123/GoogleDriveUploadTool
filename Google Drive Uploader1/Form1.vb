@@ -26,6 +26,7 @@ Public Class Form1
     Shared Scopes As String() = {DriveService.Scope.DriveFile, DriveService.Scope.Drive}
     Shared ApplicationName As String = "Google Drive Uploader Tool"
     Public service As DriveService
+    Dim viewing_trash As Boolean = False
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load        'Initialize Upload Queue Collection
         Button10.Enabled = False
         If My.Settings.UploadQueue Is Nothing Then
@@ -41,24 +42,8 @@ Public Class Form1
             My.Settings.FoldersCreatedID = New Specialized.StringCollection
         End If
         'Checks whether the language was set. If not, apply English by default
-        If String.IsNullOrEmpty(My.Settings.Language) Then
-            My.Settings.Language = "English"
-            My.Settings.Save()
-            RadioButton1.Checked = True
-            EnglishLanguage()
-        Else
-            If My.Settings.Language = "English" Then
-                EnglishLanguage()
-                RadioButton1.Checked = True
-            ElseIf My.Settings.Language = "Spanish" Then
+        lang_select()
 
-                SpanishLanguage()
-                RadioButton2.Checked = True
-            Else
-                TChineseLanguage()
-                RadioButton3.Checked = True
-            End If
-        End If
         'Checks if there are items to upload and if there are, we add them to the list box
 
         If My.Settings.UploadQueue.Count > 0 Then
@@ -96,6 +81,27 @@ Public Class Form1
         ' List files.
         RefreshFileList("root")
         GetFolderIDName(False)
+    End Sub
+
+    Public Sub lang_select()
+        If String.IsNullOrEmpty(My.Settings.Language) Then
+            My.Settings.Language = "English"
+            My.Settings.Save()
+            RadioButton1.Checked = True
+            EnglishLanguage()
+        Else
+            If My.Settings.Language = "English" Then
+                EnglishLanguage()
+                RadioButton1.Checked = True
+            ElseIf My.Settings.Language = "Spanish" Then
+
+                SpanishLanguage()
+                RadioButton2.Checked = True
+            Else
+                TChineseLanguage()
+                RadioButton3.Checked = True
+            End If
+        End If
     End Sub
 
     Private starttime As DateTime
@@ -568,9 +574,9 @@ Public Class Form1
         Button8.Text = "Donations"
         Button9.Text = "Get Folder Name"
         Button10.Text = "Back"
-        If Button11.Text = "Ver Basura" Then
+        If viewing_trash = False Then
             Button11.Text = "View Trash"
-        ElseIf Button11.Text = "Ver Drive" Then
+        ElseIf viewing_trash = True Then
             Button11.Text = "View Drive"
         End If
         Button12.Text = "Create New Folder"
@@ -609,6 +615,11 @@ Public Class Form1
         Button12.Text = "新增文件夾"
         CheckBox1.Text = "保留文件修改日期"
         btnLogout.Text = "登岀"
+        If viewing_trash = False Then
+            Button11.Text = "查看垃圾桶"
+        ElseIf viewing_trash = True Then
+            Button11.Text = "回到Google Drive"
+        End If
     End Sub
     Private Sub SpanishLanguage()
         Label1.Text = "Tamaño:"
@@ -639,9 +650,9 @@ Public Class Form1
         Button8.Text = "Donar"
         Button9.Text = "Obtener Nombre de la Carpeta"
         Button10.Text = "Atrás"
-        If Button11.Text = "View Trash" Then
+        If viewing_trash = False Then
             Button11.Text = "Ver Basura"
-        ElseIf Button11.Text = "View Drive" Then
+        ElseIf viewing_trash = True Then
             Button11.Text = "Ver Drive"
         End If
         Button12.Text = "Crear Nueva Carpeta"
@@ -1050,24 +1061,21 @@ Public Class Form1
             File.Delete(credfile)
         Next
         Application.Exit()
+    End Sub
+
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
-        If Button11.Text = "View Trash" Or Button11.Text = "Ver Basura" Then
+        If viewing_trash = False Then
+            viewing_trash = True
+            lang_select()
             ViewTrashedFiles()
-            If RadioButton1.Checked Then
-                Button11.Text = "View Drive"
-            Else
-                Button11.Text = "Ver Drive"
-            End If
         Else
-            If RadioButton1.Checked Then
-                Button11.Text = "View Trash"
-            Else
-                Button11.Text = "Ver Basura"
-            End If
+            viewing_trash = False
+            lang_select()
             PreviousFolderId.Items.Clear()
             FolderIdsListBox.Items.Clear()
             RefreshFileList("root")
         End If
+
 
     End Sub
     Private Sub ViewTrashedFiles()
