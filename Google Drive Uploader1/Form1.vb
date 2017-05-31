@@ -543,7 +543,7 @@ Public Class Form1
         Label1.Text = "File Size:"
         Label2.Text = "Processed:"
         Label5.Text = "Drag and Drop Files to add them to the list"
-        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.6.1"
+        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.7"
         Label7.Text = "Status:"
         Label9.Text = "Percent: "
         Label11.Text = "Files:"
@@ -581,7 +581,7 @@ Public Class Form1
         Label1.Text = "文件大小:"
         Label2.Text = "Processed:"
         Label5.Text = "請將文件拖到下方"
-        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.6.1" & vbNewLine & "Translated by mic4126"
+        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.7" & vbNewLine & "Translated by mic4126"
         Label7.Text = "狀態:"
         Label9.Text = "百份比: "
         Label11.Text = "文件:"
@@ -614,7 +614,7 @@ Public Class Form1
         Label1.Text = "Tamaño:"
         Label2.Text = "Procesado:"
         Label5.Text = "Arrastre archivos aquí para añadirlos a la lista"
-        Label6.Text = "Por Moisés Cardona" & vbNewLine & "v1.6.1"
+        Label6.Text = "Por Moisés Cardona" & vbNewLine & "v1.7"
         Label7.Text = "Estado:"
         Label9.Text = "Porcentaje: "
         Label11.Text = "Archivos:"
@@ -646,7 +646,7 @@ Public Class Form1
         End If
         Button12.Text = "Crear Nueva Carpeta"
         CheckBox1.Text = "Preservar Fecha de Modificación del Archivo"
-        btnLogout.Text = "Logout"
+        btnLogout.Text = "Cerrar Sesión"
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
@@ -1050,6 +1050,7 @@ Public Class Form1
             File.Delete(credfile)
         Next
         Application.Exit()
+    End Sub
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
         If Button11.Text = "View Trash" Or Button11.Text = "Ver Basura" Then
             ViewTrashedFiles()
