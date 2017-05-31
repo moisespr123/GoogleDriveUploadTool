@@ -527,6 +527,11 @@ Public Class Form1
         My.Settings.Language = "Spanish"
         My.Settings.Save()
     End Sub
+    Private Sub RadioButton3_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton3.CheckedChanged
+        TChineseLanguage()
+        My.Settings.Language = "TChinses"
+        My.Settings.Save()
+    End Sub
     Private Sub EnglishLanguage()
         Label1.Text = "File Size:"
         Label2.Text = "Processed:"
@@ -563,6 +568,38 @@ Public Class Form1
         End If
         Button12.Text = "Create New Folder"
         CheckBox1.Text = "Preserve File Modified Date"
+    End Sub
+    Private Sub TChineseLanguage()
+        Label1.Text = "文件大小:"
+        Label2.Text = "Processed:"
+        Label5.Text = "請將文件拖到下方"
+        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.6.1" & vbNewLine & "Translated by mic4126"
+        Label7.Text = "狀態:"
+        Label9.Text = "百份比: "
+        Label11.Text = "文件:"
+        Label12.Text = "上傳到此文件夾ID (""root"" 指上傳到根目錄):"
+        Label13.Text = "餘下時間: "
+        Label15.Text = "喜歡此軟件?"
+        Label16.Text = "文件夾名稱:"
+        Label18.Text = "文件名稱:"
+        Label19.Text = "文件ID:"
+        Label20.Text = "新建日期:"
+        Label21.Text = "修改日期:"
+        Label22.Text = "MD5 校驗碼:"
+        Label23.Text = "MIME Type:"
+        Label24.Text = "文件大小:"
+        Button1.Text = "儲存校驗碼"
+        Button2.Text = "上傳"
+        Button3.Text = "清除列表"
+        Button4.Text = "更新列表"
+        Button5.Text = "下載文件"
+        Button6.Text = "由列表中移除已選文件"
+        Button7.Text = "儲存已選文件校驗碼"
+        Button8.Text = "捐款"
+        Button9.Text = "獲取文件夾名稱"
+        Button10.Text = "返回"
+        Button12.Text = "新增文件夾"
+        CheckBox1.Text = "保留文件修改日期"
     End Sub
     Private Sub SpanishLanguage()
         Label1.Text = "Tamaño:"
