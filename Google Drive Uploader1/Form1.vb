@@ -90,17 +90,31 @@ Public Class Form1
             RadioButton1.Checked = True
             EnglishLanguage()
         Else
-            If My.Settings.Language = "English" Then
-                EnglishLanguage()
-                RadioButton1.Checked = True
-            ElseIf My.Settings.Language = "Spanish" Then
+            Select Case My.Settings.Language
+                Case "English"
+                    EnglishLanguage()
+                    RadioButton1.Checked = True
+                Case "Spanish"
+                    SpanishLanguage()
+                    RadioButton2.Checked = True
+                Case "TChinese"
+                    TChineseLanguage()
+                    RadioButton3.Checked = True
+                Case Else
+                    EnglishLanguage()
+                    RadioButton1.Checked = True
+            End Select
+            '  If My.Settings.Language = "English" Then
+            ' EnglishLanguage()
+            'RadioButton1.Checked = True
+            'ElseIf My.Settings.Language = "Spanish" Then
 
-                SpanishLanguage()
-                RadioButton2.Checked = True
-            Else
-                TChineseLanguage()
-                RadioButton3.Checked = True
-            End If
+            'SpanishLanguage()
+            'RadioButton2.Checked = True
+            'Else
+            'TChineseLanguage()
+            'RadioButton3.Checked = True
+            'End If
         End If
     End Sub
 
@@ -542,7 +556,7 @@ Public Class Form1
     End Sub
     Private Sub RadioButton3_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton3.CheckedChanged
         TChineseLanguage()
-        My.Settings.Language = "TChinses"
+        My.Settings.Language = "TChinese"
         My.Settings.Save()
     End Sub
     Private Sub EnglishLanguage()
