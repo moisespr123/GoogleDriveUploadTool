@@ -51,9 +51,11 @@ Public Class Form1
                 ListBox2.Items.Add(item)
             Next
         End If
+
         If My.Settings.UploadQueueFolders.Count > 0 Then
             For Each item In My.Settings.UploadQueueFolders
                 FolderToUploadFileListBox.Items.Add(item)
+                Debug.WriteLine("FolderToUploadFileListBox:" & item)
             Next
         End If
         'Loads the last used Folder ID
@@ -980,7 +982,13 @@ Public Class Form1
     End Sub
 
     Private Sub ListBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox2.SelectedIndexChanged
+        Debug.WriteLine("FolderToUploadFileListBox")
+        For Each item In FolderToUploadFileListBox.Items
+            Debug.WriteLine(item)
+        Next
+        Debug.WriteLine("end of FolderToUploadFileListBox")
         If ListBox2.SelectedIndex <> -1 Then
+
             TextBox2.Text = FolderToUploadFileListBox.Items.Item(ListBox2.SelectedIndex)
             GetFolderIDName(False)
         End If
@@ -1166,25 +1174,25 @@ Public Class Form1
 
                 End Select
             Case "uploadstatus_starting"
-                        Select Case My.Settings.Language
-                            Case "English"
-                                Return "Starting..."
-                            Case "Spanish"
-                                Return "Comenzando..."
-                            Case "TChinese"
-                                Return "Starting..."
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Starting..."
+                    Case "Spanish"
+                        Return "Comenzando..."
+                    Case "TChinese"
+                        Return "Starting..."
 
-                        End Select
+                End Select
             Case "uploadstatus_uploading"
                 Select Case My.Settings.Language
-                            Case "English"
-                                Return "Uploading..."
-                            Case "Spanish"
-                                Return "Subiendo..."
-                            Case "TChinese"
-                                Return "Uploading..."
+                    Case "English"
+                        Return "Uploading..."
+                    Case "Spanish"
+                        Return "Subiendo..."
+                    Case "TChinese"
+                        Return "Uploading..."
 
-                        End Select
+                End Select
             Case "uploadstatus_retry"
                 Select Case My.Settings.Language
                     Case "English"
@@ -1405,7 +1413,7 @@ Public Class Form1
                 End Select
             Case Else
                 Return "Error Typo " & tag
-                End Select
+        End Select
     End Function
 
 End Class
