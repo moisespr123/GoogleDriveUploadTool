@@ -548,7 +548,6 @@ Public Class Form1
         My.Settings.Save()
     End Sub
 
-
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
         Do While (ListBox2.SelectedItems.Count > 0)
             Dim CurrentIndex = ListBox2.SelectedIndex
@@ -972,7 +971,7 @@ Public Class Form1
 
     Private Sub ListBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox2.SelectedIndexChanged
         If ListBox2.SelectedIndex <> -1 Then
-            TextBox2.Text = ListBox2.Items.Item(ListBox2.SelectedIndex)
+            TextBox2.Text = FolderToUploadFileListBox.Items.Item(ListBox2.SelectedIndex)
             GetFolderIDName(False)
         End If
     End Sub
@@ -1104,7 +1103,7 @@ Public Class Form1
                         Return "La carpeta especificada es invalida. Desea cambiar la carpeta? Si presiona No, sus archivos serán subidos a la raíz de Google Drive"
                     Case "TChinese"
                         Return "The specified folder is invalid. Do you want to change the folder? If you select No, your files will be uploaded to the root of Google Drive"
-
+                    Case Else
 
                 End Select
             Case "upload_finish"
@@ -1114,8 +1113,8 @@ Public Class Form1
                     Case "Spanish"
                         Return "Los archivos han terminado de subir."
                     Case "TChinese"
-                        Return "完成上傳"
-
+                        Return "Upload_finish"
+                    Case Else
 
                 End Select
             Case "uploadstatus_complete"
@@ -1125,7 +1124,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "¡Completado!"
                     Case "TChinese"
-                        Return "完成!!"
+                        Return "Completed!!"
                 End Select
             Case "uploadstatus_downloading"
                 Select Case My.Settings.Language
@@ -1134,7 +1133,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "Descargando..."
                     Case "TChinese"
-                        Return "下載中..."
+                        Return "Downloading..."
 
                 End Select
             Case "uploadstatus_starting"
@@ -1144,7 +1143,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "Comenzando..."
                     Case "TChinese"
-                        Return "開始中..."
+                        Return "Starting..."
 
                 End Select
             Case "uploadstatus_uploading"
@@ -1154,7 +1153,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "Subiendo..."
                     Case "TChinese"
-                        Return "上傳中..."
+                        Return "Uploading..."
 
                 End Select
             Case "uploadstatus_retry"
@@ -1164,7 +1163,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "Intentando..."
                     Case "TChinese"
-                        Return "重試中..."
+                        Return "Retrying..."
 
                 End Select
             Case "uploadstatus_failed"
@@ -1174,7 +1173,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "Error..."
                     Case "TChinese"
-                        Return "出錯了..."
+                        Return "Failed..."
 
                 End Select
             Case "resume_upload_question"
@@ -1184,7 +1183,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "¿Resumir carga anterior?{0}{0}{1}"
                     Case "TChinese"
-                        Return "要不要恢復上次未完成上傳?{0}{0}{1}"
+                        Return "Resume previous upload?{0}{0}{1}"
                 End Select
             Case "resume_upload"
                 Select Case My.Settings.Language
@@ -1193,7 +1192,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "Resumir"
                     Case "TChinese"
-                        Return "恢復上載"
+                        Return "Resume Upload"
                 End Select
             Case "location_browse"
                 Select Case My.Settings.Language
@@ -1202,7 +1201,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "Busque un lugar para descargar el archivo:"
                     Case "TChinese"
-                        Return "請選擇地方儲存:"
+                        Return "Browse for a location to save the file:"
                 End Select
             Case "enter_name_for_folder"
                 Select Case My.Settings.Language
@@ -1211,7 +1210,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "Escriba un nombre para la nueva carpeta:"
                     Case "TChinese"
-                        Return "請為新文件夾改名:"
+                        Return "Enter a name for the new folder:"
                 End Select
             Case "create_new_folder"
                 Select Case My.Settings.Language
@@ -1220,7 +1219,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "Crear nueva carpeta"
                     Case "TChinese"
-                        Return "增加新文件夾"
+                        Return "Create new Folder"
                 End Select
             Case "checksum_location"
                 Select Case My.Settings.Language
@@ -1229,7 +1228,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "Busque un lugar para guardar el archivo del checksum:"
                     Case "TChinese"
-                        Return "請選擇地方儲存校驗碼:"
+                        Return "Browse for a location to save the checksum file:"
                 End Select
             Case "confirm_move_selected_folder2trash"
                 Select Case My.Settings.Language
@@ -1247,7 +1246,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "La carpeta se movió a la basura"
                     Case "TChinese"
-                        Return "文件夾已移到垃圾桶"
+                        Return "Folder moved to trash"
                 End Select
             Case "confirm_move_folder2trash_part1"
                 Select Case My.Settings.Language
@@ -1256,7 +1255,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "¿Está seguro de querer mover la carpeta "
                     Case "TChinese"
-                        Return "你真係想將此文件夾 "
+                        Return "Do you really want to move the folder "
                 End Select
             Case "confirm_move_folder2trash_part2"
                 Select Case My.Settings.Language
@@ -1265,7 +1264,7 @@ Public Class Form1
                     Case "Spanish"
                         Return " a la Basura?"
                     Case "TChinese"
-                        Return " 移到垃圾桶?"
+                        Return " to the Trash?"
                 End Select
             Case "confirm_restore_selected_folders"
                 Select Case My.Settings.Language
@@ -1274,7 +1273,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "¿Está seguro de querer restaurar las carpetas seleccionados?"
                     Case "TChinese"
-                        Return "你真係想還原所選的文件夾?"
+                        Return "Do you want to restore the selected folders?"
                 End Select
             Case "restore_folder_part1"
                 Select Case My.Settings.Language
@@ -1283,7 +1282,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "¿Está seguro de querer restaurar la carpeta "
                     Case "TChinese"
-                        Return "你真係想還原文件夾"
+                        Return "Do you want to restore the folder "
                 End Select
             Case "restore_folder_part2"
                 Select Case My.Settings.Language
@@ -1301,7 +1300,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "Las carpetas han sido restaurados"
                     Case "TChinese"
-                        Return "文件夾巳還原"
+                        Return "Folders restored"
                 End Select
             Case "move_selected_file2trash"
                 Select Case My.Settings.Language
@@ -1319,7 +1318,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "Los archivos se movieron a la basura."
                     Case "TChinese"
-                        Return "檔案已移到垃圾桶"
+                        Return "Files moved to trash"
                 End Select
             Case "move_file2trash_part1"
                 Select Case My.Settings.Language
@@ -1328,7 +1327,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "¿Está seguro de querer mover el archivo "
                     Case "TChinese"
-                        Return "你真係想將 "
+                        Return "Do you really want to move the file "
                 End Select
             Case "move_file2trash_part2"
                 Select Case My.Settings.Language
@@ -1337,7 +1336,7 @@ Public Class Form1
                     Case "Spanish"
                         Return " a la Basura?"
                     Case "TChinese"
-                        Return " 移到垃圾桶?"
+                        Return " to the Trash?"
                 End Select
             Case "confirm_restrore_selected_file"
                 Select Case My.Settings.Language
@@ -1355,7 +1354,7 @@ Public Class Form1
                     Case "Spanish"
                         Return "Los archivos han sido restaurados"
                     Case "TChinese"
-                        Return "文件巳還原"
+                        Return "Files restored"
                 End Select
             Case "restore_file_part1"
                 Select Case My.Settings.Language
