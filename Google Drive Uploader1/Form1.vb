@@ -297,6 +297,26 @@ Public Class Form1
                 End Try
                 UpdateBytesSent()
             Case UploadStatus.Failed
+                'Dim APIException As Google.GoogleApiException = TryCast(uploadStatusInfo.Exception, Google.GoogleApiException)
+                'If (APIException Is Nothing) OrElse (APIException.Error Is Nothing) Then
+                '    If uploadStatusInfo.Exception.Message.ToString.Contains("A task was cancelled") Then
+                '        UploadFailed = False
+                '        UploadFiles(True)
+                '    End If
+                '    If RadioButton1.Checked = True Then UploadStatusText = "Retrying..." Else UploadStatusText = "Intentando..."
+                '    'MsgBox(uploadStatusInfo.Exception.Message)
+                'Else
+                '    MsgBox(APIException.Error.ToString())
+                '    ' Do not retry if the request is in error
+                '    Dim StatusCode As Int32 = CInt(APIException.HttpStatusCode)
+                '    ' See https://developers.google.com/youtube/v3/guides/using_resumable_upload_protocol
+                '    If ((StatusCode / 100) = 4 OrElse ((StatusCode / 100) = 5 AndAlso Not (StatusCode = 500 Or StatusCode = 502 Or StatusCode = 503 Or StatusCode = 504))) Then
+                '        If RadioButton1.Checked = True Then MsgBox("Upload Failed. Cannot retry upload...") Else MsgBox("Error al subir el archivo. No se puede continuar subiendo este archivo desde el punto en que se interrumpió")
+                '    Else
+                '        UploadFailed = False
+                '        UploadFiles(True)
+                '    End If
+                'End If
                 UploadFailed = True
                 If RadioButton1.Checked = True Then UploadStatusText = "Retrying..." Else UploadStatusText = "Intentando..."
                 UpdateBytesSent()
