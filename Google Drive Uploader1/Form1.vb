@@ -1369,6 +1369,7 @@ Public Class Form1
             Case Else
                 Return "Error Typo " & tag
         End Select
+        Return tag & " not found"
     End Function
 
 End Class
