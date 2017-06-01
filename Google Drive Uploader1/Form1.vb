@@ -45,7 +45,6 @@ Public Class Form1
         lang_select()
 
         'Checks if there are items to upload and if there are, we add them to the list box
-
         If My.Settings.UploadQueue.Count > 0 Then
             For Each item In My.Settings.UploadQueue
                 ListBox2.Items.Add(item)
@@ -115,17 +114,6 @@ Public Class Form1
                     EnglishLanguage()
                     RadioButton1.Checked = True
             End Select
-            '  If My.Settings.Language = "English" Then
-            ' EnglishLanguage()
-            'RadioButton1.Checked = True
-            'ElseIf My.Settings.Language = "Spanish" Then
-
-            'SpanishLanguage()
-            'RadioButton2.Checked = True
-            'Else
-            'TChineseLanguage()
-            'RadioButton3.Checked = True
-            'End If
         End If
     End Sub
 
