@@ -51,11 +51,9 @@ Public Class Form1
                 ListBox2.Items.Add(item)
             Next
         End If
-
         If My.Settings.UploadQueueFolders.Count > 0 Then
             For Each item In My.Settings.UploadQueueFolders
                 FolderToUploadFileListBox.Items.Add(item)
-                Debug.WriteLine("FolderToUploadFileListBox:" & item)
             Next
         End If
         'Loads the last used Folder ID
@@ -82,6 +80,7 @@ Public Class Form1
                 MsgBox("El archivo client_secret.json no fue encontrado. Por favor, siga el Paso 1 de esta guía: https://developers.google.com/drive/v3/web/quickstart/dotnet" & vbCr & vbCrLf & "Este archivo debe estar localizado en la carpeta donde se encuentra este programa.")
             Else
                 'Chinese Translation goes here
+                MsgBox("client_secret.json 檔案找不到.請做: https://developers.google.com/drive/v3/web/quickstart/dotnet" & "的第一歩" & vbCr & vbCrLf & "請將client_secret.json放到軟體的根目錄.")
             End If
         End Try
         ' Create Drive API service.
@@ -297,26 +296,6 @@ Public Class Form1
                 End Try
                 UpdateBytesSent()
             Case UploadStatus.Failed
-                'Dim APIException As Google.GoogleApiException = TryCast(uploadStatusInfo.Exception, Google.GoogleApiException)
-                'If (APIException Is Nothing) OrElse (APIException.Error Is Nothing) Then
-                '    If uploadStatusInfo.Exception.Message.ToString.Contains("A task was cancelled") Then
-                '        UploadFailed = False
-                '        UploadFiles(True)
-                '    End If
-                '    If RadioButton1.Checked = True Then UploadStatusText = "Retrying..." Else UploadStatusText = "Intentando..."
-                '    'MsgBox(uploadStatusInfo.Exception.Message)
-                'Else
-                '    MsgBox(APIException.Error.ToString())
-                '    ' Do not retry if the request is in error
-                '    Dim StatusCode As Int32 = CInt(APIException.HttpStatusCode)
-                '    ' See https://developers.google.com/youtube/v3/guides/using_resumable_upload_protocol
-                '    If ((StatusCode / 100) = 4 OrElse ((StatusCode / 100) = 5 AndAlso Not (StatusCode = 500 Or StatusCode = 502 Or StatusCode = 503 Or StatusCode = 504))) Then
-                '        If RadioButton1.Checked = True Then MsgBox("Upload Failed. Cannot retry upload...") Else MsgBox("Error al subir el archivo. No se puede continuar subiendo este archivo desde el punto en que se interrumpió")
-                '    Else
-                '        UploadFailed = False
-                '        UploadFiles(True)
-                '    End If
-                'End If
                 UploadFailed = True
                 If RadioButton1.Checked = True Then UploadStatusText = "Retrying..." Else UploadStatusText = "Intentando..."
                 UpdateBytesSent()
@@ -992,23 +971,11 @@ Public Class Form1
     End Sub
 
     Private Sub ListBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox2.SelectedIndexChanged
-        Debug.WriteLine("FolderToUploadFileListBox")
-        For Each item In FolderToUploadFileListBox.Items
-            Debug.WriteLine(item)
-        Next
-        Debug.WriteLine("end of FolderToUploadFileListBox")
         If ListBox2.SelectedIndex <> -1 Then
-
-            TextBox2.Text = FolderToUploadFileListBox.Items.Item(ListBox2.SelectedIndex)
+            TextBox2.Text = ListBox2.Items.Item(ListBox2.SelectedIndex)
             GetFolderIDName(False)
         End If
     End Sub
-
-
-
-
-
-
 
     Private Sub EnglishLanguage()
         Label1.Text = "File Size:"
@@ -1049,10 +1016,6 @@ Public Class Form1
         btnLogout.Text = "Logout"
     End Sub
 
-
-
-
-
     Private Sub TChineseLanguage()
         Label1.Text = "文件大小:"
         Label2.Text = "Processed:"
@@ -1092,16 +1055,6 @@ Public Class Form1
         End If
     End Sub
 
-
-
-
-
-
-
-
-
-
-
     Private Sub SpanishLanguage()
         Label1.Text = "Tamaño:"
         Label2.Text = "Procesado:"
@@ -1140,6 +1093,7 @@ Public Class Form1
         CheckBox1.Text = "Preservar Fecha de Modificación del Archivo"
         btnLogout.Text = "Logout"
     End Sub
+
     Function msgAndDialoglang(tag As String) As String
         Select Case tag
             Case "folder_invaild"
