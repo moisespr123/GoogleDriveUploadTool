@@ -80,6 +80,7 @@ Public Class Form1
                 MsgBox("El archivo client_secret.json no fue encontrado. Por favor, siga el Paso 1 de esta guía: https://developers.google.com/drive/v3/web/quickstart/dotnet" & vbCr & vbCrLf & "Este archivo debe estar localizado en la carpeta donde se encuentra este programa.")
             Else
                 'Chinese Translation goes here
+                MsgBox("client_secret.json 檔案找不到.請做: https://developers.google.com/drive/v3/web/quickstart/dotnet" & "的第一歩" & vbCr & vbCrLf & "請將client_secret.json放到軟體的根目錄.")
             End If
         End Try
         ' Create Drive API service.
@@ -970,7 +971,7 @@ Public Class Form1
 
     Private Sub ListBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox2.SelectedIndexChanged
         If ListBox2.SelectedIndex <> -1 Then
-            TextBox2.Text = FolderToUploadFileListBox.Items.Item(ListBox2.SelectedIndex)
+            TextBox2.Text = ListBox2.Items.Item(ListBox2.SelectedIndex)
             GetFolderIDName(False)
         End If
     End Sub
