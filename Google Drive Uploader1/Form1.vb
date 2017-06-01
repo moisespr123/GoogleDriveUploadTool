@@ -988,6 +988,7 @@ Public Class Form1
         Label13.Text = "Time Left: "
         Label15.Text = "Like this software?"
         Label16.Text = "Folder Name:"
+        Label17.Text = "Folders:"
         Label18.Text = "File Name:"
         Label19.Text = "File ID:"
         Label20.Text = "Date Created:"
@@ -1005,6 +1006,7 @@ Public Class Form1
         Button8.Text = "Donations"
         Button9.Text = "Get Folder Name"
         Button10.Text = "Back"
+        GroupBox2.Text = "File Information:"
         If viewing_trash = False Then
             Button11.Text = "View Trash"
         ElseIf viewing_trash = True Then
@@ -1066,6 +1068,7 @@ Public Class Form1
         Label13.Text = "Tiempo Est."
         Label15.Text = "¿Te gusta esta programa?"
         Label16.Text = "Nombre de la Carpeta:"
+        Label17.Text = "Carpetas:"
         Label18.Text = "Nombre:"
         Label19.Text = "ID:"
         Label20.Text = "Fecha Creada:"
@@ -1083,6 +1086,7 @@ Public Class Form1
         Button8.Text = "Donar"
         Button9.Text = "Obtener Nombre de la Carpeta"
         Button10.Text = "Atrás"
+        GroupBox2.Text = "Información del archivo:"
         If viewing_trash = False Then
             Button11.Text = "Ver Basura"
         ElseIf viewing_trash = True Then
