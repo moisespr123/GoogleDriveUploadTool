@@ -526,7 +526,7 @@ Public Class Form1
     End Sub
     Private Sub RadioButton3_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton3.CheckedChanged
         TChineseLanguage()
-        My.Settings.Language = "TChinses"
+        My.Settings.Language = "TChinese"
         My.Settings.Save()
     End Sub
     Private Sub EnglishLanguage()
@@ -1141,7 +1141,7 @@ Public Class Form1
 
     Private Sub ListBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox2.SelectedIndexChanged
         If ListBox2.SelectedIndex <> -1 Then
-            TextBox2.Text = FolderToUploadFileListBox.Items.Item(ListBox2.SelectedIndex)
+            TextBox2.Text = ListBox2.Items.Item(ListBox2.SelectedIndex)
             GetFolderIDName(False)
         End If
     End Sub
