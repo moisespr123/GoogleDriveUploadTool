@@ -163,7 +163,7 @@ Public Class Form1
                 TextBox2.Text = FolderToUploadFileListBox.Items.Item(0)
                 GetFolderIDName(False)
                 If System.IO.File.Exists(GetFile) Then
-                    Label3.Text = String.Format("{0: N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
+                    Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                     ProgressBar1.Maximum = My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024
                     Dim FileMetadata As New Data.File
                     FileMetadata.Name = My.Computer.FileSystem.GetName(GetFile)
@@ -201,7 +201,7 @@ Public Class Form1
                     Else
                         Await UploadFile.ResumeAsync(uploadUri, UploadCancellationToken)
                     End If
-
+                    UploadStream.Close()
                 ElseIf IO.Directory.Exists(GetFile) Then
                     Dim FolderMetadata As New Data.File
                     FolderMetadata.Name = My.Computer.FileSystem.GetName(GetFile)
@@ -242,6 +242,7 @@ Public Class Form1
                 My.Settings.UploadQueue.RemoveAt(0)
                 My.Settings.UploadQueueFolders.RemoveAt(0)
                 My.Settings.Save()
+
                 ResumeFromError = False
             End If
         End While
@@ -377,6 +378,7 @@ Public Class Form1
             Dim DownloadRequest As FilesResource.GetRequest = service.Files.Get(FileIdsListBox.SelectedItem.ToString)
             AddHandler DownloadRequest.MediaDownloader.ProgressChanged, New Action(Of IDownloadProgress)(AddressOf Download_ProgressChanged)
             DownloadRequest.DownloadAsync(FileToSave)
+            FileToSave.Close()
         End If
     End Sub
     Private Sub Download_ProgressChanged(progress As IDownloadProgress)
