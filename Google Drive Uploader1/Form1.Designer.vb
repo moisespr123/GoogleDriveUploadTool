@@ -81,6 +81,8 @@ Partial Class Form1
         Me.Button7 = New System.Windows.Forms.Button()
         Me.btnLogout = New System.Windows.Forms.Button()
         Me.Button11 = New System.Windows.Forms.Button()
+        Me.Button13 = New System.Windows.Forms.Button()
+        Me.Button14 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
@@ -90,7 +92,7 @@ Partial Class Form1
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button2.Location = New System.Drawing.Point(291, 235)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(213, 39)
+        Me.Button2.Size = New System.Drawing.Size(227, 39)
         Me.Button2.TabIndex = 2
         Me.Button2.Text = "Upload"
         Me.Button2.UseVisualStyleBackColor = True
@@ -117,7 +119,7 @@ Partial Class Form1
         '
         Me.ProgressBar1.Location = New System.Drawing.Point(12, 343)
         Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(492, 23)
+        Me.ProgressBar1.Size = New System.Drawing.Size(506, 23)
         Me.ProgressBar1.TabIndex = 5
         '
         'Label3
@@ -272,7 +274,7 @@ Partial Class Form1
         Me.GroupBox1.Controls.Add(Me.RadioButton3)
         Me.GroupBox1.Controls.Add(Me.RadioButton2)
         Me.GroupBox1.Controls.Add(Me.RadioButton1)
-        Me.GroupBox1.Location = New System.Drawing.Point(291, 372)
+        Me.GroupBox1.Location = New System.Drawing.Point(302, 371)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(216, 37)
         Me.GroupBox1.TabIndex = 27
@@ -317,7 +319,7 @@ Partial Class Form1
         Me.ListBox2.Location = New System.Drawing.Point(12, 25)
         Me.ListBox2.Name = "ListBox2"
         Me.ListBox2.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.ListBox2.Size = New System.Drawing.Size(492, 173)
+        Me.ListBox2.Size = New System.Drawing.Size(506, 173)
         Me.ListBox2.TabIndex = 28
         '
         'Button6
@@ -332,7 +334,7 @@ Partial Class Form1
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(272, 204)
+        Me.CheckBox1.Location = New System.Drawing.Point(362, 208)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(156, 17)
         Me.CheckBox1.TabIndex = 30
@@ -602,12 +604,34 @@ Partial Class Form1
         Me.Button11.Text = "View Trash"
         Me.Button11.UseVisualStyleBackColor = True
         '
+        'Button13
+        '
+        Me.Button13.Location = New System.Drawing.Point(732, 191)
+        Me.Button13.Name = "Button13"
+        Me.Button13.Size = New System.Drawing.Size(196, 23)
+        Me.Button13.TabIndex = 46
+        Me.Button13.Text = "Upload selected file(s) to current folder"
+        Me.Button13.UseVisualStyleBackColor = True
+        Me.Button13.Visible = False
+        '
+        'Button14
+        '
+        Me.Button14.Enabled = False
+        Me.Button14.Location = New System.Drawing.Point(267, 204)
+        Me.Button14.Name = "Button14"
+        Me.Button14.Size = New System.Drawing.Size(89, 23)
+        Me.Button14.TabIndex = 47
+        Me.Button14.Text = "Deselect"
+        Me.Button14.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1236, 419)
+        Me.ClientSize = New System.Drawing.Size(1236, 418)
+        Me.Controls.Add(Me.Button14)
+        Me.Controls.Add(Me.Button13)
         Me.Controls.Add(Me.btnLogout)
         Me.Controls.Add(Me.Button11)
         Me.Controls.Add(Me.Button7)
@@ -716,4 +740,6 @@ Partial Class Form1
     Friend WithEvents RadioButton3 As RadioButton
     Friend WithEvents btnLogout As Button
     Friend WithEvents Button11 As Button
+    Friend WithEvents Button13 As Button
+    Friend WithEvents Button14 As Button
 End Class

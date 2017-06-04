@@ -41,8 +41,11 @@ Public Class Form1
         If My.Settings.FoldersCreatedID Is Nothing Then
             My.Settings.FoldersCreatedID = New Specialized.StringCollection
         End If
+        If My.Settings.PreviousFolderIDs Is Nothing Then
+            My.Settings.PreviousFolderIDs = New Specialized.StringCollection
+        End If
         'Checks whether the language was set. If not, apply English by default
-        lang_select()
+        Lang_Select()
 
         'Checks if there are items to upload and if there are, we add them to the list box
         If My.Settings.UploadQueue.Count > 0 Then
@@ -55,10 +58,6 @@ Public Class Form1
                 FolderToUploadFileListBox.Items.Add(item)
             Next
         End If
-        'Loads the last used Folder ID
-        TextBox2.Text = My.Settings.LastFolder
-        'Gets Folder name from the Folder ID
-
         'Checks if the Preserve Modified Date checkbox was checked in the last run.
         If My.Settings.PreserveModifiedDate = True Then CheckBox1.Checked = True Else CheckBox1.Checked = False
         'Google Drive initialization
@@ -89,7 +88,16 @@ Public Class Form1
         service = New DriveService(Initializer)
         service.HttpClient.Timeout = TimeSpan.FromSeconds(120)
         ' List files.
-        RefreshFileList("root")
+        'Loads the last used Folder ID
+        If My.Settings.PreviousFolderIDs.Count > 0 Then
+            CurrentFolder = My.Settings.LastFolder 'My.Settings.PreviousFolderIDs.Item(My.Settings.PreviousFolderIDs.Count - 1)
+        Else
+            CurrentFolder = "root"
+        End If
+        For Each item In My.Settings.PreviousFolderIDs
+            PreviousFolderId.Items.Add(item)
+        Next
+        RefreshFileList(CurrentFolder)
         GetFolderIDName(False)
     End Sub
 
@@ -126,7 +134,7 @@ Public Class Form1
         Button2.Enabled = False
         If String.IsNullOrEmpty(TextBox2.Text) = False Then
             If GetFolderIDName(False) = True Then
-                My.Settings.LastFolder = TextBox2.Text
+                My.Settings.LastFolder = CurrentFolder
                 My.Settings.Save()
                 ResumeFromError = False
                 UploadFiles()
@@ -489,15 +497,15 @@ Public Class Form1
         For Each path In filepath
             If System.IO.Directory.Exists(path) Then
                 ListBox2.Items.Add(path)
-                FolderToUploadFileListBox.Items.Add(TextBox2.Text)
+                FolderToUploadFileListBox.Items.Add(CurrentFolder)
                 My.Settings.UploadQueue.Add(path)
-                My.Settings.UploadQueueFolders.Add(TextBox2.Text)
+                My.Settings.UploadQueueFolders.Add(CurrentFolder)
                 GetDirectoriesAndFiles(New IO.DirectoryInfo(path))
             Else
                 ListBox2.Items.Add(path)
-                FolderToUploadFileListBox.Items.Add(TextBox2.Text)
+                FolderToUploadFileListBox.Items.Add(CurrentFolder)
                 My.Settings.UploadQueue.Add(path)
-                My.Settings.UploadQueueFolders.Add(TextBox2.Text)
+                My.Settings.UploadQueueFolders.Add(CurrentFolder)
             End If
         Next
         My.Settings.Save()
@@ -508,9 +516,9 @@ Public Class Form1
         For Each subF As IO.DirectoryInfo In BaseFolder.GetDirectories()
             Application.DoEvents()
             ListBox2.Items.Add(subF.FullName)
-            FolderToUploadFileListBox.Items.Add(TextBox2.Text)
+            FolderToUploadFileListBox.Items.Add(CurrentFolder)
             My.Settings.UploadQueue.Add(subF.FullName)
-            My.Settings.UploadQueueFolders.Add(TextBox2.Text)
+            My.Settings.UploadQueueFolders.Add(CurrentFolder)
             GetDirectoriesAndFiles(subF)
         Next
         My.Settings.Save()
@@ -559,10 +567,10 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
-        My.Settings.LastFolder = TextBox2.Text
-        My.Settings.Save()
-    End Sub
+    'Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
+    '    My.Settings.LastFolder = TextBox2.Text
+    '    My.Settings.Save()
+    'End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         ListBox2.Items.Clear()
@@ -597,18 +605,23 @@ Public Class Form1
     End Function
 
     Private Sub ListBox3_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles ListBox3.MouseDoubleClick
-        EnterFolder()
+        If viewing_trash = False Then
+            EnterFolder()
+        End If
     End Sub
 
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
-        If Button11.Text = "View Trash" Or Button11.Text = "Ver Basura" Then
+        If viewing_trash = False Then
             If CurrentFolder = "root" = False Then
                 Dim PreviousFolderIdBeforeRemoving = PreviousFolderId.Items.Item(PreviousFolderId.Items.Count - 1)
                 PreviousFolderId.Items.RemoveAt(PreviousFolderId.Items.Count - 1)
+                My.Settings.PreviousFolderIDs.RemoveAt(My.Settings.PreviousFolderIDs.Count - 1)
                 CurrentFolder = PreviousFolderIdBeforeRemoving
+                My.Settings.LastFolder = CurrentFolder
+                My.Settings.Save()
                 RefreshFileList(PreviousFolderIdBeforeRemoving)
-                TextBox2.Text = CurrentFolder
-                GetFolderIDName(False)
+                'TextBox2.Text = CurrentFolder
+                'GetFolderIDName(False)
                 If CurrentFolder = "root" Then
                     Button10.Enabled = False
                 Else
@@ -675,10 +688,10 @@ Public Class Form1
     End Sub
 
     Private Sub ListBox3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox3.SelectedIndexChanged
-        If String.IsNullOrEmpty(ListBox3.SelectedItem) = False Then
-            TextBox2.Text = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
-            TextBox1.Text = ListBox3.SelectedItem
-        End If
+        'If String.IsNullOrEmpty(ListBox3.SelectedItem) = False Then
+        '    TextBox2.Text = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
+        '    TextBox1.Text = ListBox3.SelectedItem
+        'End If
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -785,7 +798,10 @@ Public Class Form1
         If String.IsNullOrEmpty(ListBox3.SelectedItem) = False Then
             Dim GoToFolderID As String = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
             PreviousFolderId.Items.Add(CurrentFolder)
+            My.Settings.PreviousFolderIDs.Add(CurrentFolder)
             CurrentFolder = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
+            My.Settings.LastFolder = CurrentFolder
+            My.Settings.Save()
             Button7.Visible = False
             Button10.Enabled = True
             RefreshFileList(GoToFolderID)
@@ -873,20 +889,19 @@ Public Class Form1
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
         If viewing_trash = False Then
             viewing_trash = True
-            lang_select()
+            'PreviousFolderId.Items.Clear()
+            'FolderIdsListBox.Items.Clear()
+            Lang_Select()
             ViewTrashedFiles()
         Else
             viewing_trash = False
-            lang_select()
-            PreviousFolderId.Items.Clear()
-            FolderIdsListBox.Items.Clear()
-            RefreshFileList("root")
+            Lang_Select()
+            RefreshFileList(CurrentFolder)
         End If
 
 
     End Sub
     Private Sub ViewTrashedFiles()
-        CurrentFolder = "root"
         If ListBox1.InvokeRequired Then
             ListBox1.Invoke(New RefreshFileListInvoker(AddressOf ViewTrashedFiles))
         End If
@@ -902,7 +917,6 @@ Public Class Form1
         FileCreatedTimeListBox.Items.Clear()
         FileMD5ListBox.Items.Clear()
         FileMIMEListBox.Items.Clear()
-        PreviousFolderId.Items.Clear()
         Dim PageToken1 As String = String.Empty
         Do
             Dim listRequest1 As FilesResource.ListRequest = service.Files.List()
@@ -963,7 +977,13 @@ Public Class Form1
         If ListBox2.SelectedIndex <> -1 Then
             TextBox2.Text = FolderToUploadFileListBox.Items.Item(ListBox2.SelectedIndex)
             GetFolderIDName(False)
+            Button13.Visible = True
+            Button14.Enabled = True
+        Else
+            Button13.Visible = False
+            Button14.Enabled = False
         End If
+
     End Sub
 
     Private Sub EnglishLanguage()
@@ -1003,6 +1023,8 @@ Public Class Form1
             Button11.Text = "View Drive"
         End If
         Button12.Text = "Create New Folder"
+        Button13.Text = "Upload selected file(s) to current folder"
+        Button14.Text = "Deselect"
         CheckBox1.Text = "Preserve File Modified Date"
         btnLogout.Text = "Logout"
     End Sub
@@ -1076,15 +1098,17 @@ Public Class Form1
         Button8.Text = "Donar"
         Button9.Text = "Obtener Nombre de la Carpeta"
         Button10.Text = "Atrás"
-        GroupBox2.Text = "Información del archivo:"
         If viewing_trash = False Then
             Button11.Text = "Ver Basura"
         ElseIf viewing_trash = True Then
             Button11.Text = "Ver Drive"
         End If
         Button12.Text = "Crear Nueva Carpeta"
-        CheckBox1.Text = "Preservar Fecha de Modificación del Archivo"
-        btnLogout.Text = "Logout"
+        Button13.Text = "Subir archivo(s) a esta carpeta"
+        Button14.Text = "Deseleccionar"
+        btnLogout.Text = "Cerrar Sesión"
+        CheckBox1.Text = "Preservar Fecha de Modificación"
+        GroupBox2.Text = "Información del archivo:"
     End Sub
 
     Function MsgAndDialogLang(tag As String) As String
@@ -1373,4 +1397,21 @@ Public Class Form1
         Return tag & " not found"
     End Function
 
+    Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
+        FolderToUploadFileListBox.Items.Item(ListBox2.SelectedIndex) = CurrentFolder
+        TextBox2.Text = CurrentFolder
+        GetFolderIDName(False)
+    End Sub
+
+    Private Sub Button14_Click(sender As Object, e As EventArgs) Handles Button14.Click
+        ListBox2.ClearSelected()
+    End Sub
+
+    Private Sub ListBox2_KeyDown(sender As Object, e As KeyEventArgs) Handles ListBox2.KeyDown
+        If e.Modifiers = Keys.Alt And e.KeyCode = Keys.A Then
+            For i = 0 To ListBox2.Items.Count - 1
+                ListBox2.SetSelected(i, True)
+            Next
+        End If
+    End Sub
 End Class
