@@ -87,8 +87,7 @@ Public Class Form1
         Initializer.ApplicationName = ApplicationName
         service = New DriveService(Initializer)
         service.HttpClient.Timeout = TimeSpan.FromSeconds(120)
-        ' List files.
-        'Loads the last used Folder ID
+        'Loads the last used Folder ID and lists files
         If My.Settings.PreviousFolderIDs.Count > 0 Then
             CurrentFolder = My.Settings.LastFolder 'My.Settings.PreviousFolderIDs.Item(My.Settings.PreviousFolderIDs.Count - 1)
         Else
@@ -725,34 +724,31 @@ Public Class Form1
 
     Private Sub ListBox3_KeyDown(sender As Object, e As KeyEventArgs) Handles ListBox3.KeyDown
         If e.KeyCode = Keys.Delete Then
-            If ListBox3.SelectedItems.Count > 1 Then
-                Dim Message As String = String.Empty
-                Message = msgAndDialoglang("confirm_selected_move_folder2trash")
-                If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                    Dim FileMetadata As New Data.File
-                    FileMetadata.Trashed = True
-                    For Each item In ListBox3.SelectedItems
-                        Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.Items.IndexOf(item)))
+            If viewing_trash = False Then
+                If ListBox3.SelectedItems.Count > 1 Then
+                    Dim Message As String = MsgAndDialogLang("confirm_selected_move_folder2trash")
+                    If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        Dim FileMetadata As New Data.File
+                        FileMetadata.Trashed = True
+                        For Each item In ListBox3.SelectedItems
+                            Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.Items.IndexOf(item)))
+                            RemoveFile.ExecuteAsync()
+                        Next
+                        Thread.Sleep(1000)
+                        RefreshFileList(CurrentFolder)
+                        MsgBox(MsgAndDialogLang("folder_moved2trash"))
+                    End If
+                Else
+                    Dim Message As String = MsgAndDialogLang("confirm_move_folder2trash_part1") & ListBox3.SelectedItem & MsgAndDialogLang("confirm_move_folder2trash_part2")
+                    If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        Dim FileMetadata As New Data.File
+                        FileMetadata.Trashed = True
+                        Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.SelectedIndex))
                         RemoveFile.ExecuteAsync()
-                    Next
-                    Thread.Sleep(1000)
-                    RefreshFileList(CurrentFolder)
-                    MsgBox(msgAndDialoglang("folder_moved2trash"))
-                End If
-            Else
-                Dim Message As String = String.Empty
-
-                Message = msgAndDialoglang("confirm_move_folder2trash_part1") & ListBox3.SelectedItem & msgAndDialoglang("confirm_move_folder2trash_part2")
-
-
-                If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                    Dim FileMetadata As New Data.File
-                    FileMetadata.Trashed = True
-                    Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.SelectedIndex))
-                    RemoveFile.ExecuteAsync()
-                    Thread.Sleep(1000)
-                    RefreshFileList(CurrentFolder)
-                    MsgBox(msgAndDialoglang("folder_moved2trash"))
+                        Thread.Sleep(1000)
+                        RefreshFileList(CurrentFolder)
+                        MsgBox(MsgAndDialogLang("folder_moved2trash"))
+                    End If
                 End If
             End If
         ElseIf e.KeyCode = Keys.Enter Then
@@ -761,10 +757,9 @@ Public Class Form1
             RefreshFileList(CurrentFolder)
             e.Handled = True
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.R Then
-            If Button11.Text = "View Drive" Or Button11.Text = "Ver Drive" Then
+            If viewing_trash Then
                 If ListBox3.SelectedItems.Count > 1 Then
-                    Dim Message As String = String.Empty
-                    Message = msgAndDialoglang("confirm_restore_selected_folders")
+                    Dim Message As String = MsgAndDialogLang("confirm_restore_selected_folders")
                     If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
                         Dim FileMetadata As New Data.File
                         FileMetadata.Trashed = False
@@ -774,12 +769,10 @@ Public Class Form1
                         Next
                         Thread.Sleep(1000)
                         ViewTrashedFiles()
-                        MsgBox(msgAndDialoglang("folder_restroed"))
+                        MsgBox(MsgAndDialogLang("folder_restroed"))
                     End If
                 Else
-                    Dim Message As String = String.Empty
-
-                    Message = msgAndDialoglang("restore_folder_part1") & ListBox3.SelectedItem & msgAndDialoglang("restore_folder_part2")
+                    Dim Message As String = MsgAndDialogLang("restore_folder_part1") & ListBox3.SelectedItem & MsgAndDialogLang("restore_folder_part2")
                     If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
                         Dim FileMetadata As New Data.File
                         FileMetadata.Trashed = False
@@ -787,7 +780,7 @@ Public Class Form1
                         RemoveFile.ExecuteAsync()
                         Thread.Sleep(1000)
                         ViewTrashedFiles()
-                        MsgBox(msgAndDialoglang("folder_restored"))
+                        MsgBox(MsgAndDialogLang("folder_restored"))
                     End If
                 End If
             End If
@@ -810,42 +803,40 @@ Public Class Form1
 
     Private Sub ListBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles ListBox1.KeyDown
         If e.KeyCode = Keys.Delete Then
-            If ListBox1.SelectedItems.Count > 1 Then
-                Dim Message As String = String.Empty
-                Message = msgAndDialoglang("move_selected_file2trash")
-                If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                    Dim FileMetadata As New Data.File
-                    FileMetadata.Trashed = True
-                    For Each item In ListBox1.SelectedItems
-                        Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FileIdsListBox.Items.Item(ListBox1.Items.IndexOf(item)))
+            If viewing_trash = False Then
+                If ListBox1.SelectedItems.Count > 1 Then
+                    Dim Message As String = MsgAndDialogLang("move_selected_file2trash")
+                    If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        Dim FileMetadata As New Data.File
+                        FileMetadata.Trashed = True
+                        For Each item In ListBox1.SelectedItems
+                            Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FileIdsListBox.Items.Item(ListBox1.Items.IndexOf(item)))
+                            RemoveFile.ExecuteAsync()
+                        Next
+                        Thread.Sleep(1000)
+                        RefreshFileList(CurrentFolder)
+                        MsgBox(MsgAndDialogLang("file_moved2trash"))
+                    End If
+                Else
+                    Dim Message As String = MsgAndDialogLang("move_file2trash_part1") & ListBox1.SelectedItem & MsgAndDialogLang("move_file2trash_part2")
+                    If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        Dim FileMetadata As New Data.File
+                        FileMetadata.Trashed = True
+                        Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FileIdsListBox.Items.Item(ListBox1.SelectedIndex))
                         RemoveFile.ExecuteAsync()
-                    Next
-                    Thread.Sleep(1000)
-                    RefreshFileList(CurrentFolder)
-                    MsgBox(msgAndDialoglang("file_moved2trash"))
-                End If
-            Else
-                Dim Message As String = String.Empty
-
-                Message = msgAndDialoglang("move_file2trash_part1") & ListBox1.SelectedItem & msgAndDialoglang("move_file2trash_part2")
-                If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                    Dim FileMetadata As New Data.File
-                    FileMetadata.Trashed = True
-                    Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FileIdsListBox.Items.Item(ListBox1.SelectedIndex))
-                    RemoveFile.ExecuteAsync()
-                    Thread.Sleep(1000)
-                    RefreshFileList(CurrentFolder)
-                    MsgBox(msgAndDialoglang("file_moved2trash"))
+                        Thread.Sleep(1000)
+                        RefreshFileList(CurrentFolder)
+                        MsgBox(MsgAndDialogLang("file_moved2trash"))
+                    End If
                 End If
             End If
         ElseIf e.KeyCode = Keys.F5 Then
-            RefreshFileList(CurrentFolder)
-            e.Handled = True
-        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.R Then
-            If Button11.Text = "View Drive" Or Button11.Text = "Ver Drive" Then
+                RefreshFileList(CurrentFolder)
+                e.Handled = True
+            ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.R Then
+                If viewing_trash Then
                 If ListBox1.SelectedItems.Count > 1 Then
-                    Dim Message As String = String.Empty
-                    Message = msgAndDialoglang("confirm_restore_selected_file")
+                    Dim Message As String = MsgAndDialogLang("confirm_restore_selected_file")
                     If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
                         Dim FileMetadata As New Data.File
                         FileMetadata.Trashed = False
@@ -855,12 +846,10 @@ Public Class Form1
                         Next
                         Thread.Sleep(1000)
                         ViewTrashedFiles()
-                        MsgBox(msgAndDialoglang("file_restored"))
+                        MsgBox(MsgAndDialogLang("file_restored"))
                     End If
                 Else
-                    Dim Message As String = String.Empty
-
-                    Message = msgAndDialoglang("restore_file_part1") & ListBox1.SelectedItem & msgAndDialoglang("resotre_file_part2")
+                    Dim Message As String = MsgAndDialogLang("restore_file_part1") & ListBox1.SelectedItem & MsgAndDialogLang("resotre_file_part2")
                     If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
                         Dim FileMetadata As New Data.File
                         FileMetadata.Trashed = False
@@ -868,7 +857,7 @@ Public Class Form1
                         RemoveFile.ExecuteAsync()
                         Thread.Sleep(1000)
                         ViewTrashedFiles()
-                        MsgBox(msgAndDialoglang("file_restored"))
+                        MsgBox(MsgAndDialogLang("file_restored"))
                     End If
                 End If
             End If
