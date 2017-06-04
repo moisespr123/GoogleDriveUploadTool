@@ -93,7 +93,7 @@ Public Class Form1
         GetFolderIDName(False)
     End Sub
 
-    Public Sub lang_select()
+    Public Sub Lang_Select()
         If String.IsNullOrEmpty(My.Settings.Language) Then
             My.Settings.Language = "English"
             My.Settings.Save()
@@ -859,7 +859,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub btnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
+    Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
         Dim credPath As String = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
         credPath = Path.Combine(credPath, ".credentials\GoogleDriveUploaderTool.json")
         Dim credfiles As String() = Directory.GetFiles(credPath, "*.TokenResponse-user")
@@ -1087,7 +1087,7 @@ Public Class Form1
         btnLogout.Text = "Logout"
     End Sub
 
-    Function msgAndDialoglang(tag As String) As String
+    Function MsgAndDialogLang(tag As String) As String
         Select Case tag
             Case "folder_invaild"
                 Select Case My.Settings.Language
