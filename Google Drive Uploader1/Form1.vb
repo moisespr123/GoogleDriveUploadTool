@@ -130,15 +130,16 @@ Public Class Form1
     Private GetFile As String = ""
     Private UploadFailed As Boolean = False
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Button2.Enabled = False
-        If String.IsNullOrEmpty(TextBox2.Text) = False Then
+        If ListBox2.Items.Count > 0 Then
+            TextBox2.Text = FolderToUploadFileListBox.Items.Item(0)
             If GetFolderIDName(False) = True Then
                 My.Settings.LastFolder = CurrentFolder
                 My.Settings.Save()
                 ResumeFromError = False
+                Button2.Enabled = False
                 UploadFiles()
             Else
-                Dim Message As String = msgAndDialoglang("folder_invaild")
+                Dim Message As String = MsgAndDialogLang("folder_invaild")
                 '      If RadioButton1.Checked = True Then
                 '     Message = "The specified folder is invalid. Do you want to change the folder? If you select No, your files will be uploaded to the root of Google Drive"
                 '    Else
@@ -512,6 +513,11 @@ Public Class Form1
     Private Sub GetDirectoriesAndFiles(ByVal BaseFolder As IO.DirectoryInfo)
         ListBox2.Items.AddRange((From FI As IO.FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
         My.Settings.UploadQueue.AddRange((From FI As IO.FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
+        For Each FI As IO.FileInfo In BaseFolder.GetFiles()
+            FolderToUploadFileListBox.Items.Add(CurrentFolder)
+            My.Settings.UploadQueueFolders.Add(CurrentFolder)
+            My.Settings.Save()
+        Next
         For Each subF As IO.DirectoryInfo In BaseFolder.GetDirectories()
             Application.DoEvents()
             ListBox2.Items.Add(subF.FullName)
