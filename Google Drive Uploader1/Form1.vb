@@ -131,6 +131,7 @@ Public Class Form1
     Private UploadFailed As Boolean = False
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         If ListBox2.Items.Count > 0 Then
+            ListBox2.SelectedIndex() = 0
             TextBox2.Text = FolderToUploadFileListBox.Items.Item(0)
             If GetFolderIDName(False) = True Then
                 My.Settings.LastFolder = CurrentFolder
