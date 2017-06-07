@@ -517,7 +517,6 @@ Public Class Form1
         For Each FI As IO.FileInfo In BaseFolder.GetFiles()
             FolderToUploadFileListBox.Items.Add(CurrentFolder)
             My.Settings.UploadQueueFolders.Add(CurrentFolder)
-            My.Settings.Save()
         Next
         For Each subF As IO.DirectoryInfo In BaseFolder.GetDirectories()
             Application.DoEvents()
@@ -527,7 +526,6 @@ Public Class Form1
             My.Settings.UploadQueueFolders.Add(CurrentFolder)
             GetDirectoriesAndFiles(subF)
         Next
-        My.Settings.Save()
     End Sub
     Private Sub Form1_DragEnter(sender As System.Object, e As System.Windows.Forms.DragEventArgs) Handles Me.DragEnter
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
