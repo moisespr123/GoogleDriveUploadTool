@@ -193,7 +193,16 @@ Public Class Form1
                     Dim UploadStream As New FileStream(GetFile, System.IO.FileMode.Open, System.IO.FileAccess.Read)
                     If CheckBox1.Checked Then FileMetadata.ModifiedTime = IO.File.GetLastWriteTimeUtc(GetFile)
                     Dim UploadFile As FilesResource.CreateMediaUpload = service.Files.Create(FileMetadata, UploadStream, "")
-                    UploadFile.ChunkSize = ResumableUpload.MinimumChunkSize * 4
+                    Dim ChunkMultiplier As Integer = 4
+                    If My.Computer.FileSystem.FileExists("chunkmultiplier.txt") Then
+                        If String.IsNullOrEmpty(My.Computer.FileSystem.ReadAllText("chunkmultiplier.txt")) = False Then
+                            ChunkMultiplier = My.Computer.FileSystem.ReadAllText("chunkmultiplier.txt")
+                            If ChunkMultiplier = 0 Then ChunkMultiplier = 4
+                        Else
+                            ChunkMultiplier = 4
+                        End If
+                    End If
+                    UploadFile.ChunkSize = ResumableUpload.MinimumChunkSize * ChunkMultiplier
                     AddHandler UploadFile.ProgressChanged, New Action(Of IUploadProgress)(AddressOf Upload_ProgressChanged)
                     AddHandler UploadFile.ResponseReceived, New Action(Of Data.File)(AddressOf Upload_ResponseReceived)
                     AddHandler UploadFile.UploadSessionData, AddressOf Upload_UploadSessionData
