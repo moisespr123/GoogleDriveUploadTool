@@ -1130,7 +1130,7 @@ Public Class Form1
             Case "upload_finish"
                 Select Case My.Settings.Language
                     Case "English"
-                        Return "Upload_finish"
+                        Return "Uploads Finished!"
                     Case "Spanish"
                         Return "Los archivos han terminado de subir."
                     Case "TChinese"
