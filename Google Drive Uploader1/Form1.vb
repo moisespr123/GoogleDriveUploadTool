@@ -434,8 +434,6 @@ Public Class Form1
         End If
         If ListBox3.InvokeRequired Then
             ListBox3.Invoke(New RefreshFileListInvoker(AddressOf RefreshFileList), FolderID)
-            'Dim method As MethodInvoker = New MethodInvoker(AddressOf RefreshFileList)
-            'Invoke(method)
         End If
         ListBox1.Items.Clear()
         FileIdsListBox.Items.Clear()
@@ -924,13 +922,9 @@ Public Class Form1
         End If
         If ListBox3.InvokeRequired Then
             ListBox3.Invoke(New RefreshFileListInvoker(AddressOf ViewTrashedFiles))
-            'Dim method As MethodInvoker = New MethodInvoker(AddressOf RefreshFileList)
-            'Invoke(method)
         End If
         If CurrentFolderLabel.InvokeRequired Then
             CurrentFolderLabel.Invoke(New RefreshFileListInvoker(AddressOf ViewTrashedFiles))
-            'Dim method As MethodInvoker = New MethodInvoker(AddressOf RefreshFileList)
-            'Invoke(method)
         End If
         CurrentFolderLabel.Visible = False
         ListBox1.Items.Clear()
