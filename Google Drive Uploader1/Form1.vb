@@ -98,6 +98,7 @@ Public Class Form1
         Next
         RefreshFileList(CurrentFolder)
         GetFolderIDName(False)
+        CurrentFolderLabel.Text = GetCurrentFolderIDName()
     End Sub
 
     Public Sub Lang_Select()
@@ -616,6 +617,15 @@ Public Class Form1
             Return False
         End If
     End Function
+    Private Function GetCurrentFolderIDName() As String
+        Try
+            Dim GetFolderName As FilesResource.GetRequest = service.Files.Get(CurrentFolder)
+            Dim FolderNameMetadata As Data.File = GetFolderName.Execute
+            Return FolderNameMetadata.Name
+        Catch ex As Exception
+
+        End Try
+    End Function
 
     Private Sub ListBox3_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles ListBox3.MouseDoubleClick
         If viewing_trash = False Then
@@ -632,6 +642,7 @@ Public Class Form1
                 CurrentFolder = PreviousFolderIdBeforeRemoving
                 My.Settings.LastFolder = CurrentFolder
                 My.Settings.Save()
+                CurrentFolderLabel.Text = GetCurrentFolderIDName()
                 RefreshFileList(PreviousFolderIdBeforeRemoving)
                 'TextBox2.Text = CurrentFolder
                 'GetFolderIDName(False)
@@ -811,6 +822,7 @@ Public Class Form1
             My.Settings.Save()
             Button7.Visible = False
             Button10.Enabled = True
+            CurrentFolderLabel.Text = GetCurrentFolderIDName()
             RefreshFileList(GoToFolderID)
         End If
     End Sub
@@ -899,6 +911,8 @@ Public Class Form1
         Else
             viewing_trash = False
             Lang_Select()
+            CurrentFolderLabel.Text = GetCurrentFolderIDName()
+            CurrentFolderLabel.Visible = True
             RefreshFileList(CurrentFolder)
         End If
 
@@ -913,6 +927,12 @@ Public Class Form1
             'Dim method As MethodInvoker = New MethodInvoker(AddressOf RefreshFileList)
             'Invoke(method)
         End If
+        If CurrentFolderLabel.InvokeRequired Then
+            CurrentFolderLabel.Invoke(New RefreshFileListInvoker(AddressOf ViewTrashedFiles))
+            'Dim method As MethodInvoker = New MethodInvoker(AddressOf RefreshFileList)
+            'Invoke(method)
+        End If
+        CurrentFolderLabel.Visible = False
         ListBox1.Items.Clear()
         FileIdsListBox.Items.Clear()
         FileSizeListBox.Items.Clear()

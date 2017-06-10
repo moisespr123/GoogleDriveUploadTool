@@ -83,6 +83,7 @@ Partial Class Form1
         Me.Button11 = New System.Windows.Forms.Button()
         Me.Button13 = New System.Windows.Forms.Button()
         Me.Button14 = New System.Windows.Forms.Button()
+        Me.CurrentFolderLabel = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
@@ -624,12 +625,22 @@ Partial Class Form1
         Me.Button14.Text = "Deselect"
         Me.Button14.UseVisualStyleBackColor = True
         '
+        'CurrentFolderLabel
+        '
+        Me.CurrentFolderLabel.AutoSize = True
+        Me.CurrentFolderLabel.Location = New System.Drawing.Point(615, 17)
+        Me.CurrentFolderLabel.Name = "CurrentFolderLabel"
+        Me.CurrentFolderLabel.Size = New System.Drawing.Size(96, 13)
+        Me.CurrentFolderLabel.TabIndex = 48
+        Me.CurrentFolderLabel.Text = "CurrentFolderLabel"
+        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1236, 429)
+        Me.Controls.Add(Me.CurrentFolderLabel)
         Me.Controls.Add(Me.Button14)
         Me.Controls.Add(Me.Button13)
         Me.Controls.Add(Me.btnLogout)
@@ -742,4 +753,5 @@ Partial Class Form1
     Friend WithEvents Button11 As Button
     Friend WithEvents Button13 As Button
     Friend WithEvents Button14 As Button
+    Friend WithEvents CurrentFolderLabel As Label
 End Class
