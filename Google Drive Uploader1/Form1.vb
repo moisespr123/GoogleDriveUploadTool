@@ -621,7 +621,7 @@ Public Class Form1
             Dim FolderNameMetadata As Data.File = GetFolderName.Execute
             Return FolderNameMetadata.Name
         Catch ex As Exception
-
+            Return String.Empty
         End Try
     End Function
 
