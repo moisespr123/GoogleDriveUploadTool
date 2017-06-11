@@ -315,7 +315,6 @@ Public Class Form1
         UploadStatusText = msgAndDialoglang("uploadstatus_complete")
         BytesSentText = My.Computer.FileSystem.GetFileInfo(GetFile).Length
         UpdateBytesSent()
-
     End Sub
     Private Sub Upload_UploadSessionData(ByVal uploadSessionData As IUploadSessionData)
         ' Save UploadUri.AbsoluteUri and FullPath Filename values for use if program faults and we want to restart the program
@@ -323,14 +322,12 @@ Public Class Form1
         My.Settings.ResumeFilename = GetFile
         ' Saved to a user.config file within a subdirectory of C:\Users\<yourusername>\AppData\Local
         My.Settings.Save()
-
     End Sub
     Private Function GetSessionRestartUri(Ask As Boolean) As Uri
         If My.Settings.ResumeUri.Length > 0 AndAlso My.Settings.ResumeFilename = GetFile Then
             ' An UploadUri from a previous execution is present, ask if a resume should be attempted
             Dim ResumeText1 As String = ""
             Dim ResumeText2 As String = ""
-
             If RadioButton1.Checked = True Then
                 ResumeText1 = "Resume previous upload?{0}{0}{1}"
                 ResumeText2 = "Resume Upload"
@@ -913,8 +910,6 @@ Public Class Form1
             CurrentFolderLabel.Visible = True
             RefreshFileList(CurrentFolder)
         End If
-
-
     End Sub
     Private Sub ViewTrashedFiles()
         If ListBox1.InvokeRequired Then
