@@ -756,7 +756,7 @@ Public Class Form1
                         Next
                         Thread.Sleep(1000)
                         RefreshFileList(CurrentFolder)
-                        MsgBox(MsgAndDialogLang("folder_moved2trash"))
+                        MsgBox(MsgAndDialogLang("folders_moved2trash"))
                     End If
                 Else
                     Dim Message As String = MsgAndDialogLang("confirm_move_folder2trash_part1") & ListBox3.SelectedItem & MsgAndDialogLang("confirm_move_folder2trash_part2")
@@ -789,7 +789,7 @@ Public Class Form1
                         Next
                         Thread.Sleep(1000)
                         ViewTrashedFiles()
-                        MsgBox(MsgAndDialogLang("folder_restroed"))
+                        MsgBox(MsgAndDialogLang("folders_restroed"))
                     End If
                 Else
                     Dim Message As String = MsgAndDialogLang("restore_folder_part1") & ListBox3.SelectedItem & MsgAndDialogLang("restore_folder_part2")
@@ -840,7 +840,7 @@ Public Class Form1
                         Next
                         Thread.Sleep(1000)
                         RefreshFileList(CurrentFolder)
-                        MsgBox(MsgAndDialogLang("file_moved2trash"))
+                        MsgBox(MsgAndDialogLang("files_moved2trash"))
                     End If
                 Else
                     Dim Message As String = MsgAndDialogLang("move_file2trash_part1") & ListBox1.SelectedItem & MsgAndDialogLang("move_file2trash_part2")
@@ -861,7 +861,7 @@ Public Class Form1
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.R Then
             If viewing_trash Then
                 If ListBox1.SelectedItems.Count > 1 Then
-                    Dim Message As String = MsgAndDialogLang("confirm_restore_selected_file")
+                    Dim Message As String = MsgAndDialogLang("confirm_restore_selected_files")
                     If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
                         Dim FileMetadata As New Data.File
                         FileMetadata.Trashed = False
@@ -871,10 +871,10 @@ Public Class Form1
                         Next
                         Thread.Sleep(1000)
                         ViewTrashedFiles()
-                        MsgBox(MsgAndDialogLang("file_restored"))
+                        MsgBox(MsgAndDialogLang("files_restored"))
                     End If
                 Else
-                    Dim Message As String = MsgAndDialogLang("restore_file_part1") & ListBox1.SelectedItem & MsgAndDialogLang("resotre_file_part2")
+                    Dim Message As String = MsgAndDialogLang("restore_file_part1") & ListBox1.SelectedItem & MsgAndDialogLang("restore_file_part2")
                     If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
                         Dim FileMetadata As New Data.File
                         FileMetadata.Trashed = False
@@ -1276,6 +1276,15 @@ Public Class Form1
                     Case "TChinese"
                         Return "Do you really want to move the selected folders to the Trash?"
                 End Select
+            Case "folders_moved2trash"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Folders moved to trash"
+                    Case "Spanish"
+                        Return "Las carpetas se movieron a la basura."
+                    Case "TChinese"
+                        Return "文件夾已移到垃圾桶"
+                End Select
             Case "folder_moved2trash"
                 Select Case My.Settings.Language
                     Case "English"
@@ -1303,6 +1312,15 @@ Public Class Form1
                     Case "TChinese"
                         Return " 移到垃圾桶?"
                 End Select
+            Case "confirm_restore_selected_files"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Do you want to restore the selected files?"
+                    Case "Spanish"
+                        Return "¿Está seguro de querer restaurar los archivos seleccionados?"
+                    Case "TChinese"
+                        Return "你真係想還原所選的文件夾?"
+                End Select
             Case "confirm_restore_selected_folders"
                 Select Case My.Settings.Language
                     Case "English"
@@ -1324,18 +1342,27 @@ Public Class Form1
             Case "restore_folder_part2"
                 Select Case My.Settings.Language
                     Case "English"
-                        Return " ?"
+                        Return "?"
                     Case "Spanish"
-                        Return " ?"
+                        Return "?"
                     Case "TChinese"
-                        Return " ?"
+                        Return "?"
                 End Select
             Case "folder_restored"
                 Select Case My.Settings.Language
                     Case "English"
-                        Return "Folders restored"
+                        Return "The Folder has been restored"
                     Case "Spanish"
-                        Return "Las carpetas han sido restaurados"
+                        Return "La carpeta ha sido restaurada"
+                    Case "TChinese"
+                        Return "文件夾巳還原"
+                End Select
+            Case "folders_restored"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "The Folders have been restored"
+                    Case "Spanish"
+                        Return "Las carpetas han sido restauradas"
                     Case "TChinese"
                         Return "文件夾巳還原"
                 End Select
@@ -1349,6 +1376,15 @@ Public Class Form1
                         Return "Do you really want to move the selected files to the Trash?"
                 End Select
             Case "file_moved2trash"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "File moved to trash"
+                    Case "Spanish"
+                        Return "El archivo se movió a la basura."
+                    Case "TChinese"
+                        Return "檔案已移到垃圾桶"
+                End Select
+            Case "files_moved2trash"
                 Select Case My.Settings.Language
                     Case "English"
                         Return "Files moved to trash"
@@ -1387,7 +1423,16 @@ Public Class Form1
             Case "file_restored"
                 Select Case My.Settings.Language
                     Case "English"
-                        Return "Files restored"
+                        Return "The File has been restored"
+                    Case "Spanish"
+                        Return "El archivo ha sido restaurado"
+                    Case "TChinese"
+                        Return "文件巳還原"
+                End Select
+            Case "files_restored"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "The Files have been restored"
                     Case "Spanish"
                         Return "Los archivos han sido restaurados"
                     Case "TChinese"
