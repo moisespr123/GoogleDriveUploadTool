@@ -804,6 +804,10 @@ Public Class Form1
                     End If
                 End If
             End If
+        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.A Then
+            For i = 0 To ListBox3.Items.Count - 1
+                ListBox3.SetSelected(i, True)
+            Next
         End If
     End Sub
 
@@ -852,10 +856,10 @@ Public Class Form1
                 End If
             End If
         ElseIf e.KeyCode = Keys.F5 Then
-                RefreshFileList(CurrentFolder)
-                e.Handled = True
-            ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.R Then
-                If viewing_trash Then
+            RefreshFileList(CurrentFolder)
+            e.Handled = True
+        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.R Then
+            If viewing_trash Then
                 If ListBox1.SelectedItems.Count > 1 Then
                     Dim Message As String = MsgAndDialogLang("confirm_restore_selected_file")
                     If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
@@ -882,6 +886,10 @@ Public Class Form1
                     End If
                 End If
             End If
+        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.A Then
+            For i = 0 To ListBox1.Items.Count - 1
+                ListBox1.SetSelected(i, True)
+            Next
         End If
     End Sub
 
