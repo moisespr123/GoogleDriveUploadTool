@@ -627,8 +627,7 @@ Public Class Form1
             EnterFolder()
         End If
     End Sub
-
-    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+    Private Sub GoBack()
         If viewing_trash = False Then
             If CurrentFolder = "root" = False Then
                 Dim PreviousFolderIdBeforeRemoving = PreviousFolderId.Items.Item(PreviousFolderId.Items.Count - 1)
@@ -650,6 +649,10 @@ Public Class Form1
         Else
             ViewTrashedFiles()
         End If
+    End Sub
+
+    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+        GoBack()
     End Sub
 
     Private Sub ListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox1.SelectedIndexChanged
@@ -737,7 +740,7 @@ Public Class Form1
                 Checksumfile.WriteLine(FileMD5ListBox.Items.Item(ListBox1.Items.IndexOf(item)) & " *" & item)
             Next
             Checksumfile.Close()
-            MsgBox("Checksums saved")
+            MsgBox(MsgAndDialogLang("checksums_saved"))
         End If
 
 
@@ -809,9 +812,78 @@ Public Class Form1
             For i = 0 To ListBox3.Items.Count - 1
                 ListBox3.SetSelected(i, True)
             Next
+        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.C Then
+            Dim TempCurrentFolder As String = CurrentFolder
+            EnterFolder()
+            Dim FolderList As New List(Of String)
+            FolderList.Add(CurrentFolder)
+            SaveFileDialog2.Title = MsgAndDialogLang("checksum_location")
+            SaveFileDialog2.FileName = GetCurrentFolderIDName() & ".md5"
+            SaveFileDialog2.Filter = "MD5 Checksum|*.md5"
+            Dim SFDResult As MsgBoxResult = SaveFileDialog2.ShowDialog()
+            If SFDResult = MsgBoxResult.Ok Then
+                If My.Computer.FileSystem.FileExists(SaveFileDialog2.FileName) Then My.Computer.FileSystem.DeleteFile(SaveFileDialog2.FileName)
+                Dim Checksumfile As StreamWriter = New StreamWriter(SaveFileDialog2.FileName, True, System.Text.Encoding.UTF8)
+                GetFileFolderChecksum(TempCurrentFolder, CurrentFolder, FolderList, Checksumfile)
+                Checksumfile.Close()
+                GoBack()
+                MsgBox(MsgAndDialogLang("checksums_saved"))
+            End If
         End If
-    End Sub
 
+    End Sub
+    Private Sub GetFileFolderChecksum(InitFolder As String, Folder As String, Path As List(Of String), Stream As StreamWriter)
+        Dim FullPath As String = ""
+        If Path.Count > 0 Then
+            For Each item In Path
+                Try
+                    Dim GetFolderName As FilesResource.GetRequest = service.Files.Get(item)
+                    Dim FolderNameMetadata As Data.File = GetFolderName.Execute
+                    FullPath = FullPath + FolderNameMetadata.Name + "\"
+                Catch ex As Exception
+
+                End Try
+            Next
+        End If
+        For Each item In ListBox1.Items
+            Stream.WriteLine(FileMD5ListBox.Items.Item(ListBox1.Items.IndexOf(item)) & " *" & FullPath & item)
+        Next
+        If ListBox3.Items.Count > 0 Then
+            Dim FolderList As New List(Of String)
+            For Each FolderInList In ListBox3.Items
+                FolderList.Add(FolderIdsListBox.Items.Item(ListBox3.Items.IndexOf(FolderInList)))
+
+            Next
+            For Each Folder2 In FolderList
+                Path.Add(FolderIdsListBox.Items.Item(FolderIdsListBox.Items.IndexOf(Folder2)))
+                ListBox3.SelectedItem = ListBox3.Items.Item(FolderIdsListBox.Items.IndexOf(Folder2))
+                EnterFolder()
+                GetFileFolderChecksum(InitFolder, CurrentFolder, Path, Stream)
+                GoBack()
+                Path.Remove(Folder2)
+
+            Next
+        End If
+        If Path.Count > 1 Then
+
+        End If
+        '     Private Sub GetDirectoriesAndFiles(ByVal BaseFolder As IO.DirectoryInfo)
+        '    ListBox2.Items.AddRange((From FI As IO.FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
+        '    My.Settings.UploadQueue.AddRange((From FI As IO.FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
+        '    For Each FI As IO.FileInfo In BaseFolder.GetFiles()
+        '        FolderToUploadFileListBox.Items.Add(CurrentFolder)
+        '        My.Settings.UploadQueueFolders.Add(CurrentFolder)
+        '    Next
+        '    For Each subF As IO.DirectoryInfo In BaseFolder.GetDirectories()
+        '        Application.DoEvents()
+        '        ListBox2.Items.Add(subF.FullName)
+        '        FolderToUploadFileListBox.Items.Add(CurrentFolder)
+        '        My.Settings.UploadQueue.Add(subF.FullName)
+        '        My.Settings.UploadQueueFolders.Add(CurrentFolder)
+        '        GetDirectoriesAndFiles(subF)
+        '    Next
+        'End Sub
+    End Sub
     Private Sub EnterFolder()
         If String.IsNullOrEmpty(ListBox3.SelectedItem) = False Then
             Dim GoToFolderID As String = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
@@ -1294,6 +1366,15 @@ Public Class Form1
                         Return "La carpeta se movió a la basura"
                     Case "TChinese"
                         Return "文件夾已移到垃圾桶"
+                End Select
+            Case "checksums_saved"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Checksums Saved!"
+                    Case "Spanish"
+                        Return "Los Checksums han sido guardados"
+                    Case "TChinese"
+                        Return "???"
                 End Select
             Case "confirm_move_folder2trash_part1"
                 Select Case My.Settings.Language
