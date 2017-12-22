@@ -132,7 +132,6 @@ Public Class Form1
     Private UploadFailed As Boolean = False
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         If ListBox2.Items.Count > 0 Then
-            ListBox2.SelectedIndex() = 0
             TextBox2.Text = FolderToUploadFileListBox.Items.Item(0)
             If GetFolderIDName(False) = True Then
                 My.Settings.LastFolder = CurrentFolder
@@ -168,6 +167,7 @@ Public Class Form1
             DirectoryListID = My.Settings.FoldersCreatedID
         End If
         While ListBox2.Items.Count > 0
+            ListBox2.SelectedIndex() = 0
             Try
                 GetFile = ListBox2.Items.Item(0)
                 TextBox2.Text = FolderToUploadFileListBox.Items.Item(0)
@@ -702,6 +702,7 @@ Public Class Form1
             TextBox1.Text = FolderNameToCreate
             TextBox2.Text = FolderID.Id
             CurrentFolder = FolderID.Id
+            CurrentFolderLabel.Text = GetCurrentFolderIDName()
             RefreshFileList(FolderID.Id)
         End If
     End Sub
@@ -727,7 +728,7 @@ Public Class Form1
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
         SaveFileDialog2.Title = msgAndDialoglang("checksum_location")
-        SaveFileDialog2.FileName = "checksums.md5"
+        SaveFileDialog2.FileName = GetCurrentFolderIDName() & ".md5"
         SaveFileDialog2.Filter = "MD5 Checksum|*.md5"
         Dim SFDResult As MsgBoxResult = SaveFileDialog2.ShowDialog()
         If SFDResult = MsgBoxResult.Ok Then
@@ -1478,5 +1479,14 @@ Public Class Form1
                 ListBox2.SetSelected(i, True)
             Next
         End If
+    End Sub
+
+    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        My.Settings.PreviousFolderIDs.Clear()
+        My.Settings.LastFolder = "root"
+        My.Settings.Save()
+        CurrentFolder = "root"
+        CurrentFolderLabel.Text = GetCurrentFolderIDName()
+        RefreshFileList(CurrentFolder)
     End Sub
 End Class
