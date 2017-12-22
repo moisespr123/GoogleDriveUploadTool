@@ -824,7 +824,7 @@ Public Class Form1
             If SFDResult = MsgBoxResult.Ok Then
                 If My.Computer.FileSystem.FileExists(SaveFileDialog2.FileName) Then My.Computer.FileSystem.DeleteFile(SaveFileDialog2.FileName)
                 Dim Checksumfile As StreamWriter = New StreamWriter(SaveFileDialog2.FileName, True, System.Text.Encoding.UTF8)
-                GetFileFolderChecksum(TempCurrentFolder, CurrentFolder, FolderList, Checksumfile)
+                GetFileFolderChecksum(FolderList, Checksumfile)
                 Checksumfile.Close()
                 GoBack()
                 MsgBox(MsgAndDialogLang("checksums_saved"))
@@ -832,7 +832,8 @@ Public Class Form1
         End If
 
     End Sub
-    Private Sub GetFileFolderChecksum(InitFolder As String, Folder As String, Path As List(Of String), Stream As StreamWriter)
+    Private Sub GetFileFolderChecksum(Path As List(Of String), Stream As StreamWriter)
+        'This creates the full path of the file by getting the ID Name.
         Dim FullPath As String = ""
         If Path.Count > 0 Then
             For Each item In Path
@@ -845,44 +846,28 @@ Public Class Form1
                 End Try
             Next
         End If
+        'Once Full Path has been created, we check for files inside the folder. If there's files, we will store their MD5 checksum.
         For Each item In ListBox1.Items
             Stream.WriteLine(FileMD5ListBox.Items.Item(ListBox1.Items.IndexOf(item)) & " *" & FullPath & item)
         Next
+        'Finally, this loop checks if there are folders inside the folder we are. We start a recursion loop by calling this same function for each folder inside the folder.
         If ListBox3.Items.Count > 0 Then
             Dim FolderList As New List(Of String)
             For Each FolderInList In ListBox3.Items
                 FolderList.Add(FolderIdsListBox.Items.Item(ListBox3.Items.IndexOf(FolderInList)))
-
             Next
             For Each Folder2 In FolderList
                 Path.Add(FolderIdsListBox.Items.Item(FolderIdsListBox.Items.IndexOf(Folder2)))
                 ListBox3.SelectedItem = ListBox3.Items.Item(FolderIdsListBox.Items.IndexOf(Folder2))
                 EnterFolder()
-                GetFileFolderChecksum(InitFolder, CurrentFolder, Path, Stream)
+                GetFileFolderChecksum(Path, Stream)
                 GoBack()
                 Path.Remove(Folder2)
-
             Next
         End If
         If Path.Count > 1 Then
 
         End If
-        '     Private Sub GetDirectoriesAndFiles(ByVal BaseFolder As IO.DirectoryInfo)
-        '    ListBox2.Items.AddRange((From FI As IO.FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
-        '    My.Settings.UploadQueue.AddRange((From FI As IO.FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
-        '    For Each FI As IO.FileInfo In BaseFolder.GetFiles()
-        '        FolderToUploadFileListBox.Items.Add(CurrentFolder)
-        '        My.Settings.UploadQueueFolders.Add(CurrentFolder)
-        '    Next
-        '    For Each subF As IO.DirectoryInfo In BaseFolder.GetDirectories()
-        '        Application.DoEvents()
-        '        ListBox2.Items.Add(subF.FullName)
-        '        FolderToUploadFileListBox.Items.Add(CurrentFolder)
-        '        My.Settings.UploadQueue.Add(subF.FullName)
-        '        My.Settings.UploadQueueFolders.Add(CurrentFolder)
-        '        GetDirectoriesAndFiles(subF)
-        '    Next
-        'End Sub
     End Sub
     Private Sub EnterFolder()
         If String.IsNullOrEmpty(ListBox3.SelectedItem) = False Then
