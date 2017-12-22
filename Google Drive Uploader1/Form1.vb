@@ -813,7 +813,6 @@ Public Class Form1
                 ListBox3.SetSelected(i, True)
             Next
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.C Then
-            Dim TempCurrentFolder As String = CurrentFolder
             EnterFolder()
             Dim FolderList As New List(Of String)
             FolderList.Add(CurrentFolder)
@@ -830,7 +829,6 @@ Public Class Form1
                 MsgBox(MsgAndDialogLang("checksums_saved"))
             End If
         End If
-
     End Sub
     Private Sub GetFileFolderChecksum(Path As List(Of String), Stream As StreamWriter)
         'This creates the full path of the file by getting the ID Name.
@@ -864,9 +862,6 @@ Public Class Form1
                 GoBack()
                 Path.Remove(Folder2)
             Next
-        End If
-        If Path.Count > 1 Then
-
         End If
     End Sub
     Private Sub EnterFolder()
