@@ -24,7 +24,7 @@ Public Class Form1
     ' If modifying these scopes, delete your previously saved credentials
     ' at ~/.credentials/drive-dotnet-quickstart.json
     Shared Scopes As String() = {DriveService.Scope.DriveFile, DriveService.Scope.Drive}
-    Shared ApplicationName As String = "Google Drive Uploader Tool"
+    Shared SoftwareName As String = "Google Drive Uploader Tool"
     Public service As DriveService
     Dim viewing_trash As Boolean = False
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load        'Initialize Upload Queue Collection
@@ -61,7 +61,7 @@ Public Class Form1
         'Checks if the Preserve Modified Date checkbox was checked in the last run.
         If My.Settings.PreserveModifiedDate = True Then CheckBox1.Checked = True Else CheckBox1.Checked = False
         'Google Drive initialization
-        Dim credential As UserCredential
+        Dim credential As UserCredential = Nothing
         Try
             Using stream = New FileStream("client_secret.json", FileMode.Open, FileAccess.Read)
                 Dim credPath As String = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
@@ -82,9 +82,10 @@ Public Class Form1
             End If
         End Try
         ' Create Drive API service.
-        Dim Initializer As New BaseClientService.Initializer()
-        Initializer.HttpClientInitializer = credential
-        Initializer.ApplicationName = ApplicationName
+        Dim Initializer As New BaseClientService.Initializer With {
+            .HttpClientInitializer = credential,
+            .ApplicationName = SoftwareName
+        }
         service = New DriveService(Initializer)
         service.HttpClient.Timeout = TimeSpan.FromSeconds(120)
         'Loads the last used Folder ID and lists files
@@ -175,8 +176,9 @@ Public Class Form1
                 If System.IO.File.Exists(GetFile) Then
                     Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                     ProgressBar1.Maximum = My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024
-                    Dim FileMetadata As New Data.File
-                    FileMetadata.Name = My.Computer.FileSystem.GetName(GetFile)
+                    Dim FileMetadata As New Data.File With {
+                        .Name = My.Computer.FileSystem.GetName(GetFile)
+                    }
                     Dim FileFolder As New List(Of String)
                     If FolderCreated = False Then
                         FileFolder.Add(TextBox2.Text)
@@ -222,8 +224,9 @@ Public Class Form1
                     End If
                     UploadStream.Close()
                 ElseIf IO.Directory.Exists(GetFile) Then
-                    Dim FolderMetadata As New Data.File
-                    FolderMetadata.Name = My.Computer.FileSystem.GetName(GetFile)
+                    Dim FolderMetadata As New Data.File With {
+                        .Name = My.Computer.FileSystem.GetName(GetFile)
+                    }
                     Dim ParentFolder As New List(Of String)
                     If FolderCreated = True Then
                         Dim DirectoryName As String = ""
@@ -379,10 +382,10 @@ Public Class Form1
     End Sub
     Private Shared FileToSave As FileStream
     Private Shared MaxFileSize
-    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+    Private Async Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
         FileIdsListBox.SelectedIndex = ListBox1.SelectedIndex
         FileSizeListBox.SelectedIndex = ListBox1.SelectedIndex
-        SaveFileDialog1.Title = msgAndDialoglang("location_browse")
+        SaveFileDialog1.Title = MsgAndDialogLang("location_browse")
         SaveFileDialog1.FileName = ListBox1.SelectedItem
         Dim SFDResult As MsgBoxResult = SaveFileDialog1.ShowDialog()
         If SFDResult = MsgBoxResult.Ok Then
@@ -393,7 +396,7 @@ Public Class Form1
             FileToSave = New FileStream(SaveFileDialog1.FileName, FileMode.Create, FileAccess.Write)
             Dim DownloadRequest As FilesResource.GetRequest = service.Files.Get(FileIdsListBox.SelectedItem.ToString)
             AddHandler DownloadRequest.MediaDownloader.ProgressChanged, New Action(Of IDownloadProgress)(AddressOf Download_ProgressChanged)
-            DownloadRequest.DownloadAsync(FileToSave)
+            Await DownloadRequest.DownloadAsync(FileToSave)
             FileToSave.Close()
         End If
     End Sub
@@ -688,10 +691,12 @@ Public Class Form1
         Title = msgAndDialoglang("create_new_folder")
         FolderNameToCreate = InputBox(Message, Title)
         If String.IsNullOrEmpty(FolderNameToCreate) = False Then
-            Dim FolderMetadata As New Data.File
-            FolderMetadata.Name = FolderNameToCreate
-            Dim ParentFolder As New List(Of String)
-            ParentFolder.Add(CurrentFolder)
+            Dim FolderMetadata As New Data.File With {
+                .Name = FolderNameToCreate
+            }
+            Dim ParentFolder As New List(Of String) From {
+                CurrentFolder
+            }
             FolderMetadata.Parents = ParentFolder
             FolderMetadata.MimeType = "application/vnd.google-apps.folder"
             Dim CreateFolder As FilesResource.CreateRequest = service.Files.Create(FolderMetadata)
@@ -752,8 +757,9 @@ Public Class Form1
                 If ListBox3.SelectedItems.Count > 1 Then
                     Dim Message As String = MsgAndDialogLang("confirm_selected_move_folder2trash")
                     If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                        Dim FileMetadata As New Data.File
-                        FileMetadata.Trashed = True
+                        Dim FileMetadata As New Data.File With {
+                            .Trashed = True
+                        }
                         For Each item In ListBox3.SelectedItems
                             Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.Items.IndexOf(item)))
                             RemoveFile.ExecuteAsync()
@@ -765,8 +771,9 @@ Public Class Form1
                 Else
                     Dim Message As String = MsgAndDialogLang("confirm_move_folder2trash_part1") & ListBox3.SelectedItem & MsgAndDialogLang("confirm_move_folder2trash_part2")
                     If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                        Dim FileMetadata As New Data.File
-                        FileMetadata.Trashed = True
+                        Dim FileMetadata As New Data.File With {
+                            .Trashed = True
+                        }
                         Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.SelectedIndex))
                         RemoveFile.ExecuteAsync()
                         Thread.Sleep(1000)
@@ -785,8 +792,9 @@ Public Class Form1
                 If ListBox3.SelectedItems.Count > 1 Then
                     Dim Message As String = MsgAndDialogLang("confirm_restore_selected_folders")
                     If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                        Dim FileMetadata As New Data.File
-                        FileMetadata.Trashed = False
+                        Dim FileMetadata As New Data.File With {
+                            .Trashed = False
+                        }
                         For Each item In ListBox3.SelectedItems
                             Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.Items.IndexOf(item)))
                             RemoveFile.ExecuteAsync()
@@ -798,8 +806,9 @@ Public Class Form1
                 Else
                     Dim Message As String = MsgAndDialogLang("restore_folder_part1") & ListBox3.SelectedItem & MsgAndDialogLang("restore_folder_part2")
                     If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                        Dim FileMetadata As New Data.File
-                        FileMetadata.Trashed = False
+                        Dim FileMetadata As New Data.File With {
+                            .Trashed = False
+                        }
                         Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.SelectedIndex))
                         RemoveFile.ExecuteAsync()
                         Thread.Sleep(1000)
@@ -814,8 +823,9 @@ Public Class Form1
             Next
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.C Then
             EnterFolder()
-            Dim FolderList As New List(Of String)
-            FolderList.Add(CurrentFolder)
+            Dim FolderList As New List(Of String) From {
+                CurrentFolder
+            }
             SaveFileDialog2.Title = MsgAndDialogLang("checksum_location")
             SaveFileDialog2.FileName = GetCurrentFolderIDName() & ".md5"
             SaveFileDialog2.Filter = "MD5 Checksum|*.md5"
@@ -885,8 +895,9 @@ Public Class Form1
                 If ListBox1.SelectedItems.Count > 1 Then
                     Dim Message As String = MsgAndDialogLang("move_selected_file2trash")
                     If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                        Dim FileMetadata As New Data.File
-                        FileMetadata.Trashed = True
+                        Dim FileMetadata As New Data.File With {
+                            .Trashed = True
+                        }
                         For Each item In ListBox1.SelectedItems
                             Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FileIdsListBox.Items.Item(ListBox1.Items.IndexOf(item)))
                             RemoveFile.ExecuteAsync()
@@ -898,8 +909,9 @@ Public Class Form1
                 Else
                     Dim Message As String = MsgAndDialogLang("move_file2trash_part1") & ListBox1.SelectedItem & MsgAndDialogLang("move_file2trash_part2")
                     If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                        Dim FileMetadata As New Data.File
-                        FileMetadata.Trashed = True
+                        Dim FileMetadata As New Data.File With {
+                            .Trashed = True
+                        }
                         Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FileIdsListBox.Items.Item(ListBox1.SelectedIndex))
                         RemoveFile.ExecuteAsync()
                         Thread.Sleep(1000)
@@ -916,8 +928,9 @@ Public Class Form1
                 If ListBox1.SelectedItems.Count > 1 Then
                     Dim Message As String = MsgAndDialogLang("confirm_restore_selected_files")
                     If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                        Dim FileMetadata As New Data.File
-                        FileMetadata.Trashed = False
+                        Dim FileMetadata As New Data.File With {
+                            .Trashed = False
+                        }
                         For Each item In ListBox1.SelectedItems
                             Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FileIdsListBox.Items.Item(ListBox1.Items.IndexOf(item)))
                             RemoveFile.ExecuteAsync()
@@ -929,8 +942,9 @@ Public Class Form1
                 Else
                     Dim Message As String = MsgAndDialogLang("restore_file_part1") & ListBox1.SelectedItem & MsgAndDialogLang("restore_file_part2")
                     If MsgBox(Message, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                        Dim FileMetadata As New Data.File
-                        FileMetadata.Trashed = False
+                        Dim FileMetadata As New Data.File With {
+                            .Trashed = False
+                        }
                         Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FileIdsListBox.Items.Item(ListBox1.SelectedIndex))
                         RemoveFile.ExecuteAsync()
                         Thread.Sleep(1000)
