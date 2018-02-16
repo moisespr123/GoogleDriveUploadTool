@@ -1,6 +1,7 @@
 ﻿v1.7 (not yet released)
 -Fixed: "Refresh List" was not working.
 -Fixed: Files uploaded can now be deleted without closing the software
+-Fixed: File download should now work correctly.
 -Can now enter a folder by selecting them and pressing the "Enter" key.
 -Press the F5 key in the Folder or File List Box to refresh their contents
 -Press the "Delete" key in the Folder List Box to move the selected folder(s) to the Trash

@@ -389,16 +389,19 @@ Public Class Form1
         SaveFileDialog1.FileName = ListBox1.SelectedItem
         Dim SFDResult As MsgBoxResult = SaveFileDialog1.ShowDialog()
         If SFDResult = MsgBoxResult.Ok Then
-            starttime = DateTime.Now
-            Label3.Text = String.Format("{0:N2} MB", FileSizeListBox.SelectedItem / 1024 / 1024)
-            ProgressBar1.Maximum = FileSizeListBox.SelectedItem / 1024 / 1024
-            MaxFileSize = FileSizeListBox.SelectedItem
-            FileToSave = New FileStream(SaveFileDialog1.FileName, FileMode.Create, FileAccess.Write)
-            Dim DownloadRequest As FilesResource.GetRequest = service.Files.Get(FileIdsListBox.SelectedItem.ToString)
-            AddHandler DownloadRequest.MediaDownloader.ProgressChanged, New Action(Of IDownloadProgress)(AddressOf Download_ProgressChanged)
-            Await DownloadRequest.DownloadAsync(FileToSave)
-            FileToSave.Close()
+            DownloadFile(SaveFileDialog1.FileName, FileIdsListBox.SelectedItem, FileSizeListBox.SelectedItem)
         End If
+    End Sub
+    Private Async Sub DownloadFile(Location As String, FileName As String, FileSize As String)
+        starttime = DateTime.Now
+        Label3.Text = String.Format("{0:N2} MB", FileSize / 1024 / 1024)
+        ProgressBar1.Maximum = FileSize / 1024 / 1024
+        MaxFileSize = FileSize
+        FileToSave = New FileStream(Location, FileMode.Create, FileAccess.Write)
+        Dim DownloadRequest As FilesResource.GetRequest = service.Files.Get(FileName)
+        AddHandler DownloadRequest.MediaDownloader.ProgressChanged, New Action(Of IDownloadProgress)(AddressOf Download_ProgressChanged)
+        Await DownloadRequest.DownloadAsync(FileToSave)
+        FileToSave.Close()
     End Sub
     Private Sub Download_ProgressChanged(progress As IDownloadProgress)
         Select Case progress.Status
