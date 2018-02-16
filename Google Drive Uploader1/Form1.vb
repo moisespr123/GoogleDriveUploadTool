@@ -726,34 +726,34 @@ Public Class Form1
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If String.IsNullOrEmpty(TextBox7.Text) = False Then
-            SaveFileDialog2.Title = msgAndDialoglang("checksum_location")
-            SaveFileDialog2.FileName = ListBox1.SelectedItem & ".md5"
-            SaveFileDialog2.Filter = "MD5 Checksum|*.md5"
-            Dim SFDResult As MsgBoxResult = SaveFileDialog2.ShowDialog()
-            If SFDResult = MsgBoxResult.Ok Then
-                My.Computer.FileSystem.WriteAllText(SaveFileDialog2.FileName, TextBox7.Text & " *" & ListBox1.SelectedItem, False)
-            End If
-        End If
+        SaveFileChecksums(SaveChecksumFileDialog(ListBox1.SelectedItem & ".md5"))
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
-        SaveFileDialog2.Title = msgAndDialoglang("checksum_location")
-        SaveFileDialog2.FileName = GetCurrentFolderIDName() & ".md5"
+        SaveFileChecksums(SaveChecksumFileDialog(GetCurrentFolderIDName() & ".md5"))
+    End Sub
+    Private Function SaveChecksumFileDialog(FileOrFolderName As String) As String
+        SaveFileDialog2.Title = MsgAndDialogLang("checksum_location")
+        SaveFileDialog2.FileName = FileOrFolderName
         SaveFileDialog2.Filter = "MD5 Checksum|*.md5"
         Dim SFDResult As MsgBoxResult = SaveFileDialog2.ShowDialog()
+        Dim ReturnPath As String = String.Empty
         If SFDResult = MsgBoxResult.Ok Then
-            Dim Checksumfile As StreamWriter = New StreamWriter(SaveFileDialog2.FileName)
+            ReturnPath = SaveFileDialog2.FileName
+        End If
+        Return ReturnPath
+    End Function
+
+    Private Sub SaveFileChecksums(ChecksumFileName As String)
+        If ChecksumFileName IsNot String.Empty Then
+            Dim Checksumfile As StreamWriter = New StreamWriter(ChecksumFileName)
             For Each item In ListBox1.SelectedItems
                 Checksumfile.WriteLine(FileMD5ListBox.Items.Item(ListBox1.Items.IndexOf(item)) & " *" & item)
             Next
             Checksumfile.Close()
             MsgBox(MsgAndDialogLang("checksums_saved"))
         End If
-
-
     End Sub
-
     Private Sub ListBox3_KeyDown(sender As Object, e As KeyEventArgs) Handles ListBox3.KeyDown
         If e.KeyCode = Keys.Delete Then
             If viewing_trash = False Then
