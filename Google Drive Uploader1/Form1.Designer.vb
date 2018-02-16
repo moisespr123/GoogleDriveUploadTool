@@ -85,6 +85,7 @@ Partial Class Form1
         Me.Button14 = New System.Windows.Forms.Button()
         Me.CurrentFolderLabel = New System.Windows.Forms.Label()
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
@@ -767,4 +768,5 @@ Partial Class Form1
     Friend WithEvents Button14 As Button
     Friend WithEvents CurrentFolderLabel As Label
     Friend WithEvents LinkLabel1 As LinkLabel
+    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
 End Class
