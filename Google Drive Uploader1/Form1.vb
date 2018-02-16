@@ -142,11 +142,6 @@ Public Class Form1
                 UploadFiles()
             Else
                 Dim Message As String = MsgAndDialogLang("folder_invaild")
-                '      If RadioButton1.Checked = True Then
-                '     Message = "The specified folder is invalid. Do you want to change the folder? If you select No, your files will be uploaded to the root of Google Drive"
-                '    Else
-                '   Message = "La carpeta especificada es invalida. Desea cambiar la carpeta? Si presiona No, sus archivos serán subidos a la raíz de Google Drive"
-                'End If
                 If MsgBox(Message, MsgBoxStyle.Question Or MsgBoxStyle.YesNo) = MsgBoxResult.No Then
                     My.Settings.LastFolder = "root"
                     My.Settings.Save()
