@@ -382,7 +382,7 @@ Public Class Form1
     End Sub
     Private Shared FileToSave As FileStream
     Private Shared MaxFileSize
-    Private Async Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
         FileIdsListBox.SelectedIndex = ListBox1.SelectedIndex
         FileSizeListBox.SelectedIndex = ListBox1.SelectedIndex
         SaveFileDialog1.Title = MsgAndDialogLang("location_browse")
