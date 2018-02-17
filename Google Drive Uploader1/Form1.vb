@@ -377,17 +377,17 @@ Public Class Form1
     End Sub
     Private Shared FileToSave As FileStream
     Private Shared MaxFileSize
-    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+    Private Async Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
         FileIdsListBox.SelectedIndex = ListBox1.SelectedIndex
         FileSizeListBox.SelectedIndex = ListBox1.SelectedIndex
         SaveFileDialog1.Title = MsgAndDialogLang("location_browse")
         SaveFileDialog1.FileName = ListBox1.SelectedItem
         Dim SFDResult As MsgBoxResult = SaveFileDialog1.ShowDialog()
         If SFDResult = MsgBoxResult.Ok Then
-            DownloadFile(SaveFileDialog1.FileName, FileIdsListBox.SelectedItem, FileSizeListBox.SelectedItem)
+            Await DownloadFile(SaveFileDialog1.FileName, FileIdsListBox.SelectedItem, FileSizeListBox.SelectedItem)
         End If
     End Sub
-    Private Async Sub DownloadFile(Location As String, FileName As String, FileSize As String)
+    Private Async Function DownloadFile(Location As String, FileName As String, FileSize As String) As Task
         starttime = DateTime.Now
         Label3.Text = String.Format("{0:N2} MB", FileSize / 1024 / 1024)
         ProgressBar1.Maximum = FileSize / 1024 / 1024
@@ -397,18 +397,18 @@ Public Class Form1
         AddHandler DownloadRequest.MediaDownloader.ProgressChanged, New Action(Of IDownloadProgress)(AddressOf Download_ProgressChanged)
         Await DownloadRequest.DownloadAsync(FileToSave)
         FileToSave.Close()
-    End Sub
+    End Function
     Private Sub Download_ProgressChanged(progress As IDownloadProgress)
         Select Case progress.Status
             Case DownloadStatus.Completed
-                UploadStatusText = msgAndDialoglang("uploadstatus_complete")
+                UploadStatusText = MsgAndDialogLang("uploadstatus_complete")
                 FileToSave.Close()
                 BytesSentText = MaxFileSize
                 UpdateBytesSent()
 
             Case DownloadStatus.Downloading
                 BytesSentText = progress.BytesDownloaded
-                UploadStatusText = msgAndDialoglang("uploadstatus_downloading")
+                UploadStatusText = MsgAndDialogLang("uploadstatus_downloading")
                 timespent = DateTime.Now - starttime
                 Try
                     secondsremaining = (timespent.TotalSeconds / ProgressBar1.Value * (ProgressBar1.Maximum - ProgressBar1.Value))
@@ -678,8 +678,8 @@ Public Class Form1
     Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
         Dim FolderNameToCreate As Object
         Dim Message, Title As String
-        Message = msgAndDialoglang("enter_name_for_folder")
-        Title = msgAndDialoglang("create_new_folder")
+        Message = MsgAndDialogLang("enter_name_for_folder")
+        Title = MsgAndDialogLang("create_new_folder")
         FolderNameToCreate = InputBox(Message, Title)
         If String.IsNullOrEmpty(FolderNameToCreate) = False Then
             Dim FolderMetadata As New Data.File With {
@@ -790,7 +790,7 @@ Public Class Form1
             MsgBox(SuccessMessage)
         End If
     End Sub
-    Private Sub ListBox3_KeyDown(sender As Object, e As KeyEventArgs) Handles ListBox3.KeyDown
+    Private Async Sub ListBox3_KeyDown(sender As Object, e As KeyEventArgs) Handles ListBox3.KeyDown
         If e.KeyCode = Keys.Delete Then
             If viewing_trash = False Then
                 WorkWithTrash(ListBox3.SelectedItems, False, True)
@@ -811,6 +811,14 @@ Public Class Form1
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.C Then
             EnterFolder()
             SaveChecksumsFile(GetCurrentFolderIDName() & ".md5", True)
+        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.D Then
+            EnterFolder()
+            FolderBrowserDialog1.ShowNewFolderButton = True
+            Dim FolderBrowserDialogResponse As MsgBoxResult = FolderBrowserDialog1.ShowDialog
+            If FolderBrowserDialogResponse = MsgBoxResult.Ok Then
+                Dim FolderList As New List(Of String) From {CurrentFolder}
+                Await DownloadFolder(FolderList, FolderBrowserDialog1.SelectedPath)
+            End If
         End If
     End Sub
     Private Sub SaveChecksumsFile(Filename As String, Optional IsFolder As Boolean = False)
@@ -865,6 +873,57 @@ Public Class Form1
             Next
         End If
     End Sub
+
+    Private Async Function DownloadFolder(Path As List(Of String), Location As String) As Task
+        'This creates the full path of the file by getting the ID Name.
+        Dim FullPath As String = ""
+        Dim FolderToCreatePath As String = ""
+        Dim count As Integer = 0
+        If Path.Count > 0 Then
+            For Each item In Path
+                Try
+                    Dim GetFolderName As FilesResource.GetRequest = service.Files.Get(item)
+                    Dim FolderNameMetadata As Data.File = GetFolderName.Execute
+                    If Path.Count = count + 1 Then
+                        FolderToCreatePath = FolderToCreatePath + FolderNameMetadata.Name
+                        My.Computer.FileSystem.CreateDirectory(Location + "\" + FolderToCreatePath)
+                    Else
+                        FolderToCreatePath = FolderToCreatePath + FolderNameMetadata.Name + "\"
+                    End If
+                    FullPath = FullPath + FolderNameMetadata.Name + "\"
+                Catch ex As Exception
+
+                End Try
+                count = count + 1
+            Next
+            count = 0
+        End If
+        'Once Full Path has been created, we check for files inside the folder. If there's files, we will download them
+        Dim FolderFiles As New List(Of String)
+        For Each item In ListBox1.Items
+            FolderFiles.Add(item)
+        Next
+        For Each item In FolderFiles
+            ListBox1.ClearSelected()
+            ListBox1.SelectedItem = item
+            Await DownloadFile(Location & "\" & FullPath & item, FileIdsListBox.Items.Item(ListBox1.Items.IndexOf(item)), FileSizeListBox.Items.Item(ListBox1.Items.IndexOf(item)))
+        Next
+        'Finally, this loop checks if there are folders inside the folder we are. We start a recursion loop by calling this same function for each folder inside the folder.
+        If ListBox3.Items.Count > 0 Then
+            Dim FolderList As New List(Of String)
+            For Each FolderInList In ListBox3.Items
+                FolderList.Add(FolderIdsListBox.Items.Item(ListBox3.Items.IndexOf(FolderInList)))
+            Next
+            For Each Folder2 In FolderList
+                Path.Add(FolderIdsListBox.Items.Item(FolderIdsListBox.Items.IndexOf(Folder2)))
+                ListBox3.SelectedItem = ListBox3.Items.Item(FolderIdsListBox.Items.IndexOf(Folder2))
+                EnterFolder()
+                Await DownloadFolder(Path, Location)
+                GoBack()
+                Path.Remove(Folder2)
+            Next
+        End If
+    End Function
     Private Sub EnterFolder()
         If String.IsNullOrEmpty(ListBox3.SelectedItem) = False Then
             Dim GoToFolderID As String = FolderIdsListBox.Items.Item(ListBox3.SelectedIndex)
