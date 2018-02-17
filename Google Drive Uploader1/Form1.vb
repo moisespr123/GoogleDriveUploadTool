@@ -577,11 +577,6 @@ Public Class Form1
         End If
     End Sub
 
-    'Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
-    '    My.Settings.LastFolder = TextBox2.Text
-    '    My.Settings.Save()
-    'End Sub
-
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         ListBox2.Items.Clear()
         My.Settings.UploadQueue.Clear()
@@ -639,8 +634,6 @@ Public Class Form1
                 My.Settings.Save()
                 CurrentFolderLabel.Text = GetCurrentFolderIDName()
                 RefreshFileList(PreviousFolderIdBeforeRemoving)
-                'TextBox2.Text = CurrentFolder
-                'GetFolderIDName(False)
                 If CurrentFolder = "root" Then
                     Button10.Enabled = False
                 Else
@@ -721,11 +714,11 @@ Public Class Form1
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        SaveFileChecksums(SaveChecksumFileDialog(ListBox1.SelectedItem & ".md5"))
+        SaveChecksumsFile(ListBox1.SelectedItem & ".md5")
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
-        SaveFileChecksums(SaveChecksumFileDialog(GetCurrentFolderIDName() & ".md5"))
+        SaveChecksumsFile(GetCurrentFolderIDName() & ".md5")
     End Sub
     Private Function SaveChecksumFileDialog(FileOrFolderName As String) As String
         SaveFileDialog2.Title = MsgAndDialogLang("checksum_location")
@@ -735,19 +728,16 @@ Public Class Form1
         Dim ReturnPath As String = String.Empty
         If SFDResult = MsgBoxResult.Ok Then
             ReturnPath = SaveFileDialog2.FileName
+        Else
+            ReturnPath = Nothing
         End If
         Return ReturnPath
     End Function
 
-    Private Sub SaveFileChecksums(ChecksumFileName As String)
-        If ChecksumFileName IsNot String.Empty Then
-            Dim Checksumfile As StreamWriter = New StreamWriter(ChecksumFileName)
-            For Each item In ListBox1.SelectedItems
-                Checksumfile.WriteLine(FileMD5ListBox.Items.Item(ListBox1.Items.IndexOf(item)) & " *" & item)
-            Next
-            Checksumfile.Close()
-            MsgBox(MsgAndDialogLang("checksums_saved"))
-        End If
+    Private Sub SaveFileChecksums(ChecksumFile As StreamWriter)
+        For Each item In ListBox1.SelectedItems
+            ChecksumFile.WriteLine(FileMD5ListBox.Items.Item(ListBox1.Items.IndexOf(item)) & " *" & item)
+        Next
     End Sub
     Private Sub WorkWithTrash(Items As ListBox.SelectedObjectCollection, Optional IsFile As Boolean = False, Optional TrashItem As Boolean = False)
         Dim ConfirmMessage As String = String.Empty
@@ -820,21 +810,25 @@ Public Class Form1
             Next
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.C Then
             EnterFolder()
-            Dim FolderList As New List(Of String) From {
-                CurrentFolder
-            }
-            SaveFileDialog2.Title = MsgAndDialogLang("checksum_location")
-            SaveFileDialog2.FileName = GetCurrentFolderIDName() & ".md5"
-            SaveFileDialog2.Filter = "MD5 Checksum|*.md5"
-            Dim SFDResult As MsgBoxResult = SaveFileDialog2.ShowDialog()
-            If SFDResult = MsgBoxResult.Ok Then
-                If My.Computer.FileSystem.FileExists(SaveFileDialog2.FileName) Then My.Computer.FileSystem.DeleteFile(SaveFileDialog2.FileName)
-                Dim Checksumfile As StreamWriter = New StreamWriter(SaveFileDialog2.FileName, True, System.Text.Encoding.UTF8)
+            SaveChecksumsFile(GetCurrentFolderIDName() & ".md5", True)
+        End If
+    End Sub
+    Private Sub SaveChecksumsFile(Filename As String, Optional IsFolder As Boolean = False)
+        Dim FolderList As New List(Of String)
+        If IsFolder Then
+            FolderList.Add(CurrentFolder)
+        End If
+        Filename = SaveChecksumFileDialog(Filename)
+        If Filename IsNot Nothing Then
+            Dim Checksumfile As StreamWriter = New StreamWriter(Filename, False, System.Text.Encoding.UTF8)
+            If IsFolder = True Then
                 GetFileFolderChecksum(FolderList, Checksumfile)
-                Checksumfile.Close()
                 GoBack()
-                MsgBox(MsgAndDialogLang("checksums_saved"))
+            Else
+                SaveFileChecksums(Checksumfile)
             End If
+            Checksumfile.Close()
+            MsgBox(MsgAndDialogLang("checksums_saved"))
         End If
     End Sub
     Private Sub GetFileFolderChecksum(Path As List(Of String), Stream As StreamWriter)
@@ -902,6 +896,14 @@ Public Class Form1
             For i = 0 To ListBox1.Items.Count - 1
                 ListBox1.SetSelected(i, True)
             Next
+        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.C Then
+            If ListBox1.SelectedIndex <> -1 Then
+                If ListBox1.SelectedItems.Count > 1 Then
+                    SaveChecksumsFile(GetCurrentFolderIDName() & ".md5")
+                Else
+                    SaveChecksumsFile(ListBox1.SelectedItem & ".md5")
+                End If
+            End If
         End If
     End Sub
 
@@ -1309,7 +1311,7 @@ Public Class Form1
             Case "checksums_saved"
                 Select Case My.Settings.Language
                     Case "English"
-                        Return "Checksums Saved!"
+                        Return "Checksum(s) Saved!"
                     Case "Spanish"
                         Return "Los Checksums han sido guardados"
                     Case "TChinese"
