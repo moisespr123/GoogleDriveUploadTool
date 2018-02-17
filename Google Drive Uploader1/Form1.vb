@@ -793,8 +793,7 @@ Public Class Form1
         If MsgBox(ConfirmMessage, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
             Dim FileMetadata As New Data.File With {.Trashed = TrashItem}
             For Each item In Items
-                Dim RemoveFile As FilesResource.UpdateRequest = service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.Items.IndexOf(item)))
-                RemoveFile.ExecuteAsync()
+                service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.Items.IndexOf(item))).ExecuteAsync()
             Next
             Thread.Sleep(1000)
             RefreshFileList(CurrentFolder)
