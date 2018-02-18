@@ -790,7 +790,7 @@ Public Class Form1
             MsgBox(SuccessMessage)
         End If
     End Sub
-    Private Async Sub ListBox3_KeyDown(sender As Object, e As KeyEventArgs) Handles ListBox3.KeyDown
+    Private Sub ListBox3_KeyDown(sender As Object, e As KeyEventArgs) Handles ListBox3.KeyDown
         If e.KeyCode = Keys.Delete Then
             If viewing_trash = False Then
                 WorkWithTrash(ListBox3.SelectedItems, False, True)
@@ -813,14 +813,44 @@ Public Class Form1
             SaveChecksumsFile(GetCurrentFolderIDName() & ".md5", True)
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.D Then
             EnterFolder()
-            FolderBrowserDialog1.ShowNewFolderButton = True
-            Dim FolderBrowserDialogResponse As MsgBoxResult = FolderBrowserDialog1.ShowDialog
-            If FolderBrowserDialogResponse = MsgBoxResult.Ok Then
-                Dim FolderList As New List(Of String) From {CurrentFolder}
-                Await DownloadFolder(FolderList, FolderBrowserDialog1.SelectedPath)
-            End If
+            DownloadFilesAndFolders(True)
         End If
     End Sub
+    Private Function GetFolderPath() As String
+        FolderBrowserDialog1.ShowNewFolderButton = True
+        Dim FolderBrowserDialogResponse As MsgBoxResult = FolderBrowserDialog1.ShowDialog
+        If FolderBrowserDialogResponse = MsgBoxResult.Ok Then
+            Return FolderBrowserDialog1.SelectedPath
+        Else
+            Return Nothing
+        End If
+    End Function
+    Private Async Sub DownloadFilesAndFolders(Optional IsFolder As Boolean = False)
+        Dim FolderList As New List(Of String)
+        If IsFolder Then
+            FolderList.Add(CurrentFolder)
+        End If
+        Dim FolderPath As String = GetFolderPath()
+        If FolderPath IsNot Nothing Then
+            If IsFolder Then
+                Await DownloadFolder(FolderList, FolderPath)
+            Else
+                Await DownloadFiles(FolderPath)
+            End If
+            MsgBox(MsgAndDialogLang("downloads_finished"))
+        End If
+    End Sub
+    Private Async Function DownloadFiles(Folder As String) As Task
+        Dim FileList As New List(Of String)
+        For Each item In ListBox1.SelectedItems
+            FileList.Add(item)
+        Next
+        For Each item In FileList
+            ListBox1.ClearSelected()
+            ListBox1.SelectedItem = item
+            Await DownloadFile(Folder & "\" & item, FileIdsListBox.Items.Item(ListBox1.Items.IndexOf(item)), FileSizeListBox.Items.Item(ListBox1.Items.IndexOf(item)))
+        Next
+    End Function
     Private Sub SaveChecksumsFile(Filename As String, Optional IsFolder As Boolean = False)
         Dim FolderList As New List(Of String)
         If IsFolder Then
@@ -829,7 +859,7 @@ Public Class Form1
         Filename = SaveChecksumFileDialog(Filename)
         If Filename IsNot Nothing Then
             Dim Checksumfile As StreamWriter = New StreamWriter(Filename, False, System.Text.Encoding.UTF8)
-            If IsFolder = True Then
+            If IsFolder Then
                 GetFileFolderChecksum(FolderList, Checksumfile)
                 GoBack()
             Else
@@ -963,7 +993,10 @@ Public Class Form1
                     SaveChecksumsFile(ListBox1.SelectedItem & ".md5")
                 End If
             End If
+        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.D Then
+            DownloadFilesAndFolders()
         End If
+
     End Sub
 
     Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
@@ -1206,6 +1239,16 @@ Public Class Form1
 
     Function MsgAndDialogLang(tag As String) As String
         Select Case tag
+            Case "downloads_finished"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Download(s) Finished!"
+                    Case "Spanish"
+                        Return "Archivo(s) descargado(s)"
+                    Case "TChinese"
+                        Return "Download(s) Finished!"
+                    Case Else
+                End Select
             Case "folder_invaild"
                 Select Case My.Settings.Language
                     Case "English"
