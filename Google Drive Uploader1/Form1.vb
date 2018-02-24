@@ -676,7 +676,7 @@ Public Class Form1
 
 
     Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
-        Dim FolderNameToCreate As Object
+        Dim FolderNameToCreate As String
         Dim Message, Title As String
         Message = MsgAndDialogLang("enter_name_for_folder")
         Title = MsgAndDialogLang("create_new_folder")
@@ -703,6 +703,19 @@ Public Class Form1
             CurrentFolder = FolderID.Id
             CurrentFolderLabel.Text = GetCurrentFolderIDName()
             RefreshFileList(FolderID.Id)
+        End If
+    End Sub
+    Private Sub RenameFileOrFolder(FileOrFolderToRename As String)
+        Dim NewName As String
+        Dim Message, Title As String
+        Message = MsgAndDialogLang("enter_new_name")
+        Title = MsgAndDialogLang("rename_dialog")
+        NewName = InputBox(Message, Title)
+        If String.IsNullOrEmpty(NewName) = False Then
+            Dim FileMetadata As New Data.File With {.Name = NewName}
+            service.Files.Update(FileMetadata, FileOrFolderToRename).ExecuteAsync()
+            Thread.Sleep(500)
+            RefreshFileList(CurrentFolder)
         End If
     End Sub
 
@@ -783,7 +796,11 @@ Public Class Form1
         If MsgBox(ConfirmMessage, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
             Dim FileMetadata As New Data.File With {.Trashed = TrashItem}
             For Each item In Items
-                service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.Items.IndexOf(item))).ExecuteAsync()
+                If IsFile Then
+                    service.Files.Update(FileMetadata, FileIdsListBox.Items.Item(ListBox1.Items.IndexOf(item))).ExecuteAsync()
+                Else
+                    service.Files.Update(FileMetadata, FolderIdsListBox.Items.Item(ListBox3.Items.IndexOf(item))).ExecuteAsync()
+                End If
             Next
             Thread.Sleep(1000)
             RefreshFileList(CurrentFolder)
@@ -803,6 +820,8 @@ Public Class Form1
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.R Then
             If viewing_trash Then
                 WorkWithTrash(ListBox3.SelectedItems, False, False)
+            Else
+                RenameFileOrFolder(FolderIdsListBox.Items.Item(ListBox3.Items.IndexOf(ListBox3.SelectedItem)))
             End If
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.A Then
             For i = 0 To ListBox3.Items.Count - 1
@@ -814,7 +833,7 @@ Public Class Form1
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.D Then
             EnterFolder()
             DownloadFilesAndFolders(True)
-        End If
+        End if
     End Sub
     Private Function GetFolderPath() As String
         FolderBrowserDialog1.ShowNewFolderButton = True
@@ -980,6 +999,8 @@ Public Class Form1
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.R Then
             If viewing_trash Then
                 WorkWithTrash(ListBox1.SelectedItems, True, False)
+             Else
+                RenameFileOrFolder(FileIdsListBox.Items.Item(ListBox1.Items.IndexOf(ListBox1.SelectedItem)))
             End If
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.A Then
             For i = 0 To ListBox1.Items.Count - 1
@@ -1365,6 +1386,15 @@ Public Class Form1
                     Case "TChinese"
                         Return "請為新文件夾改名:"
                 End Select
+            Case "enter_new_name"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "New Name:"
+                    Case "Spanish"
+                        Return "Nuevo nombre:"
+                    Case "TChinese"
+                        Return "New Name:"
+                End Select
             Case "create_new_folder"
                 Select Case My.Settings.Language
                     Case "English"
@@ -1373,6 +1403,15 @@ Public Class Form1
                         Return "Crear nueva carpeta"
                     Case "TChinese"
                         Return "增加新文件夾"
+                End Select
+            Case "rename_dialog"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Rename"
+                    Case "Spanish"
+                        Return "Renombrar"
+                    Case "TChinese"
+                        Return "Rename"
                 End Select
             Case "checksum_location"
                 Select Case My.Settings.Language
