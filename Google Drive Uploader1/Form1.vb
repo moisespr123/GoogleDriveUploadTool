@@ -1646,11 +1646,11 @@ Public Class Form1
 
     Private Sub ReadmeLink_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles ReadmeLink.LinkClicked
         If Radiobutton1.Checked Then
-            Process.Start("https://gitub.com/moisesmcardona/GoogleDriveUploadTool/blob/master/README.md")
+            Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/README.md")
         ElseIf Radiobutton2.Checked then
-            Process.Start("https://gitub.com/moisesmcardona/GoogleDriveUploadTool/blob/master/LEEME.md")
+            Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/LEEME.md")
         Else
-            Process.Start("https://gitub.com/moisesmcardona/GoogleDriveUploadTool/blob/master/README.md")
+            Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/README.md")
         End if
     End Sub
 End Class
