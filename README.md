@@ -14,13 +14,12 @@ A tool for Windows to upload files to Google Drive. It resumes uploads in case o
 * If an upload is interrupted or the software or the PC crashes, you'll be prompted to continue the upload where it left of if you are uploading the same file as before. If you attempt to upload another file after the first one got interrumpted, you will lose the ability to resume the previous file. If the software is still open and the connection is interrupted, it will attempt to continue the upload.
 
 # How to select a folder?
-1. Press "Browse Folder.
-2. Select a folder OR if you want to select a subfolder, double click a folder.
-3. Press "Select" when you chose the folder you'd like to upload files to.
+* Just browse for a folder in the Folder Browser listbox.
+* If you already added a file to the Upload list and want to change the location, browse for the folder and press the "Upload selected file(s) to current folder" button.
 
 # How to create a folder?
-1. Press "Browse Folder"
-2. Press "New"
+1. Browse to the location you wish to create the new folder
+2. Press "Create New Folder""
 3. Type a Folder Name and press OK
 
 # How to check if Folder ID is correct?
@@ -30,9 +29,15 @@ A tool for Windows to upload files to Google Drive. It resumes uploads in case o
 
 # How to download a file?
 1. Choose a file from the list
-2. Press the "Download File" button.
+2. Press the "Download File" button. Alternatively, press ALT + D.
 3. Choose a folder and if you want, change the filename and press "Save"
 4. The download will start
+
+# Can I download more than one file at a time?
+Absolutely! Select the files you want to download and press ALT + D. Then, pick a folder to save the files
+
+# Can I download a full folder?
+Absolutely! Just select a folder and press ALT + D. Then, browse for the location to download all the content that is in that folder.
 
 # How to save a Checksum file?
 1. Select a file
@@ -43,7 +48,21 @@ To save the checksums for more than 1 file:
 2. A new button will appear right next to "Refresh List"
 3. Press the new button called "Save Checksums for selected files".
 
+To save the checksums for all files inside a folder:
+1. Select the folder to save the checksums of its content
+2. Press ALT + C
+3. Browse for the location to save the checksum file
+
 These are the checksums for your files stored in Google Drive. You can use them to verify if the uploaded file matches the local file.
+
+# Keyboard Shortcuts
+* **Enter**: Enter a folder
+* **Delete**: Move file or folder to trash
+* **F5**: Refresh file and folder list
+* **ALT + A**: Select all files or folders
+* **ALT + C**: Save selected file(s) or folder checksums
+* **ALT + D**: Download selected file(s) or entire folder
+* **ALT + R**: When not in trash, rename a file or folder. When in trash, restore a file or folder
 
 # How to open and compile the project?
 This project was made using Visual Studio 2017, in the Visual Basic .NET language. You'll need to have the Windows Desktop components installed to be able to open and edit this project to fit your needs and to compile it. It also uses the Google Drive API which is available in the NuGet Package Manager. You may also be prompted to download the NuGet packages for this project.
@@ -51,47 +70,4 @@ This project was made using Visual Studio 2017, in the Visual Basic .NET languag
 Enjoy!!!
 
 # Changelog:
-v1.6 (5/7/2017)
-- Software now remembers the folders created when there are still uploads pending
-- Software now displays the Folder Name from the entered Folder ID when the software is launched
-- Browse files and folders with the same structure as your Google Drive
-- See file details
-- Folder Browsing has been integrated in the Main Window. Select a folder to upload files to it.
-- Save Checksum file to test local file against uploaded file
-
-v1.5 (3/23/2017)
-- Changed "Length" to "File Size"
-- Added comma in file size (ex. 10,000.00 MB instead of 10000.00 MB)
-- When an error occurs, the upload will be retried automatically and also resume from the point it was interrupted.
-- Searches for every file and folder inside a folder to upload. The uploads maintain the same structure
-- Option to preserve file modified date added.
-- Can now browse and create Folders to upload files
-- If copy/pasting folder ID from Google Drive, you can now press the Get Folder Name button to get the folder name based on its ID
-- Can drag and drop more files to upload to queue while uploading
-- Can select more than one file or folder to remove
-- Can now erase the entire upload list
-- Timeout reduced to 2 minutes (120 seconds). Should be enough as the chunk size was reduced to 1MB in v1.2
-
-v1.4 (3/20/2017)
-- Added Batch Upload
-- Uploaded Items list now shows 25 items per page
-
-v1.3.1 (3/19/2017)
-- Files get uploaded with the original file Modified Date
-
-v1.3 (3/19/2017)
-- Added Spanish Language
-
-v1.2 (3/19/2017)
-- Upload files to a Folder ID
-- Added Time Left for Upload/Download
-- Chunk Size reduced to 1MB to prevent timeout issues with slower internet connections
-
-v1.1 (3/19/2017)
-- Lists files in ListBox
-- Can download a selected file to a chosen directory
-- Can drag and drop a file to upload
-
-v1.0 (3/18/2017)
-- Initial Release
-- Ability to upload a file and resume if interrumpted
+You can view the Changelog [by clicking here](https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/Google%20Drive%20Uploader1/Changelog.txt).
