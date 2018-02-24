@@ -1172,8 +1172,9 @@ Public Class Form1
         Button12.Text = "Create New Folder"
         Button13.Text = "Upload selected file(s) to current folder"
         Button14.Text = "Deselect"
-        CheckBox1.Text = "Preserve File Modified Date"
         btnLogout.Text = "Logout"
+        CheckBox1.Text = "Preserve File Modified Date"
+        ReadmeLink.Text = "Readme / Help"
     End Sub
 
     Private Sub TChineseLanguage()
@@ -1205,14 +1206,18 @@ Public Class Form1
         Button8.Text = "捐款"
         Button9.Text = "獲取文件夾名稱"
         Button10.Text = "返回"
-        Button12.Text = "新增文件夾"
-        CheckBox1.Text = "保留文件修改日期"
-        btnLogout.Text = "登岀"
+        GroupBox2.Text = "File Information:"
         If viewing_trash = False Then
             Button11.Text = "查看垃圾桶"
         ElseIf viewing_trash = True Then
             Button11.Text = "回到Google Drive"
         End If
+        Button12.Text = "新增文件夾"
+        Button13.Text = "Upload selected file(s) to current folder"
+        Button14.Text = "Deselect"
+        btnLogout.Text = "登岀"
+        CheckBox1.Text = "保留文件修改日期"
+        ReadmeLink.Text = "Readme / Help"
     End Sub
 
     Private Sub SpanishLanguage()
@@ -1256,6 +1261,7 @@ Public Class Form1
         btnLogout.Text = "Cerrar Sesión"
         CheckBox1.Text = "Preservar Fecha de Modificación"
         GroupBox2.Text = "Información del archivo:"
+        ReadmeLink.Text = "Léeme / Ayuda"
     End Sub
 
     Function MsgAndDialogLang(tag As String) As String
@@ -1651,5 +1657,9 @@ Public Class Form1
         CurrentFolder = "root"
         CurrentFolderLabel.Text = GetCurrentFolderIDName()
         RefreshFileList(CurrentFolder)
+    End Sub
+
+    Private Sub ReadmeLink_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles ReadmeLink.LinkClicked
+        Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/README.md")
     End Sub
 End Class

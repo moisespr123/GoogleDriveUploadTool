@@ -1,4 +1,4 @@
-﻿v1.7 (not yet released)
+﻿v1.7 (2/24/2018)
 -Fixed: "Refresh List" was not working.
 -Fixed: Files uploaded can now be deleted without closing the software
 -Fixed: File download should now work correctly.
@@ -15,6 +15,7 @@
 -Checksum filename for files inside a folder will have the folder name as default when browsing to save the file.
 -Partial translation to Traditional Chinese (Translated by mic4126. Thank you!)
 -Added Logout Button (By mic4126. Thank you!)
+-Added Readme Link
 
 v1.6.1 (5/27/2017)
 -Fixed: Explorer now shows all the files in a selected folder
