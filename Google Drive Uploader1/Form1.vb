@@ -1241,7 +1241,7 @@ Public Class Form1
         ElseIf viewing_trash = True Then
             Button11.Text = "Ver Drive"
         End If
-        Button12.Text = "Crear Nueva Carpeta"
+        Button12.Text = "Crear Carpeta"
         Button13.Text = "Subir archivo(s) a esta carpeta"
         Button14.Text = "Deseleccionar"
         btnLogout.Text = "Cerrar Sesión"
@@ -1598,7 +1598,7 @@ Public Class Form1
                     Case "English"
                         Return "Do you want to restore the file "
                     Case "Spanish"
-                        Return "Los archivos han sido restaurados"
+                        Return "¿Desea restaurar el archivo "
                     Case "TChinese"
                         Return "Do you want to restore the file "
                 End Select
@@ -1645,6 +1645,12 @@ Public Class Form1
     End Sub
 
     Private Sub ReadmeLink_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles ReadmeLink.LinkClicked
-        Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/README.md")
+        If Radiobutton1.Checked Then
+            Process.Start("https://gitub.com/moisesmcardona/GoogleDriveUploadTool/blob/master/README.md")
+        ElseIf Radiobutton2.Checked then
+            Process.Start("https://gitub.com/moisesmcardona/GoogleDriveUploadTool/blob/master/LEEME.md")
+        Else
+            Process.Start("https://gitub.com/moisesmcardona/GoogleDriveUploadTool/blob/master/README.md")
+        End if
     End Sub
 End Class
