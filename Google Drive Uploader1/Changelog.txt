@@ -4,12 +4,13 @@
 -Fixed: File download should now work correctly.
 -Can now enter a folder by selecting them and pressing the "Enter" key.
 -Press the F5 key in the Folder or File List Box to refresh their contents
+-Can now navigate to Trash
 -Press the "Delete" key in the Folder List Box to move the selected folder(s) to the Trash
 -Press the "Delete" key in the File List Box to move the selected file(s) to the Trash
 -Press ALT + A to select all files in the Files of Folder List
 -Press ALT + C to create Checksum file for all files inside a folder and their subfolders (recursion). Also works with individual or multiple files selected
--Can now navigate to Trash
--Can now restore files and folders by going to Trash and pressing ALT + R Key
+-Press ALT + R when not viewing the trash to rename a file or folder
+-Press ALT + R when viewing trash to restore the file or folder.
 -Can now upload files to different folders
 -Checksum filename for files inside a folder will have the folder name as default when browsing to save the file.
 -Partial translation to Traditional Chinese (Translated by mic4126. Thank you!)
