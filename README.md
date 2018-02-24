@@ -41,12 +41,12 @@ Absolutely! Just select a folder and press ALT + D. Then, browse for the locatio
 
 # How to save a Checksum file?
 1. Select a file
-2. Press the "Save Checksum File" button. Alternatively, press ALT + C in your keybpard.
+2. Press the "Save Checksum File" button. Alternatively, press ALT + C in your keyboard.
 
 To save the checksums for more than 1 file:
 1. Select more than 1 file holding either Ctrl or Shift with the keyboard and selecting the files with the mouse
 2. A new button will appear right next to "Refresh List"
-3. Press the new button called "Save Checksums for selected files". Alternatively, press ALT + C in your keybpard.
+3. Press the new button called "Save Checksums for selected files". Alternatively, press ALT + C in your keyboard.
 
 To save the checksums for all files inside a folder:
 1. Select the folder to save the checksums of its content
