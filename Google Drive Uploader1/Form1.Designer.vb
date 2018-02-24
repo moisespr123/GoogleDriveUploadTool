@@ -50,7 +50,6 @@ Partial Class Form1
         Me.RadioButton1 = New System.Windows.Forms.RadioButton()
         Me.ListBox2 = New System.Windows.Forms.ListBox()
         Me.Button6 = New System.Windows.Forms.Button()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.Button8 = New System.Windows.Forms.Button()
@@ -334,16 +333,6 @@ Partial Class Form1
         Me.Button6.TabIndex = 29
         Me.Button6.Text = "Remove selected file(s) from list"
         Me.Button6.UseVisualStyleBackColor = true
-        '
-        'CheckBox1
-        '
-        Me.CheckBox1.AutoSize = true
-        Me.CheckBox1.Location = New System.Drawing.Point(362, 213)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(156, 17)
-        Me.CheckBox1.TabIndex = 30
-        Me.CheckBox1.Text = "Preserve File Modified Date"
-        Me.CheckBox1.UseVisualStyleBackColor = true
         '
         'Button3
         '
@@ -682,7 +671,6 @@ Partial Class Form1
         Me.Controls.Add(Me.Button8)
         Me.Controls.Add(Me.Label15)
         Me.Controls.Add(Me.Button3)
-        Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.Button6)
         Me.Controls.Add(Me.ListBox2)
         Me.Controls.Add(Me.GroupBox1)
@@ -744,7 +732,6 @@ End Sub
     Friend WithEvents RadioButton1 As RadioButton
     Friend WithEvents ListBox2 As ListBox
     Friend WithEvents Button6 As Button
-    Friend WithEvents CheckBox1 As CheckBox
     Friend WithEvents Button3 As Button
     Friend WithEvents Label15 As Label
     Friend WithEvents Button8 As Button

@@ -58,8 +58,6 @@ Public Class Form1
                 FolderToUploadFileListBox.Items.Add(item)
             Next
         End If
-        'Checks if the Preserve Modified Date checkbox was checked in the last run.
-        If My.Settings.PreserveModifiedDate = True Then CheckBox1.Checked = True Else CheckBox1.Checked = False
         'Google Drive initialization
         Dim credential As UserCredential = Nothing
         Try
@@ -172,7 +170,8 @@ Public Class Form1
                     Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                     ProgressBar1.Maximum = My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024
                     Dim FileMetadata As New Data.File With {
-                        .Name = My.Computer.FileSystem.GetName(GetFile)
+                        .Name = My.Computer.FileSystem.GetName(GetFile),
+                        .ModifiedTime = IO.File.GetLastWriteTimeUtc(GetFile)
                     }
                     Dim FileFolder As New List(Of String)
                     If FolderCreated = False Then
@@ -189,7 +188,6 @@ Public Class Form1
                     End If
                     FileMetadata.Parents = FileFolder
                     Dim UploadStream As New FileStream(GetFile, System.IO.FileMode.Open, System.IO.FileAccess.Read)
-                    If CheckBox1.Checked Then FileMetadata.ModifiedTime = IO.File.GetLastWriteTimeUtc(GetFile)
                     Dim UploadFile As FilesResource.CreateMediaUpload = service.Files.Create(FileMetadata, UploadStream, "")
                     Dim ChunkMultiplier As Integer = 4
                     If My.Computer.FileSystem.FileExists("chunkmultiplier.txt") Then
@@ -565,16 +563,6 @@ Public Class Form1
             My.Settings.UploadQueueFolders.RemoveAt(CurrentIndex)
             My.Settings.Save()
         Loop
-    End Sub
-
-    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
-        If CheckBox1.Checked = True Then
-            My.Settings.PreserveModifiedDate = True
-            My.Settings.Save()
-        Else
-            My.Settings.PreserveModifiedDate = False
-            My.Settings.Save()
-        End If
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
@@ -1173,7 +1161,6 @@ Public Class Form1
         Button13.Text = "Upload selected file(s) to current folder"
         Button14.Text = "Deselect"
         btnLogout.Text = "Logout"
-        CheckBox1.Text = "Preserve File Modified Date"
         ReadmeLink.Text = "Readme / Help"
     End Sub
 
@@ -1216,7 +1203,6 @@ Public Class Form1
         Button13.Text = "Upload selected file(s) to current folder"
         Button14.Text = "Deselect"
         btnLogout.Text = "登岀"
-        CheckBox1.Text = "保留文件修改日期"
         ReadmeLink.Text = "Readme / Help"
     End Sub
 
@@ -1259,7 +1245,6 @@ Public Class Form1
         Button13.Text = "Subir archivo(s) a esta carpeta"
         Button14.Text = "Deseleccionar"
         btnLogout.Text = "Cerrar Sesión"
-        CheckBox1.Text = "Preservar Fecha de Modificación"
         GroupBox2.Text = "Información del archivo:"
         ReadmeLink.Text = "Léeme / Ayuda"
     End Sub
