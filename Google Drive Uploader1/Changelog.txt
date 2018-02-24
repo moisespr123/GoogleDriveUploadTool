@@ -16,6 +16,7 @@
 -Partial translation to Traditional Chinese (Translated by mic4126. Thank you!)
 -Added Logout Button (By mic4126. Thank you!)
 -Added Readme Link
+-Removed "Preserve Modified Date" checkbox. All files will upload with their modified date.
 
 v1.6.1 (5/27/2017)
 -Fixed: Explorer now shows all the files in a selected folder
