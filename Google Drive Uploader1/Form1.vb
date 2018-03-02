@@ -78,6 +78,8 @@ Public Class Form1
                 'Chinese Translation goes here
                 MsgBox("client_secret.json 檔案找不到.請做: https://developers.google.com/drive/v3/web/quickstart/dotnet" & "的第一歩" & vbCr & vbCrLf & "請將client_secret.json放到軟體的根目錄.")
             End If
+            Process.Start("https://developers.google.com/drive/v3/web/quickstart/dotnet")
+            Me.close
         End Try
         ' Create Drive API service.
         Dim Initializer As New BaseClientService.Initializer With {
