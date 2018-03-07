@@ -1,4 +1,4 @@
-Moises Cardona License version 1.0 - March 6, 2018
+Moises Cardona Computer Software License version 1.0 - March 6, 2018
 
 © 2018 Moisés Cardona
 
