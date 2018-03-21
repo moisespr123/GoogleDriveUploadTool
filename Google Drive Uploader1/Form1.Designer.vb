@@ -86,23 +86,24 @@ Partial Class Form1
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ReadmeLink = New System.Windows.Forms.LinkLabel()
-        Me.GroupBox1.SuspendLayout
-        Me.GroupBox2.SuspendLayout
-        Me.SuspendLayout
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.GroupBox1.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
+        Me.SuspendLayout()
         '
         'Button2
         '
-        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button2.Location = New System.Drawing.Point(291, 240)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(227, 39)
         Me.Button2.TabIndex = 2
         Me.Button2.Text = "Upload"
-        Me.Button2.UseVisualStyleBackColor = true
+        Me.Button2.UseVisualStyleBackColor = True
         '
         'Label1
         '
-        Me.Label1.AutoSize = true
+        Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(9, 319)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(49, 13)
@@ -111,7 +112,7 @@ Partial Class Form1
         '
         'Label2
         '
-        Me.Label2.AutoSize = true
+        Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(9, 332)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(60, 13)
@@ -127,7 +128,7 @@ Partial Class Form1
         '
         'Label3
         '
-        Me.Label3.AutoSize = true
+        Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(78, 319)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(27, 13)
@@ -136,7 +137,7 @@ Partial Class Form1
         '
         'Label4
         '
-        Me.Label4.AutoSize = true
+        Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(78, 332)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(27, 13)
@@ -145,7 +146,7 @@ Partial Class Form1
         '
         'Label5
         '
-        Me.Label5.AutoSize = true
+        Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(12, 14)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(205, 13)
@@ -158,16 +159,16 @@ Partial Class Form1
         '
         'Label6
         '
-        Me.Label6.AutoSize = true
+        Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(9, 374)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(98, 26)
         Me.Label6.TabIndex = 11
-        Me.Label6.Text = "By Moises Cardona"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"v1.7"
+        Me.Label6.Text = "By Moises Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.7"
         '
         'Label7
         '
-        Me.Label7.AutoSize = true
+        Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(377, 332)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(40, 13)
@@ -176,7 +177,7 @@ Partial Class Form1
         '
         'Label8
         '
-        Me.Label8.AutoSize = true
+        Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(431, 332)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(27, 13)
@@ -185,7 +186,7 @@ Partial Class Form1
         '
         'Label9
         '
-        Me.Label9.AutoSize = true
+        Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(378, 319)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(44, 13)
@@ -194,7 +195,7 @@ Partial Class Form1
         '
         'Label10
         '
-        Me.Label10.AutoSize = true
+        Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(431, 319)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(21, 13)
@@ -203,7 +204,7 @@ Partial Class Form1
         '
         'Label11
         '
-        Me.Label11.AutoSize = true
+        Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(534, 222)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(31, 13)
@@ -212,8 +213,8 @@ Partial Class Form1
         '
         'ListBox1
         '
-        Me.ListBox1.FormattingEnabled = true
-        Me.ListBox1.HorizontalScrollbar = true
+        Me.ListBox1.FormattingEnabled = True
+        Me.ListBox1.HorizontalScrollbar = True
         Me.ListBox1.Location = New System.Drawing.Point(537, 238)
         Me.ListBox1.Name = "ListBox1"
         Me.ListBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
@@ -227,7 +228,7 @@ Partial Class Form1
         Me.Button5.Size = New System.Drawing.Size(92, 23)
         Me.Button5.TabIndex = 21
         Me.Button5.Text = "Download File"
-        Me.Button5.UseVisualStyleBackColor = true
+        Me.Button5.UseVisualStyleBackColor = True
         '
         'Button4
         '
@@ -236,11 +237,11 @@ Partial Class Form1
         Me.Button4.Size = New System.Drawing.Size(91, 23)
         Me.Button4.TabIndex = 22
         Me.Button4.Text = "Refresh List"
-        Me.Button4.UseVisualStyleBackColor = true
+        Me.Button4.UseVisualStyleBackColor = True
         '
         'Label12
         '
-        Me.Label12.AutoSize = true
+        Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(9, 240)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(264, 13)
@@ -256,7 +257,7 @@ Partial Class Form1
         '
         'Label13
         '
-        Me.Label13.AutoSize = true
+        Me.Label13.AutoSize = True
         Me.Label13.Location = New System.Drawing.Point(183, 332)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(57, 13)
@@ -265,7 +266,7 @@ Partial Class Form1
         '
         'Label14
         '
-        Me.Label14.AutoSize = true
+        Me.Label14.AutoSize = True
         Me.Label14.Location = New System.Drawing.Point(246, 332)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(49, 13)
@@ -281,44 +282,44 @@ Partial Class Form1
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(216, 37)
         Me.GroupBox1.TabIndex = 27
-        Me.GroupBox1.TabStop = false
+        Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Language / Idioma"
         '
         'RadioButton3
         '
-        Me.RadioButton3.AutoSize = true
+        Me.RadioButton3.AutoSize = True
         Me.RadioButton3.Location = New System.Drawing.Point(137, 14)
         Me.RadioButton3.Name = "RadioButton3"
         Me.RadioButton3.Size = New System.Drawing.Size(73, 17)
         Me.RadioButton3.TabIndex = 2
-        Me.RadioButton3.TabStop = true
+        Me.RadioButton3.TabStop = True
         Me.RadioButton3.Text = "正體中文"
-        Me.RadioButton3.UseVisualStyleBackColor = true
+        Me.RadioButton3.UseVisualStyleBackColor = True
         '
         'RadioButton2
         '
-        Me.RadioButton2.AutoSize = true
+        Me.RadioButton2.AutoSize = True
         Me.RadioButton2.Location = New System.Drawing.Point(71, 14)
         Me.RadioButton2.Name = "RadioButton2"
         Me.RadioButton2.Size = New System.Drawing.Size(63, 17)
         Me.RadioButton2.TabIndex = 1
         Me.RadioButton2.Text = "Spanish"
-        Me.RadioButton2.UseVisualStyleBackColor = true
+        Me.RadioButton2.UseVisualStyleBackColor = True
         '
         'RadioButton1
         '
-        Me.RadioButton1.AutoSize = true
+        Me.RadioButton1.AutoSize = True
         Me.RadioButton1.Location = New System.Drawing.Point(6, 14)
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(59, 17)
         Me.RadioButton1.TabIndex = 0
         Me.RadioButton1.Text = "English"
-        Me.RadioButton1.UseVisualStyleBackColor = true
+        Me.RadioButton1.UseVisualStyleBackColor = True
         '
         'ListBox2
         '
-        Me.ListBox2.FormattingEnabled = true
-        Me.ListBox2.HorizontalScrollbar = true
+        Me.ListBox2.FormattingEnabled = True
+        Me.ListBox2.HorizontalScrollbar = True
         Me.ListBox2.Location = New System.Drawing.Point(12, 30)
         Me.ListBox2.Name = "ListBox2"
         Me.ListBox2.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
@@ -332,7 +333,7 @@ Partial Class Form1
         Me.Button6.Size = New System.Drawing.Size(168, 23)
         Me.Button6.TabIndex = 29
         Me.Button6.Text = "Remove selected file(s) from list"
-        Me.Button6.UseVisualStyleBackColor = true
+        Me.Button6.UseVisualStyleBackColor = True
         '
         'Button3
         '
@@ -341,11 +342,11 @@ Partial Class Form1
         Me.Button3.Size = New System.Drawing.Size(75, 23)
         Me.Button3.TabIndex = 31
         Me.Button3.Text = "Clear List"
-        Me.Button3.UseVisualStyleBackColor = true
+        Me.Button3.UseVisualStyleBackColor = True
         '
         'Label15
         '
-        Me.Label15.AutoSize = true
+        Me.Label15.AutoSize = True
         Me.Label15.Location = New System.Drawing.Point(133, 377)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(95, 13)
@@ -359,11 +360,11 @@ Partial Class Form1
         Me.Button8.Size = New System.Drawing.Size(92, 23)
         Me.Button8.TabIndex = 34
         Me.Button8.Text = "Donations"
-        Me.Button8.UseVisualStyleBackColor = true
+        Me.Button8.UseVisualStyleBackColor = True
         '
         'Label16
         '
-        Me.Label16.AutoSize = true
+        Me.Label16.AutoSize = True
         Me.Label16.Location = New System.Drawing.Point(9, 280)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(70, 13)
@@ -374,7 +375,7 @@ Partial Class Form1
         '
         Me.TextBox1.Location = New System.Drawing.Point(12, 296)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.ReadOnly = true
+        Me.TextBox1.ReadOnly = True
         Me.TextBox1.Size = New System.Drawing.Size(227, 20)
         Me.TextBox1.TabIndex = 36
         '
@@ -384,13 +385,13 @@ Partial Class Form1
         Me.Button9.Name = "Button9"
         Me.Button9.Size = New System.Drawing.Size(162, 23)
         Me.Button9.TabIndex = 37
-        Me.Button9.Text = "Get Folder Name"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"Obtener Nombre de la carpeta"
-        Me.Button9.UseVisualStyleBackColor = true
+        Me.Button9.Text = "Get Folder Name" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Obtener Nombre de la carpeta"
+        Me.Button9.UseVisualStyleBackColor = True
         '
         'ListBox3
         '
-        Me.ListBox3.FormattingEnabled = true
-        Me.ListBox3.HorizontalScrollbar = true
+        Me.ListBox3.FormattingEnabled = True
+        Me.ListBox3.HorizontalScrollbar = True
         Me.ListBox3.Location = New System.Drawing.Point(537, 33)
         Me.ListBox3.Name = "ListBox3"
         Me.ListBox3.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
@@ -399,7 +400,7 @@ Partial Class Form1
         '
         'Label17
         '
-        Me.Label17.AutoSize = true
+        Me.Label17.AutoSize = True
         Me.Label17.Location = New System.Drawing.Point(534, 17)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(44, 13)
@@ -427,7 +428,7 @@ Partial Class Form1
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(281, 355)
         Me.GroupBox2.TabIndex = 40
-        Me.GroupBox2.TabStop = false
+        Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "File Information:"
         '
         'Button1
@@ -437,7 +438,7 @@ Partial Class Form1
         Me.Button1.Size = New System.Drawing.Size(134, 23)
         Me.Button1.TabIndex = 14
         Me.Button1.Text = "Save Checksum File"
-        Me.Button1.UseVisualStyleBackColor = true
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'TextBox9
         '
@@ -448,7 +449,7 @@ Partial Class Form1
         '
         'Label24
         '
-        Me.Label24.AutoSize = true
+        Me.Label24.AutoSize = True
         Me.Label24.Location = New System.Drawing.Point(3, 94)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(49, 13)
@@ -464,7 +465,7 @@ Partial Class Form1
         '
         'Label23
         '
-        Me.Label23.AutoSize = true
+        Me.Label23.AutoSize = True
         Me.Label23.Location = New System.Drawing.Point(3, 133)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(65, 13)
@@ -480,7 +481,7 @@ Partial Class Form1
         '
         'Label22
         '
-        Me.Label22.AutoSize = true
+        Me.Label22.AutoSize = True
         Me.Label22.Location = New System.Drawing.Point(3, 250)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(86, 13)
@@ -496,7 +497,7 @@ Partial Class Form1
         '
         'Label21
         '
-        Me.Label21.AutoSize = true
+        Me.Label21.AutoSize = True
         Me.Label21.Location = New System.Drawing.Point(3, 211)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(76, 13)
@@ -512,7 +513,7 @@ Partial Class Form1
         '
         'Label20
         '
-        Me.Label20.AutoSize = true
+        Me.Label20.AutoSize = True
         Me.Label20.Location = New System.Drawing.Point(3, 172)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(73, 13)
@@ -528,7 +529,7 @@ Partial Class Form1
         '
         'Label19
         '
-        Me.Label19.AutoSize = true
+        Me.Label19.AutoSize = True
         Me.Label19.Location = New System.Drawing.Point(3, 55)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(40, 13)
@@ -544,7 +545,7 @@ Partial Class Form1
         '
         'Label18
         '
-        Me.Label18.AutoSize = true
+        Me.Label18.AutoSize = True
         Me.Label18.Location = New System.Drawing.Point(3, 16)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(57, 13)
@@ -558,7 +559,7 @@ Partial Class Form1
         Me.Button10.Size = New System.Drawing.Size(75, 23)
         Me.Button10.TabIndex = 41
         Me.Button10.Text = "Back"
-        Me.Button10.UseVisualStyleBackColor = true
+        Me.Button10.UseVisualStyleBackColor = True
         '
         'Button12
         '
@@ -567,7 +568,7 @@ Partial Class Form1
         Me.Button12.Size = New System.Drawing.Size(108, 23)
         Me.Button12.TabIndex = 43
         Me.Button12.Text = "Create new folder"
-        Me.Button12.UseVisualStyleBackColor = true
+        Me.Button12.UseVisualStyleBackColor = True
         '
         'Button7
         '
@@ -576,8 +577,8 @@ Partial Class Form1
         Me.Button7.Size = New System.Drawing.Size(196, 23)
         Me.Button7.TabIndex = 44
         Me.Button7.Text = "Save Checksums for Selected Files"
-        Me.Button7.UseVisualStyleBackColor = true
-        Me.Button7.Visible = false
+        Me.Button7.UseVisualStyleBackColor = True
+        Me.Button7.Visible = False
         '
         'btnLogout
         '
@@ -586,7 +587,7 @@ Partial Class Form1
         Me.btnLogout.Size = New System.Drawing.Size(113, 25)
         Me.btnLogout.TabIndex = 45
         Me.btnLogout.Text = "Logout"
-        Me.btnLogout.UseVisualStyleBackColor = true
+        Me.btnLogout.UseVisualStyleBackColor = True
         '
         'Button11
         '
@@ -595,7 +596,7 @@ Partial Class Form1
         Me.Button11.Size = New System.Drawing.Size(101, 25)
         Me.Button11.TabIndex = 45
         Me.Button11.Text = "View Trash"
-        Me.Button11.UseVisualStyleBackColor = true
+        Me.Button11.UseVisualStyleBackColor = True
         '
         'Button13
         '
@@ -604,22 +605,22 @@ Partial Class Form1
         Me.Button13.Size = New System.Drawing.Size(196, 23)
         Me.Button13.TabIndex = 46
         Me.Button13.Text = "Upload selected file(s) to current folder"
-        Me.Button13.UseVisualStyleBackColor = true
-        Me.Button13.Visible = false
+        Me.Button13.UseVisualStyleBackColor = True
+        Me.Button13.Visible = False
         '
         'Button14
         '
-        Me.Button14.Enabled = false
+        Me.Button14.Enabled = False
         Me.Button14.Location = New System.Drawing.Point(267, 209)
         Me.Button14.Name = "Button14"
         Me.Button14.Size = New System.Drawing.Size(89, 23)
         Me.Button14.TabIndex = 47
         Me.Button14.Text = "Deselect"
-        Me.Button14.UseVisualStyleBackColor = true
+        Me.Button14.UseVisualStyleBackColor = True
         '
         'CurrentFolderLabel
         '
-        Me.CurrentFolderLabel.AutoSize = true
+        Me.CurrentFolderLabel.AutoSize = True
         Me.CurrentFolderLabel.Location = New System.Drawing.Point(615, 17)
         Me.CurrentFolderLabel.Name = "CurrentFolderLabel"
         Me.CurrentFolderLabel.Size = New System.Drawing.Size(96, 13)
@@ -628,30 +629,41 @@ Partial Class Form1
         '
         'LinkLabel1
         '
-        Me.LinkLabel1.AutoSize = true
+        Me.LinkLabel1.AutoSize = True
         Me.LinkLabel1.Location = New System.Drawing.Point(869, 14)
         Me.LinkLabel1.Name = "LinkLabel1"
         Me.LinkLabel1.Size = New System.Drawing.Size(59, 13)
         Me.LinkLabel1.TabIndex = 49
-        Me.LinkLabel1.TabStop = true
+        Me.LinkLabel1.TabStop = True
         Me.LinkLabel1.Text = "Go to Root"
         '
         'ReadmeLink
         '
-        Me.ReadmeLink.AutoSize = true
+        Me.ReadmeLink.AutoSize = True
         Me.ReadmeLink.Location = New System.Drawing.Point(1129, 407)
         Me.ReadmeLink.Name = "ReadmeLink"
         Me.ReadmeLink.Size = New System.Drawing.Size(80, 13)
         Me.ReadmeLink.TabIndex = 50
-        Me.ReadmeLink.TabStop = true
+        Me.ReadmeLink.TabStop = True
         Me.ReadmeLink.Text = "Readme / Help"
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Location = New System.Drawing.Point(362, 213)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(155, 17)
+        Me.CheckBox1.TabIndex = 51
+        Me.CheckBox1.Text = "Start Uploads Automatically"
+        Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'Form1
         '
-        Me.AllowDrop = true
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
+        Me.AllowDrop = True
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1226, 429)
+        Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.ReadmeLink)
         Me.Controls.Add(Me.LinkLabel1)
         Me.Controls.Add(Me.CurrentFolderLabel)
@@ -769,4 +781,5 @@ End Sub
     Friend WithEvents LinkLabel1 As LinkLabel
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
     Friend WithEvents ReadmeLink As LinkLabel
+    Friend WithEvents CheckBox1 As CheckBox
 End Class

@@ -132,6 +132,10 @@ Public Class Form1
     Private GetFile As String = ""
     Private UploadFailed As Boolean = False
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        CheckBeforeStartingUpload()
+    End Sub
+    Private ResumeFromError As Boolean = False
+    Private Sub CheckBeforeStartingUpload()
         If ListBox2.Items.Count > 0 Then
             TextBox2.Text = FolderToUploadFileListBox.Items.Item(0)
             If GetFolderIDName(False) = True Then
@@ -151,7 +155,6 @@ Public Class Form1
             End If
         End If
     End Sub
-    Private ResumeFromError As Boolean = False
     Private Async Sub UploadFiles()
         Dim DirectoryList As New StringCollection
         Dim DirectoryListID As New StringCollection
@@ -516,6 +519,9 @@ Public Class Form1
             End If
         Next
         My.Settings.Save()
+        If CheckBox1.Checked = True And Button2.Enabled = True Then
+            CheckBeforeStartingUpload()
+        End If
     End Sub
     Private Sub GetDirectoriesAndFiles(ByVal BaseFolder As IO.DirectoryInfo)
         ListBox2.Items.AddRange((From FI As IO.FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
@@ -1163,6 +1169,7 @@ Public Class Form1
         Button13.Text = "Upload selected file(s) to current folder"
         Button14.Text = "Deselect"
         btnLogout.Text = "Logout"
+        CheckBox1.Text = "Start Uploads Automatically"
         ReadmeLink.Text = "Readme / Help"
     End Sub
 
@@ -1205,6 +1212,7 @@ Public Class Form1
         Button13.Text = "Upload selected file(s) to current folder"
         Button14.Text = "Deselect"
         btnLogout.Text = "登岀"
+        CheckBox1.Text = "Start Uploads Automatically"
         ReadmeLink.Text = "Readme / Help"
     End Sub
 
@@ -1248,6 +1256,7 @@ Public Class Form1
         Button14.Text = "Deseleccionar"
         btnLogout.Text = "Cerrar Sesión"
         GroupBox2.Text = "Información del archivo:"
+        CheckBox1.Text = "Subir archivos automáticamente"
         ReadmeLink.Text = "Léeme / Ayuda"
     End Sub
 
