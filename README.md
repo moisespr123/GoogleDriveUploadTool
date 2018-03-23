@@ -1,5 +1,5 @@
 # Google Drive Upload Tool
-A tool for Windows to upload files to Google Drive. It resumes uploads in case of an error or failure. Perfect for uploading large files or if your connection is unstable. Additionally, files uploaded with this tool will preserve their Modified Date. Also, the software lists the latest uploads and allows you to download them to a chosen folder.
+A tool for Windows to upload files to Google Drive. It resumes uploads in case of an error or failure. Perfect for uploading large files or if your connection is unstable. Additionally, files uploaded with this tool will preserve their Modified Date. Also, the software lets you browse and download your Drive contents
 
 # How to use?
 1. Before using this software, follow the Step 1 (Step 1: Turn on the Drive API) in this quick start guide from Google: [https://developers.google.com/drive/v3/web/quickstart/dotnet](https://developers.google.com/drive/v3/web/quickstart/dotnet).
