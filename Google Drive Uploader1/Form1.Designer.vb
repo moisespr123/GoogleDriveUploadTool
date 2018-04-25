@@ -164,7 +164,7 @@ Partial Class Form1
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(98, 26)
         Me.Label6.TabIndex = 11
-        Me.Label6.Text = "By Moises Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.7"
+        Me.Label6.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.7.1"
         '
         'Label7
         '

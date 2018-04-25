@@ -1,4 +1,7 @@
-﻿v1.7 (2/24/2018)
+﻿v1.7.1 (4/25/2018)
+-Added checkbox to start uploads automatically.
+
+v1.7 (2/24/2018)
 -Fixed: "Refresh List" was not working.
 -Fixed: Files uploaded can now be deleted without closing the software
 -Fixed: File download should now work correctly.
