@@ -1,5 +1,6 @@
 ﻿v1.7.1 (4/25/2018)
 -Added checkbox to start uploads automatically.
+-Updated Google Apis components
 
 v1.7 (2/24/2018)
 -Fixed: "Refresh List" was not working.
