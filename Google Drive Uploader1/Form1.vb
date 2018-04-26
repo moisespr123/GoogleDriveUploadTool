@@ -44,6 +44,7 @@ Public Class Form1
         If My.Settings.PreviousFolderIDs Is Nothing Then
             My.Settings.PreviousFolderIDs = New Specialized.StringCollection
         End If
+
         'Checks whether the language was set. If not, apply English by default
         Lang_Select()
 
@@ -100,6 +101,7 @@ Public Class Form1
         If My.Settings.AutomaticUploads Then
             CheckBox1.Checked = True
         End If
+        PreserveFileModifiedDateToolStripMenuItem.Checked = My.Settings.PreserveModifiedDate
         RefreshFileList(CurrentFolder)
         GetFolderIDName(False)
         CurrentFolderLabel.Text = GetCurrentFolderIDName()
@@ -178,9 +180,9 @@ Public Class Form1
                     Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                     ProgressBar1.Maximum = My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024
                     Dim FileMetadata As New Data.File With {
-                        .Name = My.Computer.FileSystem.GetName(GetFile),
-                        .ModifiedTime = IO.File.GetLastWriteTimeUtc(GetFile)
+                        .Name = My.Computer.FileSystem.GetName(GetFile)
                     }
+                    If PreserveFileModifiedDateToolStripMenuItem.Checked Then IO.File.GetLastWriteTimeUtc(GetFile)
                     Dim FileFolder As New List(Of String)
                     If FolderCreated = False Then
                         FileFolder.Add(TextBox2.Text)
@@ -261,12 +263,11 @@ Public Class Form1
             If UploadFailed = False Then
                 ListBox2.Items.RemoveAt(0)
                 FolderToUploadFileListBox.Items.RemoveAt(0)
-                RefreshFileList(CurrentFolder)
                 My.Settings.UploadQueue.RemoveAt(0)
                 My.Settings.UploadQueueFolders.RemoveAt(0)
                 My.Settings.Save()
-
                 ResumeFromError = False
+                If UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Checked Then RefreshFileList(CurrentFolder)
             End If
         End While
         If RadioButton1.Checked = True Then MsgBox(msgAndDialoglang("upload_finish"))
@@ -1669,11 +1670,12 @@ Public Class Form1
     End Sub
 
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
-        If CheckBox1.Checked Then
-            My.Settings.AutomaticUploads = True
-        Else
-            My.Settings.AutomaticUploads = False
-        End If
+        My.Settings.AutomaticUploads = CheckBox1.Checked
+        My.Settings.Save()
+    End Sub
+
+    Private Sub PreserveFileModifiedDateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PreserveFileModifiedDateToolStripMenuItem.Click
+        My.Settings.PreserveModifiedDate = PreserveFileModifiedDateToolStripMenuItem.Checked
         My.Settings.Save()
     End Sub
 End Class
