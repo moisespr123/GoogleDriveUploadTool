@@ -723,7 +723,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(ListBox1.SelectedItem & ".md5")
+        If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksum.md5") Else SaveChecksumsFile(ListBox1.SelectedItem & ".md5")
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
@@ -1007,7 +1007,7 @@ Public Class Form1
                 If ListBox1.SelectedItems.Count > 1 Then
                     If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5")
                 Else
-                    If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(ListBox1.SelectedItem & ".md5")
+                    If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksum.md5") Else SaveChecksumsFile(ListBox1.SelectedItem & ".md5")
                 End If
             End If
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.D Then
@@ -1169,7 +1169,9 @@ Public Class Form1
         btnLogout.Text = "Logout"
         DonationsToolStripMenuItem.Text = "Donations"
         PreserveFileModifiedDateToolStripMenuItem.Text = "Preserve File Modification Date"
+        SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Text = "Save checksums as checksums.md5"
         StartUploadsAutomaticallyToolStripMenuItem.Text = "Start Uploads Automatically"
+        UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Text = "Update File and Folder views after an upload finishes"
         ReadmeToolStripMenuItem.Text = "Readme / Help"
     End Sub
 
@@ -1212,7 +1214,9 @@ Public Class Form1
         btnLogout.Text = "登岀"
         DonationsToolStripMenuItem.Text = "捐款"
         PreserveFileModifiedDateToolStripMenuItem.Text = "Preserve File Modification Date"
+        SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Text = "Save checksums as checksums.md5"
         StartUploadsAutomaticallyToolStripMenuItem.Text = "Start Uploads Automatically"
+        UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Text = "Update File and Folder views after an upload finishes"
         ReadmeToolStripMenuItem.Text = "Readme / Help"
     End Sub
 
@@ -1256,7 +1260,9 @@ Public Class Form1
         GroupBox2.Text = "Información del archivo:"
         DonationsToolStripMenuItem.Text = "Donar"
         PreserveFileModifiedDateToolStripMenuItem.Text = "Preservar fecha de modificación"
+        SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Text = "Guardar checksums como checksums.md5"
         StartUploadsAutomaticallyToolStripMenuItem.Text = "Subir archivos automáticamente"
+        UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Text = "Actualizar vista de archivos y carpetas al terminar de subir un archivo"
         ReadmeToolStripMenuItem.Text = "Léeme / Ayuda"
     End Sub
 

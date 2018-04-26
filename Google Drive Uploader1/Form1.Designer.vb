@@ -702,7 +702,7 @@ Partial Class Form1
         '
         'OptionsToolStripMenuItem
         '
-        Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PreserveFileModifiedDateToolStripMenuItem, Me.StartUploadsAutomaticallyToolStripMenuItem, Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem, Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem})
+        Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PreserveFileModifiedDateToolStripMenuItem, Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem, Me.StartUploadsAutomaticallyToolStripMenuItem, Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem})
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
         Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
         Me.OptionsToolStripMenuItem.Text = "Options"
@@ -726,7 +726,7 @@ Partial Class Form1
         Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem.CheckOnClick = True
         Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Name = "SaveCheckumsAsChecksumsmd5ToolStripMenuItem"
         Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Size = New System.Drawing.Size(350, 22)
-        Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Text = "Save checkums as checksums.md5"
+        Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Text = "Save checksums as checksums.md5"
         '
         'UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem
         '
