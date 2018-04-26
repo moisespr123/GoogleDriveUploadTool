@@ -98,9 +98,7 @@ Public Class Form1
         For Each item In My.Settings.PreviousFolderIDs
             PreviousFolderId.Items.Add(item)
         Next
-        If My.Settings.AutomaticUploads Then
-            CheckBox1.Checked = True
-        End If
+        StartUploadsAutomaticallyToolStripMenuItem.Checked = My.Settings.AutomaticUploads
         PreserveFileModifiedDateToolStripMenuItem.Checked = My.Settings.PreserveModifiedDate
         RefreshFileList(CurrentFolder)
         GetFolderIDName(False)
@@ -585,10 +583,6 @@ Public Class Form1
         My.Settings.Save()
     End Sub
 
-    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
-        Donations.ShowDialog()
-    End Sub
-
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
         GetFolderIDName(True)
     End Sub
@@ -833,7 +827,7 @@ Public Class Form1
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.D Then
             EnterFolder()
             DownloadFilesAndFolders(True)
-        End if
+        End If
     End Sub
     Private Function GetFolderPath() As String
         FolderBrowserDialog1.ShowNewFolderButton = True
@@ -999,7 +993,7 @@ Public Class Form1
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.R Then
             If viewing_trash Then
                 WorkWithTrash(ListBox1.SelectedItems, True, False)
-             Else
+            Else
                 RenameFileOrFolder(FileIdsListBox.Items.Item(ListBox1.Items.IndexOf(ListBox1.SelectedItem)))
             End If
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.A Then
@@ -1143,7 +1137,6 @@ Public Class Form1
         Label11.Text = "Files:"
         Label12.Text = "Upload to this folder ID (""root"" to upload to root folder):"
         Label13.Text = "Time Left: "
-        Label15.Text = "Like this software?"
         Label16.Text = "Folder Name:"
         Label17.Text = "Folders:"
         Label18.Text = "File Name:"
@@ -1160,7 +1153,6 @@ Public Class Form1
         Button5.Text = "Download File"
         Button6.Text = "Remove selected file(s) from list"
         Button7.Text = "Save Checksums for Selected Files"
-        Button8.Text = "Donations"
         Button9.Text = "Get Folder Name"
         Button10.Text = "Back"
         GroupBox2.Text = "File Information:"
@@ -1173,8 +1165,10 @@ Public Class Form1
         Button13.Text = "Upload selected file(s) to current folder"
         Button14.Text = "Deselect"
         btnLogout.Text = "Logout"
-        CheckBox1.Text = "Start Uploads Automatically"
-        ReadmeLink.Text = "Readme / Help"
+        DonationsToolStripMenuItem.Text = "Donations"
+        PreserveFileModifiedDateToolStripMenuItem.Text = "Preserve File Modification Date"
+        StartUploadsAutomaticallyToolStripMenuItem.Text = "Start Uploads Automatically"
+        ReadmeToolStripMenuItem.Text = "Readme / Help"
     End Sub
 
     Private Sub TChineseLanguage()
@@ -1187,7 +1181,6 @@ Public Class Form1
         Label11.Text = "文件:"
         Label12.Text = "上傳到此文件夾ID (""root"" 指上傳到根目錄):"
         Label13.Text = "餘下時間: "
-        Label15.Text = "喜歡此軟件?"
         Label16.Text = "文件夾名稱:"
         Label18.Text = "文件名稱:"
         Label19.Text = "文件ID:"
@@ -1203,7 +1196,6 @@ Public Class Form1
         Button5.Text = "下載文件"
         Button6.Text = "由列表中移除已選文件"
         Button7.Text = "儲存已選文件校驗碼"
-        Button8.Text = "捐款"
         Button9.Text = "獲取文件夾名稱"
         Button10.Text = "返回"
         GroupBox2.Text = "File Information:"
@@ -1216,8 +1208,10 @@ Public Class Form1
         Button13.Text = "Upload selected file(s) to current folder"
         Button14.Text = "Deselect"
         btnLogout.Text = "登岀"
-        CheckBox1.Text = "Start Uploads Automatically"
-        ReadmeLink.Text = "Readme / Help"
+        DonationsToolStripMenuItem.Text = "捐款"
+        PreserveFileModifiedDateToolStripMenuItem.Text = "Preserve File Modification Date"
+        StartUploadsAutomaticallyToolStripMenuItem.Text = "Start Uploads Automatically"
+        ReadmeToolStripMenuItem.Text = "Readme / Help"
     End Sub
 
     Private Sub SpanishLanguage()
@@ -1230,7 +1224,6 @@ Public Class Form1
         Label11.Text = "Archivos:"
         Label12.Text = "Subir a este ID de directorio (""root"" para subir a la raíz):"
         Label13.Text = "Tiempo Est."
-        Label15.Text = "¿Te gusta esta programa?"
         Label16.Text = "Nombre de la Carpeta:"
         Label17.Text = "Carpetas:"
         Label18.Text = "Nombre:"
@@ -1247,7 +1240,6 @@ Public Class Form1
         Button5.Text = "Descargar Archivo"
         Button6.Text = "Remover archivo(s) de la lista"
         Button7.Text = "Guardar Checksums de los archivos"
-        Button8.Text = "Donar"
         Button9.Text = "Obtener Nombre de la Carpeta"
         Button10.Text = "Atrás"
         If viewing_trash = False Then
@@ -1260,8 +1252,10 @@ Public Class Form1
         Button14.Text = "Deseleccionar"
         btnLogout.Text = "Cerrar Sesión"
         GroupBox2.Text = "Información del archivo:"
-        CheckBox1.Text = "Subir archivos automáticamente"
-        ReadmeLink.Text = "Léeme / Ayuda"
+        DonationsToolStripMenuItem.Text = "Donar"
+        PreserveFileModifiedDateToolStripMenuItem.Text = "Preservar fecha de modificación"
+        StartUploadsAutomaticallyToolStripMenuItem.Text = "Subir archivos automáticamente"
+        ReadmeToolStripMenuItem.Text = "Léeme / Ayuda"
     End Sub
 
     Function MsgAndDialogLang(tag As String) As String
@@ -1659,23 +1653,27 @@ Public Class Form1
         RefreshFileList(CurrentFolder)
     End Sub
 
-    Private Sub ReadmeLink_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles ReadmeLink.LinkClicked
-        If Radiobutton1.Checked Then
-            Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/README.md")
-        ElseIf Radiobutton2.Checked then
-            Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/LEEME.md")
-        Else
-            Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/README.md")
-        End if
-    End Sub
-
-    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
-        My.Settings.AutomaticUploads = CheckBox1.Checked
-        My.Settings.Save()
-    End Sub
-
     Private Sub PreserveFileModifiedDateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PreserveFileModifiedDateToolStripMenuItem.Click
         My.Settings.PreserveModifiedDate = PreserveFileModifiedDateToolStripMenuItem.Checked
         My.Settings.Save()
+    End Sub
+
+    Private Sub StartUploadsAutomaticallyToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StartUploadsAutomaticallyToolStripMenuItem.Click
+        My.Settings.AutomaticUploads = StartUploadsAutomaticallyToolStripMenuItem.Checked
+        My.Settings.Save()
+    End Sub
+
+    Private Sub ReadmeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReadmeToolStripMenuItem.Click
+        If RadioButton1.Checked Then
+            Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/README.md")
+        ElseIf RadioButton2.Checked Then
+            Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/LEEME.md")
+        Else
+            Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/README.md")
+        End If
+    End Sub
+
+    Private Sub DonationsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DonationsToolStripMenuItem.Click
+        Donations.ShowDialog()
     End Sub
 End Class

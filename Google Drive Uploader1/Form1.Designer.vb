@@ -51,8 +51,6 @@ Partial Class Form1
         Me.ListBox2 = New System.Windows.Forms.ListBox()
         Me.Button6 = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.Button8 = New System.Windows.Forms.Button()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Button9 = New System.Windows.Forms.Button()
@@ -85,8 +83,6 @@ Partial Class Form1
         Me.CurrentFolderLabel = New System.Windows.Forms.Label()
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.ReadmeLink = New System.Windows.Forms.LinkLabel()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UploadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -95,13 +91,13 @@ Partial Class Form1
         Me.DownloadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectedFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectedFolderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.StartUploadsAutomaticallyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PreserveFileModifiedDateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StartUploadsAutomaticallyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReadmeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -363,24 +359,6 @@ Partial Class Form1
         Me.Button3.TabIndex = 31
         Me.Button3.Text = "Clear List"
         Me.Button3.UseVisualStyleBackColor = True
-        '
-        'Label15
-        '
-        Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(133, 395)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(95, 13)
-        Me.Label15.TabIndex = 33
-        Me.Label15.Text = "Like this software?"
-        '
-        'Button8
-        '
-        Me.Button8.Location = New System.Drawing.Point(136, 409)
-        Me.Button8.Name = "Button8"
-        Me.Button8.Size = New System.Drawing.Size(92, 23)
-        Me.Button8.TabIndex = 34
-        Me.Button8.Text = "Donations"
-        Me.Button8.UseVisualStyleBackColor = True
         '
         'Label16
         '
@@ -657,26 +635,6 @@ Partial Class Form1
         Me.LinkLabel1.TabStop = True
         Me.LinkLabel1.Text = "Go to Root"
         '
-        'ReadmeLink
-        '
-        Me.ReadmeLink.AutoSize = True
-        Me.ReadmeLink.Location = New System.Drawing.Point(1129, 425)
-        Me.ReadmeLink.Name = "ReadmeLink"
-        Me.ReadmeLink.Size = New System.Drawing.Size(80, 13)
-        Me.ReadmeLink.TabIndex = 50
-        Me.ReadmeLink.TabStop = True
-        Me.ReadmeLink.Text = "Readme / Help"
-        '
-        'CheckBox1
-        '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(362, 231)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(155, 17)
-        Me.CheckBox1.TabIndex = 51
-        Me.CheckBox1.Text = "Start Uploads Automatically"
-        Me.CheckBox1.UseVisualStyleBackColor = True
-        '
         'MenuStrip1
         '
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.OptionsToolStripMenuItem, Me.HelpToolStripMenuItem})
@@ -697,19 +655,19 @@ Partial Class Form1
         '
         Me.UploadToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem1, Me.FolderToolStripMenuItem})
         Me.UploadToolStripMenuItem.Name = "UploadToolStripMenuItem"
-        Me.UploadToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.UploadToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
         Me.UploadToolStripMenuItem.Text = "Upload"
         '
         'FileToolStripMenuItem1
         '
         Me.FileToolStripMenuItem1.Name = "FileToolStripMenuItem1"
-        Me.FileToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.FileToolStripMenuItem1.Size = New System.Drawing.Size(107, 22)
         Me.FileToolStripMenuItem1.Text = "File(s)"
         '
         'FolderToolStripMenuItem
         '
         Me.FolderToolStripMenuItem.Name = "FolderToolStripMenuItem"
-        Me.FolderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.FolderToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
         Me.FolderToolStripMenuItem.Text = "Folder"
         '
         'DownloadToolStripMenuItem
@@ -717,30 +675,30 @@ Partial Class Form1
         Me.DownloadToolStripMenuItem.CheckOnClick = True
         Me.DownloadToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFileToolStripMenuItem, Me.SelectedFolderToolStripMenuItem, Me.ToolStripSeparator2})
         Me.DownloadToolStripMenuItem.Name = "DownloadToolStripMenuItem"
-        Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
         Me.DownloadToolStripMenuItem.Text = "Download"
         '
         'SelectedFileToolStripMenuItem
         '
         Me.SelectedFileToolStripMenuItem.Name = "SelectedFileToolStripMenuItem"
-        Me.SelectedFileToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SelectedFileToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
         Me.SelectedFileToolStripMenuItem.Text = "Selected File(s)"
         '
         'SelectedFolderToolStripMenuItem
         '
         Me.SelectedFolderToolStripMenuItem.Name = "SelectedFolderToolStripMenuItem"
-        Me.SelectedFolderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SelectedFolderToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
         Me.SelectedFolderToolStripMenuItem.Text = "Selected Folder"
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(151, 6)
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(125, 6)
         '
         'OptionsToolStripMenuItem
         '
@@ -749,20 +707,6 @@ Partial Class Form1
         Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
         Me.OptionsToolStripMenuItem.Text = "Options"
         '
-        'StartUploadsAutomaticallyToolStripMenuItem
-        '
-        Me.StartUploadsAutomaticallyToolStripMenuItem.CheckOnClick = True
-        Me.StartUploadsAutomaticallyToolStripMenuItem.Name = "StartUploadsAutomaticallyToolStripMenuItem"
-        Me.StartUploadsAutomaticallyToolStripMenuItem.Size = New System.Drawing.Size(350, 22)
-        Me.StartUploadsAutomaticallyToolStripMenuItem.Text = "Start Uploads Automatically"
-        '
-        'UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem
-        '
-        Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.CheckOnClick = True
-        Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Name = "UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem"
-        Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Size = New System.Drawing.Size(350, 22)
-        Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Text = "Update File and Folder views after an upload finishes"
-        '
         'PreserveFileModifiedDateToolStripMenuItem
         '
         Me.PreserveFileModifiedDateToolStripMenuItem.CheckOnClick = True
@@ -770,12 +714,26 @@ Partial Class Form1
         Me.PreserveFileModifiedDateToolStripMenuItem.Size = New System.Drawing.Size(350, 22)
         Me.PreserveFileModifiedDateToolStripMenuItem.Text = "Preserve File Modified Date"
         '
+        'StartUploadsAutomaticallyToolStripMenuItem
+        '
+        Me.StartUploadsAutomaticallyToolStripMenuItem.CheckOnClick = True
+        Me.StartUploadsAutomaticallyToolStripMenuItem.Name = "StartUploadsAutomaticallyToolStripMenuItem"
+        Me.StartUploadsAutomaticallyToolStripMenuItem.Size = New System.Drawing.Size(350, 22)
+        Me.StartUploadsAutomaticallyToolStripMenuItem.Text = "Start Uploads Automatically"
+        '
         'SaveCheckumsAsChecksumsmd5ToolStripMenuItem
         '
         Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem.CheckOnClick = True
         Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Name = "SaveCheckumsAsChecksumsmd5ToolStripMenuItem"
         Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Size = New System.Drawing.Size(350, 22)
         Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Text = "Save checkums as checksums.md5"
+        '
+        'UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem
+        '
+        Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.CheckOnClick = True
+        Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Name = "UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem"
+        Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Size = New System.Drawing.Size(350, 22)
+        Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Text = "Update File and Folder views after an upload finishes"
         '
         'HelpToolStripMenuItem
         '
@@ -788,12 +746,12 @@ Partial Class Form1
         '
         Me.ReadmeToolStripMenuItem.Name = "ReadmeToolStripMenuItem"
         Me.ReadmeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.ReadmeToolStripMenuItem.Text = "Readme"
+        Me.ReadmeToolStripMenuItem.Text = "Readme / Help"
         '
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
         Me.AboutToolStripMenuItem.Text = "About"
         '
         'DonationsToolStripMenuItem
@@ -807,9 +765,7 @@ Partial Class Form1
         Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1226, 487)
-        Me.Controls.Add(Me.CheckBox1)
-        Me.Controls.Add(Me.ReadmeLink)
+        Me.ClientSize = New System.Drawing.Size(1226, 442)
         Me.Controls.Add(Me.LinkLabel1)
         Me.Controls.Add(Me.CurrentFolderLabel)
         Me.Controls.Add(Me.Button14)
@@ -825,8 +781,6 @@ Partial Class Form1
         Me.Controls.Add(Me.Button9)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Label16)
-        Me.Controls.Add(Me.Button8)
-        Me.Controls.Add(Me.Label15)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.Button6)
         Me.Controls.Add(Me.ListBox2)
@@ -894,8 +848,6 @@ End Sub
     Friend WithEvents ListBox2 As ListBox
     Friend WithEvents Button6 As Button
     Friend WithEvents Button3 As Button
-    Friend WithEvents Label15 As Label
-    Friend WithEvents Button8 As Button
     Friend WithEvents Label16 As Label
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Button9 As Button
@@ -929,8 +881,6 @@ End Sub
     Friend WithEvents CurrentFolderLabel As Label
     Friend WithEvents LinkLabel1 As LinkLabel
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
-    Friend WithEvents ReadmeLink As LinkLabel
-    Friend WithEvents CheckBox1 As CheckBox
     Friend WithEvents MenuStrip1 As MenuStrip
     Friend WithEvents FileToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents UploadToolStripMenuItem As ToolStripMenuItem
