@@ -204,6 +204,30 @@ Namespace My
                 Me("AutomaticUploads") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property UpdateViews() As Boolean
+            Get
+                Return CType(Me("UpdateViews"),Boolean)
+            End Get
+            Set
+                Me("UpdateViews") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property SaveAsChecksumsMD5() As Boolean
+            Get
+                Return CType(Me("SaveAsChecksumsMD5"),Boolean)
+            End Get
+            Set
+                Me("SaveAsChecksumsMD5") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

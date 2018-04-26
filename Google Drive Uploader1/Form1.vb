@@ -98,8 +98,10 @@ Public Class Form1
         For Each item In My.Settings.PreviousFolderIDs
             PreviousFolderId.Items.Add(item)
         Next
+        SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Checked = My.Settings.SaveAsChecksumsMD5
         StartUploadsAutomaticallyToolStripMenuItem.Checked = My.Settings.AutomaticUploads
         PreserveFileModifiedDateToolStripMenuItem.Checked = My.Settings.PreserveModifiedDate
+        UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.DoubleClickEnabled = My.Settings.UpdateViews
         RefreshFileList(CurrentFolder)
         GetFolderIDName(False)
         CurrentFolderLabel.Text = GetCurrentFolderIDName()
@@ -721,11 +723,11 @@ Public Class Form1
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        SaveChecksumsFile(ListBox1.SelectedItem & ".md5")
+        If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(ListBox1.SelectedItem & ".md5")
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
-        SaveChecksumsFile(GetCurrentFolderIDName() & ".md5")
+        If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5")
     End Sub
     Private Function SaveChecksumFileDialog(FileOrFolderName As String) As String
         SaveFileDialog2.Title = MsgAndDialogLang("checksum_location")
@@ -823,7 +825,7 @@ Public Class Form1
             Next
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.C Then
             EnterFolder()
-            SaveChecksumsFile(GetCurrentFolderIDName() & ".md5", True)
+            If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5", True) Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5", True)
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.D Then
             EnterFolder()
             DownloadFilesAndFolders(True)
@@ -1003,9 +1005,9 @@ Public Class Form1
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.C Then
             If ListBox1.SelectedIndex <> -1 Then
                 If ListBox1.SelectedItems.Count > 1 Then
-                    SaveChecksumsFile(GetCurrentFolderIDName() & ".md5")
+                    If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5")
                 Else
-                    SaveChecksumsFile(ListBox1.SelectedItem & ".md5")
+                    If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(ListBox1.SelectedItem & ".md5")
                 End If
             End If
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.D Then
@@ -1675,5 +1677,15 @@ Public Class Form1
 
     Private Sub DonationsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DonationsToolStripMenuItem.Click
         Donations.ShowDialog()
+    End Sub
+
+    Private Sub SaveCheckumsAsChecksumsmd5ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Click
+        My.Settings.SaveAsChecksumsMD5 = SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Checked
+        My.Settings.Save()
+    End Sub
+
+    Private Sub UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Click
+        My.Settings.UpdateViews = UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Checked
+        My.Settings.Save()
     End Sub
 End Class
