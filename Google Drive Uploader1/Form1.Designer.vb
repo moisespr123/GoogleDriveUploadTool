@@ -96,14 +96,14 @@ Partial Class Form1
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PreserveFileModifiedDateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OrderByToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OrderByComboBox = New System.Windows.Forms.ToolStripComboBox()
+        Me.DescendingOrderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StartUploadsAutomaticallyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReadmeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DonationsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.OrderByToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.OrderByComboBox = New System.Windows.Forms.ToolStripComboBox()
-        Me.DescendingOrderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -723,6 +723,26 @@ Partial Class Form1
         Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Size = New System.Drawing.Size(350, 22)
         Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Text = "Save checksums as checksums.md5"
         '
+        'OrderByToolStripMenuItem
+        '
+        Me.OrderByToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OrderByComboBox, Me.DescendingOrderToolStripMenuItem})
+        Me.OrderByToolStripMenuItem.Name = "OrderByToolStripMenuItem"
+        Me.OrderByToolStripMenuItem.Size = New System.Drawing.Size(350, 22)
+        Me.OrderByToolStripMenuItem.Text = "Sort By"
+        '
+        'OrderByComboBox
+        '
+        Me.OrderByComboBox.Items.AddRange(New Object() {"Created Time", "Folder", "Modified By Me Time", "Modified Time", "Name", "Natural Name", "Quota Bytes Used", "Recency", "Shared With Me Time", "Starred", "Viewed By Me Time"})
+        Me.OrderByComboBox.Name = "OrderByComboBox"
+        Me.OrderByComboBox.Size = New System.Drawing.Size(121, 23)
+        '
+        'DescendingOrderToolStripMenuItem
+        '
+        Me.DescendingOrderToolStripMenuItem.CheckOnClick = True
+        Me.DescendingOrderToolStripMenuItem.Name = "DescendingOrderToolStripMenuItem"
+        Me.DescendingOrderToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.DescendingOrderToolStripMenuItem.Text = "Descending Order"
+        '
         'StartUploadsAutomaticallyToolStripMenuItem
         '
         Me.StartUploadsAutomaticallyToolStripMenuItem.CheckOnClick = True
@@ -755,26 +775,6 @@ Partial Class Form1
         Me.DonationsToolStripMenuItem.Name = "DonationsToolStripMenuItem"
         Me.DonationsToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
         Me.DonationsToolStripMenuItem.Text = "Donations"
-        '
-        'OrderByToolStripMenuItem
-        '
-        Me.OrderByToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OrderByComboBox, Me.DescendingOrderToolStripMenuItem})
-        Me.OrderByToolStripMenuItem.Name = "OrderByToolStripMenuItem"
-        Me.OrderByToolStripMenuItem.Size = New System.Drawing.Size(350, 22)
-        Me.OrderByToolStripMenuItem.Text = "Sort By"
-        '
-        'OrderByComboBox
-        '
-        Me.OrderByComboBox.Items.AddRange(New Object() {"Created Time", "Folder", "Modified By Me Time", "Modified Time", "Name", "Natural Name", "Quota Bytes Used", "Recency", "Shared With Me Time", "Starred", "Viewed By Me Time"})
-        Me.OrderByComboBox.Name = "OrderByComboBox"
-        Me.OrderByComboBox.Size = New System.Drawing.Size(121, 23)
-        '
-        'DescendingOrderToolStripMenuItem
-        '
-        Me.DescendingOrderToolStripMenuItem.CheckOnClick = True
-        Me.DescendingOrderToolStripMenuItem.Name = "DescendingOrderToolStripMenuItem"
-        Me.DescendingOrderToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
-        Me.DescendingOrderToolStripMenuItem.Text = "DescendingOrder"
         '
         'Form1
         '

@@ -464,19 +464,11 @@ Public Class Form1
                     For Each file In files.Files
                         ListBox1.Items.Add(file.Name)
                         FileIdsListBox.Items.Add(file.Id)
-                        Try
-                            FileSizeListBox.Items.Add(file.Size)
-                            FileModifiedTimeListBox.Items.Add(file.ModifiedTime)
-                            FileCreatedTimeListBox.Items.Add(file.CreatedTime)
-                            FileMD5ListBox.Items.Add(file.Md5Checksum)
-                            FileMIMEListBox.Items.Add(file.MimeType)
-                        Catch
-                            FileSizeListBox.Items.Add("0")
-                            FileMIMEListBox.Items.Add("Unknown")
-                            FileModifiedTimeListBox.Items.Add(file.ModifiedTime)
-                            FileCreatedTimeListBox.Items.Add(file.CreatedTime)
-                            FileMD5ListBox.Items.Add("")
-                        End Try
+                        If file.Size IsNot Nothing Then FileSizeListBox.Items.Add(file.Size) Else FileSizeListBox.Items.Add("0")
+                        FileModifiedTimeListBox.Items.Add(file.ModifiedTime)
+                        FileCreatedTimeListBox.Items.Add(file.CreatedTime)
+                        If file.Md5Checksum IsNot Nothing Then FileMD5ListBox.Items.Add(file.Md5Checksum) Else FileMD5ListBox.Items.Add("")
+                        FileMIMEListBox.Items.Add(file.MimeType)
                     Next
                 End If
                 PageToken1 = files.NextPageToken
@@ -1079,19 +1071,10 @@ Public Class Form1
                     For Each file In files.Files
                         ListBox1.Items.Add(file.Name)
                         FileIdsListBox.Items.Add(file.Id)
-                        Try
-                            FileSizeListBox.Items.Add(file.Size)
-                            FileModifiedTimeListBox.Items.Add(file.ModifiedTime)
-                            FileCreatedTimeListBox.Items.Add(file.CreatedTime)
-                            FileMD5ListBox.Items.Add(file.Md5Checksum)
-                            FileMIMEListBox.Items.Add(file.MimeType)
-                        Catch
-                            FileSizeListBox.Items.Add("0")
-                            FileMIMEListBox.Items.Add("Unknown")
-                            FileModifiedTimeListBox.Items.Add(file.ModifiedTime)
-                            FileCreatedTimeListBox.Items.Add(file.CreatedTime)
-                            FileMD5ListBox.Items.Add("")
-                        End Try
+                        If file.Size IsNot Nothing Then FileSizeListBox.Items.Add(file.Size) Else FileSizeListBox.Items.Add("0")
+                        FileModifiedTimeListBox.Items.Add(file.ModifiedTime)
+                        FileCreatedTimeListBox.Items.Add(file.CreatedTime)
+                        If file.Md5Checksum IsNot Nothing Then FileMD5ListBox.Items.Add(file.Md5Checksum) Else FileMD5ListBox.Items.Add("")
                     Next
                 End If
                 PageToken1 = files.NextPageToken
@@ -1176,6 +1159,11 @@ Public Class Form1
         DonationsToolStripMenuItem.Text = "Donations"
         HelpToolStripMenuItem.Text = "Help"
         OptionsToolStripMenuItem.Text = "Options"
+        OrderByToolStripMenuItem.Text = "Order By"
+        OrderByComboBox.Items.Clear()
+        OrderByComboBox.Items.AddRange({"Created Time", "Folder", "Modified By Me Time", "Modified Time", "Name", "Natural Name", "Quota Bytes Used", "Recency", "Shared With Me Time", "Starred", "Viewed By Me Time"})
+        OrderByComboBox.SelectedIndex = My.Settings.SortByIndex
+        DescendingOrderToolStripMenuItem.Text = "Descending Order"
         PreserveFileModifiedDateToolStripMenuItem.Text = "Preserve File Modification Date"
         SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Text = "Save checksums as checksums.md5"
         StartUploadsAutomaticallyToolStripMenuItem.Text = "Start Uploads Automatically"
@@ -1223,6 +1211,11 @@ Public Class Form1
         DonationsToolStripMenuItem.Text = "捐款"
         HelpToolStripMenuItem.Text = "Help"
         OptionsToolStripMenuItem.Text = "Options"
+        OrderByToolStripMenuItem.Text = "Order By"
+        OrderByComboBox.Items.Clear()
+        OrderByComboBox.Items.AddRange({"Created Time", "Folder", "Modified By Me Time", "Modified Time", "Name", "Natural Name", "Quota Bytes Used", "Recency", "Shared With Me Time", "Starred", "Viewed By Me Time"})
+        OrderByComboBox.SelectedIndex = My.Settings.SortByIndex
+        DescendingOrderToolStripMenuItem.Text = "Descending Order"
         PreserveFileModifiedDateToolStripMenuItem.Text = "Preserve File Modification Date"
         SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Text = "Save checksums as checksums.md5"
         StartUploadsAutomaticallyToolStripMenuItem.Text = "Start Uploads Automatically"
@@ -1271,6 +1264,11 @@ Public Class Form1
         DonationsToolStripMenuItem.Text = "Donar"
         HelpToolStripMenuItem.Text = "Ayuda"
         OptionsToolStripMenuItem.Text = "Opciones"
+        OrderByToolStripMenuItem.Text = "Ordenar por"
+        OrderByComboBox.Items.Clear()
+        OrderByComboBox.Items.AddRange({"Fecha de creación", "Carpeta", "Modificado por mí", "Fecha de Modificación", "Nombre", "Nombre Natural", "Espacio usado", "Recientes", "Compartidos conmigo", "Estrellado", "Fecha de Acceso/Visto"})
+        OrderByComboBox.SelectedIndex = My.Settings.SortByIndex
+        DescendingOrderToolStripMenuItem.Text = "Ordenar Descendiente"
         PreserveFileModifiedDateToolStripMenuItem.Text = "Preservar fecha de modificación"
         SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Text = "Guardar checksums como checksums.md5"
         StartUploadsAutomaticallyToolStripMenuItem.Text = "Subir archivos automáticamente"
