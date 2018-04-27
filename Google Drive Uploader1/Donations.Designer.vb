@@ -63,24 +63,30 @@ Partial Class Donations
         '
         'TextBox1
         '
+        Me.TextBox1.BackColor = System.Drawing.SystemColors.Window
         Me.TextBox1.Location = New System.Drawing.Point(26, 27)
         Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.ReadOnly = True
         Me.TextBox1.Size = New System.Drawing.Size(246, 20)
         Me.TextBox1.TabIndex = 1
         Me.TextBox1.Text = "1CmuQdbwwgM9TnyuqNLjk7eeVhCoFbuuM3"
         '
         'TextBox2
         '
+        Me.TextBox2.BackColor = System.Drawing.SystemColors.Window
         Me.TextBox2.Location = New System.Drawing.Point(26, 68)
         Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.ReadOnly = True
         Me.TextBox2.Size = New System.Drawing.Size(246, 20)
         Me.TextBox2.TabIndex = 2
         Me.TextBox2.Text = "SAw6dAHTe2oZQTkLGCRjakB5pyHBu8hsAy"
         '
         'TextBox3
         '
+        Me.TextBox3.BackColor = System.Drawing.SystemColors.Window
         Me.TextBox3.Location = New System.Drawing.Point(26, 150)
         Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.ReadOnly = True
         Me.TextBox3.Size = New System.Drawing.Size(246, 20)
         Me.TextBox3.TabIndex = 4
         Me.TextBox3.Text = "moisesmcardona"
@@ -105,8 +111,10 @@ Partial Class Donations
         '
         'TextBox4
         '
+        Me.TextBox4.BackColor = System.Drawing.SystemColors.Window
         Me.TextBox4.Location = New System.Drawing.Point(26, 109)
         Me.TextBox4.Name = "TextBox4"
+        Me.TextBox4.ReadOnly = True
         Me.TextBox4.Size = New System.Drawing.Size(246, 20)
         Me.TextBox4.TabIndex = 3
         Me.TextBox4.Text = "BURST-SRQE-UY26-2H7P-GNX89"
