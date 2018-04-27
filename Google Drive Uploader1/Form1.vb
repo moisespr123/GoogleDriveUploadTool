@@ -102,6 +102,8 @@ Public Class Form1
         StartUploadsAutomaticallyToolStripMenuItem.Checked = My.Settings.AutomaticUploads
         PreserveFileModifiedDateToolStripMenuItem.Checked = My.Settings.PreserveModifiedDate
         UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.DoubleClickEnabled = My.Settings.UpdateViews
+        OrderByComboBox.SelectedIndex = My.Settings.SortByIndex
+        DescendingOrderToolStripMenuItem.Checked = My.Settings.OrderDesc
         RefreshFileList(CurrentFolder)
         GetFolderIDName(False)
         CurrentFolderLabel.Text = GetCurrentFolderIDName()
@@ -448,11 +450,13 @@ Public Class Form1
         FileMD5ListBox.Items.Clear()
         FileMIMEListBox.Items.Clear()
         Dim PageToken1 As String = String.Empty
+        Dim OrderBy As String = My.Settings.SortBy
+        If My.Settings.OrderDesc Then OrderBy = OrderBy + " desc,name"
         Do
             Dim listRequest1 As FilesResource.ListRequest = service.Files.List()
             listRequest1.Fields = "nextPageToken, files(id, name, size, createdTime, modifiedTime, md5Checksum, mimeType)"
             listRequest1.Q = "mimeType!='application/vnd.google-apps.folder' and '" & FolderID & "' in parents and trashed = false"
-            listRequest1.OrderBy = "name"
+            listRequest1.OrderBy = OrderBy
             listRequest1.PageToken = PageToken1
             Try
                 Dim files = listRequest1.Execute()
@@ -486,7 +490,7 @@ Public Class Form1
             Dim listRequest As FilesResource.ListRequest = service.Files.List()
             listRequest.Q = "mimeType='application/vnd.google-apps.folder' and '" & FolderID & "' in parents and trashed = false"
             listRequest.Fields = "nextPageToken, files(id, name)"
-            listRequest.OrderBy = "name"
+            listRequest.OrderBy = OrderBy
             listRequest.PageToken = PageToken2
             Try
                 Dim files = listRequest.Execute()
@@ -1061,11 +1065,13 @@ Public Class Form1
         FileMD5ListBox.Items.Clear()
         FileMIMEListBox.Items.Clear()
         Dim PageToken1 As String = String.Empty
+        Dim OrderBy As String = My.Settings.SortBy
+        If My.Settings.OrderDesc Then OrderBy = "desc," + OrderBy
         Do
             Dim listRequest1 As FilesResource.ListRequest = service.Files.List()
             listRequest1.Fields = "nextPageToken, files(id, name, size, createdTime, modifiedTime, md5Checksum, mimeType)"
             listRequest1.Q = "mimeType!='application/vnd.google-apps.folder' and trashed = true"
-            listRequest1.OrderBy = "name"
+            listRequest1.OrderBy = OrderBy
             listRequest1.PageToken = PageToken1
             Try
                 Dim files = listRequest1.Execute()
@@ -1099,7 +1105,7 @@ Public Class Form1
             Dim listRequest As FilesResource.ListRequest = service.Files.List()
             listRequest.Q = "mimeType='application/vnd.google-apps.folder'and trashed = true"
             listRequest.Fields = "nextPageToken, files(id, name)"
-            listRequest.OrderBy = "name"
+            listRequest.OrderBy = OrderBy
             listRequest.PageToken = PageToken2
             Try
                 Dim files = listRequest.Execute()
@@ -1699,5 +1705,40 @@ Public Class Form1
     Private Sub UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Click
         My.Settings.UpdateViews = UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Checked
         My.Settings.Save()
+    End Sub
+
+    Private Sub DescendingOrderToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DescendingOrderToolStripMenuItem.Click
+        My.Settings.OrderDesc = DescendingOrderToolStripMenuItem.Checked
+        My.Settings.Save()
+        RefreshFileList(CurrentFolder)
+    End Sub
+
+    Private Sub OrderByComboBox_DropDownClosed(sender As Object, e As EventArgs) Handles OrderByComboBox.DropDownClosed
+        If OrderByComboBox.SelectedIndex = 0 Then
+            My.Settings.SortBy = "createdTime"
+        ElseIf OrderByComboBox.SelectedIndex = 1 Then
+            My.Settings.SortBy = "folder"
+        ElseIf OrderByComboBox.SelectedIndex = 2 Then
+            My.Settings.SortBy = "modifiedByMeTime"
+        ElseIf OrderByComboBox.SelectedIndex = 3 Then
+            My.Settings.SortBy = "modifiedTime"
+        ElseIf OrderByComboBox.SelectedIndex = 4 Then
+            My.Settings.SortBy = "name"
+        ElseIf OrderByComboBox.SelectedIndex = 5 Then
+            My.Settings.SortBy = "name_natural"
+        ElseIf OrderByComboBox.SelectedIndex = 6 Then
+            My.Settings.SortBy = "quotaBytesUsed"
+        ElseIf OrderByComboBox.SelectedIndex = 7 Then
+            My.Settings.SortBy = "recency"
+        ElseIf OrderByComboBox.SelectedIndex = 8 Then
+            My.Settings.SortBy = "sharedWithMeTime"
+        ElseIf OrderByComboBox.SelectedIndex = 9 Then
+            My.Settings.SortBy = "starred"
+        ElseIf OrderByComboBox.SelectedIndex = 10 Then
+            My.Settings.SortBy = "viewedByMeTime"
+        End If
+        My.Settings.SortByIndex = OrderByComboBox.SelectedIndex
+        My.Settings.Save()
+        RefreshFileList(CurrentFolder)
     End Sub
 End Class

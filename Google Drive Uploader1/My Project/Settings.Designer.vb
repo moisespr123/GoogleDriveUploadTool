@@ -228,6 +228,42 @@ Namespace My
                 Me("SaveAsChecksumsMD5") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("name")>  _
+        Public Property SortBy() As String
+            Get
+                Return CType(Me("SortBy"),String)
+            End Get
+            Set
+                Me("SortBy") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("4")>  _
+        Public Property SortByIndex() As Integer
+            Get
+                Return CType(Me("SortByIndex"),Integer)
+            End Get
+            Set
+                Me("SortByIndex") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property OrderDesc() As Boolean
+            Get
+                Return CType(Me("OrderDesc"),Boolean)
+            End Get
+            Set
+                Me("OrderDesc") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
