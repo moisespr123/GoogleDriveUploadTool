@@ -1105,6 +1105,9 @@ Public Class Form1
         Button14.Text = "Deselect"
         btnLogout.Text = "Logout"
         DonationsToolStripMenuItem.Text = "Donations"
+        FileToolStripMenuItem.Text = "File"
+        FileToolStripMenuItem1.Text = "File(s)"
+        FolderToolStripMenuItem.Text = "Folder"
         HelpToolStripMenuItem.Text = "Help"
         OptionsToolStripMenuItem.Text = "Options"
         OrderByToolStripMenuItem.Text = "Order By"
@@ -1157,6 +1160,9 @@ Public Class Form1
         Button14.Text = "Deselect"
         btnLogout.Text = "登岀"
         DonationsToolStripMenuItem.Text = "捐款"
+        FileToolStripMenuItem.Text = "File"
+        FileToolStripMenuItem1.Text = "File(s)"
+        FolderToolStripMenuItem.Text = "Folder"
         HelpToolStripMenuItem.Text = "Help"
         OptionsToolStripMenuItem.Text = "Options"
         OrderByToolStripMenuItem.Text = "Order By"
@@ -1210,6 +1216,9 @@ Public Class Form1
         btnLogout.Text = "Cerrar Sesión"
         GroupBox2.Text = "Información del archivo:"
         DonationsToolStripMenuItem.Text = "Donar"
+        FileToolStripMenuItem.Text = "Archivo"
+        FileToolStripMenuItem1.Text = "Archivo(s)"
+        FolderToolStripMenuItem.Text = "Carpeta"
         HelpToolStripMenuItem.Text = "Ayuda"
         OptionsToolStripMenuItem.Text = "Opciones"
         OrderByToolStripMenuItem.Text = "Ordenar por"
@@ -1686,5 +1695,31 @@ Public Class Form1
         My.Settings.SortByIndex = OrderByComboBox.SelectedIndex
         My.Settings.Save()
         RefreshFileList(CurrentFolder)
+    End Sub
+
+    Private Sub FileToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles FileToolStripMenuItem1.Click
+        OpenFileDialog1.Title = "Select files to upload"
+        OpenFileDialog1.Filter = "All Files (*)|*.*"
+        Dim DialogResultVar As DialogResult = OpenFileDialog1.ShowDialog
+        If DialogResultVar = DialogResult.OK Then
+            If OpenFileDialog1.FileNames IsNot Nothing Then
+                ListBox2.Items.AddRange(OpenFileDialog1.FileNames)
+                FolderToUploadFileListBox.Items.Add(CurrentFolder)
+                My.Settings.UploadQueue.AddRange(OpenFileDialog1.FileNames)
+                My.Settings.UploadQueueFolders.Add(CurrentFolder)
+            End If
+        End If
+    End Sub
+
+    Private Sub FolderToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FolderToolStripMenuItem.Click
+        FolderBrowserDialog1.ShowNewFolderButton = False
+        Dim FolderBrowserDialogResponse As MsgBoxResult = FolderBrowserDialog1.ShowDialog
+        If FolderBrowserDialogResponse = MsgBoxResult.Ok Then
+            ListBox2.Items.Add(FolderBrowserDialog1.SelectedPath)
+            FolderToUploadFileListBox.Items.Add(CurrentFolder)
+            My.Settings.UploadQueue.Add(FolderBrowserDialog1.SelectedPath)
+            My.Settings.UploadQueueFolders.Add(CurrentFolder)
+            GetDirectoriesAndFiles(New IO.DirectoryInfo(FolderBrowserDialog1.SelectedPath))
+        End If
     End Sub
 End Class
