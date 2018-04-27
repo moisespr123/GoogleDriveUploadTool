@@ -96,6 +96,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UploadChunkSize.Designer.vb">
+      <DependentUpon>UploadChunkSize.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UploadChunkSize.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Donations.Designer.vb">
       <DependentUpon>Donations.vb</DependentUpon>
     </Compile>
@@ -126,6 +132,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="UploadChunkSize.resx">
+      <DependentUpon>UploadChunkSize.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Donations.resx">
       <DependentUpon>Donations.vb</DependentUpon>
     </EmbeddedResource>

@@ -92,7 +92,6 @@ Partial Class Form1
         Me.SelectedFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectedFolderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PreserveFileModifiedDateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -104,6 +103,7 @@ Partial Class Form1
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReadmeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DonationsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SpecifyChunkSizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -183,7 +183,7 @@ Partial Class Form1
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(98, 26)
         Me.Label6.TabIndex = 11
-        Me.Label6.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.7.1"
+        Me.Label6.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.8"
         '
         'Label7
         '
@@ -649,7 +649,7 @@ Partial Class Form1
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UploadToolStripMenuItem, Me.DownloadToolStripMenuItem, Me.ToolStripSeparator1})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UploadToolStripMenuItem, Me.DownloadToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "File"
@@ -675,37 +675,31 @@ Partial Class Form1
         '
         'DownloadToolStripMenuItem
         '
-        Me.DownloadToolStripMenuItem.CheckOnClick = True
         Me.DownloadToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFileToolStripMenuItem, Me.SelectedFolderToolStripMenuItem, Me.ToolStripSeparator2})
         Me.DownloadToolStripMenuItem.Name = "DownloadToolStripMenuItem"
-        Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
+        Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.DownloadToolStripMenuItem.Text = "Download"
         '
         'SelectedFileToolStripMenuItem
         '
         Me.SelectedFileToolStripMenuItem.Name = "SelectedFileToolStripMenuItem"
-        Me.SelectedFileToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
+        Me.SelectedFileToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SelectedFileToolStripMenuItem.Text = "Selected File(s)"
         '
         'SelectedFolderToolStripMenuItem
         '
         Me.SelectedFolderToolStripMenuItem.Name = "SelectedFolderToolStripMenuItem"
-        Me.SelectedFolderToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
+        Me.SelectedFolderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SelectedFolderToolStripMenuItem.Text = "Selected Folder"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(151, 6)
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(125, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(177, 6)
         '
         'OptionsToolStripMenuItem
         '
-        Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PreserveFileModifiedDateToolStripMenuItem, Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem, Me.OrderByToolStripMenuItem, Me.StartUploadsAutomaticallyToolStripMenuItem, Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem})
+        Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PreserveFileModifiedDateToolStripMenuItem, Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem, Me.OrderByToolStripMenuItem, Me.StartUploadsAutomaticallyToolStripMenuItem, Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem, Me.SpecifyChunkSizeToolStripMenuItem})
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
         Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
         Me.OptionsToolStripMenuItem.Text = "Options"
@@ -776,6 +770,12 @@ Partial Class Form1
         Me.DonationsToolStripMenuItem.Name = "DonationsToolStripMenuItem"
         Me.DonationsToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
         Me.DonationsToolStripMenuItem.Text = "Donations"
+        '
+        'SpecifyChunkSizeToolStripMenuItem
+        '
+        Me.SpecifyChunkSizeToolStripMenuItem.Name = "SpecifyChunkSizeToolStripMenuItem"
+        Me.SpecifyChunkSizeToolStripMenuItem.Size = New System.Drawing.Size(350, 22)
+        Me.SpecifyChunkSizeToolStripMenuItem.Text = "Specify Chunk Size"
         '
         'Form1
         '
@@ -907,7 +907,6 @@ End Sub
     Friend WithEvents SelectedFileToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SelectedFolderToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
-    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
     Friend WithEvents OptionsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PreserveFileModifiedDateToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents StartUploadsAutomaticallyToolStripMenuItem As ToolStripMenuItem
@@ -919,4 +918,5 @@ End Sub
     Friend WithEvents OrderByToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents OrderByComboBox As ToolStripComboBox
     Friend WithEvents DescendingOrderToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SpecifyChunkSizeToolStripMenuItem As ToolStripMenuItem
 End Class

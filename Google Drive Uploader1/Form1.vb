@@ -386,7 +386,10 @@ Public Class Form1
     End Sub
     Private Shared FileToSave As FileStream
     Private Shared MaxFileSize
-    Private Async Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        BrowseToDownloadFile()
+    End Sub
+    Private Async Sub BrowseToDownloadFile()
         FileIdsListBox.SelectedIndex = ListBox1.SelectedIndex
         FileSizeListBox.SelectedIndex = ListBox1.SelectedIndex
         SaveFileDialog1.Title = MsgAndDialogLang("location_browse")
@@ -833,8 +836,7 @@ Public Class Form1
             EnterFolder()
             If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5", True) Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5", True)
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.D Then
-            EnterFolder()
-            DownloadFilesAndFolders(True)
+            CheckForFolderDownload()
         End If
     End Sub
     Private Function GetFolderPath() As String
@@ -1017,7 +1019,7 @@ Public Class Form1
                 End If
             End If
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.D Then
-            DownloadFilesAndFolders()
+            CheckForFilesDownload()
         End If
 
     End Sub
@@ -1106,8 +1108,12 @@ Public Class Form1
         btnLogout.Text = "Logout"
         DonationsToolStripMenuItem.Text = "Donations"
         FileToolStripMenuItem.Text = "File"
+        UploadToolStripMenuItem.Text = "Upload"
         FileToolStripMenuItem1.Text = "File(s)"
         FolderToolStripMenuItem.Text = "Folder"
+        DownloadToolStripMenuItem.Text = "Download"
+        SelectedFileToolStripMenuItem.Text = "Selected File(s)"
+        SelectedFolderToolStripMenuItem.Text = "Selected Folder"
         HelpToolStripMenuItem.Text = "Help"
         OptionsToolStripMenuItem.Text = "Options"
         OrderByToolStripMenuItem.Text = "Order By"
@@ -1118,6 +1124,7 @@ Public Class Form1
         PreserveFileModifiedDateToolStripMenuItem.Text = "Preserve File Modification Date"
         SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Text = "Save checksums as checksums.md5"
         StartUploadsAutomaticallyToolStripMenuItem.Text = "Start Uploads Automatically"
+        SpecifyChunkSizeToolStripMenuItem.Text = "Specify Chunk Size"
         UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Text = "Update File and Folder views after an upload finishes"
         ReadmeToolStripMenuItem.Text = "Readme / Help"
     End Sub
@@ -1161,8 +1168,12 @@ Public Class Form1
         btnLogout.Text = "登岀"
         DonationsToolStripMenuItem.Text = "捐款"
         FileToolStripMenuItem.Text = "File"
+        UploadToolStripMenuItem.Text = "Upload"
         FileToolStripMenuItem1.Text = "File(s)"
         FolderToolStripMenuItem.Text = "Folder"
+        DownloadToolStripMenuItem.Text = "Download"
+        SelectedFileToolStripMenuItem.Text = "Selected File(s)"
+        SelectedFolderToolStripMenuItem.Text = "Selected Folder"
         HelpToolStripMenuItem.Text = "Help"
         OptionsToolStripMenuItem.Text = "Options"
         OrderByToolStripMenuItem.Text = "Order By"
@@ -1173,6 +1184,7 @@ Public Class Form1
         PreserveFileModifiedDateToolStripMenuItem.Text = "Preserve File Modification Date"
         SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Text = "Save checksums as checksums.md5"
         StartUploadsAutomaticallyToolStripMenuItem.Text = "Start Uploads Automatically"
+        SpecifyChunkSizeToolStripMenuItem.Text = "Specify Chunk Size"
         UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Text = "Update File and Folder views after an upload finishes"
         ReadmeToolStripMenuItem.Text = "Readme / Help"
     End Sub
@@ -1217,8 +1229,12 @@ Public Class Form1
         GroupBox2.Text = "Información del archivo:"
         DonationsToolStripMenuItem.Text = "Donar"
         FileToolStripMenuItem.Text = "Archivo"
+        UploadToolStripMenuItem.Text = "Subir"
         FileToolStripMenuItem1.Text = "Archivo(s)"
         FolderToolStripMenuItem.Text = "Carpeta"
+        DownloadToolStripMenuItem.Text = "Descargar"
+        SelectedFileToolStripMenuItem.Text = "Archivo(s) seleccionado(s)"
+        SelectedFolderToolStripMenuItem.Text = "Carpeta seleccionada"
         HelpToolStripMenuItem.Text = "Ayuda"
         OptionsToolStripMenuItem.Text = "Opciones"
         OrderByToolStripMenuItem.Text = "Ordenar por"
@@ -1229,6 +1245,7 @@ Public Class Form1
         PreserveFileModifiedDateToolStripMenuItem.Text = "Preservar fecha de modificación"
         SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Text = "Guardar checksums como checksums.md5"
         StartUploadsAutomaticallyToolStripMenuItem.Text = "Subir archivos automáticamente"
+        SpecifyChunkSizeToolStripMenuItem.Text = "Especificar tamaño de pedazos"
         UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Text = "Actualizar vista de archivos y carpetas al terminar de subir un archivo"
         ReadmeToolStripMenuItem.Text = "Léeme / Ayuda"
     End Sub
@@ -1721,5 +1738,32 @@ Public Class Form1
             My.Settings.UploadQueueFolders.Add(CurrentFolder)
             GetDirectoriesAndFiles(New IO.DirectoryInfo(FolderBrowserDialog1.SelectedPath))
         End If
+    End Sub
+
+    Private Sub SelectedFileToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SelectedFileToolStripMenuItem.Click
+        CheckForFilesDownload()
+    End Sub
+
+    Private Sub SelectedFolderToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SelectedFolderToolStripMenuItem.Click
+        CheckForFolderDownload()
+    End Sub
+    Private Sub CheckForFilesDownload()
+        If ListBox1.SelectedItems.Count > 1 Then
+            If ListBox1.SelectedItems.Count = 1 Then
+                BrowseToDownloadFile()
+            Else
+                DownloadFilesAndFolders()
+            End If
+        End If
+    End Sub
+    Private Sub CheckForFolderDownload()
+        If ListBox3.SelectedItem IsNot Nothing Then
+            EnterFolder()
+            DownloadFilesAndFolders(True)
+        End If
+    End Sub
+
+    Private Sub SpecifyChunkSizeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SpecifyChunkSizeToolStripMenuItem.Click
+        UploadChunkSize.ShowDialog()
     End Sub
 End Class
