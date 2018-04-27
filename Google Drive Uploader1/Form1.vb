@@ -442,6 +442,16 @@ Public Class Form1
         If ListBox3.InvokeRequired Then
             ListBox3.Invoke(New RefreshFileListInvoker(AddressOf RefreshFileList), FolderID)
         End If
+        Dim listRequestQString As String = Nothing
+        Dim listRequestQFolderString As String = Nothing
+        If FolderID = "trash" Then
+            CurrentFolderLabel.Text = "Trash"
+            listRequestQString = "mimeType!='application/vnd.google-apps.folder' and trashed = true"
+            listRequestQFolderString = "mimeType='application/vnd.google-apps.folder' and trashed = true"
+        Else
+            listRequestQString = "mimeType!='application/vnd.google-apps.folder' and '" & FolderID & "' in parents and trashed = false"
+            listRequestQFolderString = "mimeType='application/vnd.google-apps.folder' and '" & FolderID & "' in parents and trashed = false"
+        End If
         ListBox1.Items.Clear()
         FileIdsListBox.Items.Clear()
         FileSizeListBox.Items.Clear()
@@ -455,7 +465,7 @@ Public Class Form1
         Do
             Dim listRequest1 As FilesResource.ListRequest = service.Files.List()
             listRequest1.Fields = "nextPageToken, files(id, name, size, createdTime, modifiedTime, md5Checksum, mimeType)"
-            listRequest1.Q = "mimeType!='application/vnd.google-apps.folder' and '" & FolderID & "' in parents and trashed = false"
+            listRequest1.Q = listRequestQString
             listRequest1.OrderBy = OrderBy
             listRequest1.PageToken = PageToken1
             Try
@@ -480,7 +490,7 @@ Public Class Form1
         Dim PageToken2 As String = String.Empty
         Do
             Dim listRequest As FilesResource.ListRequest = service.Files.List()
-            listRequest.Q = "mimeType='application/vnd.google-apps.folder' and '" & FolderID & "' in parents and trashed = false"
+            listRequest.Q = listRequestQFolderString
             listRequest.Fields = "nextPageToken, files(id, name)"
             listRequest.OrderBy = OrderBy
             listRequest.PageToken = PageToken2
@@ -496,7 +506,7 @@ Public Class Form1
             Catch ex As Exception
             End Try
         Loop While PageToken2 = String.Empty = False
-        If CurrentFolder = "root" Then
+        If CurrentFolder = "root" Or CurrentFolder = "trash" Then
             Button10.Enabled = False
         Else
             Button10.Enabled = True
@@ -633,7 +643,7 @@ Public Class Form1
                 End If
             End If
         Else
-            ViewTrashedFiles()
+            RefreshFileList("trash")
         End If
     End Sub
 
@@ -1029,7 +1039,7 @@ Public Class Form1
             'PreviousFolderId.Items.Clear()
             'FolderIdsListBox.Items.Clear()
             Lang_Select()
-            ViewTrashedFiles()
+            RefreshFileList("trash")
         Else
             viewing_trash = False
             Lang_Select()
@@ -1037,72 +1047,6 @@ Public Class Form1
             CurrentFolderLabel.Visible = True
             RefreshFileList(CurrentFolder)
         End If
-    End Sub
-    Private Sub ViewTrashedFiles()
-        If ListBox1.InvokeRequired Then
-            ListBox1.Invoke(New RefreshFileListInvoker(AddressOf ViewTrashedFiles))
-        End If
-        If ListBox3.InvokeRequired Then
-            ListBox3.Invoke(New RefreshFileListInvoker(AddressOf ViewTrashedFiles))
-        End If
-        If CurrentFolderLabel.InvokeRequired Then
-            CurrentFolderLabel.Invoke(New RefreshFileListInvoker(AddressOf ViewTrashedFiles))
-        End If
-        CurrentFolderLabel.Visible = False
-        ListBox1.Items.Clear()
-        FileIdsListBox.Items.Clear()
-        FileSizeListBox.Items.Clear()
-        FileModifiedTimeListBox.Items.Clear()
-        FileCreatedTimeListBox.Items.Clear()
-        FileMD5ListBox.Items.Clear()
-        FileMIMEListBox.Items.Clear()
-        Dim PageToken1 As String = String.Empty
-        Dim OrderBy As String = My.Settings.SortBy
-        If My.Settings.OrderDesc Then OrderBy = OrderBy + " desc,name"
-        Do
-            Dim listRequest1 As FilesResource.ListRequest = service.Files.List()
-            listRequest1.Fields = "nextPageToken, files(id, name, size, createdTime, modifiedTime, md5Checksum, mimeType)"
-            listRequest1.Q = "mimeType!='application/vnd.google-apps.folder' and trashed = true"
-            listRequest1.OrderBy = OrderBy
-            listRequest1.PageToken = PageToken1
-            Try
-                Dim files = listRequest1.Execute()
-                If files.Files IsNot Nothing AndAlso files.Files.Count > 0 Then
-                    For Each file In files.Files
-                        ListBox1.Items.Add(file.Name)
-                        FileIdsListBox.Items.Add(file.Id)
-                        If file.Size IsNot Nothing Then FileSizeListBox.Items.Add(file.Size) Else FileSizeListBox.Items.Add("0")
-                        FileModifiedTimeListBox.Items.Add(file.ModifiedTime)
-                        FileCreatedTimeListBox.Items.Add(file.CreatedTime)
-                        If file.Md5Checksum IsNot Nothing Then FileMD5ListBox.Items.Add(file.Md5Checksum) Else FileMD5ListBox.Items.Add("")
-                    Next
-                End If
-                PageToken1 = files.NextPageToken
-            Catch ex As Exception
-            End Try
-        Loop While PageToken1 = String.Empty = False
-        ListBox3.Items.Clear()
-        FolderIdsListBox.Items.Clear()
-        Dim PageToken2 As String = String.Empty
-        Do
-            Dim listRequest As FilesResource.ListRequest = service.Files.List()
-            listRequest.Q = "mimeType='application/vnd.google-apps.folder'and trashed = true"
-            listRequest.Fields = "nextPageToken, files(id, name)"
-            listRequest.OrderBy = OrderBy
-            listRequest.PageToken = PageToken2
-            Try
-                Dim files = listRequest.Execute()
-                If files.Files IsNot Nothing AndAlso files.Files.Count > 0 Then
-                    For Each file In files.Files
-                        ListBox3.Items.Add(file.Name)
-                        FolderIdsListBox.Items.Add(file.Id)
-                    Next
-                End If
-                PageToken2 = files.NextPageToken
-            Catch ex As Exception
-            End Try
-        Loop While PageToken2 = String.Empty = False
-        Button10.Enabled = False
     End Sub
 
     Private Sub ListBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox2.SelectedIndexChanged
