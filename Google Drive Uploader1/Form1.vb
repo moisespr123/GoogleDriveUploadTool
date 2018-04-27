@@ -822,20 +822,20 @@ Public Class Form1
         ElseIf e.KeyCode = Keys.F5 Then
             If viewing_trash = False Then RefreshFileList(CurrentFolder) Else RefreshFileList("trash")
             e.Handled = True
-        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.R Then
+        ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.R Then
             If viewing_trash Then
                 WorkWithTrash(ListBox3.SelectedItems, False, False)
             Else
                 RenameFileOrFolder(FolderIdsListBox.Items.Item(ListBox3.Items.IndexOf(ListBox3.SelectedItem)))
             End If
-        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.A Then
+        ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.A Then
             For i = 0 To ListBox3.Items.Count - 1
                 ListBox3.SetSelected(i, True)
             Next
-        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.C Then
+        ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.C Then
             EnterFolder()
             If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5", True) Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5", True)
-        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.D Then
+        ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.D Then
             CheckForFolderDownload()
         End If
     End Sub
@@ -1000,17 +1000,17 @@ Public Class Form1
         ElseIf e.KeyCode = Keys.F5 Then
             If viewing_trash = False Then RefreshFileList(CurrentFolder) Else RefreshFileList("trash")
             e.Handled = True
-        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.R Then
+        ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.R Then
             If viewing_trash Then
                 WorkWithTrash(ListBox1.SelectedItems, True, False)
             Else
                 RenameFileOrFolder(FileIdsListBox.Items.Item(ListBox1.Items.IndexOf(ListBox1.SelectedItem)))
             End If
-        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.A Then
+        ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.A Then
             For i = 0 To ListBox1.Items.Count - 1
                 ListBox1.SetSelected(i, True)
             Next
-        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.C Then
+        ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.C Then
             If ListBox1.SelectedIndex <> -1 Then
                 If ListBox1.SelectedItems.Count > 1 Then
                     If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5")
@@ -1018,7 +1018,7 @@ Public Class Form1
                     If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksum.md5") Else SaveChecksumsFile(ListBox1.SelectedItem & ".md5")
                 End If
             End If
-        ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.D Then
+        ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.D Then
             CheckForFilesDownload()
         End If
 
@@ -1748,7 +1748,7 @@ Public Class Form1
         CheckForFolderDownload()
     End Sub
     Private Sub CheckForFilesDownload()
-        If ListBox1.SelectedItems.Count > 1 Then
+        If ListBox1.SelectedItems.Count >= 1 Then
             If ListBox1.SelectedItems.Count = 1 Then
                 BrowseToDownloadFile()
             Else
