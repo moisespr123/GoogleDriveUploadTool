@@ -432,7 +432,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        RefreshFileList(CurrentFolder)
+        If viewing_trash = False Then RefreshFileList(CurrentFolder) Else RefreshFileList("trash")
     End Sub
     Private Delegate Sub RefreshFileListInvoker(FolderID As String)
     Private Sub RefreshFileList(FolderID As String)
@@ -817,7 +817,7 @@ Public Class Form1
         ElseIf e.KeyCode = Keys.Enter Then
             EnterFolder()
         ElseIf e.KeyCode = Keys.F5 Then
-            RefreshFileList(CurrentFolder)
+            If viewing_trash = False Then RefreshFileList(CurrentFolder) Else RefreshFileList("trash")
             e.Handled = True
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.R Then
             If viewing_trash Then
@@ -996,7 +996,7 @@ Public Class Form1
                 WorkWithTrash(ListBox1.SelectedItems, True, True)
             End If
         ElseIf e.KeyCode = Keys.F5 Then
-            RefreshFileList(CurrentFolder)
+            If viewing_trash = False Then RefreshFileList(CurrentFolder) Else RefreshFileList("trash")
             e.Handled = True
         ElseIf e.Modifiers = Keys.Alt And e.KeyCode = Keys.R Then
             If viewing_trash Then
@@ -1036,12 +1036,16 @@ Public Class Form1
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
         If viewing_trash = False Then
             viewing_trash = True
+            GoToRootLink.Visible = False
+            Button12.Enabled = False
             'PreviousFolderId.Items.Clear()
             'FolderIdsListBox.Items.Clear()
             Lang_Select()
             RefreshFileList("trash")
         Else
             viewing_trash = False
+            GoToRootLink.Visible = True
+            Button12.Enabled = True
             Lang_Select()
             CurrentFolderLabel.Text = GetCurrentFolderIDName()
             CurrentFolderLabel.Visible = True
@@ -1606,7 +1610,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles GoToRootLink.LinkClicked
         My.Settings.PreviousFolderIDs.Clear()
         My.Settings.LastFolder = "root"
         My.Settings.Save()
