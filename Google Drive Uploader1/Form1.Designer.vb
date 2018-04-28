@@ -121,15 +121,32 @@ Partial Class Form1
         Me.SaveChecksumsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectedFilesToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectedFolderToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Panel3 = New System.Windows.Forms.Panel()
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel3 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel4 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel5 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.GroupBox1.SuspendLayout
         Me.GroupBox2.SuspendLayout
         Me.MenuStrip1.SuspendLayout
+        Me.TableLayoutPanel1.SuspendLayout
+        Me.Panel1.SuspendLayout
+        Me.Panel2.SuspendLayout
+        Me.Panel3.SuspendLayout
+        Me.Panel4.SuspendLayout
+        Me.StatusStrip1.SuspendLayout
         Me.SuspendLayout
         '
         'Button2
         '
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.Button2.Location = New System.Drawing.Point(291, 258)
+        Me.Button2.Location = New System.Drawing.Point(293, 42)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(227, 39)
         Me.Button2.TabIndex = 2
@@ -139,7 +156,7 @@ Partial Class Form1
         'Label1
         '
         Me.Label1.AutoSize = true
-        Me.Label1.Location = New System.Drawing.Point(9, 337)
+        Me.Label1.Location = New System.Drawing.Point(11, 121)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(49, 13)
         Me.Label1.TabIndex = 3
@@ -148,7 +165,7 @@ Partial Class Form1
         'Label2
         '
         Me.Label2.AutoSize = true
-        Me.Label2.Location = New System.Drawing.Point(9, 350)
+        Me.Label2.Location = New System.Drawing.Point(11, 134)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(60, 13)
         Me.Label2.TabIndex = 4
@@ -156,7 +173,7 @@ Partial Class Form1
         '
         'ProgressBar1
         '
-        Me.ProgressBar1.Location = New System.Drawing.Point(12, 366)
+        Me.ProgressBar1.Location = New System.Drawing.Point(14, 150)
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(506, 23)
         Me.ProgressBar1.TabIndex = 5
@@ -164,7 +181,7 @@ Partial Class Form1
         'Label3
         '
         Me.Label3.AutoSize = true
-        Me.Label3.Location = New System.Drawing.Point(78, 337)
+        Me.Label3.Location = New System.Drawing.Point(80, 121)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(27, 13)
         Me.Label3.TabIndex = 6
@@ -173,7 +190,7 @@ Partial Class Form1
         'Label4
         '
         Me.Label4.AutoSize = true
-        Me.Label4.Location = New System.Drawing.Point(78, 350)
+        Me.Label4.Location = New System.Drawing.Point(80, 134)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(27, 13)
         Me.Label4.TabIndex = 7
@@ -182,7 +199,7 @@ Partial Class Form1
         'Label5
         '
         Me.Label5.AutoSize = true
-        Me.Label5.Location = New System.Drawing.Point(12, 32)
+        Me.Label5.Location = New System.Drawing.Point(3, 0)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(205, 13)
         Me.Label5.TabIndex = 9
@@ -196,7 +213,7 @@ Partial Class Form1
         'Label6
         '
         Me.Label6.AutoSize = true
-        Me.Label6.Location = New System.Drawing.Point(9, 392)
+        Me.Label6.Location = New System.Drawing.Point(11, 176)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(98, 26)
         Me.Label6.TabIndex = 11
@@ -205,7 +222,7 @@ Partial Class Form1
         'Label7
         '
         Me.Label7.AutoSize = true
-        Me.Label7.Location = New System.Drawing.Point(377, 350)
+        Me.Label7.Location = New System.Drawing.Point(379, 134)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(40, 13)
         Me.Label7.TabIndex = 12
@@ -214,7 +231,7 @@ Partial Class Form1
         'Label8
         '
         Me.Label8.AutoSize = true
-        Me.Label8.Location = New System.Drawing.Point(431, 350)
+        Me.Label8.Location = New System.Drawing.Point(433, 134)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(27, 13)
         Me.Label8.TabIndex = 13
@@ -223,7 +240,7 @@ Partial Class Form1
         'Label9
         '
         Me.Label9.AutoSize = true
-        Me.Label9.Location = New System.Drawing.Point(378, 337)
+        Me.Label9.Location = New System.Drawing.Point(380, 121)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(44, 13)
         Me.Label9.TabIndex = 14
@@ -232,7 +249,7 @@ Partial Class Form1
         'Label10
         '
         Me.Label10.AutoSize = true
-        Me.Label10.Location = New System.Drawing.Point(431, 337)
+        Me.Label10.Location = New System.Drawing.Point(433, 121)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(21, 13)
         Me.Label10.TabIndex = 15
@@ -241,7 +258,7 @@ Partial Class Form1
         'Label11
         '
         Me.Label11.AutoSize = true
-        Me.Label11.Location = New System.Drawing.Point(534, 240)
+        Me.Label11.Location = New System.Drawing.Point(3, 0)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(31, 13)
         Me.Label11.TabIndex = 17
@@ -249,17 +266,21 @@ Partial Class Form1
         '
         'FilesListBox
         '
+        Me.FilesListBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.FilesListBox.FormattingEnabled = true
         Me.FilesListBox.HorizontalScrollbar = true
-        Me.FilesListBox.Location = New System.Drawing.Point(537, 256)
+        Me.FilesListBox.Location = New System.Drawing.Point(6, 16)
         Me.FilesListBox.Name = "FilesListBox"
         Me.FilesListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.FilesListBox.Size = New System.Drawing.Size(391, 134)
+        Me.FilesListBox.Size = New System.Drawing.Size(420, 160)
         Me.FilesListBox.TabIndex = 20
         '
         'Button5
         '
-        Me.Button5.Location = New System.Drawing.Point(537, 395)
+        Me.Button5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.Button5.Location = New System.Drawing.Point(6, 188)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(92, 23)
         Me.Button5.TabIndex = 21
@@ -268,7 +289,8 @@ Partial Class Form1
         '
         'Button4
         '
-        Me.Button4.Location = New System.Drawing.Point(635, 395)
+        Me.Button4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.Button4.Location = New System.Drawing.Point(104, 188)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(91, 23)
         Me.Button4.TabIndex = 22
@@ -278,7 +300,7 @@ Partial Class Form1
         'Label12
         '
         Me.Label12.AutoSize = true
-        Me.Label12.Location = New System.Drawing.Point(9, 258)
+        Me.Label12.Location = New System.Drawing.Point(11, 42)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(264, 13)
         Me.Label12.TabIndex = 23
@@ -286,7 +308,7 @@ Partial Class Form1
         '
         'TextBox2
         '
-        Me.TextBox2.Location = New System.Drawing.Point(12, 274)
+        Me.TextBox2.Location = New System.Drawing.Point(14, 58)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(227, 20)
         Me.TextBox2.TabIndex = 24
@@ -294,7 +316,7 @@ Partial Class Form1
         'Label13
         '
         Me.Label13.AutoSize = true
-        Me.Label13.Location = New System.Drawing.Point(183, 350)
+        Me.Label13.Location = New System.Drawing.Point(185, 134)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(57, 13)
         Me.Label13.TabIndex = 25
@@ -303,7 +325,7 @@ Partial Class Form1
         'Label14
         '
         Me.Label14.AutoSize = true
-        Me.Label14.Location = New System.Drawing.Point(246, 350)
+        Me.Label14.Location = New System.Drawing.Point(248, 134)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(49, 13)
         Me.Label14.TabIndex = 26
@@ -314,7 +336,7 @@ Partial Class Form1
         Me.GroupBox1.Controls.Add(Me.RadioButton3)
         Me.GroupBox1.Controls.Add(Me.RadioButton2)
         Me.GroupBox1.Controls.Add(Me.RadioButton1)
-        Me.GroupBox1.Location = New System.Drawing.Point(302, 394)
+        Me.GroupBox1.Location = New System.Drawing.Point(304, 178)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(216, 37)
         Me.GroupBox1.TabIndex = 27
@@ -354,17 +376,20 @@ Partial Class Form1
         '
         'UploadsListBox
         '
+        Me.UploadsListBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.UploadsListBox.FormattingEnabled = true
         Me.UploadsListBox.HorizontalScrollbar = true
-        Me.UploadsListBox.Location = New System.Drawing.Point(12, 48)
+        Me.UploadsListBox.Location = New System.Drawing.Point(6, 16)
         Me.UploadsListBox.Name = "UploadsListBox"
         Me.UploadsListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.UploadsListBox.Size = New System.Drawing.Size(506, 173)
+        Me.UploadsListBox.Size = New System.Drawing.Size(528, 199)
         Me.UploadsListBox.TabIndex = 28
         '
         'Button6
         '
-        Me.Button6.Location = New System.Drawing.Point(12, 227)
+        Me.Button6.Location = New System.Drawing.Point(14, 11)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(168, 23)
         Me.Button6.TabIndex = 29
@@ -373,7 +398,7 @@ Partial Class Form1
         '
         'Button3
         '
-        Me.Button3.Location = New System.Drawing.Point(186, 227)
+        Me.Button3.Location = New System.Drawing.Point(188, 11)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(75, 23)
         Me.Button3.TabIndex = 31
@@ -383,7 +408,7 @@ Partial Class Form1
         'Label16
         '
         Me.Label16.AutoSize = true
-        Me.Label16.Location = New System.Drawing.Point(9, 298)
+        Me.Label16.Location = New System.Drawing.Point(11, 82)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(70, 13)
         Me.Label16.TabIndex = 35
@@ -391,7 +416,7 @@ Partial Class Form1
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(12, 314)
+        Me.TextBox1.Location = New System.Drawing.Point(14, 98)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.ReadOnly = true
         Me.TextBox1.Size = New System.Drawing.Size(227, 20)
@@ -399,7 +424,7 @@ Partial Class Form1
         '
         'Button9
         '
-        Me.Button9.Location = New System.Drawing.Point(245, 314)
+        Me.Button9.Location = New System.Drawing.Point(247, 98)
         Me.Button9.Name = "Button9"
         Me.Button9.Size = New System.Drawing.Size(162, 23)
         Me.Button9.TabIndex = 37
@@ -408,18 +433,23 @@ Partial Class Form1
         '
         'FolderListBox
         '
+        Me.FolderListBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.FolderListBox.FormattingEnabled = true
         Me.FolderListBox.HorizontalScrollbar = true
-        Me.FolderListBox.Location = New System.Drawing.Point(537, 51)
+        Me.FolderListBox.Location = New System.Drawing.Point(6, 16)
         Me.FolderListBox.Name = "FolderListBox"
         Me.FolderListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.FolderListBox.Size = New System.Drawing.Size(391, 160)
+        Me.FolderListBox.Size = New System.Drawing.Size(420, 173)
         Me.FolderListBox.TabIndex = 39
         '
         'Label17
         '
+        Me.Label17.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.Label17.AutoSize = true
-        Me.Label17.Location = New System.Drawing.Point(534, 35)
+        Me.Label17.Location = New System.Drawing.Point(1, 0)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(44, 13)
         Me.Label17.TabIndex = 38
@@ -427,6 +457,7 @@ Partial Class Form1
         '
         'GroupBox2
         '
+        Me.GroupBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.Controls.Add(Me.Button1)
         Me.GroupBox2.Controls.Add(Me.TextBox9)
         Me.GroupBox2.Controls.Add(Me.Label24)
@@ -442,7 +473,7 @@ Partial Class Form1
         Me.GroupBox2.Controls.Add(Me.Label19)
         Me.GroupBox2.Controls.Add(Me.TextBox3)
         Me.GroupBox2.Controls.Add(Me.Label18)
-        Me.GroupBox2.Location = New System.Drawing.Point(934, 35)
+        Me.GroupBox2.Location = New System.Drawing.Point(992, 35)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(281, 355)
         Me.GroupBox2.TabIndex = 40
@@ -572,7 +603,8 @@ Partial Class Form1
         '
         'Button10
         '
-        Me.Button10.Location = New System.Drawing.Point(537, 214)
+        Me.Button10.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.Button10.Location = New System.Drawing.Point(6, 198)
         Me.Button10.Name = "Button10"
         Me.Button10.Size = New System.Drawing.Size(75, 23)
         Me.Button10.TabIndex = 41
@@ -581,7 +613,8 @@ Partial Class Form1
         '
         'Button12
         '
-        Me.Button12.Location = New System.Drawing.Point(618, 214)
+        Me.Button12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.Button12.Location = New System.Drawing.Point(87, 198)
         Me.Button12.Name = "Button12"
         Me.Button12.Size = New System.Drawing.Size(108, 23)
         Me.Button12.TabIndex = 43
@@ -590,7 +623,8 @@ Partial Class Form1
         '
         'Button7
         '
-        Me.Button7.Location = New System.Drawing.Point(732, 395)
+        Me.Button7.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.Button7.Location = New System.Drawing.Point(201, 189)
         Me.Button7.Name = "Button7"
         Me.Button7.Size = New System.Drawing.Size(196, 23)
         Me.Button7.TabIndex = 44
@@ -600,7 +634,8 @@ Partial Class Form1
         '
         'btnLogout
         '
-        Me.btnLogout.Location = New System.Drawing.Point(1102, 394)
+        Me.btnLogout.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.btnLogout.Location = New System.Drawing.Point(1164, 460)
         Me.btnLogout.Name = "btnLogout"
         Me.btnLogout.Size = New System.Drawing.Size(113, 25)
         Me.btnLogout.TabIndex = 45
@@ -609,7 +644,8 @@ Partial Class Form1
         '
         'Button11
         '
-        Me.Button11.Location = New System.Drawing.Point(934, 394)
+        Me.Button11.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.Button11.Location = New System.Drawing.Point(996, 460)
         Me.Button11.Name = "Button11"
         Me.Button11.Size = New System.Drawing.Size(101, 25)
         Me.Button11.TabIndex = 45
@@ -618,7 +654,8 @@ Partial Class Form1
         '
         'Button13
         '
-        Me.Button13.Location = New System.Drawing.Point(732, 214)
+        Me.Button13.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.Button13.Location = New System.Drawing.Point(199, 198)
         Me.Button13.Name = "Button13"
         Me.Button13.Size = New System.Drawing.Size(196, 23)
         Me.Button13.TabIndex = 46
@@ -629,7 +666,7 @@ Partial Class Form1
         'Button14
         '
         Me.Button14.Enabled = false
-        Me.Button14.Location = New System.Drawing.Point(267, 227)
+        Me.Button14.Location = New System.Drawing.Point(269, 11)
         Me.Button14.Name = "Button14"
         Me.Button14.Size = New System.Drawing.Size(89, 23)
         Me.Button14.TabIndex = 47
@@ -638,8 +675,10 @@ Partial Class Form1
         '
         'CurrentFolderLabel
         '
+        Me.CurrentFolderLabel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.CurrentFolderLabel.AutoSize = true
-        Me.CurrentFolderLabel.Location = New System.Drawing.Point(615, 35)
+        Me.CurrentFolderLabel.Location = New System.Drawing.Point(141, 0)
         Me.CurrentFolderLabel.Name = "CurrentFolderLabel"
         Me.CurrentFolderLabel.Size = New System.Drawing.Size(96, 13)
         Me.CurrentFolderLabel.TabIndex = 48
@@ -647,8 +686,10 @@ Partial Class Form1
         '
         'GoToRootLink
         '
+        Me.GoToRootLink.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.GoToRootLink.AutoSize = true
-        Me.GoToRootLink.Location = New System.Drawing.Point(869, 32)
+        Me.GoToRootLink.Location = New System.Drawing.Point(359, 0)
         Me.GoToRootLink.Name = "GoToRootLink"
         Me.GoToRootLink.Size = New System.Drawing.Size(59, 13)
         Me.GoToRootLink.TabIndex = 49
@@ -660,7 +701,7 @@ Partial Class Form1
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ActionsToolStripMenuItem, Me.OptionsToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1226, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1284, 24)
         Me.MenuStrip1.TabIndex = 52
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -682,13 +723,13 @@ Partial Class Form1
         'FileToolStripMenuItem1
         '
         Me.FileToolStripMenuItem1.Name = "FileToolStripMenuItem1"
-        Me.FileToolStripMenuItem1.Size = New System.Drawing.Size(107, 22)
+        Me.FileToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.FileToolStripMenuItem1.Text = "File(s)"
         '
         'FolderToolStripMenuItem
         '
         Me.FolderToolStripMenuItem.Name = "FolderToolStripMenuItem"
-        Me.FolderToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
+        Me.FolderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.FolderToolStripMenuItem.Text = "Folder"
         '
         'DownloadToolStripMenuItem
@@ -906,55 +947,147 @@ Partial Class Form1
         Me.SelectedFolderToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
         Me.SelectedFolderToolStripMenuItem2.Text = "Selected folder"
         '
+        'TableLayoutPanel1
+        '
+        Me.TableLayoutPanel1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.TableLayoutPanel1.ColumnCount = 2
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.53145!))
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.46855!))
+        Me.TableLayoutPanel1.Controls.Add(Me.Panel1, 1, 1)
+        Me.TableLayoutPanel1.Controls.Add(Me.Panel2, 1, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.Panel3, 0, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.Panel4, 0, 1)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(12, 32)
+        Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
+        Me.TableLayoutPanel1.RowCount = 2
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 51.37844!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 48.62156!))
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(978, 453)
+        Me.TableLayoutPanel1.TabIndex = 53
+        '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.Button5)
+        Me.Panel1.Controls.Add(Me.Button4)
+        Me.Panel1.Controls.Add(Me.Button7)
+        Me.Panel1.Controls.Add(Me.FilesListBox)
+        Me.Panel1.Controls.Add(Me.Label11)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel1.Location = New System.Drawing.Point(546, 235)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(429, 215)
+        Me.Panel1.TabIndex = 0
+        '
+        'Panel2
+        '
+        Me.Panel2.Controls.Add(Me.Button13)
+        Me.Panel2.Controls.Add(Me.GoToRootLink)
+        Me.Panel2.Controls.Add(Me.FolderListBox)
+        Me.Panel2.Controls.Add(Me.CurrentFolderLabel)
+        Me.Panel2.Controls.Add(Me.Button12)
+        Me.Panel2.Controls.Add(Me.Label17)
+        Me.Panel2.Controls.Add(Me.Button10)
+        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel2.Location = New System.Drawing.Point(546, 3)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(429, 226)
+        Me.Panel2.TabIndex = 1
+        '
+        'Panel3
+        '
+        Me.Panel3.Controls.Add(Me.UploadsListBox)
+        Me.Panel3.Controls.Add(Me.Label5)
+        Me.Panel3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel3.Location = New System.Drawing.Point(3, 3)
+        Me.Panel3.Name = "Panel3"
+        Me.Panel3.Size = New System.Drawing.Size(537, 226)
+        Me.Panel3.TabIndex = 2
+        '
+        'Panel4
+        '
+        Me.Panel4.Controls.Add(Me.Button14)
+        Me.Panel4.Controls.Add(Me.Button6)
+        Me.Panel4.Controls.Add(Me.Button2)
+        Me.Panel4.Controls.Add(Me.Label1)
+        Me.Panel4.Controls.Add(Me.Label2)
+        Me.Panel4.Controls.Add(Me.ProgressBar1)
+        Me.Panel4.Controls.Add(Me.Label3)
+        Me.Panel4.Controls.Add(Me.Label4)
+        Me.Panel4.Controls.Add(Me.Button9)
+        Me.Panel4.Controls.Add(Me.Label6)
+        Me.Panel4.Controls.Add(Me.TextBox1)
+        Me.Panel4.Controls.Add(Me.Label7)
+        Me.Panel4.Controls.Add(Me.Label16)
+        Me.Panel4.Controls.Add(Me.Label8)
+        Me.Panel4.Controls.Add(Me.Button3)
+        Me.Panel4.Controls.Add(Me.Label9)
+        Me.Panel4.Controls.Add(Me.Label10)
+        Me.Panel4.Controls.Add(Me.Label12)
+        Me.Panel4.Controls.Add(Me.GroupBox1)
+        Me.Panel4.Controls.Add(Me.TextBox2)
+        Me.Panel4.Controls.Add(Me.Label14)
+        Me.Panel4.Controls.Add(Me.Label13)
+        Me.Panel4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel4.Location = New System.Drawing.Point(3, 235)
+        Me.Panel4.Name = "Panel4"
+        Me.Panel4.Size = New System.Drawing.Size(537, 215)
+        Me.Panel4.TabIndex = 3
+        '
+        'StatusStrip1
+        '
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.ToolStripStatusLabel2, Me.ToolStripStatusLabel3, Me.ToolStripStatusLabel4, Me.ToolStripStatusLabel5})
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 488)
+        Me.StatusStrip1.Name = "StatusStrip1"
+        Me.StatusStrip1.Size = New System.Drawing.Size(1284, 22)
+        Me.StatusStrip1.TabIndex = 54
+        Me.StatusStrip1.Text = "StatusStrip1"
+        '
+        'ToolStripStatusLabel1
+        '
+        Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
+        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(70, 17)
+        Me.ToolStripStatusLabel1.Text = "Used Space:"
+        '
+        'ToolStripStatusLabel2
+        '
+        Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(120, 17)
+        Me.ToolStripStatusLabel2.Text = "ToolStripStatusLabel2"
+        '
+        'ToolStripStatusLabel3
+        '
+        Me.ToolStripStatusLabel3.Name = "ToolStripStatusLabel3"
+        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(66, 17)
+        Me.ToolStripStatusLabel3.Text = "Free Space:"
+        '
+        'ToolStripStatusLabel4
+        '
+        Me.ToolStripStatusLabel4.Name = "ToolStripStatusLabel4"
+        Me.ToolStripStatusLabel4.Size = New System.Drawing.Size(120, 17)
+        Me.ToolStripStatusLabel4.Text = "ToolStripStatusLabel4"
+        '
+        'ToolStripStatusLabel5
+        '
+        Me.ToolStripStatusLabel5.Name = "ToolStripStatusLabel5"
+        Me.ToolStripStatusLabel5.Size = New System.Drawing.Size(120, 17)
+        Me.ToolStripStatusLabel5.Text = "ToolStripStatusLabel5"
+        '
         'Form1
         '
         Me.AllowDrop = true
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1226, 442)
-        Me.Controls.Add(Me.GoToRootLink)
-        Me.Controls.Add(Me.CurrentFolderLabel)
-        Me.Controls.Add(Me.Button14)
-        Me.Controls.Add(Me.Button13)
+        Me.ClientSize = New System.Drawing.Size(1284, 510)
+        Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.btnLogout)
         Me.Controls.Add(Me.Button11)
-        Me.Controls.Add(Me.Button7)
-        Me.Controls.Add(Me.Button12)
-        Me.Controls.Add(Me.Button10)
         Me.Controls.Add(Me.GroupBox2)
-        Me.Controls.Add(Me.FolderListBox)
-        Me.Controls.Add(Me.Label17)
-        Me.Controls.Add(Me.Button9)
-        Me.Controls.Add(Me.TextBox1)
-        Me.Controls.Add(Me.Label16)
-        Me.Controls.Add(Me.Button3)
-        Me.Controls.Add(Me.Button6)
-        Me.Controls.Add(Me.UploadsListBox)
-        Me.Controls.Add(Me.GroupBox1)
-        Me.Controls.Add(Me.Label14)
-        Me.Controls.Add(Me.Label13)
-        Me.Controls.Add(Me.TextBox2)
-        Me.Controls.Add(Me.Label12)
-        Me.Controls.Add(Me.Button4)
-        Me.Controls.Add(Me.Button5)
-        Me.Controls.Add(Me.FilesListBox)
-        Me.Controls.Add(Me.Label11)
-        Me.Controls.Add(Me.Label10)
-        Me.Controls.Add(Me.Label9)
-        Me.Controls.Add(Me.Label8)
-        Me.Controls.Add(Me.Label7)
-        Me.Controls.Add(Me.Label6)
-        Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.ProgressBar1)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.MenuStrip1)
+        Me.Controls.Add(Me.TableLayoutPanel1)
         Me.KeyPreview = true
         Me.MainMenuStrip = Me.MenuStrip1
-        Me.MaximizeBox = false
         Me.Name = "Form1"
         Me.Text = "Google Drive Uploader & Explorer"
         Me.GroupBox1.ResumeLayout(false)
@@ -963,6 +1096,17 @@ Partial Class Form1
         Me.GroupBox2.PerformLayout
         Me.MenuStrip1.ResumeLayout(false)
         Me.MenuStrip1.PerformLayout
+        Me.TableLayoutPanel1.ResumeLayout(false)
+        Me.Panel1.ResumeLayout(false)
+        Me.Panel1.PerformLayout
+        Me.Panel2.ResumeLayout(false)
+        Me.Panel2.PerformLayout
+        Me.Panel3.ResumeLayout(false)
+        Me.Panel3.PerformLayout
+        Me.Panel4.ResumeLayout(false)
+        Me.Panel4.PerformLayout
+        Me.StatusStrip1.ResumeLayout(false)
+        Me.StatusStrip1.PerformLayout
         Me.ResumeLayout(false)
         Me.PerformLayout
 
@@ -1066,4 +1210,15 @@ End Sub
     Friend WithEvents SaveChecksumsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SelectedFilesToolStripMenuItem2 As ToolStripMenuItem
     Friend WithEvents SelectedFolderToolStripMenuItem2 As ToolStripMenuItem
+    Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents Panel3 As Panel
+    Friend WithEvents Panel4 As Panel
+    Friend WithEvents StatusStrip1 As StatusStrip
+    Friend WithEvents ToolStripStatusLabel1 As ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel2 As ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel3 As ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel4 As ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel5 As ToolStripStatusLabel
 End Class
