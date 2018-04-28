@@ -264,6 +264,18 @@ Namespace My
                 Me("OrderDesc") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property CopyToRAM() As Boolean
+            Get
+                Return CType(Me("CopyToRAM"),Boolean)
+            End Get
+            Set
+                Me("CopyToRAM") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

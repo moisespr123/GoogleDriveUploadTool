@@ -104,6 +104,7 @@ Public Class Form1
         UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.DoubleClickEnabled = My.Settings.UpdateViews
         OrderByComboBox.SelectedIndex = My.Settings.SortByIndex
         DescendingOrderToolStripMenuItem.Checked = My.Settings.OrderDesc
+        CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked = My.Settings.CopyToRAM 
         RefreshFileList(CurrentFolder)
         GetFolderIDName(False)
         CurrentFolderLabel.Text = GetCurrentFolderIDName()
@@ -200,7 +201,18 @@ Public Class Form1
                     End If
                     FileMetadata.Parents = FileFolder
                     Dim UploadStream As New FileStream(GetFile, System.IO.FileMode.Open, System.IO.FileAccess.Read)
-                    Dim UploadFile As FilesResource.CreateMediaUpload = service.Files.Create(FileMetadata, UploadStream, "")
+                    Dim FileInRAM As New MemoryStream()
+                    Dim UploadFile As FilesResource.CreateMediaUpload = nothing
+                    If CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked Then
+                        If My.Computer.Info.AvailablePhysicalMemory > My.Computer.FileSystem.GetFileInfo(GetFile).Length then 
+                            UploadStream.CopyTo(FileInRAM)
+                            UploadFile = service.Files.Create(FileMetadata, FileInRAM, "")
+                        Else
+                            UploadFile = service.Files.Create(FileMetadata, UploadStream, "")
+                        End if
+                    Else
+                        UploadFile = service.Files.Create(FileMetadata, UploadStream, "")
+                    End If
                     Dim ChunkMultiplier As Integer = 4
                     If My.Computer.FileSystem.FileExists("chunkmultiplier.txt") Then
                         If String.IsNullOrEmpty(My.Computer.FileSystem.ReadAllText("chunkmultiplier.txt")) = False Then
@@ -228,6 +240,7 @@ Public Class Form1
                         Await UploadFile.ResumeAsync(uploadUri, UploadCancellationToken)
                     End If
                     UploadStream.Close()
+                    If FileInRAM IsNot Nothing Then FileInRAM.Close()
                 ElseIf IO.Directory.Exists(GetFile) Then
                     Dim FolderMetadata As New Data.File With {
                         .Name = My.Computer.FileSystem.GetName(GetFile)
@@ -1765,5 +1778,10 @@ Public Class Form1
 
     Private Sub SpecifyChunkSizeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SpecifyChunkSizeToolStripMenuItem.Click
         UploadChunkSize.ShowDialog()
+    End Sub
+
+    Private Sub CopyFileToRAMBeforeUploadingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CopyFileToRAMBeforeUploadingToolStripMenuItem.Click
+        My.Settings.CopyToRAM = CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked
+        My.Settings.Save
     End Sub
 End Class
