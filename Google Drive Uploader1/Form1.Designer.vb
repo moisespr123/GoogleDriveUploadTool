@@ -36,7 +36,7 @@ Partial Class Form1
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
-        Me.ListBox1 = New System.Windows.Forms.ListBox()
+        Me.FilesListBox = New System.Windows.Forms.ListBox()
         Me.Button5 = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
@@ -48,13 +48,13 @@ Partial Class Form1
         Me.RadioButton3 = New System.Windows.Forms.RadioButton()
         Me.RadioButton2 = New System.Windows.Forms.RadioButton()
         Me.RadioButton1 = New System.Windows.Forms.RadioButton()
-        Me.ListBox2 = New System.Windows.Forms.ListBox()
+        Me.UploadsListBox = New System.Windows.Forms.ListBox()
         Me.Button6 = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Button9 = New System.Windows.Forms.Button()
-        Me.ListBox3 = New System.Windows.Forms.ListBox()
+        Me.FolderListBox = New System.Windows.Forms.ListBox()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.Button1 = New System.Windows.Forms.Button()
@@ -92,6 +92,14 @@ Partial Class Form1
         Me.SelectedFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectedFolderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ActionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CreateNewFolderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MoveToTrashToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SelectedFilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SelectedFoldersToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RestoreToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SelectedFilesToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SelectedFoldersToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.OptionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PreserveFileModifiedDateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveCheckumsAsChecksumsmd5ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -101,10 +109,18 @@ Partial Class Form1
         Me.StartUploadsAutomaticallyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SpecifyChunkSizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CopyFileToRAMBeforeUploadingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReadmeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DonationsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CopyFileToRAMBeforeUploadingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RenameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SelectedFileToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SelectedFolderToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.RefreshListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SaveChecksumsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SelectedFilesToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SelectedFolderToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox1.SuspendLayout
         Me.GroupBox2.SuspendLayout
         Me.MenuStrip1.SuspendLayout
@@ -231,15 +247,15 @@ Partial Class Form1
         Me.Label11.TabIndex = 17
         Me.Label11.Text = "Files:"
         '
-        'ListBox1
+        'FilesListBox
         '
-        Me.ListBox1.FormattingEnabled = true
-        Me.ListBox1.HorizontalScrollbar = true
-        Me.ListBox1.Location = New System.Drawing.Point(537, 256)
-        Me.ListBox1.Name = "ListBox1"
-        Me.ListBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.ListBox1.Size = New System.Drawing.Size(391, 134)
-        Me.ListBox1.TabIndex = 20
+        Me.FilesListBox.FormattingEnabled = true
+        Me.FilesListBox.HorizontalScrollbar = true
+        Me.FilesListBox.Location = New System.Drawing.Point(537, 256)
+        Me.FilesListBox.Name = "FilesListBox"
+        Me.FilesListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
+        Me.FilesListBox.Size = New System.Drawing.Size(391, 134)
+        Me.FilesListBox.TabIndex = 20
         '
         'Button5
         '
@@ -336,15 +352,15 @@ Partial Class Form1
         Me.RadioButton1.Text = "English"
         Me.RadioButton1.UseVisualStyleBackColor = true
         '
-        'ListBox2
+        'UploadsListBox
         '
-        Me.ListBox2.FormattingEnabled = true
-        Me.ListBox2.HorizontalScrollbar = true
-        Me.ListBox2.Location = New System.Drawing.Point(12, 48)
-        Me.ListBox2.Name = "ListBox2"
-        Me.ListBox2.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.ListBox2.Size = New System.Drawing.Size(506, 173)
-        Me.ListBox2.TabIndex = 28
+        Me.UploadsListBox.FormattingEnabled = true
+        Me.UploadsListBox.HorizontalScrollbar = true
+        Me.UploadsListBox.Location = New System.Drawing.Point(12, 48)
+        Me.UploadsListBox.Name = "UploadsListBox"
+        Me.UploadsListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
+        Me.UploadsListBox.Size = New System.Drawing.Size(506, 173)
+        Me.UploadsListBox.TabIndex = 28
         '
         'Button6
         '
@@ -390,15 +406,15 @@ Partial Class Form1
         Me.Button9.Text = "Get Folder Name"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"Obtener Nombre de la carpeta"
         Me.Button9.UseVisualStyleBackColor = true
         '
-        'ListBox3
+        'FolderListBox
         '
-        Me.ListBox3.FormattingEnabled = true
-        Me.ListBox3.HorizontalScrollbar = true
-        Me.ListBox3.Location = New System.Drawing.Point(537, 51)
-        Me.ListBox3.Name = "ListBox3"
-        Me.ListBox3.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.ListBox3.Size = New System.Drawing.Size(391, 160)
-        Me.ListBox3.TabIndex = 39
+        Me.FolderListBox.FormattingEnabled = true
+        Me.FolderListBox.HorizontalScrollbar = true
+        Me.FolderListBox.Location = New System.Drawing.Point(537, 51)
+        Me.FolderListBox.Name = "FolderListBox"
+        Me.FolderListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
+        Me.FolderListBox.Size = New System.Drawing.Size(391, 160)
+        Me.FolderListBox.TabIndex = 39
         '
         'Label17
         '
@@ -641,7 +657,7 @@ Partial Class Form1
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.OptionsToolStripMenuItem, Me.HelpToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ActionsToolStripMenuItem, Me.OptionsToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(1226, 24)
@@ -660,7 +676,7 @@ Partial Class Form1
         '
         Me.UploadToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem1, Me.FolderToolStripMenuItem})
         Me.UploadToolStripMenuItem.Name = "UploadToolStripMenuItem"
-        Me.UploadToolStripMenuItem.Size = New System.Drawing.Size(121, 22)
+        Me.UploadToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.UploadToolStripMenuItem.Text = "Upload"
         '
         'FileToolStripMenuItem1
@@ -680,25 +696,77 @@ Partial Class Form1
         Me.DownloadToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFileToolStripMenuItem, Me.SelectedFolderToolStripMenuItem, Me.ToolStripSeparator2})
         Me.DownloadToolStripMenuItem.Name = "DownloadToolStripMenuItem"
         Me.DownloadToolStripMenuItem.ShowShortcutKeys = false
-        Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(121, 22)
+        Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.DownloadToolStripMenuItem.Text = "Download"
         '
         'SelectedFileToolStripMenuItem
         '
         Me.SelectedFileToolStripMenuItem.Name = "SelectedFileToolStripMenuItem"
-        Me.SelectedFileToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
+        Me.SelectedFileToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SelectedFileToolStripMenuItem.Text = "Selected File(s)"
         '
         'SelectedFolderToolStripMenuItem
         '
         Me.SelectedFolderToolStripMenuItem.Name = "SelectedFolderToolStripMenuItem"
-        Me.SelectedFolderToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
+        Me.SelectedFolderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SelectedFolderToolStripMenuItem.Text = "Selected Folder"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(151, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(177, 6)
+        '
+        'ActionsToolStripMenuItem
+        '
+        Me.ActionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateNewFolderToolStripMenuItem, Me.RenameToolStripMenuItem, Me.RefreshListToolStripMenuItem, Me.SaveChecksumsToolStripMenuItem, Me.ToolStripSeparator1, Me.MoveToTrashToolStripMenuItem, Me.RestoreToolStripMenuItem})
+        Me.ActionsToolStripMenuItem.Name = "ActionsToolStripMenuItem"
+        Me.ActionsToolStripMenuItem.Size = New System.Drawing.Size(59, 20)
+        Me.ActionsToolStripMenuItem.Text = "Actions"
+        '
+        'CreateNewFolderToolStripMenuItem
+        '
+        Me.CreateNewFolderToolStripMenuItem.Name = "CreateNewFolderToolStripMenuItem"
+        Me.CreateNewFolderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CreateNewFolderToolStripMenuItem.Text = "Create New Folder"
+        '
+        'MoveToTrashToolStripMenuItem
+        '
+        Me.MoveToTrashToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFilesToolStripMenuItem, Me.SelectedFoldersToolStripMenuItem})
+        Me.MoveToTrashToolStripMenuItem.Name = "MoveToTrashToolStripMenuItem"
+        Me.MoveToTrashToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.MoveToTrashToolStripMenuItem.Text = "Move to Trash"
+        '
+        'SelectedFilesToolStripMenuItem
+        '
+        Me.SelectedFilesToolStripMenuItem.Name = "SelectedFilesToolStripMenuItem"
+        Me.SelectedFilesToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SelectedFilesToolStripMenuItem.Text = "Selected file(s)"
+        '
+        'SelectedFoldersToolStripMenuItem
+        '
+        Me.SelectedFoldersToolStripMenuItem.Name = "SelectedFoldersToolStripMenuItem"
+        Me.SelectedFoldersToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SelectedFoldersToolStripMenuItem.Text = "Selected folder(s)"
+        '
+        'RestoreToolStripMenuItem
+        '
+        Me.RestoreToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFilesToolStripMenuItem1, Me.SelectedFoldersToolStripMenuItem1})
+        Me.RestoreToolStripMenuItem.Enabled = false
+        Me.RestoreToolStripMenuItem.Name = "RestoreToolStripMenuItem"
+        Me.RestoreToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RestoreToolStripMenuItem.Text = "Restore"
+        '
+        'SelectedFilesToolStripMenuItem1
+        '
+        Me.SelectedFilesToolStripMenuItem1.Name = "SelectedFilesToolStripMenuItem1"
+        Me.SelectedFilesToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.SelectedFilesToolStripMenuItem1.Text = "Selected file(s)"
+        '
+        'SelectedFoldersToolStripMenuItem1
+        '
+        Me.SelectedFoldersToolStripMenuItem1.Name = "SelectedFoldersToolStripMenuItem1"
+        Me.SelectedFoldersToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.SelectedFoldersToolStripMenuItem1.Text = "Selected folder(s)"
         '
         'OptionsToolStripMenuItem
         '
@@ -762,6 +830,13 @@ Partial Class Form1
         Me.SpecifyChunkSizeToolStripMenuItem.Size = New System.Drawing.Size(350, 22)
         Me.SpecifyChunkSizeToolStripMenuItem.Text = "Specify Chunk Size"
         '
+        'CopyFileToRAMBeforeUploadingToolStripMenuItem
+        '
+        Me.CopyFileToRAMBeforeUploadingToolStripMenuItem.CheckOnClick = true
+        Me.CopyFileToRAMBeforeUploadingToolStripMenuItem.Name = "CopyFileToRAMBeforeUploadingToolStripMenuItem"
+        Me.CopyFileToRAMBeforeUploadingToolStripMenuItem.Size = New System.Drawing.Size(350, 22)
+        Me.CopyFileToRAMBeforeUploadingToolStripMenuItem.Text = "Copy File to RAM before uploading"
+        '
         'HelpToolStripMenuItem
         '
         Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReadmeToolStripMenuItem, Me.DonationsToolStripMenuItem})
@@ -782,12 +857,54 @@ Partial Class Form1
         Me.DonationsToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
         Me.DonationsToolStripMenuItem.Text = "Donations"
         '
-        'CopyFileToRAMBeforeUploadingToolStripMenuItem
+        'RenameToolStripMenuItem
         '
-        Me.CopyFileToRAMBeforeUploadingToolStripMenuItem.CheckOnClick = true
-        Me.CopyFileToRAMBeforeUploadingToolStripMenuItem.Name = "CopyFileToRAMBeforeUploadingToolStripMenuItem"
-        Me.CopyFileToRAMBeforeUploadingToolStripMenuItem.Size = New System.Drawing.Size(350, 22)
-        Me.CopyFileToRAMBeforeUploadingToolStripMenuItem.Text = "Copy File to RAM before uploading"
+        Me.RenameToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFileToolStripMenuItem1, Me.SelectedFolderToolStripMenuItem1})
+        Me.RenameToolStripMenuItem.Name = "RenameToolStripMenuItem"
+        Me.RenameToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RenameToolStripMenuItem.Text = "Rename"
+        '
+        'SelectedFileToolStripMenuItem1
+        '
+        Me.SelectedFileToolStripMenuItem1.Name = "SelectedFileToolStripMenuItem1"
+        Me.SelectedFileToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.SelectedFileToolStripMenuItem1.Text = "Selected File"
+        '
+        'SelectedFolderToolStripMenuItem1
+        '
+        Me.SelectedFolderToolStripMenuItem1.Name = "SelectedFolderToolStripMenuItem1"
+        Me.SelectedFolderToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.SelectedFolderToolStripMenuItem1.Text = "Selected Folder"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
+        '
+        'RefreshListToolStripMenuItem
+        '
+        Me.RefreshListToolStripMenuItem.Name = "RefreshListToolStripMenuItem"
+        Me.RefreshListToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RefreshListToolStripMenuItem.Text = "Refresh List"
+        '
+        'SaveChecksumsToolStripMenuItem
+        '
+        Me.SaveChecksumsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFilesToolStripMenuItem2, Me.SelectedFolderToolStripMenuItem2})
+        Me.SaveChecksumsToolStripMenuItem.Name = "SaveChecksumsToolStripMenuItem"
+        Me.SaveChecksumsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SaveChecksumsToolStripMenuItem.Text = "Save Checksums"
+        '
+        'SelectedFilesToolStripMenuItem2
+        '
+        Me.SelectedFilesToolStripMenuItem2.Name = "SelectedFilesToolStripMenuItem2"
+        Me.SelectedFilesToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
+        Me.SelectedFilesToolStripMenuItem2.Text = "Selected file(s)"
+        '
+        'SelectedFolderToolStripMenuItem2
+        '
+        Me.SelectedFolderToolStripMenuItem2.Name = "SelectedFolderToolStripMenuItem2"
+        Me.SelectedFolderToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
+        Me.SelectedFolderToolStripMenuItem2.Text = "Selected folder"
         '
         'Form1
         '
@@ -805,14 +922,14 @@ Partial Class Form1
         Me.Controls.Add(Me.Button12)
         Me.Controls.Add(Me.Button10)
         Me.Controls.Add(Me.GroupBox2)
-        Me.Controls.Add(Me.ListBox3)
+        Me.Controls.Add(Me.FolderListBox)
         Me.Controls.Add(Me.Label17)
         Me.Controls.Add(Me.Button9)
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Label16)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.Button6)
-        Me.Controls.Add(Me.ListBox2)
+        Me.Controls.Add(Me.UploadsListBox)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Label14)
         Me.Controls.Add(Me.Label13)
@@ -820,7 +937,7 @@ Partial Class Form1
         Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.Button5)
-        Me.Controls.Add(Me.ListBox1)
+        Me.Controls.Add(Me.FilesListBox)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.Label9)
@@ -864,7 +981,7 @@ End Sub
     Friend WithEvents Label9 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents Label11 As Label
-    Friend WithEvents ListBox1 As ListBox
+    Friend WithEvents FilesListBox As ListBox
     Friend WithEvents Button5 As Button
     Friend WithEvents Button4 As Button
     Friend WithEvents SaveFileDialog1 As SaveFileDialog
@@ -875,13 +992,13 @@ End Sub
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents RadioButton2 As RadioButton
     Friend WithEvents RadioButton1 As RadioButton
-    Friend WithEvents ListBox2 As ListBox
+    Friend WithEvents UploadsListBox As ListBox
     Friend WithEvents Button6 As Button
     Friend WithEvents Button3 As Button
     Friend WithEvents Label16 As Label
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Button9 As Button
-    Friend WithEvents ListBox3 As ListBox
+    Friend WithEvents FolderListBox As ListBox
     Friend WithEvents Label17 As Label
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents TextBox4 As TextBox
@@ -933,4 +1050,20 @@ End Sub
     Friend WithEvents DescendingOrderToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SpecifyChunkSizeToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CopyFileToRAMBeforeUploadingToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ActionsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CreateNewFolderToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MoveToTrashToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SelectedFilesToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SelectedFoldersToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RestoreToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SelectedFilesToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents SelectedFoldersToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents RenameToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SelectedFileToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents SelectedFolderToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents RefreshListToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents SaveChecksumsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SelectedFilesToolStripMenuItem2 As ToolStripMenuItem
+    Friend WithEvents SelectedFolderToolStripMenuItem2 As ToolStripMenuItem
 End Class

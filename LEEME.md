@@ -10,6 +10,12 @@ Una herramienta para subir archivos a Google Drive. El programa resume las subid
 1. Simplemente, arrastre el archivo o carpeta al programa.
 2. Presione el botón "Subir".
 
+**-O-**
+
+1. Presiona en Archivo -> Subir -> Archivo(s)/Carpeta
+2. Presione el botón "Subir"
+
+* El paso 2 se puede automatizar activando la opción "Subir archivos automáticamente" en el menú "Opciones"
 * Las carpetas subirán con su estructura original.
 * Si un archivo es interrumpido, usted podrá resumir la subida desde el punto en que la subida fue interumpida.
 
@@ -69,10 +75,10 @@ Los checksums utilizados son los que Google Drive genera y almacena.
 * **Enter**: Entrar en carpeta.
 * **Delete**: Mover archivo o carpeta a la basura.
 * **F5**: Refrescar la lista de archivos y carpetas.
-* **ALT + A**: Seleccionar todos los archivos o carpetas.
-* **ALT + C**: Guardar checksum de uno o más archivos o el contenido de una carpeta.
-* **ALT + D**: Descargar uno o más archivos o el contenido de una carpeta.
-* **ALT + R**: Cuando no estás en la basura, renombrar un archivo o carpeta. Cuando estás en la basura, restaura el archivo o carpeta.
+* **CTRL + A**: Seleccionar todos los archivos o carpetas.
+* **CTRL + C**: Guardar checksum de uno o más archivos o el contenido de una carpeta.
+* **CTRL + D**: Descargar uno o más archivos o el contenido de una carpeta.
+* **CTRL + R**: Cuando no estás en la basura, renombrar un archivo o carpeta. Cuando estás en la basura, restaura el archivo o carpeta.
 
 # ¿Como abrir y compilar este proyecto?
 Este proyecto fue escrito usando Visual Studio 2017, en el lenguaje Visual Basic .NET. Necesitarás tener los componentes de Windows Desktop instalado para poder abrir y editar este proyecto. También, necesitarás las APIs de Google Drive los cuales están disponibles en el NuGet Package Manager.
