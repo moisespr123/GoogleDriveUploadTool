@@ -1,10 +1,11 @@
-﻿v1.8 (not yet released)
+﻿v1.8 (4/28/2018)
 -New Menu items for easier navigation
 -Shortcut ALT key changed to CTRL key
--Can now specify Chunk size using built-win Chunk Size window
+-Can now specify Chunk size using built-in Chunk Size window
 -Added option to copy file to System RAM if there's free RAM available to fit the file in it.
 -Options and software configuration now available under the Options Menu item
 -Can now specify sorting method
+-Downloaded files keeps modified date as shown in Google Drive
 -Fixed Refresh Lists and F5 when viewing Trash
 -Fixed error that sometimes happened when ALT + D (now CTRL + D) in the file list and no files were selected 
 -If one file is specified for download only, the file browser window will show up instead of the Folder browser window.

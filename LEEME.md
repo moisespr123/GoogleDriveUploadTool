@@ -25,7 +25,7 @@ Una herramienta para subir archivos a Google Drive. El programa resume las subid
 
 # ¿Cómo creo una carpeta?
 1. Navegue al lugar donde desee crear la carpeta nueva.
-2. Presione en "Crear Carpeta".
+2. Presione en "Crear Carpeta" o ve a Acciones -> Crear Carpeta.
 3. Escriba el nombre de la carpeta nueva y presione OK.
 
 # ¿Cómo verifico si el ID de la carpeta está correcta?
@@ -35,41 +35,41 @@ Una herramienta para subir archivos a Google Drive. El programa resume las subid
 
 # ¿Cómo descargo un archivo?
 1. Seleccione un archivo en la lista de archivos.
-2. Presione el botón "Descargar" o alternativamente, presione ALT + D en su teclado.
+2. Presione el botón "Descargar", presione ALT + D en su teclado, o vaya a Archivo -> Descargar -> Archivo(s) seleccionado(s).
 3. Escoja una carpeta para descargar su archivo y presione en "Save".
 4. La descarga comenzará.
 
 # ¿Puedo descargar más de un archivo?
-¡Absolutamente! Simplemente, seleccione los archivos y presione las teclas ALT + D en su teclado. Luego, seleccione una carpeta para descargar sus archivos.
+¡Absolutamente! Simplemente, seleccione los archivos y presione las teclas ALT + D en su teclado, o vaya a Archivo -> Descargar -> Archivo(s) seleccionado(s). Luego, seleccione una carpeta para descargar sus archivos.
 
 # ¿Puedo descargar una carpeta y todo su contenido?
-¡Absolutamente! Simplemente, seleccione la carpeta y presione las teclas ALT + D en su teclado. Luego, seleccione una carpeta para descargar la carpeta y todo su contenido.
+¡Absolutamente! Simplemente, seleccione la carpeta y presione las teclas ALT + D en su teclado, o vaya a Archivo -> Descargar -> Carpeta seleccionada. Luego, seleccione una carpeta para descargar la carpeta y todo su contenido.
 
 # ¿Cómo guardo el checksum de un archivo?
 1. Seleccione el archivo.
-2. Presione en "Guardar archivo MD5", Alternativamente, presione ALT + C en su teclado.
+2. Presione en "Guardar archivo MD5", presione ALT + C en su teclado, o vaya a Acciones -> Guardar Checksums -> Archivo(s) Seleccionado(s).
 3. Busque un lugar para guardar el archivo.
 
 # ¿Cómo guardo el checksum de más de un archivo?
 1. Seleccione los archivo presionando la tecla Ctrl o Shift en su teclado, o presione ALT + A para seleccionar todos los archivos.
-2. Presione el botón "Guardar Checksums de los archivos". Alternativamente, presione ALT + C en su teclado.
+2. Presione el botón "Guardar Checksums de los archivos", presione ALT + C en su teclado,  o vaya a Acciones -> Guardar Checksums -> Archivo(s) Seleccionado(s).
 3. Busque un lugar para guardar el archivo.
 
 # ¿Cómo guardo el checksum del contenido de una carpeta?
 1. Seleccione la carpeta para guardar los checksums de su contenido.
-2. Presione ALT + C en su teclado.
+2. Presione ALT + C en su teclado, o vaya a Acciones -> Guardar Checksums -> Carpeta Seleccionada.
 3. Busque un lugar para guardar el archivo. 
 
 Los checksums utilizados son los que Google Drive genera y almacena.
 
 # ¿Cómo envío uno o más archivos o carpetas a la basura?
 1. Seleccione el/los archivo(s) o carpeta(s) a enviar a la basura. 
-2. Presione la tecla "Delete" en su teclado
+2. Presione la tecla "Delete" en su teclado o vaya a Acciones -> Mover a la Basura -> Archivo(s) Seleccionados o Carpeta(s) Seleccionada(s)
 
 # ¿Cómo restauro uno o más archivos o carpetas de la basura?
 1. Presione el botón "Ver Basura"
 1. Seleccione el/los archivo(s) o carpeta(s) a restaurar
-2. Presione las teclas ALT + R en su teclado
+2. Presione las teclas ALT + R en su teclado o vaya a Acciones -> Restaurar -> Archivo(s) Seleccionados o Carpeta(s) Seleccionada(s)
 
 # Shortcuts del teclado:
 * **Enter**: Entrar en carpeta.
@@ -82,6 +82,8 @@ Los checksums utilizados son los que Google Drive genera y almacena.
 
 # ¿Como abrir y compilar este proyecto?
 Este proyecto fue escrito usando Visual Studio 2017, en el lenguaje Visual Basic .NET. Necesitarás tener los componentes de Windows Desktop instalado para poder abrir y editar este proyecto. También, necesitarás las APIs de Google Drive los cuales están disponibles en el NuGet Package Manager.
+
+La función "Copiar archivo a memoria antes de subirlo" depende de un código escrito en C# llamado MemoryTributary. Puedes obtener el mismo aquí: https://www.codeproject.com/articles/348590/a-replacement-for-memorystream. Luego, crea un DLL y añádelo a este proyecto.
 
 ¡Disfruten!
 

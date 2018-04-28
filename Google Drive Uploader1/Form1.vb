@@ -88,7 +88,7 @@ Public Class Form1
             SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Checked = My.Settings.SaveAsChecksumsMD5
             StartUploadsAutomaticallyToolStripMenuItem.Checked = My.Settings.AutomaticUploads
             PreserveFileModifiedDateToolStripMenuItem.Checked = My.Settings.PreserveModifiedDate
-            UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.DoubleClickEnabled = My.Settings.UpdateViews
+            UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Checked = My.Settings.UpdateViews
             OrderByComboBox.SelectedIndex = My.Settings.SortByIndex
             DescendingOrderToolStripMenuItem.Checked = My.Settings.OrderDesc
             CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked = My.Settings.CopyToRAM
@@ -414,14 +414,15 @@ Public Class Form1
     Private Async Sub BrowseToDownloadFile()
         FileIdsListBox.SelectedIndex = FilesListBox.SelectedIndex
         FileSizeListBox.SelectedIndex = FilesListBox.SelectedIndex
+        FileModifiedTimeListBox.SelectedIndex = FilesListBox.SelectedIndex
         SaveFileDialog1.Title = MsgAndDialogLang("location_browse")
         SaveFileDialog1.FileName = FilesListBox.SelectedItem.ToString
         Dim SFDResult As DialogResult = SaveFileDialog1.ShowDialog()
         If SFDResult = DialogResult.OK Then
-            Await DownloadFile(SaveFileDialog1.FileName, FileIdsListBox.SelectedItem.ToString, FileSizeListBox.SelectedItem.ToString)
+            Await DownloadFile(SaveFileDialog1.FileName, FileIdsListBox.SelectedItem.ToString, FileSizeListBox.SelectedItem.ToString, FileModifiedTimeListBox.SelectedItem.ToString)
         End If
     End Sub
-    Private Async Function DownloadFile(Location As String, FileName As String, FileSize As String) As Task
+    Private Async Function DownloadFile(Location As String, FileName As String, FileSize As String, ModifiedTime As Date) As Task
         starttime = DateTime.Now
         Label3.Text = String.Format("{0:N2} MB", Convert.ToDouble(FileSize) / 1024 / 1024)
         ProgressBar1.Maximum = CInt(Convert.ToDouble(FileSize) / 1024 / 1024)
@@ -431,6 +432,7 @@ Public Class Form1
         AddHandler DownloadRequest.MediaDownloader.ProgressChanged, New Action(Of IDownloadProgress)(AddressOf Download_ProgressChanged)
         Await DownloadRequest.DownloadAsync(FileToSave)
         FileToSave.Close()
+        IO.File.SetLastWriteTime(Location, ModifiedTime)
     End Function
     Private Sub Download_ProgressChanged(progress As IDownloadProgress)
         Select Case progress.Status
@@ -898,7 +900,7 @@ Public Class Form1
         For Each item In FileList
             FilesListBox.ClearSelected()
             FilesListBox.SelectedItem = item
-            Await DownloadFile(Folder & "\" & item, FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString, FileSizeListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString)
+            Await DownloadFile(Folder & "\" & item, FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString, FileSizeListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString, FileModifiedTimeListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString)
         Next
     End Function
     Private Sub SaveChecksumsFile(Filename As String, Optional IsFolder As Boolean = False)
@@ -986,7 +988,7 @@ Public Class Form1
         For Each item In FolderFiles
             FilesListBox.ClearSelected()
             FilesListBox.SelectedItem = item
-            Await DownloadFile(Location & "\" & FullPath & item, FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString, FileSizeListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString)
+            Await DownloadFile(Location & "\" & FullPath & item, FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString, FileSizeListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString, FileModifiedTimeListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString)
         Next
         'Finally, this loop checks if there are folders inside the folder we are. We start a recursion loop by calling this same function for each folder inside the folder.
         If FolderListBox.Items.Count > 0 Then
@@ -1005,7 +1007,7 @@ Public Class Form1
         End If
     End Function
     Private Sub EnterFolder()
-        If String.IsNullOrEmpty(FolderListBox.SelectedItem.ToString) = False Then
+        If FolderListBox.SelectedItem IsNot Nothing Then
             Dim GoToFolderID As String = FolderIdsListBox.Items.Item(FolderListBox.SelectedIndex).ToString
             PreviousFolderId.Items.Add(CurrentFolder)
             My.Settings.PreviousFolderIDs.Add(CurrentFolder)
@@ -1103,7 +1105,7 @@ Public Class Form1
         Label1.Text = "File Size:"
         Label2.Text = "Processed:"
         Label5.Text = "Drag and Drop Files to add them to the list"
-        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.7.1"
+        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.8"
         Label7.Text = "Status:"
         Label9.Text = "Percent: "
         Label11.Text = "Files:"
@@ -1180,7 +1182,7 @@ Public Class Form1
         Label1.Text = "文件大小:"
         Label2.Text = "Processed:"
         Label5.Text = "請將文件拖到下方"
-        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.7.1" & vbNewLine & "Translated by mic4126"
+        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.8" & vbNewLine & "Translated by mic4126"
         Label7.Text = "狀態:"
         Label9.Text = "百份比: "
         Label11.Text = "文件:"
@@ -1256,7 +1258,7 @@ Public Class Form1
         Label1.Text = "Tamaño:"
         Label2.Text = "Procesado:"
         Label5.Text = "Arrastre archivos aquí para añadirlos a la lista"
-        Label6.Text = "Por Moisés Cardona" & vbNewLine & "v1.7.1"
+        Label6.Text = "Por Moisés Cardona" & vbNewLine & "v1.8"
         Label7.Text = "Estado:"
         Label9.Text = "Porcentaje: "
         Label11.Text = "Archivos:"
@@ -1304,7 +1306,7 @@ Public Class Form1
         SelectedFoldersToolStripMenuItem1.Text = "Carpeta(s) seleccionadas"
         SaveChecksumsToolStripMenuItem.Text = "Guardar checksums"
         SelectedFilesToolStripMenuItem2.Text = "Archivo(s) seleccionados"
-        SelectedFolderToolStripMenuItem2.Text = "Carpeta(s) seleccionadas"
+        SelectedFolderToolStripMenuItem2.Text = "Carpeta seleccionada"
         CopyFileToRAMBeforeUploadingToolStripMenuItem.Text = "Copiar archivo a memoria antes de subirlo"
         DonationsToolStripMenuItem.Text = "Donar"
         FileToolStripMenuItem.Text = "Archivo"
@@ -1906,10 +1908,18 @@ Public Class Form1
     End Sub
 
     Private Sub SelectedFilesToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles SelectedFilesToolStripMenuItem2.Click
-         If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5")
+        If My.Settings.SaveAsChecksumsMD5 Then
+            SaveChecksumsFile("checksums.md5")
+        Else
+            If FilesListBox.SelectedItems.Count > 1 Then
+                SaveChecksumsFile(GetCurrentFolderIDName() & ".md5")
+            Else
+                SaveChecksumsFile(FilesListBox.SelectedItem.ToString & ".md5")
+            End If
+        End If
     End Sub
 
     Private Sub SelectedFolderToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles SelectedFolderToolStripMenuItem2.Click
-         If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5", True)
+        If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5", True)
     End Sub
 End Class
