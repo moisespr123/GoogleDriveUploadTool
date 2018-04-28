@@ -1,5 +1,7 @@
 ﻿v1.8 (4/28/2018)
 -New Menu items for easier navigation
+-Software now shows your Google Drive Used, Total and Free Space
+-Software is now fully resizable!
 -Shortcut ALT key changed to CTRL key
 -Can now specify Chunk size using built-in Chunk Size window
 -Added option to copy file to System RAM if there's free RAM available to fit the file in it.

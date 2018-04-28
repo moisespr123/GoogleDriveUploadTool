@@ -95,6 +95,7 @@ Public Class Form1
             RefreshFileList(CurrentFolder)
             GetFolderIDName(False)
             CurrentFolderLabel.Text = GetCurrentFolderIDName()
+            UpdateQuota()
         Catch
             If My.Settings.Language = "English" Then
                 MsgBox("client_secret.json file not found. Please follow Step 1 in this guide: https://developers.google.com/drive/v3/web/quickstart/dotnet" & vbCr & vbCrLf & "This file should be located in the folder where this software is located.")
@@ -145,7 +146,7 @@ Public Class Form1
     Private ResumeFromError As Boolean = False
     Private Sub CheckBeforeStartingUpload()
         If UploadsListBox.Items.Count > 0 Then
-            TextBox2.Text = FolderToUploadFileListBox.Items.Item(0).ToString
+            FolderIDTextBox.Text = FolderToUploadFileListBox.Items.Item(0).ToString
             If GetFolderIDName(False) Then
                 My.Settings.LastFolder = CurrentFolder
                 My.Settings.Save()
@@ -177,7 +178,7 @@ Public Class Form1
             UploadsListBox.SelectedIndex() = 0
             Try
                 GetFile = UploadsListBox.Items.Item(0).ToString
-                TextBox2.Text = FolderToUploadFileListBox.Items.Item(0).ToString
+                FolderIDTextBox.Text = FolderToUploadFileListBox.Items.Item(0).ToString
                 GetFolderIDName(False)
                 If System.IO.File.Exists(GetFile) Then
                     Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
@@ -188,7 +189,7 @@ Public Class Form1
                     If PreserveFileModifiedDateToolStripMenuItem.Checked Then IO.File.GetLastWriteTimeUtc(GetFile)
                     Dim FileFolder As New List(Of String)
                     If FolderCreated = False Then
-                        FileFolder.Add(TextBox2.Text)
+                        FileFolder.Add(FolderIDTextBox.Text)
                     Else
                         Dim DirectoryName As String = ""
                         DirectoryName = System.IO.Path.GetDirectoryName(GetFile)
@@ -197,7 +198,7 @@ Public Class Form1
                                 FileFolder.Add(DirectoryListID.Item(DirectoryList.IndexOf(directory)))
                             End If
                         Next
-                        If FileFolder.Count = 0 Then FileFolder.Add(TextBox2.Text)
+                        If FileFolder.Count = 0 Then FileFolder.Add(FolderIDTextBox.Text)
                     End If
                     FileMetadata.Parents = FileFolder
                     Dim UploadStream As New FileStream(GetFile, System.IO.FileMode.Open, System.IO.FileAccess.Read)
@@ -264,9 +265,9 @@ Public Class Form1
                                 Exit For
                             End If
                         Next
-                        If ParentFolder.Count = 0 Then ParentFolder.Add(TextBox2.Text)
+                        If ParentFolder.Count = 0 Then ParentFolder.Add(FolderIDTextBox.Text)
                     Else
-                        ParentFolder.Add(TextBox2.Text)
+                        ParentFolder.Add(FolderIDTextBox.Text)
                     End If
                     FolderMetadata.Parents = ParentFolder
                     FolderMetadata.MimeType = "application/vnd.google-apps.folder"
@@ -292,6 +293,7 @@ Public Class Form1
                 My.Settings.Save()
                 ResumeFromError = False
                 If UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Checked Then RefreshFileList(CurrentFolder)
+                UpdateQuota()
             End If
         End While
         If RadioButton1.Checked = True Then MsgBox(MsgAndDialogLang("upload_finish"))
@@ -410,6 +412,20 @@ Public Class Form1
     Private Shared MaxFileSize As Double
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
         BrowseToDownloadFile()
+    End Sub
+
+    Private Sub UpdateQuota()
+        Dim UserDataRequest As New AboutResource.GetRequest(service) With {.Fields = "user,storageQuota"}
+        Dim about As Data.About = UserDataRequest.Execute
+        LoggedUsername.Text = about.User.DisplayName
+        UsedSpace.Text = String.Format("{0:N2} MB", about.StorageQuota.Usage / 1024 / 1024)
+        If about.StorageQuota.Limit IsNot Nothing Then
+            TotalSpace.Text = String.Format("{0:N2} MB", about.StorageQuota.Limit / 1024 / 1024)
+            FreeSpace.Text = String.Format("{0:N2} MB", (about.StorageQuota.Limit - about.StorageQuota.Usage) / 1024 / 1024)
+        Else
+            TotalSpace.Text = "Unlimited"
+            FreeSpace.Text = "Unlimited"
+        End If
     End Sub
     Private Async Sub BrowseToDownloadFile()
         FileIdsListBox.SelectedIndex = FilesListBox.SelectedIndex
@@ -623,9 +639,9 @@ Public Class Form1
     End Sub
 
     Private Function GetFolderIDName(ShowMessage As Boolean) As Boolean
-        If String.IsNullOrEmpty(TextBox2.Text) = False Then
+        If String.IsNullOrEmpty(FolderIDTextBox.Text) = False Then
             Try
-                Dim GetFolderName As FilesResource.GetRequest = service.Files.Get(TextBox2.Text.ToString)
+                Dim GetFolderName As FilesResource.GetRequest = service.Files.Get(FolderIDTextBox.Text.ToString)
                 Dim FolderNameMetadata As Data.File = GetFolderName.Execute
                 TextBox1.Text = FolderNameMetadata.Name
                 Return True
@@ -740,7 +756,7 @@ Public Class Form1
                 PreviousFolderId.Items.Add(CurrentFolder)
             End If
             TextBox1.Text = FolderNameToCreate
-            TextBox2.Text = FolderID.Id
+            FolderIDTextBox.Text = FolderID.Id
             CurrentFolder = FolderID.Id
             CurrentFolderLabel.Text = GetCurrentFolderIDName()
             RefreshFileList(FolderID.Id)
@@ -1061,6 +1077,7 @@ Public Class Form1
             Debug.WriteLine(credfile)
             File.Delete(credfile)
         Next
+        MsgBox(MsgAndDialogLang("logged_out"))
         Application.Exit()
     End Sub
 
@@ -1090,7 +1107,7 @@ Public Class Form1
 
     Private Sub ListBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles UploadsListBox.SelectedIndexChanged
         If UploadsListBox.SelectedIndex <> -1 Then
-            TextBox2.Text = FolderToUploadFileListBox.Items.Item(UploadsListBox.SelectedIndex).ToString
+            FolderIDTextBox.Text = FolderToUploadFileListBox.Items.Item(UploadsListBox.SelectedIndex).ToString
             GetFolderIDName(False)
             Button13.Visible = True
             Button14.Enabled = True
@@ -1154,7 +1171,7 @@ Public Class Form1
         SaveChecksumsToolStripMenuItem.Text = "Save Checksums"
         SelectedFilesToolStripMenuItem2.Text = "Selected file(s)"
         SelectedFolderToolStripMenuItem2.Text = "Selected folder"
-        CopyFileToRAMBeforeUploadingToolStripMenuItem.Text = "Copy File to RAM before uploading"
+        CopyFileToRAMBeforeUploadingToolStripMenuItem.Text = "Copy File to RAM before uploading if there's enough Free Memory available"
         DonationsToolStripMenuItem.Text = "Donations"
         FileToolStripMenuItem.Text = "File"
         UploadToolStripMenuItem.Text = "Upload"
@@ -1176,6 +1193,10 @@ Public Class Form1
         SpecifyChunkSizeToolStripMenuItem.Text = "Specify Chunk Size"
         UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Text = "Update File and Folder views after an upload finishes"
         ReadmeToolStripMenuItem.Text = "Readme / Help"
+        LoggedInAs.Text = "Logged In As:"
+        UsedSpaceText.Text = "Used Space:"
+        TotalSpaceText.Text = "Total Space:"
+        FreeSpaceText.Text = "Free Space:"
     End Sub
 
     Private Sub TChineseLanguage()
@@ -1230,7 +1251,7 @@ Public Class Form1
         SaveChecksumsToolStripMenuItem.Text = "Save Checksums"
         SelectedFilesToolStripMenuItem2.Text = "Selected file(s)"
         SelectedFolderToolStripMenuItem2.Text = "Selected folder"
-        CopyFileToRAMBeforeUploadingToolStripMenuItem.Text = "Copy File to RAM before uploading"
+        CopyFileToRAMBeforeUploadingToolStripMenuItem.Text = "Copy File to RAM before uploading if there's enough Free Memory available"
         DonationsToolStripMenuItem.Text = "捐款"
         FileToolStripMenuItem.Text = "File"
         UploadToolStripMenuItem.Text = "Upload"
@@ -1252,6 +1273,10 @@ Public Class Form1
         SpecifyChunkSizeToolStripMenuItem.Text = "Specify Chunk Size"
         UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Text = "Update File and Folder views after an upload finishes"
         ReadmeToolStripMenuItem.Text = "Readme / Help"
+        LoggedInAs.Text = "Logged In As:"
+        UsedSpaceText.Text = "Used Space:"
+        TotalSpaceText.Text = "Total Space:"
+        FreeSpaceText.Text = "Free Space:"
     End Sub
 
     Private Sub SpanishLanguage()
@@ -1307,7 +1332,7 @@ Public Class Form1
         SaveChecksumsToolStripMenuItem.Text = "Guardar checksums"
         SelectedFilesToolStripMenuItem2.Text = "Archivo(s) seleccionados"
         SelectedFolderToolStripMenuItem2.Text = "Carpeta seleccionada"
-        CopyFileToRAMBeforeUploadingToolStripMenuItem.Text = "Copiar archivo a memoria antes de subirlo"
+        CopyFileToRAMBeforeUploadingToolStripMenuItem.Text = "Copiar archivo a memoria antes de subirlo si hay memoria disponible"
         DonationsToolStripMenuItem.Text = "Donar"
         FileToolStripMenuItem.Text = "Archivo"
         UploadToolStripMenuItem.Text = "Subir"
@@ -1329,6 +1354,10 @@ Public Class Form1
         SpecifyChunkSizeToolStripMenuItem.Text = "Especificar tamaño de pedazos"
         UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Text = "Actualizar vista de archivos y carpetas al terminar de subir un archivo"
         ReadmeToolStripMenuItem.Text = "Léeme / Ayuda"
+        LoggedInAs.Text = "Usuario:"
+        UsedSpaceText.Text = "Espacio Usado:"
+        TotalSpaceText.Text = "Espacio Total:"
+        FreeSpaceText.Text = "Espacio Libre:"
     End Sub
 
     Function MsgAndDialogLang(tag As String) As String
@@ -1693,6 +1722,15 @@ Public Class Form1
                     Case "TChinese"
                         Return "?"
                 End Select
+            Case "logged_out"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "You have been logged out. The software will now close"
+                    Case "Spanish"
+                        Return "Tu sesión ha sido cerrada. El programa cerrará ahora"
+                    Case "TChinese"
+                        Return "You have been logged out. The software will now close"
+                End Select
             Case Else
                 Return "Error Typo " & tag
         End Select
@@ -1701,7 +1739,7 @@ Public Class Form1
 
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
         FolderToUploadFileListBox.Items.Item(UploadsListBox.SelectedIndex) = CurrentFolder
-        TextBox2.Text = CurrentFolder
+        FolderIDTextBox.Text = CurrentFolder
         GetFolderIDName(False)
     End Sub
 
