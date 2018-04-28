@@ -72,6 +72,12 @@ These are the checksums for your files stored in Google Drive. You can use them 
 2. Select the file(s) or folder(s) to restore.
 3. Press ALT + R in your keyboard, or go to Actions -> Restore -> Selected File(s) or Selected Folder(s).
 
+# What does the "Copy File to RAM before uploading if there's enough Free Memory available" option do?
+If you have enough free RAM in your system, and the file you want to upload fits in it, the file will be copied to the RAM before uploading. It will then be read from your RAM instead of your disk. While the initial copy can be slow, this can help increase upload performance as the file will be read from the RAM instead of your disk. Also, this option helps if you use an External Hard Disk Drive and you have connectivity issues later. Once the file is copied to the RAM, the disk resource is freed, so you can disconnect it and the software will continue uploading the file. Please note that if you have additional files, the disk must be connected as only the current file being uploaded is the one that is copied in the system memory.
+
+# What does the "Specify Chunk Size" option do?
+It will open a window where you can specify a chunk size. The Google Drive API uploads in 256kb chunks, but you can override this (The software by default uploads the files in 1MB chunks). If you have a slow upload connection, lower chunk sizes are best. However, if you have a fast upload speed, increasing the chunk size can increase upload performance. Please keep in mind if you don't use the above feature, your disk will be read every time a chunk finishes so it can read the next chunk. There can be a pause between the upload in this process. This is completely normal. If you want to upload the file without any pause, and have free system memory available, you can use the "Copy File to RAM before uploading if there's enough Free Memory available" and the file will be copied to the RAM before it uploads.
+
 # Keyboard Shortcuts
 * **Enter**: Enter a folder.
 * **Delete**: Move file or folder to trash.

@@ -71,6 +71,12 @@ Los checksums utilizados son los que Google Drive genera y almacena.
 1. Seleccione el/los archivo(s) o carpeta(s) a restaurar
 2. Presione las teclas ALT + R en su teclado o vaya a Acciones -> Restaurar -> Archivo(s) Seleccionados o Carpeta(s) Seleccionada(s)
 
+# ¿Qué hace la opción "Copiar archivo a memoria antes de subirlo si hay memoria disponible"?
+Si tienes memoria RAM que no está en uso en tu sistema, y el archivo que quieres subir cabe en la misma, el programa copiará el archivo a la memoria. Luego, el archivo será leido de la memoria en vez de el disco donde se encuentra. Esto puede hacer que tus archivos suban más rápido aunque la copia inicial puede ser lenta. esto es debido a que el archivo se leerá desde la RAM en vez del disco duro. También, esta opción es util si estás usando un disco duro externo, ya que una vez el archivo se copie a la memoria, puedes desconectar el mismo y el programa seguirá subiendo el archivo. Nota que debe estar conectado si tienes más archivos pues sólo se copia el archivo que se está subiendo actualmente.
+
+# ¿Qué hace la opción "Especificar tamaño de pedazos"?
+Esta opción abrirá una ventana en donde puedes especificar un tamaño que se usará para subir tus archivos en pedazos. Google Drive sube tus archivos en pedazos de 256KB (El programa los sube en pedazos de 1MB). Usando esta opción, puedes definir el tamaño deseado. Un valor pequeño es bueno si tienes una velocidad de Subida ("Upload") lento, pero si tu velocidad es alta, usar un número alto puede hacer que se utilice mejor la misma. Nota que si no usas la opción de "Copiar archivo a memoria antes de subirlo si hay memoria disponible" y el tamaño de pedazos es grande, es posible que notes algunas pausas en el proceso de subir el archivo, pues cuando se termina de subir un pedazo, el programa debe leer los proximos KB/MB del disco duro/ssd. Esta pausa es normal.
+
 # Shortcuts del teclado:
 * **Enter**: Entrar en carpeta.
 * **Delete**: Mover archivo o carpeta a la basura.

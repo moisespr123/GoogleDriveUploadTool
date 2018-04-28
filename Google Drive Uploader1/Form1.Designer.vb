@@ -369,7 +369,7 @@ Partial Class Form1
         'btnLogout
         '
         Me.btnLogout.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.btnLogout.Location = New System.Drawing.Point(1198, 465)
+        Me.btnLogout.Location = New System.Drawing.Point(1198, 456)
         Me.btnLogout.Name = "btnLogout"
         Me.btnLogout.Size = New System.Drawing.Size(113, 25)
         Me.btnLogout.TabIndex = 45
@@ -379,7 +379,7 @@ Partial Class Form1
         'Button11
         '
         Me.Button11.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.Button11.Location = New System.Drawing.Point(1030, 465)
+        Me.Button11.Location = New System.Drawing.Point(1030, 456)
         Me.Button11.Name = "Button11"
         Me.Button11.Size = New System.Drawing.Size(101, 25)
         Me.Button11.TabIndex = 45

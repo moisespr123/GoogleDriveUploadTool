@@ -186,7 +186,7 @@ Public Class Form1
                     Dim FileMetadata As New Data.File With {
                         .Name = My.Computer.FileSystem.GetName(GetFile)
                     }
-                    If PreserveFileModifiedDateToolStripMenuItem.Checked Then IO.File.GetLastWriteTimeUtc(GetFile)
+                    If My.Settings.PreserveModifiedDate Then FileMetadata.ModifiedTime = IO.File.GetLastWriteTimeUtc(GetFile)
                     Dim FileFolder As New List(Of String)
                     If FolderCreated = False Then
                         FileFolder.Add(FolderIDTextBox.Text)
