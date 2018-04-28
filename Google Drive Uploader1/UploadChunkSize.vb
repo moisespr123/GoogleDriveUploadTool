@@ -11,7 +11,7 @@
             Button1.Text = "Guardar"
         End If
         If My.Computer.FileSystem.FileExists("chunkmultiplier.txt") Then
-            Dim value As Integer = My.Computer.FileSystem.ReadAllText("chunkmultiplier.txt") * 256
+            Dim value As Integer = CInt(My.Computer.FileSystem.ReadAllText("chunkmultiplier.txt")) * 256
             If value < 256 Then
                 NumericUpDown1.Value = 256
             Else
@@ -21,8 +21,8 @@
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Dim result As Integer = NumericUpDown1.Value / 256
-        My.Computer.FileSystem.WriteAllText("chunkmultiplier.txt", result, False)
+        Dim result As Integer = CInt(NumericUpDown1.Value / 256)
+        My.Computer.FileSystem.WriteAllText("chunkmultiplier.txt", result.ToString(), False)
         Me.Close()
     End Sub
 
