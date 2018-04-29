@@ -93,9 +93,15 @@ Public Class Form1
             DescendingOrderToolStripMenuItem.Checked = My.Settings.OrderDesc
             CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked = My.Settings.CopyToRAM
             RefreshFileList(CurrentFolder)
-            GetFolderIDName(False)
+            
             CurrentFolderLabel.Text = GetCurrentFolderIDName()
             UpdateQuota()
+            If UploadsListBox.Items.Count > 0 Then
+                UploadsListBox.SelectedIndex = 0
+            Else
+                FolderIDTextBox.Text = CurrentFolder
+                GetFolderIDName(False)
+            End If
         Catch
             If My.Settings.Language = "English" Then
                 MsgBox("client_secret.json file not found. Please follow Step 1 in this guide: https://developers.google.com/drive/v3/web/quickstart/dotnet" & vbCr & vbCrLf & "This file should be located in the folder where this software is located.")
@@ -140,7 +146,7 @@ Public Class Form1
     Private secondsremaining As Integer = 0
     Private GetFile As String = ""
     Private UploadFailed As Boolean = False
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles UploadButton.Click
         CheckBeforeStartingUpload()
     End Sub
     Private ResumeFromError As Boolean = False
@@ -151,7 +157,7 @@ Public Class Form1
                 My.Settings.LastFolder = CurrentFolder
                 My.Settings.Save()
                 ResumeFromError = False
-                Button2.Enabled = False
+                UploadButton.Enabled = False
                 UploadFiles()
             Else
                 Dim Message As String = MsgAndDialogLang("folder_invaild")
@@ -306,7 +312,7 @@ Public Class Form1
         My.Settings.FoldersCreated.Clear()
         My.Settings.FoldersCreatedID.Clear()
         My.Settings.Save()
-        Button2.Enabled = True
+        UploadButton.Enabled = True
     End Sub
     Private ErrorMessage As String = ""
     Private UploadCancellationToken As System.Threading.CancellationToken
@@ -572,7 +578,7 @@ Public Class Form1
             End If
         Next
         My.Settings.Save()
-        If My.Settings.AutomaticUploads And Button2.Enabled = True Then
+        If My.Settings.AutomaticUploads And UploadButton.Enabled = True Then
             CheckBeforeStartingUpload()
         End If
     End Sub
@@ -1138,7 +1144,7 @@ Public Class Form1
         Label23.Text = "MIME Type:"
         Label24.Text = "File Size:"
         Button1.Text = "Save Checksum File"
-        Button2.Text = "Upload"
+        UploadButton.Text = "Upload"
         Button3.Text = "Clear List"
         Button4.Text = "Refresh List"
         Button5.Text = "Download File"
@@ -1218,7 +1224,7 @@ Public Class Form1
         Label23.Text = "MIME Type:"
         Label24.Text = "文件大小:"
         Button1.Text = "儲存校驗碼"
-        Button2.Text = "上傳"
+        UploadButton.Text = "上傳"
         Button3.Text = "清除列表"
         Button4.Text = "更新列表"
         Button5.Text = "下載文件"
@@ -1299,7 +1305,7 @@ Public Class Form1
         Label23.Text = "Tipo MIME:"
         Label24.Text = "Tamaño:"
         Button1.Text = "Guardar Archivo MD5"
-        Button2.Text = "Subir"
+        UploadButton.Text = "Subir"
         Button3.Text = "Borrar Lista"
         Button4.Text = "Refrescar Lista"
         Button5.Text = "Descargar Archivo"
@@ -1959,5 +1965,14 @@ Public Class Form1
 
     Private Sub SelectedFolderToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles SelectedFolderToolStripMenuItem2.Click
         If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5", True)
+    End Sub
+
+    Private Sub FolderListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles FolderListBox.SelectedIndexChanged
+        If FolderListBox.SelectedItem IsNot Nothing Then
+            If UploadButton.Enabled = True and UploadsListBox.SelectedItem Is Nothing Then
+                FolderIDTextBox.Text = FolderIdsListBox.Items.Item(FolderListBox.SelectedIndex)
+                GetFolderIDName(False)
+            End If
+        End If
     End Sub
 End Class

@@ -94,7 +94,7 @@ Partial Class Form1
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
         Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.Button2 = New System.Windows.Forms.Button()
+        Me.UploadButton = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
@@ -660,13 +660,13 @@ Partial Class Form1
         'ReadmeToolStripMenuItem
         '
         Me.ReadmeToolStripMenuItem.Name = "ReadmeToolStripMenuItem"
-        Me.ReadmeToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.ReadmeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ReadmeToolStripMenuItem.Text = "Readme / Help"
         '
         'DonationsToolStripMenuItem
         '
         Me.DonationsToolStripMenuItem.Name = "DonationsToolStripMenuItem"
-        Me.DonationsToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+        Me.DonationsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.DonationsToolStripMenuItem.Text = "Donations"
         '
         'TableLayoutPanel1
@@ -704,7 +704,7 @@ Partial Class Form1
         '
         'Panel4
         '
-        Me.Panel4.Controls.Add(Me.Button2)
+        Me.Panel4.Controls.Add(Me.UploadButton)
         Me.Panel4.Controls.Add(Me.Label1)
         Me.Panel4.Controls.Add(Me.Label2)
         Me.Panel4.Controls.Add(Me.ProgressBar1)
@@ -729,16 +729,16 @@ Partial Class Form1
         Me.Panel4.Size = New System.Drawing.Size(500, 194)
         Me.Panel4.TabIndex = 55
         '
-        'Button2
+        'UploadButton
         '
-        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.Button2.Location = New System.Drawing.Point(261, 24)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(227, 39)
-        Me.Button2.TabIndex = 2
-        Me.Button2.Text = "Upload"
-        Me.Button2.UseVisualStyleBackColor = true
+        Me.UploadButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.UploadButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.UploadButton.Location = New System.Drawing.Point(261, 24)
+        Me.UploadButton.Name = "UploadButton"
+        Me.UploadButton.Size = New System.Drawing.Size(227, 39)
+        Me.UploadButton.TabIndex = 2
+        Me.UploadButton.Text = "Upload"
+        Me.UploadButton.UseVisualStyleBackColor = true
         '
         'Label1
         '
@@ -1280,7 +1280,7 @@ End Sub
     Friend WithEvents Panel4 As Panel
     Friend WithEvents Button14 As Button
     Friend WithEvents Button6 As Button
-    Friend WithEvents Button2 As Button
+    Friend WithEvents UploadButton As Button
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents ProgressBar1 As ProgressBar
