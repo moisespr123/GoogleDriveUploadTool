@@ -216,13 +216,13 @@ Public Class Form1
                             Dim readChunkSize = 1024 * 1024
                             Dim buffer(readChunkSize) As Byte
                             UploadStream.Seek(0, SeekOrigin.Begin)
-                            Dim TempByteArray As New ArrayList()
                             While UploadStream.Position < UploadStream.Length
                                 UploadStream.Read(buffer, 0, readChunkSize)
                                 FileInRAM.Write(buffer, 0, readChunkSize)
                             End While
                             UploadFile = service.Files.Create(FileMetadata, FileInRAM, "")
                             UsingRAM = True
+                            UploadStream.Dispose()
                             UploadStream.Close()
                         Else
                             UploadFile = service.Files.Create(FileMetadata, UploadStream, "")
@@ -256,7 +256,13 @@ Public Class Form1
                     Else
                         Await UploadFile.ResumeAsync(uploadUri, UploadCancellationToken)
                     End If
-                    If UsingRAM Then FileInRAM.Close() Else UploadStream.Close()
+                    If UsingRAM Then
+                        FileInRAM.Dispose
+                        FileInRAM.close
+                    Else
+                        UploadStream.Dispose()
+                        UploadStream.Close()
+                    End If
                 ElseIf IO.Directory.Exists(GetFile) Then
                     Dim FolderMetadata As New Data.File With {
                         .Name = My.Computer.FileSystem.GetName(GetFile)
