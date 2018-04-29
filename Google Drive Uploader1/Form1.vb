@@ -218,14 +218,14 @@ Public Class Form1
                             UploadStream.Seek(0, SeekOrigin.Begin)
                             While UploadStream.Position < UploadStream.Length
                                 Dim RemainingBytes = UploadStream.Length - UploadStream.Position
-                                If RemainingBytes <= megabyteMultiplication then
-                                     Dim buffer(RemainingBytes) As Byte
-                                     UploadStream.Read(buffer, 0, RemainingBytes)
-                                     FileInRAM.Write(buffer, 0, RemainingBytes)
+                                If RemainingBytes <= megabyteMultiplication Then
+                                    Dim buffer(RemainingBytes) As Byte
+                                    UploadStream.Read(buffer, 0, RemainingBytes)
+                                    FileInRAM.Write(buffer, 0, RemainingBytes)
                                 Else
-                                     Dim buffer(readChunkSize) As Byte
-                                     UploadStream.Read(buffer, 0, readChunkSize)
-                                     FileInRAM.Write(buffer, 0, readChunkSize)
+                                    Dim buffer(readChunkSize) As Byte
+                                    UploadStream.Read(buffer, 0, readChunkSize)
+                                    FileInRAM.Write(buffer, 0, readChunkSize)
                                 End If
                             End While
                             UsingRAM = True
@@ -880,7 +880,9 @@ Public Class Form1
     Private Sub ListBox3_KeyDown(sender As Object, e As KeyEventArgs) Handles FolderListBox.KeyDown
         If e.KeyCode = Keys.Delete Then
             If viewing_trash = False Then
-                WorkWithTrash(FolderListBox.SelectedItems, False, True)
+                If FolderListBox.SelectedItem IsNot Nothing Then
+                    WorkWithTrash(FolderListBox.SelectedItems, False, True)
+                End If
             End If
         ElseIf e.KeyCode = Keys.Enter Then
             EnterFolder()
@@ -888,10 +890,12 @@ Public Class Form1
             If viewing_trash = False Then RefreshFileList(CurrentFolder) Else RefreshFileList("trash")
             e.Handled = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.R Then
-            If viewing_trash Then
-                WorkWithTrash(FolderListBox.SelectedItems, False, False)
-            Else
-                RenameFileOrFolder(FolderIdsListBox.Items.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)).ToString)
+            If FolderListBox.SelectedItem IsNot Nothing Then
+                If viewing_trash Then
+                    WorkWithTrash(FolderListBox.SelectedItems, False, False)
+                Else
+                    RenameFileOrFolder(FolderIdsListBox.Items.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)).ToString)
+                End If
             End If
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.A Then
             For i = 0 To FolderListBox.Items.Count - 1
@@ -1060,16 +1064,20 @@ Public Class Form1
     Private Sub ListBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles FilesListBox.KeyDown
         If e.KeyCode = Keys.Delete Then
             If viewing_trash = False Then
-                WorkWithTrash(FilesListBox.SelectedItems, True, True)
+                If FilesListBox.SelectedItem IsNot Nothing Then
+                    WorkWithTrash(FilesListBox.SelectedItems, True, True)
+                End If
             End If
         ElseIf e.KeyCode = Keys.F5 Then
             If viewing_trash = False Then RefreshFileList(CurrentFolder) Else RefreshFileList("trash")
             e.Handled = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.R Then
-            If viewing_trash Then
-                WorkWithTrash(FilesListBox.SelectedItems, True, False)
-            Else
-                RenameFileOrFolder(FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(FilesListBox.SelectedItem)).ToString)
+            If FilesListBox.SelectedItem IsNot Nothing Then
+                If viewing_trash Then
+                    WorkWithTrash(FilesListBox.SelectedItems, True, False)
+                Else
+                    RenameFileOrFolder(FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(FilesListBox.SelectedItem)).ToString)
+                End If
             End If
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.A Then
             For i = 0 To FilesListBox.Items.Count - 1
