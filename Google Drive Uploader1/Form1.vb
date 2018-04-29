@@ -93,7 +93,7 @@ Public Class Form1
             DescendingOrderToolStripMenuItem.Checked = My.Settings.OrderDesc
             CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked = My.Settings.CopyToRAM
             RefreshFileList(CurrentFolder)
-            
+
             CurrentFolderLabel.Text = GetCurrentFolderIDName()
             UpdateQuota()
             If UploadsListBox.Items.Count > 0 Then
@@ -257,8 +257,8 @@ Public Class Form1
                         Await UploadFile.ResumeAsync(uploadUri, UploadCancellationToken)
                     End If
                     If UsingRAM Then
-                        FileInRAM.Dispose
-                        FileInRAM.close
+                        FileInRAM.Dispose()
+                        FileInRAM.Close()
                     Else
                         UploadStream.Dispose()
                         UploadStream.Close()
@@ -1975,7 +1975,7 @@ Public Class Form1
 
     Private Sub FolderListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles FolderListBox.SelectedIndexChanged
         If FolderListBox.SelectedItem IsNot Nothing Then
-            If UploadButton.Enabled = True and UploadsListBox.SelectedItem Is Nothing Then
+            If UploadButton.Enabled = True And UploadsListBox.SelectedItem Is Nothing Then
                 FolderIDTextBox.Text = FolderIdsListBox.Items.Item(FolderListBox.SelectedIndex)
                 GetFolderIDName(False)
             End If
