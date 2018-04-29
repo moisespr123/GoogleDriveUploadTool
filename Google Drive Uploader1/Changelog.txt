@@ -1,4 +1,7 @@
-﻿v1.8 (4/28/2018)
+﻿v1.8 (4/29/2018)
+-URGENT FIX: Fixes the issue that files were incorrectly uploaded when using the RAM setting.
+
+v1.8 (4/28/2018)
 -New Menu items for easier navigation
 -Software now shows your Google Drive Used, Total and Free Space
 -Software is now fully resizable!
