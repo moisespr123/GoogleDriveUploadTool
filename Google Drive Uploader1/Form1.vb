@@ -213,17 +213,25 @@ Public Class Form1
                     Dim UsingRAM As Boolean = False
                     If CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked Then
                         If My.Computer.Info.AvailablePhysicalMemory > My.Computer.FileSystem.GetFileInfo(GetFile).Length Then
-                            Dim readChunkSize = 1024 * 1024
-                            Dim buffer(readChunkSize) As Byte
+                            Dim megabyteMultiplication = 1024 * 1024
+                            Dim readChunkSize = megabyteMultiplication
                             UploadStream.Seek(0, SeekOrigin.Begin)
                             While UploadStream.Position < UploadStream.Length
-                                UploadStream.Read(buffer, 0, readChunkSize)
-                                FileInRAM.Write(buffer, 0, readChunkSize)
+                                Dim RemainingBytes = UploadStream.Length - UploadStream.Position
+                                If RemainingBytes <= megabyteMultiplication then
+                                     Dim buffer(RemainingBytes) As Byte
+                                     UploadStream.Read(buffer, 0, RemainingBytes)
+                                     FileInRAM.Write(buffer, 0, RemainingBytes)
+                                Else
+                                     Dim buffer(readChunkSize) As Byte
+                                     UploadStream.Read(buffer, 0, readChunkSize)
+                                     FileInRAM.Write(buffer, 0, readChunkSize)
+                                End If
                             End While
-                            UploadFile = service.Files.Create(FileMetadata, FileInRAM, "")
                             UsingRAM = True
                             UploadStream.Dispose()
                             UploadStream.Close()
+                            UploadFile = service.Files.Create(FileMetadata, FileInRAM, "")
                         Else
                             UploadFile = service.Files.Create(FileMetadata, UploadStream, "")
                         End If
