@@ -877,7 +877,9 @@ Public Class Form1
             MsgBox(SuccessMessage)
         End If
     End Sub
-    Private Sub ListBox3_KeyDown(sender As Object, e As KeyEventArgs) Handles FolderListBox.KeyDown
+    Private KeyPressed As Boolean = False
+    Private Sub FolderListBox_KeyDown(sender As Object, e As KeyEventArgs) Handles FolderListBox.KeyDown
+        KeyPressed = True
         If e.KeyCode = Keys.Delete Then
             If viewing_trash = False Then
                 If FolderListBox.SelectedItem IsNot Nothing Then
@@ -906,6 +908,13 @@ Public Class Form1
             If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5", True) Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5", True)
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.D Then
             CheckForFolderDownload()
+        End If
+        KeyPressed = False
+    End Sub
+
+    Private Sub FolderListBox_KeyPress(sender As Object, e As KeyPressEventArgs) Handles FolderListBox.KeyPress
+        If KeyPressed = True Then
+            e.Handled = True
         End If
     End Sub
     Private Function GetFolderPath() As String
@@ -1061,7 +1070,8 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub ListBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles FilesListBox.KeyDown
+    Private Sub FilesListBox_KeyDown(sender As Object, e As KeyEventArgs) Handles FilesListBox.KeyDown
+        KeyPressed = True
         If e.KeyCode = Keys.Delete Then
             If viewing_trash = False Then
                 If FilesListBox.SelectedItem IsNot Nothing Then
@@ -1094,7 +1104,12 @@ Public Class Form1
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.D Then
             CheckForFilesDownload()
         End If
-
+        KeyPressed = False
+    End Sub
+    Private Sub FilesListBox_KeyPress(sender As Object, e As KeyPressEventArgs) Handles FilesListBox.KeyPress
+        If KeyPressed = True Then
+            e.Handled = True
+        End If
     End Sub
 
     Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
@@ -1150,7 +1165,7 @@ Public Class Form1
         Label1.Text = "File Size:"
         Label2.Text = "Processed:"
         Label5.Text = "Drag and Drop Files to add them to the list"
-        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.8.1"
+        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.8.2"
         Label7.Text = "Status:"
         Label9.Text = "Percent: "
         Label11.Text = "Files:"
@@ -1231,7 +1246,7 @@ Public Class Form1
         Label1.Text = "文件大小:"
         Label2.Text = "Processed:"
         Label5.Text = "請將文件拖到下方"
-        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.8.1" & vbNewLine & "Translated by mic4126"
+        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.8.2" & vbNewLine & "Translated by mic4126"
         Label7.Text = "狀態:"
         Label9.Text = "百份比: "
         Label11.Text = "文件:"
@@ -1311,7 +1326,7 @@ Public Class Form1
         Label1.Text = "Tamaño:"
         Label2.Text = "Procesado:"
         Label5.Text = "Arrastre archivos aquí para añadirlos a la lista"
-        Label6.Text = "Por Moisés Cardona" & vbNewLine & "v1.8.1"
+        Label6.Text = "Por Moisés Cardona" & vbNewLine & "v1.8.2"
         Label7.Text = "Estado:"
         Label9.Text = "Porcentaje: "
         Label11.Text = "Archivos:"

@@ -349,7 +349,7 @@ Partial Class Form1
         'Button10
         '
         Me.Button10.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Button10.Location = New System.Drawing.Point(6, 194)
+        Me.Button10.Location = New System.Drawing.Point(6, 192)
         Me.Button10.Name = "Button10"
         Me.Button10.Size = New System.Drawing.Size(75, 23)
         Me.Button10.TabIndex = 41
@@ -359,7 +359,7 @@ Partial Class Form1
         'Button12
         '
         Me.Button12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Button12.Location = New System.Drawing.Point(87, 194)
+        Me.Button12.Location = New System.Drawing.Point(87, 192)
         Me.Button12.Name = "Button12"
         Me.Button12.Size = New System.Drawing.Size(108, 23)
         Me.Button12.TabIndex = 43
@@ -389,7 +389,7 @@ Partial Class Form1
         'Button13
         '
         Me.Button13.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.Button13.Location = New System.Drawing.Point(301, 194)
+        Me.Button13.Location = New System.Drawing.Point(301, 192)
         Me.Button13.Name = "Button13"
         Me.Button13.Size = New System.Drawing.Size(196, 23)
         Me.Button13.TabIndex = 46
@@ -660,13 +660,13 @@ Partial Class Form1
         'ReadmeToolStripMenuItem
         '
         Me.ReadmeToolStripMenuItem.Name = "ReadmeToolStripMenuItem"
-        Me.ReadmeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ReadmeToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
         Me.ReadmeToolStripMenuItem.Text = "Readme / Help"
         '
         'DonationsToolStripMenuItem
         '
         Me.DonationsToolStripMenuItem.Name = "DonationsToolStripMenuItem"
-        Me.DonationsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.DonationsToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
         Me.DonationsToolStripMenuItem.Text = "Donations"
         '
         'TableLayoutPanel1
@@ -807,7 +807,7 @@ Partial Class Form1
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(98, 26)
         Me.Label6.TabIndex = 11
-        Me.Label6.Text = "By Moisés Cardona"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"v1.8.1"
+        Me.Label6.Text = "By Moisés Cardona"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"v1.8.2"
         '
         'TextBox1
         '
@@ -969,7 +969,7 @@ Partial Class Form1
         '
         Me.Button14.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
         Me.Button14.Enabled = false
-        Me.Button14.Location = New System.Drawing.Point(261, 225)
+        Me.Button14.Location = New System.Drawing.Point(261, 218)
         Me.Button14.Name = "Button14"
         Me.Button14.Size = New System.Drawing.Size(89, 23)
         Me.Button14.TabIndex = 47
@@ -979,7 +979,7 @@ Partial Class Form1
         'Button6
         '
         Me.Button6.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Button6.Location = New System.Drawing.Point(6, 225)
+        Me.Button6.Location = New System.Drawing.Point(6, 218)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(168, 23)
         Me.Button6.TabIndex = 29
@@ -989,7 +989,7 @@ Partial Class Form1
         'Button3
         '
         Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Button3.Location = New System.Drawing.Point(180, 225)
+        Me.Button3.Location = New System.Drawing.Point(180, 218)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(75, 23)
         Me.Button3.TabIndex = 31
@@ -1043,7 +1043,7 @@ Partial Class Form1
         'Button5
         '
         Me.Button5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Button5.Location = New System.Drawing.Point(6, 196)
+        Me.Button5.Location = New System.Drawing.Point(6, 193)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(92, 23)
         Me.Button5.TabIndex = 21
@@ -1053,7 +1053,7 @@ Partial Class Form1
         'Button4
         '
         Me.Button4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Button4.Location = New System.Drawing.Point(104, 196)
+        Me.Button4.Location = New System.Drawing.Point(104, 193)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(91, 23)
         Me.Button4.TabIndex = 22
@@ -1063,7 +1063,7 @@ Partial Class Form1
         'Button7
         '
         Me.Button7.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Button7.Location = New System.Drawing.Point(198, 197)
+        Me.Button7.Location = New System.Drawing.Point(198, 194)
         Me.Button7.Name = "Button7"
         Me.Button7.Size = New System.Drawing.Size(196, 23)
         Me.Button7.TabIndex = 44
