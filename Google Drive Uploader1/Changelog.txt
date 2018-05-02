@@ -1,4 +1,8 @@
-﻿v1.8.1 (4/29/2018)
+﻿v1.8.2 (Not yet released
+-Bug Fix: Handles Key presses and key shortcuts correctly
+-Bug Fix: Fixes some exceptions that happened when no files or folders were selected sometimes.
+
+v1.8.1 (4/29/2018)
 -URGENT FIX: Fixes the issue that files were incorrectly uploaded when using the RAM setting.
 
 v1.8 (4/28/2018)
