@@ -98,23 +98,23 @@ Partial Class Form1
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.Label4 = New System.Windows.Forms.Label()
+        Me.FileSizeLabel = New System.Windows.Forms.Label()
+        Me.ProcessedFileSizeLabel = New System.Windows.Forms.Label()
         Me.Button9 = New System.Windows.Forms.Button()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
-        Me.Label8 = New System.Windows.Forms.Label()
+        Me.StatusLabel = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
-        Me.Label10 = New System.Windows.Forms.Label()
+        Me.PercentLabel = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.RadioButton3 = New System.Windows.Forms.RadioButton()
         Me.RadioButton2 = New System.Windows.Forms.RadioButton()
         Me.RadioButton1 = New System.Windows.Forms.RadioButton()
         Me.FolderIDTextBox = New System.Windows.Forms.TextBox()
-        Me.Label14 = New System.Windows.Forms.Label()
+        Me.TimeRemainingLabel = New System.Windows.Forms.Label()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Button14 = New System.Windows.Forms.Button()
@@ -708,20 +708,20 @@ Partial Class Form1
         Me.Panel4.Controls.Add(Me.Label1)
         Me.Panel4.Controls.Add(Me.Label2)
         Me.Panel4.Controls.Add(Me.ProgressBar1)
-        Me.Panel4.Controls.Add(Me.Label3)
-        Me.Panel4.Controls.Add(Me.Label4)
+        Me.Panel4.Controls.Add(Me.FileSizeLabel)
+        Me.Panel4.Controls.Add(Me.ProcessedFileSizeLabel)
         Me.Panel4.Controls.Add(Me.Button9)
         Me.Panel4.Controls.Add(Me.Label6)
         Me.Panel4.Controls.Add(Me.TextBox1)
         Me.Panel4.Controls.Add(Me.Label7)
         Me.Panel4.Controls.Add(Me.Label16)
-        Me.Panel4.Controls.Add(Me.Label8)
+        Me.Panel4.Controls.Add(Me.StatusLabel)
         Me.Panel4.Controls.Add(Me.Label9)
-        Me.Panel4.Controls.Add(Me.Label10)
+        Me.Panel4.Controls.Add(Me.PercentLabel)
         Me.Panel4.Controls.Add(Me.Label12)
         Me.Panel4.Controls.Add(Me.GroupBox1)
         Me.Panel4.Controls.Add(Me.FolderIDTextBox)
-        Me.Panel4.Controls.Add(Me.Label14)
+        Me.Panel4.Controls.Add(Me.TimeRemainingLabel)
         Me.Panel4.Controls.Add(Me.Label13)
         Me.Panel4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel4.Location = New System.Drawing.Point(3, 260)
@@ -769,25 +769,25 @@ Partial Class Form1
         Me.ProgressBar1.Size = New System.Drawing.Size(463, 23)
         Me.ProgressBar1.TabIndex = 5
         '
-        'Label3
+        'FileSizeLabel
         '
-        Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Label3.AutoSize = true
-        Me.Label3.Location = New System.Drawing.Point(80, 98)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(27, 13)
-        Me.Label3.TabIndex = 6
-        Me.Label3.Text = "N/A"
+        Me.FileSizeLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.FileSizeLabel.AutoSize = true
+        Me.FileSizeLabel.Location = New System.Drawing.Point(80, 98)
+        Me.FileSizeLabel.Name = "FileSizeLabel"
+        Me.FileSizeLabel.Size = New System.Drawing.Size(27, 13)
+        Me.FileSizeLabel.TabIndex = 6
+        Me.FileSizeLabel.Text = "N/A"
         '
-        'Label4
+        'ProcessedFileSizeLabel
         '
-        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Label4.AutoSize = true
-        Me.Label4.Location = New System.Drawing.Point(80, 111)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(27, 13)
-        Me.Label4.TabIndex = 7
-        Me.Label4.Text = "N/A"
+        Me.ProcessedFileSizeLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.ProcessedFileSizeLabel.AutoSize = true
+        Me.ProcessedFileSizeLabel.Location = New System.Drawing.Point(80, 111)
+        Me.ProcessedFileSizeLabel.Name = "ProcessedFileSizeLabel"
+        Me.ProcessedFileSizeLabel.Size = New System.Drawing.Size(27, 13)
+        Me.ProcessedFileSizeLabel.TabIndex = 7
+        Me.ProcessedFileSizeLabel.Text = "N/A"
         '
         'Button9
         '
@@ -839,15 +839,15 @@ Partial Class Form1
         Me.Label16.TabIndex = 35
         Me.Label16.Text = "Folder Name:"
         '
-        'Label8
+        'StatusLabel
         '
-        Me.Label8.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.Label8.AutoSize = true
-        Me.Label8.Location = New System.Drawing.Point(390, 111)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(27, 13)
-        Me.Label8.TabIndex = 13
-        Me.Label8.Text = "N/A"
+        Me.StatusLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.StatusLabel.AutoSize = true
+        Me.StatusLabel.Location = New System.Drawing.Point(390, 111)
+        Me.StatusLabel.Name = "StatusLabel"
+        Me.StatusLabel.Size = New System.Drawing.Size(27, 13)
+        Me.StatusLabel.TabIndex = 13
+        Me.StatusLabel.Text = "N/A"
         '
         'Label9
         '
@@ -859,15 +859,15 @@ Partial Class Form1
         Me.Label9.TabIndex = 14
         Me.Label9.Text = "Percent"
         '
-        'Label10
+        'PercentLabel
         '
-        Me.Label10.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.Label10.AutoSize = true
-        Me.Label10.Location = New System.Drawing.Point(390, 98)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(21, 13)
-        Me.Label10.TabIndex = 15
-        Me.Label10.Text = "0%"
+        Me.PercentLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.PercentLabel.AutoSize = true
+        Me.PercentLabel.Location = New System.Drawing.Point(390, 98)
+        Me.PercentLabel.Name = "PercentLabel"
+        Me.PercentLabel.Size = New System.Drawing.Size(21, 13)
+        Me.PercentLabel.TabIndex = 15
+        Me.PercentLabel.Text = "0%"
         '
         'Label12
         '
@@ -932,15 +932,15 @@ Partial Class Form1
         Me.FolderIDTextBox.Size = New System.Drawing.Size(241, 20)
         Me.FolderIDTextBox.TabIndex = 24
         '
-        'Label14
+        'TimeRemainingLabel
         '
-        Me.Label14.Anchor = System.Windows.Forms.AnchorStyles.Bottom
-        Me.Label14.AutoSize = true
-        Me.Label14.Location = New System.Drawing.Point(227, 111)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(49, 13)
-        Me.Label14.TabIndex = 26
-        Me.Label14.Text = "00:00:00"
+        Me.TimeRemainingLabel.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.TimeRemainingLabel.AutoSize = true
+        Me.TimeRemainingLabel.Location = New System.Drawing.Point(227, 111)
+        Me.TimeRemainingLabel.Name = "TimeRemainingLabel"
+        Me.TimeRemainingLabel.Size = New System.Drawing.Size(49, 13)
+        Me.TimeRemainingLabel.TabIndex = 26
+        Me.TimeRemainingLabel.Text = "00:00:00"
         '
         'Label13
         '
@@ -1284,24 +1284,24 @@ End Sub
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents ProgressBar1 As ProgressBar
-    Friend WithEvents Label3 As Label
-    Friend WithEvents Label4 As Label
+    Friend WithEvents FileSizeLabel As Label
+    Friend WithEvents ProcessedFileSizeLabel As Label
     Friend WithEvents Button9 As Button
     Friend WithEvents Label6 As Label
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Label7 As Label
     Friend WithEvents Label16 As Label
-    Friend WithEvents Label8 As Label
+    Friend WithEvents StatusLabel As Label
     Friend WithEvents Button3 As Button
     Friend WithEvents Label9 As Label
-    Friend WithEvents Label10 As Label
+    Friend WithEvents PercentLabel As Label
     Friend WithEvents Label12 As Label
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents RadioButton3 As RadioButton
     Friend WithEvents RadioButton2 As RadioButton
     Friend WithEvents RadioButton1 As RadioButton
     Friend WithEvents FolderIDTextBox As TextBox
-    Friend WithEvents Label14 As Label
+    Friend WithEvents TimeRemainingLabel As Label
     Friend WithEvents Label13 As Label
     Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
     Friend WithEvents Panel1 As Panel

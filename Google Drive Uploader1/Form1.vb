@@ -143,7 +143,6 @@ Public Class Form1
 
     Private starttime As DateTime
     Private timespent As TimeSpan
-    Private secondsremaining As Integer = 0
     Private GetFile As String = ""
     Private UploadFailed As Boolean = False
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles UploadButton.Click
@@ -171,6 +170,10 @@ Public Class Form1
         End If
     End Sub
     Private Async Sub UploadFiles()
+        If ProcessedFileSizeLabel.InvokeRequired Then Invoke(New MethodInvoker(AddressOf UploadFiles))
+        If StatusLabel.InvokeRequired Then Invoke(New MethodInvoker(AddressOf UploadFiles))
+        If TimeRemainingLabel.InvokeRequired Then Invoke(New MethodInvoker(AddressOf UploadFiles))
+        If ProgressBar1.InvokeRequired Then Invoke(New MethodInvoker(AddressOf UploadFiles))
         Dim DirectoryList As New StringCollection
         Dim DirectoryListID As New StringCollection
         Dim FolderCreated As Boolean = False
@@ -187,7 +190,7 @@ Public Class Form1
                 FolderIDTextBox.Text = FolderToUploadFileListBox.Items.Item(0).ToString
                 GetFolderIDName(False)
                 If System.IO.File.Exists(GetFile) Then
-                    Label3.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
+                    FileSizeLabel.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                     ProgressBar1.Maximum = CInt(My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                     Dim FileMetadata As New Data.File With {
                         .Name = My.Computer.FileSystem.GetName(GetFile)
@@ -215,7 +218,11 @@ Public Class Form1
                         If My.Computer.Info.AvailablePhysicalMemory > My.Computer.FileSystem.GetFileInfo(GetFile).Length Then
                             Dim megabyteMultiplication = 1024 * 1024
                             Dim readChunkSize = megabyteMultiplication
+                            starttime = DateTime.Now()
                             UploadStream.Seek(0, SeekOrigin.Begin)
+                            FileSizeLabel.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
+                            ProgressBar1.Maximum = CInt(My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
+                            Me.Update()
                             While UploadStream.Position < UploadStream.Length
                                 Dim RemainingBytes = UploadStream.Length - UploadStream.Position
                                 If RemainingBytes <= megabyteMultiplication Then
@@ -227,6 +234,8 @@ Public Class Form1
                                     UploadStream.Read(buffer, 0, readChunkSize)
                                     FileInRAM.Write(buffer, 0, readChunkSize)
                                 End If
+                                UpdateBytesSent(UploadStream.Position, MsgAndDialogLang("uploadstatus_copytoram"), starttime)
+                                Me.Update()
                             End While
                             UsingRAM = True
                             UploadStream.Dispose()
@@ -330,42 +339,26 @@ Public Class Form1
     End Sub
     Private ErrorMessage As String = ""
     Private UploadCancellationToken As System.Threading.CancellationToken
-    Shared BytesSentText As Long
-    Shared UploadStatusText As String
     Private Sub Upload_ProgressChanged(uploadStatusInfo As IUploadProgress)
         Select Case uploadStatusInfo.Status
             Case UploadStatus.Completed
                 UploadFailed = False
                 ResumeFromError = False
-                UploadStatusText = MsgAndDialogLang("uploadstatus_complete")
-                BytesSentText = My.Computer.FileSystem.GetFileInfo(GetFile).Length
-                UpdateBytesSent()
+                UpdateBytesSent(My.Computer.FileSystem.GetFileInfo(GetFile).Length, MsgAndDialogLang("uploadstatus_complete"), starttime)
             Case UploadStatus.Starting
-                UploadStatusText = MsgAndDialogLang("uploadstatus_starting")
-                UpdateBytesSent()
+                UpdateBytesSent(0,  MsgAndDialogLang("uploadstatus_starting"), starttime)
             Case UploadStatus.Uploading
                 UploadFailed = False
-                BytesSentText = uploadStatusInfo.BytesSent
-                UploadStatusText = MsgAndDialogLang("uploadstatus_uploading")
-                timespent = DateTime.Now - starttime
-                Try
-                    secondsremaining = CInt((timespent.TotalSeconds / ProgressBar1.Value * (ProgressBar1.Maximum - ProgressBar1.Value)))
-                Catch
-                    secondsremaining = 0
-                End Try
-                UpdateBytesSent()
+                UpdateBytesSent(uploadStatusInfo.BytesSent, MsgAndDialogLang("uploadstatus_uploading"), starttime)
             Case UploadStatus.Failed
                 UploadFailed = True
-                If RadioButton1.Checked = True Then UploadStatusText = "Retrying..." Else UploadStatusText = "Intentando..."
-                UpdateBytesSent()
+                UpdateBytesSent(uploadStatusInfo.BytesSent, MsgAndDialogLang("uploadstatus_retry"), starttime)
                 ResumeFromError = True
                 Thread.Sleep(1000)
         End Select
     End Sub
     Private Sub Upload_ResponseReceived(file As Data.File)
-        UploadStatusText = MsgAndDialogLang("uploadstatus_complete")
-        BytesSentText = My.Computer.FileSystem.GetFileInfo(GetFile).Length
-        UpdateBytesSent()
+        UpdateBytesSent(My.Computer.FileSystem.GetFileInfo(GetFile).Length, MsgAndDialogLang("uploadstatus_complete"), starttime)
     End Sub
     Private Sub Upload_UploadSessionData(ByVal uploadSessionData As IUploadSessionData)
         ' Save UploadUri.AbsoluteUri and FullPath Filename values for use if program faults and we want to restart the program
@@ -374,7 +367,12 @@ Public Class Form1
         ' Saved to a user.config file within a subdirectory of C:\Users\<yourusername>\AppData\Local
         My.Settings.Save()
     End Sub
+    Private Delegate Sub GetSessionRestartUriInvoker(Ask As Boolean) 
     Private Function GetSessionRestartUri(Ask As Boolean) As Uri
+        If ProcessedFileSizeLabel.InvokeRequired Then ProcessedFileSizeLabel.Invoke(New GetSessionRestartUriInvoker(AddressOf GetSessionRestartUri),Ask)
+        If StatusLabel.InvokeRequired Then  StatusLabel.Invoke(New GetSessionRestartUriInvoker(AddressOf GetSessionRestartUri), Ask)
+        If TimeRemainingLabel.InvokeRequired Then TimeRemainingLabel.Invoke(New GetSessionRestartUriInvoker(AddressOf GetSessionRestartUri), Ask)
+        If ProgressBar1.InvokeRequired Then ProgressBar1.Invoke(New GetSessionRestartUriInvoker(AddressOf GetSessionRestartUri), Ask)
         If My.Settings.ResumeUri.Length > 0 AndAlso My.Settings.ResumeFilename = GetFile Then
             ' An UploadUri from a previous execution is present, ask if a resume should be attempted
             Dim ResumeText1 As String = ""
@@ -400,33 +398,28 @@ Public Class Form1
             Return Nothing
         End If
     End Function
-    Private Sub UpdateBytesSent()
-        If Label4.InvokeRequired Then
-            Dim method As MethodInvoker = New MethodInvoker(AddressOf UpdateBytesSent)
-            Invoke(method)
-        End If
-        If Label8.InvokeRequired Then
-            Dim method As MethodInvoker = New MethodInvoker(AddressOf UpdateBytesSent)
-            Invoke(method)
-        End If
-        If Label14.InvokeRequired Then
-            Dim method As MethodInvoker = New MethodInvoker(AddressOf UpdateBytesSent)
-            Invoke(method)
-        End If
-        If ProgressBar1.InvokeRequired Then
-            Dim method As MethodInvoker = New MethodInvoker(AddressOf UpdateBytesSent)
-            Invoke(method)
-        End If
-        Label4.Text = String.Format("{0:N2} MB", BytesSentText / 1024 / 1024)
-        Label8.Text = UploadStatusText
-        Try
-            ProgressBar1.Value = CInt(BytesSentText / 1024 / 1024)
-        Catch
 
-        End Try
-        Label10.Text = String.Format("{0:N2}%", ((ProgressBar1.Value / ProgressBar1.Maximum) * 100))
-        Dim timeFormatted As TimeSpan = TimeSpan.FromSeconds(secondsremaining)
-        Label14.Text = String.Format("{0}:{1:mm}:{1:ss}", CInt(Math.Truncate(timeFormatted.TotalHours)), timeFormatted)
+    Private Delegate Sub UpdateBytesSentInvoker(BytesSent As Long, StatusText As String, startTime As DateTime)
+    Private Sub UpdateBytesSent(BytesSent As Long, StatusText As String, startTime As DateTime)
+        If ProcessedFileSizeLabel.InvokeRequired Then ProcessedFileSizeLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
+        If StatusLabel.InvokeRequired Then  StatusLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
+        If TimeRemainingLabel.InvokeRequired Then TimeRemainingLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
+        If ProgressBar1.InvokeRequired Then ProgressBar1.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
+      
+        StatusLabel.Text = StatusText
+        If BytesSent > 0 then
+            ProcessedFileSizeLabel.Text = String.Format("{0:N2} MB", BytesSent / 1024 / 1024)
+            ProgressBar1.Value = CInt(BytesSent / 1024 / 1024)
+            PercentLabel.Text = String.Format("{0:N2}%", ((ProgressBar1.Value / ProgressBar1.Maximum) * 100))
+            timespent = DateTime.Now - starttime
+            Dim timeFormatted As TimeSpan = nothing
+            If timespent.TotalSeconds > 0 and ProgressBar1.value > 0 then
+               timeFormatted = TimeSpan.FromSeconds(CInt((timespent.TotalSeconds / ProgressBar1.Value * (ProgressBar1.Maximum - ProgressBar1.Value))))
+            else
+              timeFormatted = TimeSpan.FromSeconds(0)
+            End if
+            TimeRemainingLabel.Text = String.Format("{0}:{1:mm}:{1:ss}", CInt(Math.Truncate(timeFormatted.TotalHours)), timeFormatted)
+        End if
     End Sub
     Private Shared FileToSave As FileStream
     Private Shared MaxFileSize As Double
@@ -460,7 +453,7 @@ Public Class Form1
     End Sub
     Private Async Function DownloadFile(Location As String, FileName As String, FileSize As String, ModifiedTime As Date) As Task
         starttime = DateTime.Now
-        Label3.Text = String.Format("{0:N2} MB", Convert.ToDouble(FileSize) / 1024 / 1024)
+        FileSizeLabel.Text = String.Format("{0:N2} MB", Convert.ToDouble(FileSize) / 1024 / 1024)
         ProgressBar1.Maximum = CInt(Convert.ToDouble(FileSize) / 1024 / 1024)
         MaxFileSize = Convert.ToDouble(FileSize)
         FileToSave = New FileStream(Location, FileMode.Create, FileAccess.Write)
@@ -473,24 +466,12 @@ Public Class Form1
     Private Sub Download_ProgressChanged(progress As IDownloadProgress)
         Select Case progress.Status
             Case DownloadStatus.Completed
-                UploadStatusText = MsgAndDialogLang("uploadstatus_complete")
                 FileToSave.Close()
-                BytesSentText = CInt(MaxFileSize)
-                UpdateBytesSent()
-
+                UpdateBytesSent(CInt(MaxFileSize), MsgAndDialogLang("uploadstatus_complete"), starttime)
             Case DownloadStatus.Downloading
-                BytesSentText = progress.BytesDownloaded
-                UploadStatusText = MsgAndDialogLang("uploadstatus_downloading")
-                timespent = DateTime.Now - starttime
-                Try
-                    secondsremaining = CInt((timespent.TotalSeconds / ProgressBar1.Value * (ProgressBar1.Maximum - ProgressBar1.Value)))
-                Catch
-                    secondsremaining = 0
-                End Try
-                UpdateBytesSent()
+                UpdateBytesSent(progress.BytesDownloaded, MsgAndDialogLang("uploadstatus_downloading"), starttime)
             Case DownloadStatus.Failed
-                If RadioButton1.Checked = True Then UploadStatusText = "Failed..." Else UploadStatusText = "Error..."
-                UpdateBytesSent()
+                UpdateBytesSent(progress.BytesDownloaded, MsgAndDialogLang("uploadstatus_failed"), starttime)
         End Select
     End Sub
 
@@ -499,12 +480,8 @@ Public Class Form1
     End Sub
     Private Delegate Sub RefreshFileListInvoker(FolderID As String)
     Private Sub RefreshFileList(FolderID As String)
-        If FilesListBox.InvokeRequired Then
-            FilesListBox.Invoke(New RefreshFileListInvoker(AddressOf RefreshFileList), FolderID)
-        End If
-        If FolderListBox.InvokeRequired Then
-            FolderListBox.Invoke(New RefreshFileListInvoker(AddressOf RefreshFileList), FolderID)
-        End If
+        If FilesListBox.InvokeRequired Then FilesListBox.Invoke(New RefreshFileListInvoker(AddressOf RefreshFileList), FolderID)
+        If FolderListBox.InvokeRequired Then FolderListBox.Invoke(New RefreshFileListInvoker(AddressOf RefreshFileList), FolderID)
         Dim listRequestQString As String = Nothing
         Dim listRequestQFolderString As String = Nothing
         If FolderID = "trash" Then
@@ -1436,6 +1413,15 @@ Public Class Form1
                         Return "完成上傳"
                     Case Else
 
+                End Select
+            Case "uploadstatus_copytoram"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Copying to RAM"
+                    Case "Spanish"
+                        Return "Copiando a RAM"
+                    Case "TChinese"
+                        Return "Copying to RAM"
                 End Select
             Case "uploadstatus_complete"
                 Select Case My.Settings.Language
