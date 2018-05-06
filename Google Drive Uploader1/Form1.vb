@@ -346,7 +346,7 @@ Public Class Form1
                 ResumeFromError = False
                 UpdateBytesSent(My.Computer.FileSystem.GetFileInfo(GetFile).Length, MsgAndDialogLang("uploadstatus_complete"), starttime)
             Case UploadStatus.Starting
-                UpdateBytesSent(0,  MsgAndDialogLang("uploadstatus_starting"), starttime)
+                UpdateBytesSent(0, MsgAndDialogLang("uploadstatus_starting"), starttime)
             Case UploadStatus.Uploading
                 UploadFailed = False
                 UpdateBytesSent(uploadStatusInfo.BytesSent, MsgAndDialogLang("uploadstatus_uploading"), starttime)
@@ -367,10 +367,10 @@ Public Class Form1
         ' Saved to a user.config file within a subdirectory of C:\Users\<yourusername>\AppData\Local
         My.Settings.Save()
     End Sub
-    Private Delegate Sub GetSessionRestartUriInvoker(Ask As Boolean) 
+    Private Delegate Sub GetSessionRestartUriInvoker(Ask As Boolean)
     Private Function GetSessionRestartUri(Ask As Boolean) As Uri
-        If ProcessedFileSizeLabel.InvokeRequired Then ProcessedFileSizeLabel.Invoke(New GetSessionRestartUriInvoker(AddressOf GetSessionRestartUri),Ask)
-        If StatusLabel.InvokeRequired Then  StatusLabel.Invoke(New GetSessionRestartUriInvoker(AddressOf GetSessionRestartUri), Ask)
+        If ProcessedFileSizeLabel.InvokeRequired Then ProcessedFileSizeLabel.Invoke(New GetSessionRestartUriInvoker(AddressOf GetSessionRestartUri), Ask)
+        If StatusLabel.InvokeRequired Then StatusLabel.Invoke(New GetSessionRestartUriInvoker(AddressOf GetSessionRestartUri), Ask)
         If TimeRemainingLabel.InvokeRequired Then TimeRemainingLabel.Invoke(New GetSessionRestartUriInvoker(AddressOf GetSessionRestartUri), Ask)
         If ProgressBar1.InvokeRequired Then ProgressBar1.Invoke(New GetSessionRestartUriInvoker(AddressOf GetSessionRestartUri), Ask)
         If My.Settings.ResumeUri.Length > 0 AndAlso My.Settings.ResumeFilename = GetFile Then
@@ -402,24 +402,26 @@ Public Class Form1
     Private Delegate Sub UpdateBytesSentInvoker(BytesSent As Long, StatusText As String, startTime As DateTime)
     Private Sub UpdateBytesSent(BytesSent As Long, StatusText As String, startTime As DateTime)
         If ProcessedFileSizeLabel.InvokeRequired Then ProcessedFileSizeLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
-        If StatusLabel.InvokeRequired Then  StatusLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
-        If TimeRemainingLabel.InvokeRequired Then TimeRemainingLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
+        If StatusLabel.InvokeRequired Then StatusLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
         If ProgressBar1.InvokeRequired Then ProgressBar1.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
-      
         StatusLabel.Text = StatusText
-        If BytesSent > 0 then
+        If BytesSent > 0 Then
             ProcessedFileSizeLabel.Text = String.Format("{0:N2} MB", BytesSent / 1024 / 1024)
             ProgressBar1.Value = CInt(BytesSent / 1024 / 1024)
             PercentLabel.Text = String.Format("{0:N2}%", ((ProgressBar1.Value / ProgressBar1.Maximum) * 100))
-            timespent = DateTime.Now - starttime
-            Dim timeFormatted As TimeSpan = nothing
-            If timespent.TotalSeconds > 0 and ProgressBar1.value > 0 then
-               timeFormatted = TimeSpan.FromSeconds(CInt((timespent.TotalSeconds / ProgressBar1.Value * (ProgressBar1.Maximum - ProgressBar1.Value))))
-            else
-              timeFormatted = TimeSpan.FromSeconds(0)
-            End if
-            TimeRemainingLabel.Text = String.Format("{0}:{1:mm}:{1:ss}", CInt(Math.Truncate(timeFormatted.TotalHours)), timeFormatted)
-        End if
+            timespent = DateTime.Now - startTime
+            Dim timeFormatted As TimeSpan = Nothing
+            If timespent.TotalSeconds > 0 And ProgressBar1.Value > 0 Then
+                timeFormatted = TimeSpan.FromSeconds(CInt((timespent.TotalSeconds / ProgressBar1.Value * (ProgressBar1.Maximum - ProgressBar1.Value))))
+            Else
+                timeFormatted = TimeSpan.FromSeconds(0)
+            End If
+            If TimeRemainingLabel.InvokeRequired Then
+                TimeRemainingLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
+            Else
+                TimeRemainingLabel.Text = String.Format("{0}:{1:mm}:{1:ss}", CInt(Math.Truncate(timeFormatted.TotalHours)), timeFormatted)
+            End If
+        End If
     End Sub
     Private Shared FileToSave As FileStream
     Private Shared MaxFileSize As Double
