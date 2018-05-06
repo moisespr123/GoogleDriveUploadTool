@@ -1,4 +1,8 @@
-﻿v1.8.2 (5/2/2018)
+﻿v1.8.3 (5/6/2018)
+-Progress Bar now shows progress when copying file to RAM
+-Internal code changes / enhancements
+
+v1.8.2 (5/2/2018)
 -Bug Fix: Handles Key presses and key shortcuts correctly
 -Bug Fix: Fixes some exceptions that happened when no files or folders were selected sometimes.
 
