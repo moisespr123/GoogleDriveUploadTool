@@ -170,10 +170,6 @@ Public Class Form1
         End If
     End Sub
     Private Async Sub UploadFiles()
-        If ProcessedFileSizeLabel.InvokeRequired Then Invoke(New MethodInvoker(AddressOf UploadFiles))
-        If StatusLabel.InvokeRequired Then Invoke(New MethodInvoker(AddressOf UploadFiles))
-        If TimeRemainingLabel.InvokeRequired Then Invoke(New MethodInvoker(AddressOf UploadFiles))
-        If ProgressBar1.InvokeRequired Then Invoke(New MethodInvoker(AddressOf UploadFiles))
         Dim DirectoryList As New StringCollection
         Dim DirectoryListID As New StringCollection
         Dim FolderCreated As Boolean = False
@@ -369,10 +365,6 @@ Public Class Form1
     End Sub
     Private Delegate Sub GetSessionRestartUriInvoker(Ask As Boolean)
     Private Function GetSessionRestartUri(Ask As Boolean) As Uri
-        If ProcessedFileSizeLabel.InvokeRequired Then ProcessedFileSizeLabel.Invoke(New GetSessionRestartUriInvoker(AddressOf GetSessionRestartUri), Ask)
-        If StatusLabel.InvokeRequired Then StatusLabel.Invoke(New GetSessionRestartUriInvoker(AddressOf GetSessionRestartUri), Ask)
-        If TimeRemainingLabel.InvokeRequired Then TimeRemainingLabel.Invoke(New GetSessionRestartUriInvoker(AddressOf GetSessionRestartUri), Ask)
-        If ProgressBar1.InvokeRequired Then ProgressBar1.Invoke(New GetSessionRestartUriInvoker(AddressOf GetSessionRestartUri), Ask)
         If My.Settings.ResumeUri.Length > 0 AndAlso My.Settings.ResumeFilename = GetFile Then
             ' An UploadUri from a previous execution is present, ask if a resume should be attempted
             Dim ResumeText1 As String = ""
@@ -401,29 +393,39 @@ Public Class Form1
 
     Private Delegate Sub UpdateBytesSentInvoker(BytesSent As Long, StatusText As String, startTime As DateTime)
     Private Sub UpdateBytesSent(BytesSent As Long, StatusText As String, startTime As DateTime)
-        If ProcessedFileSizeLabel.InvokeRequired Then ProcessedFileSizeLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
-        If StatusLabel.InvokeRequired Then StatusLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
-        If ProgressBar1.InvokeRequired Then ProgressBar1.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
-        StatusLabel.Text = StatusText
-        If BytesSent > 0 Then
+        If StatusLabel.InvokeRequired Then
+            StatusLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
+        Else
+            StatusLabel.Text = StatusText
+        End If
+        If ProcessedFileSizeLabel.InvokeRequired Then
+            ProcessedFileSizeLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
+        Else
             ProcessedFileSizeLabel.Text = String.Format("{0:N2} MB", BytesSent / 1024 / 1024)
-            ProgressBar1.Value = CInt(BytesSent / 1024 / 1024)
-            PercentLabel.Text = String.Format("{0:N2}%", ((ProgressBar1.Value / ProgressBar1.Maximum) * 100))
-            timespent = DateTime.Now - startTime
-            Dim timeFormatted As TimeSpan = Nothing
-            If timespent.TotalSeconds > 0 And ProgressBar1.Value > 0 Then
-                timeFormatted = TimeSpan.FromSeconds(CInt((timespent.TotalSeconds / ProgressBar1.Value * (ProgressBar1.Maximum - ProgressBar1.Value))))
+        End If
+        If BytesSent > 0 Then
+            If ProgressBar1.InvokeRequired Then
+                ProgressBar1.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
             Else
-                timeFormatted = TimeSpan.FromSeconds(0)
-            End If
-            If TimeRemainingLabel.InvokeRequired Then
-                TimeRemainingLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
-            Else
-                TimeRemainingLabel.Text = String.Format("{0}:{1:mm}:{1:ss}", CInt(Math.Truncate(timeFormatted.TotalHours)), timeFormatted)
+                If ProgressBar1.Maximum >= CInt(BytesSent / 1024 / 1024) Then
+                    ProgressBar1.Value = CInt(BytesSent / 1024 / 1024)
+                    PercentLabel.Text = String.Format("{0:N2}%", ((ProgressBar1.Value / ProgressBar1.Maximum) * 100))
+                    timespent = DateTime.Now - startTime
+                    Dim timeFormatted As TimeSpan = Nothing
+                    If timespent.TotalSeconds > 0 And ProgressBar1.Value > 0 Then
+                        timeFormatted = TimeSpan.FromSeconds(CInt((timespent.TotalSeconds / ProgressBar1.Value * (ProgressBar1.Maximum - ProgressBar1.Value))))
+                    Else
+                        timeFormatted = TimeSpan.FromSeconds(0)
+                    End If
+                    If TimeRemainingLabel.InvokeRequired Then
+                        TimeRemainingLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
+                    Else
+                        TimeRemainingLabel.Text = String.Format("{0}:{1:mm}:{1:ss}", CInt(Math.Truncate(timeFormatted.TotalHours)), timeFormatted)
+                    End If
+                End If
             End If
         End If
     End Sub
-    Private Shared FileToSave As FileStream
     Private Shared MaxFileSize As Double
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
         BrowseToDownloadFile()
@@ -458,7 +460,7 @@ Public Class Form1
         FileSizeLabel.Text = String.Format("{0:N2} MB", Convert.ToDouble(FileSize) / 1024 / 1024)
         ProgressBar1.Maximum = CInt(Convert.ToDouble(FileSize) / 1024 / 1024)
         MaxFileSize = Convert.ToDouble(FileSize)
-        FileToSave = New FileStream(Location, FileMode.Create, FileAccess.Write)
+        Dim FileToSave As FileStream = New FileStream(Location, FileMode.Create, FileAccess.Write)
         Dim DownloadRequest As FilesResource.GetRequest = service.Files.Get(FileName)
         AddHandler DownloadRequest.MediaDownloader.ProgressChanged, New Action(Of IDownloadProgress)(AddressOf Download_ProgressChanged)
         Await DownloadRequest.DownloadAsync(FileToSave)
@@ -468,7 +470,6 @@ Public Class Form1
     Private Sub Download_ProgressChanged(progress As IDownloadProgress)
         Select Case progress.Status
             Case DownloadStatus.Completed
-                FileToSave.Close()
                 UpdateBytesSent(CInt(MaxFileSize), MsgAndDialogLang("uploadstatus_complete"), starttime)
             Case DownloadStatus.Downloading
                 UpdateBytesSent(progress.BytesDownloaded, MsgAndDialogLang("uploadstatus_downloading"), starttime)
