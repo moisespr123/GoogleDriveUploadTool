@@ -29,19 +29,19 @@ Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load        'Initialize Upload Queue Collection
         Button10.Enabled = False
         If My.Settings.UploadQueue Is Nothing Then
-            My.Settings.UploadQueue = New Specialized.StringCollection
+            My.Settings.UploadQueue = New StringCollection
         End If
         If My.Settings.UploadQueueFolders Is Nothing Then
-            My.Settings.UploadQueueFolders = New Specialized.StringCollection
+            My.Settings.UploadQueueFolders = New StringCollection
         End If
         If My.Settings.FoldersCreated Is Nothing Then
-            My.Settings.FoldersCreated = New Specialized.StringCollection
+            My.Settings.FoldersCreated = New StringCollection
         End If
         If My.Settings.FoldersCreatedID Is Nothing Then
-            My.Settings.FoldersCreatedID = New Specialized.StringCollection
+            My.Settings.FoldersCreatedID = New StringCollection
         End If
         If My.Settings.PreviousFolderIDs Is Nothing Then
-            My.Settings.PreviousFolderIDs = New Specialized.StringCollection
+            My.Settings.PreviousFolderIDs = New StringCollection
         End If
 
         'Checks whether the language was set. If not, apply English by default
@@ -62,8 +62,8 @@ Public Class Form1
         Dim credential As UserCredential = Nothing
         Try
             Using stream = New FileStream("client_secret.json", FileMode.Open, FileAccess.Read)
-                Dim credPath As String = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
-                Debug.WriteLine(System.Environment.SpecialFolder.Personal)
+                Dim credPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Personal)
+                Debug.WriteLine(Environment.SpecialFolder.Personal)
                 credPath = Path.Combine(credPath, ".credentials/GoogleDriveUploaderTool.json")
                 Debug.WriteLine(credPath)
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, Scopes, "user", CancellationToken.None, New FileDataStore(credPath, True)).Result
@@ -816,7 +816,7 @@ Public Class Form1
                 End If
             Else
                 If Items.Count > 1 Then
-                    ConfirmMessage = MsgAndDialogLang("confirm_selected_move_folder2trash")
+                    ConfirmMessage = MsgAndDialogLang("confirm_move_selected_folder2trash")
                     SuccessMessage = MsgAndDialogLang("folders_moved2trash")
                 Else
                     ConfirmMessage = MsgAndDialogLang("confirm_move_folder2trash_part1") & FolderListBox.SelectedItem.ToString & MsgAndDialogLang("confirm_move_folder2trash_part2")
