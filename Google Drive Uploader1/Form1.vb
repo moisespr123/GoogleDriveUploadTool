@@ -26,7 +26,7 @@ Public Class Form1
     Shared SoftwareName As String = "Google Drive Uploader Tool"
     Public service As DriveService
     Dim viewing_trash As Boolean = False
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load        'Initialize Upload Queue Collection
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load         'Initialize Upload Queue Collection
         Button10.Enabled = False
         If My.Settings.UploadQueue Is Nothing Then
             My.Settings.UploadQueue = New StringCollection
@@ -555,7 +555,7 @@ Public Class Form1
             Button10.Enabled = True
         End If
     End Sub
-    Private Sub Form1_DragDrop(sender As Object, e As DragEventArgs) Handles Me.DragDrop
+    Private Sub Form1_DragDrop(sender As Object, e As DragEventArgs) Handles MyBase.DragDrop
         Dim filepath() As String = CType(e.Data.GetData(DataFormats.FileDrop), String())
         For Each path In filepath
             If System.IO.Directory.Exists(path) Then
@@ -592,7 +592,7 @@ Public Class Form1
             GetDirectoriesAndFiles(subF)
         Next
     End Sub
-    Private Sub Form1_DragEnter(sender As System.Object, e As System.Windows.Forms.DragEventArgs) Handles Me.DragEnter
+    Private Sub Form1_DragEnter(sender As System.Object, e As System.Windows.Forms.DragEventArgs) Handles MyBase.DragEnter
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
             e.Effect = DragDropEffects.Copy
         End If
@@ -673,8 +673,12 @@ Public Class Form1
     End Function
 
     Private Sub ListBox3_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles FolderListBox.MouseDoubleClick
-        If viewing_trash = False Then
-            EnterFolder()
+        If My.Computer.Keyboard.ShiftKeyDown Then
+            Process.Start("https://drive.google.com/drive/folders/" + FolderIdsListBox.Items.Item(FolderListBox.SelectedIndex))
+        Else
+            If viewing_trash = False Then
+                EnterFolder()
+            End If
         End If
     End Sub
     Private Sub GoBack()
@@ -1999,6 +2003,12 @@ Public Class Form1
                 FolderIDTextBox.Text = FolderIdsListBox.Items.Item(FolderListBox.SelectedIndex)
                 GetFolderIDName(False)
             End If
+        End If
+    End Sub
+
+    Private Sub FilesListBox_MouseDoubleClick(sender As Object, e As EventArgs) Handles FilesListBox.MouseDoubleClick
+        If FilesListBox.SelectedItem IsNot Nothing Then
+            Process.Start("https://drive.google.com/file/d/" + FileIdsListBox.Items.Item(FilesListBox.SelectedIndex) + "/view")
         End If
     End Sub
 End Class
