@@ -71,6 +71,12 @@ Los checksums utilizados son los que Google Drive genera y almacena.
 1. Seleccione el/los archivo(s) o carpeta(s) a restaurar
 2. Presione las teclas ALT + R en su teclado o vaya a Acciones -> Restaurar -> Archivo(s) Seleccionados o Carpeta(s) Seleccionada(s)
 
+# ¿Cómo puedo abrir un archivo en la págna de Google Drive desde la aplicación?
+Símplemente, haz doble click en el archivo. Serás dirigido a la página del archivo Google Drive.
+
+# ¿Cómo puedo abrir una carpeta en la página de Google Drive desde la aplicación?
+Presione la tecla SHIFT y haga doble click en la carpeta. Serás dirigido a la página de la carpeta en Google Drive.
+
 # ¿Qué hace la opción "Copiar archivo a memoria antes de subirlo si hay memoria disponible"?
 Si tienes memoria RAM que no está en uso en tu sistema, y el archivo que quieres subir cabe en la misma, el programa copiará el archivo a la memoria. Luego, el archivo será leido de la memoria en vez de el disco donde se encuentra. Esto puede hacer que tus archivos suban más rápido aunque la copia inicial puede ser lenta. esto es debido a que el archivo se leerá desde la RAM en vez del disco duro. También, esta opción es util si estás usando un disco duro externo, ya que una vez el archivo se copie a la memoria, puedes desconectar el mismo y el programa seguirá subiendo el archivo. Nota que debe estar conectado si tienes más archivos pues sólo se copia el archivo que se está subiendo actualmente.
 

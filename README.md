@@ -27,8 +27,6 @@ Go to File -> Upload -> Select File or Folder
 2. Press "Create New Folder" or Go to Actions -> Create New Folder
 3. Type a Folder Name and press OK.
 
-
-
 # How to check if Folder ID is correct?
 1. Type Folder ID in the Text Box.
 2. Press the "Get Folder Name" button.
@@ -72,6 +70,11 @@ These are the checksums for your files stored in Google Drive. You can use them 
 2. Select the file(s) or folder(s) to restore.
 3. Press ALT + R in your keyboard, or go to Actions -> Restore -> Selected File(s) or Selected Folder(s).
 
+# How can I open a file and go to the Google Drive site?
+Just double click on the file. A new browser window or tab will open directing you to the file in Google Drive.
+
+# How do I open a folder and go to the Google Drive site?
+Press SHIFT and double click on a folder. A new browser window or tab will open directing you to the folder in Google Drive.
 # What does the "Copy File to RAM before uploading if there's enough Free Memory available" option do?
 If you have enough free RAM in your system, and the file you want to upload fits in it, the file will be copied to the RAM before uploading. It will then be read from your RAM instead of your disk. While the initial copy can be slow, this can help increase upload performance as the file will be read from the RAM instead of your disk. Also, this option helps if you use an External Hard Disk Drive and you have connectivity issues later. Once the file is copied to the RAM, the disk resource is freed, so you can disconnect it and the software will continue uploading the file. Please note that if you have additional files, the disk must be connected as only the current file being uploaded is the one that is copied in the system memory.
 
