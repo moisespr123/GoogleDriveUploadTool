@@ -440,19 +440,19 @@ Partial Class Form1
         '
         Me.UploadToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem1, Me.FolderToolStripMenuItem})
         Me.UploadToolStripMenuItem.Name = "UploadToolStripMenuItem"
-        Me.UploadToolStripMenuItem.Size = New System.Drawing.Size(121, 22)
+        Me.UploadToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.UploadToolStripMenuItem.Text = "Upload"
         '
         'FileToolStripMenuItem1
         '
         Me.FileToolStripMenuItem1.Name = "FileToolStripMenuItem1"
-        Me.FileToolStripMenuItem1.Size = New System.Drawing.Size(107, 22)
+        Me.FileToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.FileToolStripMenuItem1.Text = "File(s)"
         '
         'FolderToolStripMenuItem
         '
         Me.FolderToolStripMenuItem.Name = "FolderToolStripMenuItem"
-        Me.FolderToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
+        Me.FolderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.FolderToolStripMenuItem.Text = "Folder"
         '
         'DownloadToolStripMenuItem
@@ -460,7 +460,7 @@ Partial Class Form1
         Me.DownloadToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFileToolStripMenuItem, Me.SelectedFolderToolStripMenuItem, Me.ToolStripSeparator2})
         Me.DownloadToolStripMenuItem.Name = "DownloadToolStripMenuItem"
         Me.DownloadToolStripMenuItem.ShowShortcutKeys = False
-        Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(121, 22)
+        Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.DownloadToolStripMenuItem.Text = "Download"
         '
         'SelectedFileToolStripMenuItem
@@ -672,34 +672,34 @@ Partial Class Form1
         '
         'TableLayoutPanel1
         '
-        Me.TableLayoutPanel1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
-            Or System.Windows.Forms.AnchorStyles.Left)  _
-            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.TableLayoutPanel1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TableLayoutPanel1.ColumnCount = 2
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50!))
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50!))
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel2, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel3, 1, 0)
         Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 27)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 463!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 463.0!))
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(1024, 463)
         Me.TableLayoutPanel1.TabIndex = 53
         '
         'TableLayoutPanel2
         '
         Me.TableLayoutPanel2.ColumnCount = 1
-        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100!))
+        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.TableLayoutPanel2.Controls.Add(Me.Panel4, 0, 1)
         Me.TableLayoutPanel2.Controls.Add(Me.Panel3, 0, 0)
         Me.TableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel2.Location = New System.Drawing.Point(3, 3)
         Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
         Me.TableLayoutPanel2.RowCount = 2
-        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100!))
-        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200!))
+        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200.0!))
         Me.TableLayoutPanel2.Size = New System.Drawing.Size(506, 457)
         Me.TableLayoutPanel2.TabIndex = 0
         '
@@ -732,19 +732,19 @@ Partial Class Form1
         '
         'UploadButton
         '
-        Me.UploadButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.UploadButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.UploadButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.UploadButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UploadButton.Location = New System.Drawing.Point(261, 24)
         Me.UploadButton.Name = "UploadButton"
         Me.UploadButton.Size = New System.Drawing.Size(227, 39)
         Me.UploadButton.TabIndex = 2
         Me.UploadButton.Text = "Upload"
-        Me.UploadButton.UseVisualStyleBackColor = true
+        Me.UploadButton.UseVisualStyleBackColor = True
         '
         'Label1
         '
-        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Label1.AutoSize = true
+        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(11, 98)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(49, 13)
@@ -753,8 +753,8 @@ Partial Class Form1
         '
         'Label2
         '
-        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Label2.AutoSize = true
+        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(11, 111)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(60, 13)
@@ -763,8 +763,8 @@ Partial Class Form1
         '
         'ProgressBar1
         '
-        Me.ProgressBar1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left)  _
-            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.ProgressBar1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ProgressBar1.Location = New System.Drawing.Point(14, 127)
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(463, 23)
@@ -772,8 +772,8 @@ Partial Class Form1
         '
         'FileSizeLabel
         '
-        Me.FileSizeLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.FileSizeLabel.AutoSize = true
+        Me.FileSizeLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.FileSizeLabel.AutoSize = True
         Me.FileSizeLabel.Location = New System.Drawing.Point(80, 98)
         Me.FileSizeLabel.Name = "FileSizeLabel"
         Me.FileSizeLabel.Size = New System.Drawing.Size(27, 13)
@@ -782,8 +782,8 @@ Partial Class Form1
         '
         'ProcessedFileSizeLabel
         '
-        Me.ProcessedFileSizeLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.ProcessedFileSizeLabel.AutoSize = true
+        Me.ProcessedFileSizeLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.ProcessedFileSizeLabel.AutoSize = True
         Me.ProcessedFileSizeLabel.Location = New System.Drawing.Point(80, 111)
         Me.ProcessedFileSizeLabel.Name = "ProcessedFileSizeLabel"
         Me.ProcessedFileSizeLabel.Size = New System.Drawing.Size(27, 13)
@@ -792,23 +792,23 @@ Partial Class Form1
         '
         'Button9
         '
-        Me.Button9.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.Button9.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button9.Location = New System.Drawing.Point(261, 69)
         Me.Button9.Name = "Button9"
         Me.Button9.Size = New System.Drawing.Size(162, 23)
         Me.Button9.TabIndex = 37
-        Me.Button9.Text = "Get Folder Name"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"Obtener Nombre de la carpeta"
-        Me.Button9.UseVisualStyleBackColor = true
+        Me.Button9.Text = "Get Folder Name" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Obtener Nombre de la carpeta"
+        Me.Button9.UseVisualStyleBackColor = True
         '
         'Label6
         '
-        Me.Label6.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Label6.AutoSize = true
+        Me.Label6.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(11, 153)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(98, 26)
         Me.Label6.TabIndex = 11
-        Me.Label6.Text = "By Moisés Cardona"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"v1.8.3"
+        Me.Label6.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.8.4"
         '
         'TextBox1
         '
