@@ -6,11 +6,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{194F24F4-C236-435C-882C-9A7A1D238EAF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>Google_Drive_Uploader.Form1</StartupObject>
+    <StartupObject>Google_Drive_Uploader.My.MyApplication</StartupObject>
     <RootNamespace>Google_Drive_Uploader</RootNamespace>
     <AssemblyName>Google Drive Uploader1</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <MyType>WindowsFormsWithCustomSubMain</MyType>
+    <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
