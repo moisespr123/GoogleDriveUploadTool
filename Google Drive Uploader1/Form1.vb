@@ -989,7 +989,7 @@ Public Class Form1
                 ChecksumString = SaveFileChecksums()
             End If
             If ChecksumString.EndsWith(GetChecksumsReturnChar) Then ChecksumString = ChecksumString.Remove(ChecksumString.LastIndexOf(GetChecksumsReturnChar))
-            My.Computer.FileSystem.WriteAllText(Filename, ChecksumString, False)
+            My.Computer.FileSystem.WriteAllText(Filename, ChecksumString, False, New System.Text.UTF8Encoding(False))
             MsgBox(MsgAndDialogLang("checksums_saved"))
         End If
     End Sub
