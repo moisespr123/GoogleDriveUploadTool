@@ -276,6 +276,18 @@ Namespace My
                 Me("CopyToRAM") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property EncodeChecksumsFormat() As Integer
+            Get
+                Return CType(Me("EncodeChecksumsFormat"),Integer)
+            End Get
+            Set
+                Me("EncodeChecksumsFormat") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

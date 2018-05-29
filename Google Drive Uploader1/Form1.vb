@@ -43,10 +43,8 @@ Public Class Form1
         If My.Settings.PreviousFolderIDs Is Nothing Then
             My.Settings.PreviousFolderIDs = New StringCollection
         End If
-
         'Checks whether the language was set. If not, apply English by default
         Lang_Select()
-
         'Checks if there are items to upload and if there are, we add them to the list box
         If My.Settings.UploadQueue.Count > 0 Then
             For Each item In My.Settings.UploadQueue
@@ -89,6 +87,7 @@ Public Class Form1
             StartUploadsAutomaticallyToolStripMenuItem.Checked = My.Settings.AutomaticUploads
             PreserveFileModifiedDateToolStripMenuItem.Checked = My.Settings.PreserveModifiedDate
             UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Checked = My.Settings.UpdateViews
+            ChecksumsEncodeFormatComboBox.SelectedIndex = My.Settings.EncodeChecksumsFormat
             OrderByComboBox.SelectedIndex = My.Settings.SortByIndex
             DescendingOrderToolStripMenuItem.Checked = My.Settings.OrderDesc
             CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked = My.Settings.CopyToRAM
@@ -528,6 +527,14 @@ Public Class Form1
             Catch ex As Exception
             End Try
         Loop While PageToken1 = String.Empty = False
+        Dim FileCountNumber = FilesListBox.Items.Count
+        If FileCountNumber > 1 Then
+            FileCount.Text = FileCountNumber.ToString + MsgAndDialogLang("files_txt")
+        ElseIf FileCountNumber = 1 Then
+            FileCount.Text = FileCountNumber.ToString + MsgAndDialogLang("file_txt")
+        Else
+            FileCount.Text = "0" + MsgAndDialogLang("file_txt")
+        End If
         FolderListBox.Items.Clear()
         FolderIdsListBox.Items.Clear()
         Dim PageToken2 As String = String.Empty
@@ -599,20 +606,29 @@ Public Class Form1
     End Sub
 
     Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged
-        EnglishLanguage()
+        If RadioButton1.Checked Then
+            EnglishLanguage()
         My.Settings.Language = "English"
         My.Settings.Save()
+            If service IsNot Nothing Then RefreshFileList(CurrentFolder)
+        End If
     End Sub
 
     Private Sub RadioButton2_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton2.CheckedChanged
-        SpanishLanguage()
-        My.Settings.Language = "Spanish"
-        My.Settings.Save()
+        If RadioButton2.Checked Then
+            SpanishLanguage()
+            My.Settings.Language = "Spanish"
+            My.Settings.Save()
+            If service IsNot Nothing Then RefreshFileList(CurrentFolder)
+        End If
     End Sub
     Private Sub RadioButton3_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton3.CheckedChanged
-        TChineseLanguage()
-        My.Settings.Language = "TChinese"
-        My.Settings.Save()
+        If RadioButton3.Checked Then
+            TChineseLanguage()
+            My.Settings.Language = "TChinese"
+            My.Settings.Save()
+            If service IsNot Nothing Then RefreshFileList(CurrentFolder)
+        End If
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
@@ -801,11 +817,33 @@ Public Class Form1
         Return ReturnPath
     End Function
 
-    Private Sub SaveFileChecksums(ChecksumFile As StreamWriter)
+    Private Function GetChecksumsReturnChar() As String
+        If My.Settings.EncodeChecksumsFormat = 0 Then
+            Return vbCrLf
+        ElseIf My.Settings.EncodeChecksumsFormat = 1 Then
+            Return vbCr
+        ElseIf My.Settings.EncodeChecksumsFormat = 2 Then
+            Return vbLf
+        Else
+            Return vbCrLf
+        End If
+    End Function
+    Private Function GetSlashChar() As String
+        If My.Settings.EncodeChecksumsFormat = 0 Then
+            Return "\"
+        ElseIf My.Settings.EncodeChecksumsFormat = 1 Or My.Settings.EncodeChecksumsFormat = 2 Then
+            Return "/"
+        Else
+            Return "/"
+        End If
+    End Function
+    Private Function SaveFileChecksums() As String
+        Dim ChecksumString As String = String.Empty
         For Each item In FilesListBox.SelectedItems
-            ChecksumFile.WriteLine(FileMD5ListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString & " *" & item.ToString)
+            ChecksumString = ChecksumString + FileMD5ListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString + " *" + item.ToString + GetChecksumsReturnChar()
         Next
-    End Sub
+        Return ChecksumString
+    End Function
     Private Sub WorkWithTrash(Items As ListBox.SelectedObjectCollection, Optional IsFile As Boolean = False, Optional TrashItem As Boolean = False)
         Dim ConfirmMessage As String = String.Empty
         Dim SuccessMessage As String = String.Empty
@@ -943,18 +981,19 @@ Public Class Form1
         End If
         Filename = SaveChecksumFileDialog(Filename)
         If Filename IsNot Nothing Then
-            Dim Checksumfile As StreamWriter = New StreamWriter(Filename, False, System.Text.Encoding.UTF8)
+            Dim ChecksumString As String = String.Empty
             If IsFolder Then
-                GetFileFolderChecksum(FolderList, Checksumfile)
+                ChecksumString = GetFileFolderChecksum(FolderList, ChecksumString)
                 GoBack()
             Else
-                SaveFileChecksums(Checksumfile)
+                ChecksumString = SaveFileChecksums()
             End If
-            Checksumfile.Close()
+            If ChecksumString.EndsWith(GetChecksumsReturnChar) Then ChecksumString = ChecksumString.Remove(ChecksumString.LastIndexOf(GetChecksumsReturnChar))
+            My.Computer.FileSystem.WriteAllText(Filename, ChecksumString, False)
             MsgBox(MsgAndDialogLang("checksums_saved"))
         End If
     End Sub
-    Private Sub GetFileFolderChecksum(Path As List(Of String), Stream As StreamWriter)
+    Private Function GetFileFolderChecksum(Path As List(Of String), ChecksumString As String) As String
         'This creates the full path of the file by getting the ID Name.
         Dim FullPath As String = ""
         If Path.Count > 0 Then
@@ -962,7 +1001,7 @@ Public Class Form1
                 Try
                     Dim GetFolderName As FilesResource.GetRequest = service.Files.Get(item)
                     Dim FolderNameMetadata As Data.File = GetFolderName.Execute
-                    FullPath = FullPath + FolderNameMetadata.Name + "\"
+                    FullPath = FullPath + FolderNameMetadata.Name + GetSlashChar()
                 Catch ex As Exception
 
                 End Try
@@ -970,7 +1009,7 @@ Public Class Form1
         End If
         'Once Full Path has been created, we check for files inside the folder. If there's files, we will store their MD5 checksum.
         For Each item In FilesListBox.Items
-            Stream.WriteLine(FileMD5ListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString & " *" & FullPath & item.ToString)
+            ChecksumString = ChecksumString + FileMD5ListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString + " *" + FullPath + item.ToString + GetChecksumsReturnChar()
         Next
         'Finally, this loop checks if there are folders inside the folder we are. We start a recursion loop by calling this same function for each folder inside the folder.
         If FolderListBox.Items.Count > 0 Then
@@ -982,12 +1021,13 @@ Public Class Form1
                 Path.Add(FolderIdsListBox.Items.Item(FolderIdsListBox.Items.IndexOf(Folder2)).ToString)
                 FolderListBox.SelectedItem = FolderListBox.Items.Item(FolderIdsListBox.Items.IndexOf(Folder2))
                 EnterFolder()
-                GetFileFolderChecksum(Path, Stream)
+                ChecksumString = GetFileFolderChecksum(Path, ChecksumString)
                 GoBack()
                 Path.Remove(Folder2)
             Next
         End If
-    End Sub
+        Return ChecksumString
+    End Function
 
     Private Async Function DownloadFolder(Path As List(Of String), Location As String) As Task
         'This creates the full path of the file by getting the ID Name.
@@ -1149,7 +1189,7 @@ Public Class Form1
         Label1.Text = "File Size:"
         Label2.Text = "Processed:"
         Label5.Text = "Drag and Drop Files to add them to the list"
-        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.8.4"
+        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.8.5"
         Label7.Text = "Status:"
         Label9.Text = "Percent: "
         Label11.Text = "Files:"
@@ -1184,7 +1224,9 @@ Public Class Form1
         Button14.Text = "Deselect"
         btnLogout.Text = "Logout"
         ActionsToolStripMenuItem.Text = "Actions"
+        ChecksumsOptionsToolStripMenuItem.Text = "Checksum Options"
         CreateNewFolderToolStripMenuItem.Text = "Create New Folder"
+        EncodeFileFor.Text = "Encode file for"
         RenameToolStripMenuItem.Text = "Rename"
         SelectedFileToolStripMenuItem1.Text = "Selected File"
         SelectedFolderToolStripMenuItem1.Text = "Selected Folder"
@@ -1230,7 +1272,7 @@ Public Class Form1
         Label1.Text = "文件大小:"
         Label2.Text = "Processed:"
         Label5.Text = "請將文件拖到下方"
-        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.8.4" & vbNewLine & "Translated by mic4126"
+        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.8.5" & vbNewLine & "Translated by mic4126"
         Label7.Text = "狀態:"
         Label9.Text = "百份比: "
         Label11.Text = "文件:"
@@ -1264,7 +1306,9 @@ Public Class Form1
         Button14.Text = "Deselect"
         btnLogout.Text = "登岀"
         ActionsToolStripMenuItem.Text = "Actions"
+        ChecksumsOptionsToolStripMenuItem.Text = "Checksum Options"
         CreateNewFolderToolStripMenuItem.Text = "Create New Folder"
+        EncodeFileFor.Text = "Encode file for"
         RenameToolStripMenuItem.Text = "Rename"
         SelectedFileToolStripMenuItem1.Text = "Selected File"
         SelectedFolderToolStripMenuItem1.Text = "Selected Folder"
@@ -1310,7 +1354,7 @@ Public Class Form1
         Label1.Text = "Tamaño:"
         Label2.Text = "Procesado:"
         Label5.Text = "Arrastre archivos aquí para añadirlos a la lista"
-        Label6.Text = "Por Moisés Cardona" & vbNewLine & "v1.8.4"
+        Label6.Text = "Por Moisés Cardona" & vbNewLine & "v1.8.5"
         Label7.Text = "Estado:"
         Label9.Text = "Porcentaje: "
         Label11.Text = "Archivos:"
@@ -1345,7 +1389,9 @@ Public Class Form1
         btnLogout.Text = "Cerrar Sesión"
         GroupBox2.Text = "Información del archivo:"
         ActionsToolStripMenuItem.Text = "Acciones"
+        ChecksumsOptionsToolStripMenuItem.Text = "Opciones de Checksums"
         CreateNewFolderToolStripMenuItem.Text = "Crear nueva carpeta"
+        EncodeFileFor.Text = "Guardar archivo para"
         RenameToolStripMenuItem.Text = "Renombrar"
         SelectedFileToolStripMenuItem1.Text = "Archivo seleccionado"
         SelectedFolderToolStripMenuItem1.Text = "Carpeta seleccionada"
@@ -1767,6 +1813,26 @@ Public Class Form1
                     Case "TChinese"
                         Return "You have been logged out. The software will now close"
                 End Select
+            Case "files_txt"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return " files"
+                    Case "Spanish"
+                        Return " archivos"
+                    Case "TChinese"
+                        Return " files"
+                    Case Else
+                End Select
+            Case "file_txt"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return " file"
+                    Case "Spanish"
+                        Return " archivo"
+                    Case "TChinese"
+                        Return " file"
+                    Case Else
+                End Select
             Case Else
                 Return "Error Typo " & tag
         End Select
@@ -2010,5 +2076,10 @@ Public Class Form1
         If FilesListBox.SelectedItem IsNot Nothing Then
             Process.Start("https://drive.google.com/file/d/" + FileIdsListBox.Items.Item(FilesListBox.SelectedIndex) + "/view")
         End If
+    End Sub
+
+    Private Sub ChecksumsEncodeFormatComboBox_DropDownClosed(sender As Object, e As EventArgs) Handles ChecksumsEncodeFormatComboBox.DropDownClosed
+        My.Settings.EncodeChecksumsFormat = ChecksumsEncodeFormatComboBox.SelectedIndex
+        My.Settings.Save()
     End Sub
 End Class

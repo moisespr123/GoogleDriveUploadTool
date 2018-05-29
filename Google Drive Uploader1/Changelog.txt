@@ -1,4 +1,8 @@
-﻿v1.8.4 (5/25/2018)
+﻿v1.8.5 (5/29/2018)
+-Checksum files can now be encoded for Windows, Mac, or Linux
+-Added file counter to file list
+
+v1.8.4 (5/25/2018)
 -Files will open in Google Drive when double clicking it in the File List
 -Folders will ope in Google Drive when holding the SHIFT key and double clicking it in the Folder List
 -Fixed a message when sending multiple files to Trash
