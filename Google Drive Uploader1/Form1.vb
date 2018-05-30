@@ -533,7 +533,7 @@ Public Class Form1
         ElseIf FileCountNumber = 1 Then
             FileCount.Text = FileCountNumber.ToString + MsgAndDialogLang("file_txt")
         Else
-            FileCount.Text = "0" + MsgAndDialogLang("file_txt")
+            FileCount.Text = "0" + MsgAndDialogLang("files_txt")
         End If
         FolderListBox.Items.Clear()
         FolderIdsListBox.Items.Clear()
