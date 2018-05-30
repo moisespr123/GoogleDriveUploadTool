@@ -127,6 +127,7 @@ Partial Class Form1
         Me.TableLayoutPanel3 = New System.Windows.Forms.TableLayoutPanel()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.FileCount = New System.Windows.Forms.Label()
         Me.Button5 = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
         Me.Button7 = New System.Windows.Forms.Button()
@@ -142,7 +143,6 @@ Partial Class Form1
         Me.FreeSpace = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpaceText = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpace = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.FileCount = New System.Windows.Forms.Label()
         Me.GroupBox2.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.TableLayoutPanel1.SuspendLayout()
@@ -868,7 +868,7 @@ Partial Class Form1
         '
         Me.StatusLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.StatusLabel.AutoSize = True
-        Me.StatusLabel.Location = New System.Drawing.Point(390, 111)
+        Me.StatusLabel.Location = New System.Drawing.Point(399, 111)
         Me.StatusLabel.Name = "StatusLabel"
         Me.StatusLabel.Size = New System.Drawing.Size(27, 13)
         Me.StatusLabel.TabIndex = 13
@@ -888,7 +888,7 @@ Partial Class Form1
         '
         Me.PercentLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.PercentLabel.AutoSize = True
-        Me.PercentLabel.Location = New System.Drawing.Point(390, 98)
+        Me.PercentLabel.Location = New System.Drawing.Point(399, 98)
         Me.PercentLabel.Name = "PercentLabel"
         Me.PercentLabel.Size = New System.Drawing.Size(21, 13)
         Me.PercentLabel.TabIndex = 15
@@ -1066,6 +1066,15 @@ Partial Class Form1
         Me.Panel1.Size = New System.Drawing.Size(500, 223)
         Me.Panel1.TabIndex = 0
         '
+        'FileCount
+        '
+        Me.FileCount.AutoSize = True
+        Me.FileCount.Location = New System.Drawing.Point(108, 1)
+        Me.FileCount.Name = "FileCount"
+        Me.FileCount.Size = New System.Drawing.Size(37, 13)
+        Me.FileCount.TabIndex = 45
+        Me.FileCount.Text = "0 Files"
+        '
         'Button5
         '
         Me.Button5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -1180,15 +1189,6 @@ Partial Class Form1
         Me.TotalSpace.Name = "TotalSpace"
         Me.TotalSpace.Size = New System.Drawing.Size(43, 17)
         Me.TotalSpace.Text = "0.0 MB"
-        '
-        'FileCount
-        '
-        Me.FileCount.AutoSize = True
-        Me.FileCount.Location = New System.Drawing.Point(108, 1)
-        Me.FileCount.Name = "FileCount"
-        Me.FileCount.Size = New System.Drawing.Size(37, 13)
-        Me.FileCount.TabIndex = 45
-        Me.FileCount.Text = "0 Files"
         '
         'Form1
         '
