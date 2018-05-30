@@ -62,6 +62,10 @@ Una herramienta para subir archivos a Google Drive. El programa resume las subid
 
 Los checksums utilizados son los que Google Drive genera y almacena.
 
+# ¿Cómo puedo cambiar el formato del archivo del checksum?
+1. Ve a "Opciones" -> "Opciones de Checksums" -> "Guardar archivo para".
+2. Seleccione un sistema operativo en la lista para formatear el archivo.
+
 # ¿Cómo envío uno o más archivos o carpetas a la basura?
 1. Seleccione el/los archivo(s) o carpeta(s) a enviar a la basura. 
 2. Presione la tecla "Delete" en su teclado o vaya a Acciones -> Mover a la Basura -> Archivo(s) Seleccionados o Carpeta(s) Seleccionada(s)
