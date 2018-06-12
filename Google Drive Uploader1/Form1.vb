@@ -469,7 +469,7 @@ Public Class Form1
     Private Sub Download_ProgressChanged(progress As IDownloadProgress)
         Select Case progress.Status
             Case DownloadStatus.Completed
-                UpdateBytesSent(CInt(MaxFileSize), MsgAndDialogLang("uploadstatus_complete"), starttime)
+                UpdateBytesSent(MaxFileSize, MsgAndDialogLang("uploadstatus_complete"), starttime)
             Case DownloadStatus.Downloading
                 UpdateBytesSent(progress.BytesDownloaded, MsgAndDialogLang("uploadstatus_downloading"), starttime)
             Case DownloadStatus.Failed
