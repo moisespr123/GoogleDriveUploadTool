@@ -1,4 +1,7 @@
-﻿v1.8.5 (5/30/2018)
+﻿v1.8.6
+-Software improvements
+
+v1.8.5 (5/30/2018)
 -Checksum files can now be encoded for Windows, Mac, or Linux
 -Added file counter to file list
 

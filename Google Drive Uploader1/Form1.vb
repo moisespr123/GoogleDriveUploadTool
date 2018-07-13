@@ -608,8 +608,8 @@ Public Class Form1
     Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged
         If RadioButton1.Checked Then
             EnglishLanguage()
-        My.Settings.Language = "English"
-        My.Settings.Save()
+            My.Settings.Language = "English"
+            My.Settings.Save()
             If service IsNot Nothing Then RefreshFileList(CurrentFolder)
         End If
     End Sub
@@ -700,18 +700,20 @@ Public Class Form1
     Private Sub GoBack()
         If viewing_trash = False Then
             If CurrentFolder = "root" = False Then
-                Dim PreviousFolderIdBeforeRemoving = PreviousFolderId.Items.Item(PreviousFolderId.Items.Count - 1)
-                PreviousFolderId.Items.RemoveAt(PreviousFolderId.Items.Count - 1)
-                My.Settings.PreviousFolderIDs.RemoveAt(My.Settings.PreviousFolderIDs.Count - 1)
-                CurrentFolder = PreviousFolderIdBeforeRemoving.ToString
-                My.Settings.LastFolder = CurrentFolder
-                My.Settings.Save()
-                CurrentFolderLabel.Text = GetCurrentFolderIDName()
-                RefreshFileList(PreviousFolderIdBeforeRemoving.ToString)
-                If CurrentFolder = "root" Then
-                    Button10.Enabled = False
-                Else
-                    Button10.Enabled = True
+                If PreviousFolderId.Items.Count > 0 Then
+                    Dim PreviousFolderIdBeforeRemoving As String = PreviousFolderId.Items.Item(PreviousFolderId.Items.Count - 1).ToString
+                    PreviousFolderId.Items.RemoveAt(PreviousFolderId.Items.Count - 1)
+                    My.Settings.PreviousFolderIDs.RemoveAt(My.Settings.PreviousFolderIDs.Count - 1)
+                    CurrentFolder = PreviousFolderIdBeforeRemoving
+                    My.Settings.LastFolder = CurrentFolder
+                    My.Settings.Save()
+                    CurrentFolderLabel.Text = GetCurrentFolderIDName()
+                    RefreshFileList(PreviousFolderIdBeforeRemoving)
+                    If CurrentFolder = "root" Then
+                        Button10.Enabled = False
+                    Else
+                        Button10.Enabled = True
+                    End If
                 End If
             End If
         Else
@@ -1189,7 +1191,7 @@ Public Class Form1
         Label1.Text = "File Size:"
         Label2.Text = "Processed:"
         Label5.Text = "Drag and Drop Files to add them to the list"
-        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.8.5"
+        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.8.6"
         Label7.Text = "Status:"
         Label9.Text = "Percent: "
         Label11.Text = "Files:"
@@ -1272,7 +1274,7 @@ Public Class Form1
         Label1.Text = "文件大小:"
         Label2.Text = "Processed:"
         Label5.Text = "請將文件拖到下方"
-        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.8.5" & vbNewLine & "Translated by mic4126"
+        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.8.6" & vbNewLine & "Translated by mic4126"
         Label7.Text = "狀態:"
         Label9.Text = "百份比: "
         Label11.Text = "文件:"
@@ -1354,7 +1356,7 @@ Public Class Form1
         Label1.Text = "Tamaño:"
         Label2.Text = "Procesado:"
         Label5.Text = "Arrastre archivos aquí para añadirlos a la lista"
-        Label6.Text = "Por Moisés Cardona" & vbNewLine & "v1.8.5"
+        Label6.Text = "Por Moisés Cardona" & vbNewLine & "v1.8.6"
         Label7.Text = "Estado:"
         Label9.Text = "Porcentaje: "
         Label11.Text = "Archivos:"
