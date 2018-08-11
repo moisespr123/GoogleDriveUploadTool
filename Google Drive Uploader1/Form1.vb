@@ -901,9 +901,7 @@ Public Class Form1
             MsgBox(SuccessMessage)
         End If
     End Sub
-    Private KeyPressed As Boolean = False
     Private Sub FolderListBox_KeyDown(sender As Object, e As KeyEventArgs) Handles FolderListBox.KeyDown
-        KeyPressed = True
         If e.KeyCode = Keys.Delete Then
             If viewing_trash = False Then
                 If FolderListBox.SelectedItem IsNot Nothing Then
@@ -933,14 +931,9 @@ Public Class Form1
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.D Then
             CheckForFolderDownload()
         End If
-        KeyPressed = False
+        e.SuppressKeyPress = True
     End Sub
-
-    Private Sub FolderListBox_KeyPress(sender As Object, e As KeyPressEventArgs) Handles FolderListBox.KeyPress
-        If KeyPressed = True Then
-            e.Handled = True
-        End If
-    End Sub
+    
     Private Function GetFolderPath() As String
         FolderBrowserDialog1.ShowNewFolderButton = True
         Dim FolderBrowserDialogResponse As DialogResult = FolderBrowserDialog1.ShowDialog
@@ -1097,7 +1090,6 @@ Public Class Form1
     End Sub
 
     Private Sub FilesListBox_KeyDown(sender As Object, e As KeyEventArgs) Handles FilesListBox.KeyDown
-        KeyPressed = True
         If e.KeyCode = Keys.Delete Then
             If viewing_trash = False Then
                 If FilesListBox.SelectedItem IsNot Nothing Then
@@ -1130,12 +1122,7 @@ Public Class Form1
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.D Then
             CheckForFilesDownload()
         End If
-        KeyPressed = False
-    End Sub
-    Private Sub FilesListBox_KeyPress(sender As Object, e As KeyPressEventArgs) Handles FilesListBox.KeyPress
-        If KeyPressed = True Then
-            e.Handled = True
-        End If
+         e.SuppressKeyPress = True
     End Sub
 
     Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
