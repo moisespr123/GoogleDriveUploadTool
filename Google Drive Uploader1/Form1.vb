@@ -908,11 +908,13 @@ Public Class Form1
                     WorkWithTrash(FolderListBox.SelectedItems, False, True)
                 End If
             End If
+            e.SuppressKeyPress = True
         ElseIf e.KeyCode = Keys.Enter Then
             EnterFolder()
+            e.SuppressKeyPress = True
         ElseIf e.KeyCode = Keys.F5 Then
             If viewing_trash = False Then RefreshFileList(CurrentFolder) Else RefreshFileList("trash")
-            e.Handled = True
+            e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.R Then
             If FolderListBox.SelectedItem IsNot Nothing Then
                 If viewing_trash Then
@@ -921,17 +923,21 @@ Public Class Form1
                     RenameFileOrFolder(FolderIdsListBox.Items.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)).ToString)
                 End If
             End If
+            e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.A Then
             For i = 0 To FolderListBox.Items.Count - 1
                 FolderListBox.SetSelected(i, True)
             Next
+            e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.C Then
             EnterFolder()
             If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5", True) Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5", True)
+            e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.D Then
             CheckForFolderDownload()
+            e.SuppressKeyPress = True
         End If
-        e.SuppressKeyPress = True
+        
     End Sub
     
     Private Function GetFolderPath() As String
@@ -1096,9 +1102,11 @@ Public Class Form1
                     WorkWithTrash(FilesListBox.SelectedItems, True, True)
                 End If
             End If
+             e.SuppressKeyPress = True
         ElseIf e.KeyCode = Keys.F5 Then
             If viewing_trash = False Then RefreshFileList(CurrentFolder) Else RefreshFileList("trash")
             e.Handled = True
+             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.R Then
             If FilesListBox.SelectedItem IsNot Nothing Then
                 If viewing_trash Then
@@ -1107,10 +1115,12 @@ Public Class Form1
                     RenameFileOrFolder(FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(FilesListBox.SelectedItem)).ToString)
                 End If
             End If
+             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.A Then
             For i = 0 To FilesListBox.Items.Count - 1
                 FilesListBox.SetSelected(i, True)
             Next
+             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.C Then
             If FilesListBox.SelectedIndex <> -1 Then
                 If FilesListBox.SelectedItems.Count > 1 Then
@@ -1119,10 +1129,11 @@ Public Class Form1
                     If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksum.md5") Else SaveChecksumsFile(FilesListBox.SelectedItem.ToString & ".md5")
                 End If
             End If
+             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.D Then
             CheckForFilesDownload()
+             e.SuppressKeyPress = True
         End If
-         e.SuppressKeyPress = True
     End Sub
 
     Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
