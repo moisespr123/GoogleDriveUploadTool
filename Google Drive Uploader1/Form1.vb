@@ -935,6 +935,7 @@ Public Class Form1
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.D Then
             CheckForFolderDownload()
+            controlPressed = True
             e.SuppressKeyPress = True
         End If
         
@@ -1094,7 +1095,7 @@ Public Class Form1
             RefreshFileList(GoToFolderID)
         End If
     End Sub
-
+    Private controlPressed As Boolean = False
     Private Sub FilesListBox_KeyDown(sender As Object, e As KeyEventArgs) Handles FilesListBox.KeyDown
         If e.KeyCode = Keys.Delete Then
             If viewing_trash = False Then
@@ -1102,11 +1103,10 @@ Public Class Form1
                     WorkWithTrash(FilesListBox.SelectedItems, True, True)
                 End If
             End If
-             e.SuppressKeyPress = True
+            e.SuppressKeyPress = True
         ElseIf e.KeyCode = Keys.F5 Then
             If viewing_trash = False Then RefreshFileList(CurrentFolder) Else RefreshFileList("trash")
-            e.Handled = True
-             e.SuppressKeyPress = True
+            e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.R Then
             If FilesListBox.SelectedItem IsNot Nothing Then
                 If viewing_trash Then
@@ -1115,12 +1115,12 @@ Public Class Form1
                     RenameFileOrFolder(FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(FilesListBox.SelectedItem)).ToString)
                 End If
             End If
-             e.SuppressKeyPress = True
+            e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.A Then
             For i = 0 To FilesListBox.Items.Count - 1
                 FilesListBox.SetSelected(i, True)
             Next
-             e.SuppressKeyPress = True
+            e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.C Then
             If FilesListBox.SelectedIndex <> -1 Then
                 If FilesListBox.SelectedItems.Count > 1 Then
@@ -1129,10 +1129,12 @@ Public Class Form1
                     If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksum.md5") Else SaveChecksumsFile(FilesListBox.SelectedItem.ToString & ".md5")
                 End If
             End If
-             e.SuppressKeyPress = True
+            e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.D Then
             CheckForFilesDownload()
-             e.SuppressKeyPress = True
+            controlPressed = True
+            e.SuppressKeyPress = True
+            Return
         End If
     End Sub
 
@@ -2081,5 +2083,19 @@ Public Class Form1
     Private Sub ChecksumsEncodeFormatComboBox_DropDownClosed(sender As Object, e As EventArgs) Handles ChecksumsEncodeFormatComboBox.DropDownClosed
         My.Settings.EncodeChecksumsFormat = ChecksumsEncodeFormatComboBox.SelectedIndex
         My.Settings.Save()
+    End Sub
+
+    Private Sub FilesListBox_KeyPress(sender As Object, e As KeyPressEventArgs) Handles FilesListBox.KeyPress
+        If controlPressed Then
+            controlPressed = False
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub FolderListBox_KeyPress(sender As Object, e As KeyPressEventArgs) Handles FolderListBox.KeyPress
+        If controlPressed Then
+            controlPressed = False
+            e.Handled = True
+        End If
     End Sub
 End Class
