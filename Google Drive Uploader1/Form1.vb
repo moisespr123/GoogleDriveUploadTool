@@ -7,6 +7,7 @@ Imports System.Threading
 Imports Google.Apis.Upload
 Imports Google.Apis.Download
 Imports System.Collections.Specialized
+Imports System.Net
 
 Public Class Form1
     Private FileIdsListBox As New ListBox
@@ -18,14 +19,13 @@ Public Class Form1
     Private FileMD5ListBox As New ListBox
     Private FolderIdsListBox As New ListBox
     Private PreviousFolderId As New ListBox
-    Public pageToken As String = ""
+    Private viewing_trash As Boolean = False
+    Private credential As UserCredential = Nothing
     Private CurrentFolder As String = "root"
-    ' If modifying these scopes, delete your previously saved credentials
-    ' at ~/.credentials/drive-dotnet-quickstart.json
     Shared Scopes As String() = {DriveService.Scope.DriveFile, DriveService.Scope.Drive}
     Shared SoftwareName As String = "Google Drive Uploader Tool"
     Public service As DriveService
-    Dim viewing_trash As Boolean = False
+    Public pageToken As String = ""
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load         'Initialize Upload Queue Collection
         Button10.Enabled = False
         If My.Settings.UploadQueue Is Nothing Then
@@ -57,7 +57,6 @@ Public Class Form1
             Next
         End If
         'Google Drive initialization
-        Dim credential As UserCredential = Nothing
         Try
             Using stream = New FileStream("client_secret.json", FileMode.Open, FileAccess.Read)
                 Dim credPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Personal)
@@ -938,9 +937,9 @@ Public Class Form1
             controlPressed = True
             e.SuppressKeyPress = True
         End If
-        
+
     End Sub
-    
+
     Private Function GetFolderPath() As String
         FolderBrowserDialog1.ShowNewFolderButton = True
         Dim FolderBrowserDialogResponse As DialogResult = FolderBrowserDialog1.ShowDialog
@@ -1096,7 +1095,7 @@ Public Class Form1
         End If
     End Sub
     Private controlPressed As Boolean = False
-    Private Sub FilesListBox_KeyDown(sender As Object, e As KeyEventArgs) Handles FilesListBox.KeyDown
+    Private async Sub FilesListBox_KeyDown(sender As Object, e As KeyEventArgs) Handles FilesListBox.KeyDown
         If e.KeyCode = Keys.Delete Then
             If viewing_trash = False Then
                 If FilesListBox.SelectedItem IsNot Nothing Then
@@ -1134,8 +1133,22 @@ Public Class Form1
             CheckForFilesDownload()
             controlPressed = True
             e.SuppressKeyPress = True
-            Return
+        ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.U Then
+            Dim URLs As List(Of String) = New List(Of String)
+            For Each item In FilesListBox.SelectedItems
+                URLs.Add(await GetUrl(FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString))
+                Download_URLs.Filenames.Add(FilesListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString)
+            Next
+            Download_URLs.RichTextBox1.Clear
+            For each item in URLs 
+                Download_URLs.RichTextBox1.Text += item
+            Next
+            Download_URLs.URLs = Urls
+            controlPressed = True
+            e.SuppressKeyPress = True
+            Download_URLs.ShowDialog 
         End If
+        Return
     End Sub
 
     Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
@@ -2084,6 +2097,12 @@ Public Class Form1
         My.Settings.EncodeChecksumsFormat = ChecksumsEncodeFormatComboBox.SelectedIndex
         My.Settings.Save()
     End Sub
+
+    Private Async Function GetUrl(ID As String) As Task(Of String)
+        Dim request As HttpWebRequest = WebRequest.Create("https://www.googleapis.com/drive/v3/files/" + ID + "?alt=media&access_token=" + Await credential.GetAccessTokenForRequestAsync())
+        Dim response As HttpWebResponse = request.GetResponse
+        Return response.ResponseUri.OriginalString
+    End Function
 
     Private Sub FilesListBox_KeyPress(sender As Object, e As KeyPressEventArgs) Handles FilesListBox.KeyPress
         If controlPressed Then
