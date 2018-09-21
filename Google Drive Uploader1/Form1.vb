@@ -270,6 +270,7 @@ Public Class Form1
                     If UsingRAM Then
                         FileInRAM.Dispose()
                         FileInRAM.Close()
+                        FileInRAM = New MemoryTributary.MemoryTributary()
                     Else
                         UploadStream.Dispose()
                         UploadStream.Close()
@@ -1135,6 +1136,7 @@ Public Class Form1
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.U Then
             Dim URLs As List(Of String) = New List(Of String)
+            Download_URLs.Filenames = New List(of String)
             For Each item In FilesListBox.SelectedItems
                 URLs.Add(await GetUrl(FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString))
                 Download_URLs.Filenames.Add(FilesListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString)
