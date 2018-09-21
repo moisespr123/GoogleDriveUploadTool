@@ -24,6 +24,7 @@ Partial Class Download_URLs
     Private Sub InitializeComponent()
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
         Me.Button1 = New System.Windows.Forms.Button()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout
         '
         'RichTextBox1
@@ -36,26 +37,39 @@ Partial Class Download_URLs
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(12, 444)
+        Me.Button1.Location = New System.Drawing.Point(12, 467)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(775, 23)
         Me.Button1.TabIndex = 1
         Me.Button1.Text = "Save WGET script"
         Me.Button1.UseVisualStyleBackColor = true
         '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = true
+        Me.CheckBox1.Location = New System.Drawing.Point(12, 444)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(188, 17)
+        Me.CheckBox1.TabIndex = 2
+        Me.CheckBox1.Text = "Download only if file does not exist"
+        Me.CheckBox1.UseVisualStyleBackColor = true
+        '
         'Download_URLs
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 475)
+        Me.ClientSize = New System.Drawing.Size(800, 495)
+        Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.RichTextBox1)
         Me.Name = "Download_URLs"
         Me.Text = "Download_URLs"
         Me.ResumeLayout(false)
+        Me.PerformLayout
 
 End Sub
 
     Friend WithEvents RichTextBox1 As RichTextBox
     Friend WithEvents Button1 As Button
+    Friend WithEvents CheckBox1 As CheckBox
 End Class
