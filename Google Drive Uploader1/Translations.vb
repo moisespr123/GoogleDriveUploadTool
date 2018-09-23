@@ -89,6 +89,12 @@
         Form1.UsedSpaceText.Text = "Used Space:"
         Form1.TotalSpaceText.Text = "Total Space:"
         Form1.FreeSpaceText.Text = "Free Space:"
+        MoveDialog.BackButton.Text = "Back"
+        MoveDialog.MoveButton.Text = "Move"
+        Download_URLs.Text = "Download URLs"
+        Download_URLs.DownloadIfNotExistCheckbox.Text = "Download only if file does not exist"
+        Download_URLs.CheckChecksumsAfterDownloadsCheckbox.Text = "Check File checksums after downloads"
+        Download_URLs.SaveButton.Text = "Save WGET script"
     End Sub
 
     Public Shared Sub TChineseLanguage()
@@ -180,6 +186,12 @@
         Form1.UsedSpaceText.Text = "Used Space:"
         Form1.TotalSpaceText.Text = "Total Space:"
         Form1.FreeSpaceText.Text = "Free Space:"
+        MoveDialog.BackButton.Text = "Back"
+        MoveDialog.MoveButton.Text = "Move"
+        Download_URLs.Text = "Download URLs"
+        Download_URLs.DownloadIfNotExistCheckbox.Text = "Download only if file does not exist"
+        Download_URLs.CheckChecksumsAfterDownloadsCheckbox.Text = "Check File checksums after downloads"
+        Download_URLs.SaveButton.Text = "Save WGET script"
     End Sub
 
     Public Shared Sub SpanishLanguage()
@@ -271,6 +283,12 @@
         Form1.UsedSpaceText.Text = "Espacio Usado:"
         Form1.TotalSpaceText.Text = "Espacio Total:"
         Form1.FreeSpaceText.Text = "Espacio Libre:"
+        MoveDialog.BackButton.Text = "Atrás"
+        MoveDialog.MoveButton.Text = "Mover"
+        Download_URLs.Text = "Enlaces de descarga"
+        Download_URLs.DownloadIfNotExistCheckbox.Text = "Descargar si el archivo no existe"
+        Download_URLs.CheckChecksumsAfterDownloadsCheckbox.Text = "Verificar checksums luego de descargas"
+        Download_URLs.SaveButton.Text = "Guardar script WGET"
     End Sub
 
     Public Shared Function MsgAndDialogLang(tag As String) As String
@@ -741,6 +759,36 @@
                         Return "Los archivos han sido movidos."
                     Case "TChinese"
                         Return "Files Moved."
+                    Case Else
+                End Select
+            Case "move"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Move."
+                    Case "Spanish"
+                        Return "Mover"
+                    Case "TChinese"
+                        Return "Move"
+                    Case Else
+                End Select
+            Case "shell_script_saved"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Shell script saved."
+                    Case "Spanish"
+                        Return "Script guardado."
+                    Case "TChinese"
+                        Return "Shell script saved."
+                    Case Else
+                End Select
+            Case "browse_save_shell_script"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Browse to save the shell script"
+                    Case "Spanish"
+                        Return "Busque un lugar para guardar el script"
+                    Case "TChinese"
+                        Return "Browse to save the shell script"
                     Case Else
                 End Select
             Case Else

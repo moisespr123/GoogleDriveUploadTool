@@ -7,15 +7,16 @@ Public Class MoveDialog
     Public PreviousFolderId As New List(Of String)
     Public ItemsToMove As New List(Of String)
     Public CurrentFolder As String = "root"
-    Private service As DriveService = Form1.service
+    Private service As DriveService
     Private Sub Move_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        service = Form1.service 
         GoToFolder(CurrentFolder, True)
     End Sub
 
     Private Sub GoToFolder(FolderID As String, Optional GoingBack As Boolean = False)
         If Not GoingBack Then PreviousFolderId.Add(CurrentFolder)
         CurrentFolder = FolderID
-        Me.Text = "Move - " + GetCurrentFolderIDName()
+        Me.Text = Translations.MsgAndDialogLang("move") + " - " + GetCurrentFolderIDName()
         Dim listRequestString As String = "mimeType='application/vnd.google-apps.folder' and '" & FolderID & "' in parents and trashed = false"
         FolderListBox.Items.Clear()
         FolderIDs.Clear()

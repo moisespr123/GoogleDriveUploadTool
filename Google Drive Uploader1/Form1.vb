@@ -1507,6 +1507,7 @@ Public Class Form1
             For Each item As String In FilesListBox.SelectedItems
                 URLs.Add(Await GetUrl(FileIdsList.Item(FilesListBox.Items.IndexOf(item))))
                 Download_URLs.Filenames.Add(FilesListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString)
+                Download_URLs.Checksums.Add(FileMD5List.Item(FilesListBox.Items.IndexOf(item)))
             Next
             Download_URLs.RichTextBox1.Clear()
             For Each item In URLs

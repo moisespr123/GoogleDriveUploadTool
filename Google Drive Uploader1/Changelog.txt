@@ -2,7 +2,8 @@
 -Added Right Click Context Menú to File and Folder List
 -Press CTRL + M to move files or folders to another folder.
 -Press CTRL + U when files are selected to get the raw download URL.
--Updated components
+-Updated components 
+-Improved software performance
 
 v1.8.6 (8/11/2018)
 -Software improvements and bug fixes

@@ -23,8 +23,9 @@ Partial Class Download_URLs
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.SaveButton = New System.Windows.Forms.Button()
+        Me.DownloadIfNotExistCheckbox = New System.Windows.Forms.CheckBox()
+        Me.CheckChecksumsAfterDownloadsCheckbox = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout
         '
         'RichTextBox1
@@ -38,44 +39,57 @@ Partial Class Download_URLs
         Me.RichTextBox1.TabIndex = 0
         Me.RichTextBox1.Text = ""
         '
-        'Button1
+        'SaveButton
         '
-        Me.Button1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left)  _
+        Me.SaveButton.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left)  _
             Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.Button1.Location = New System.Drawing.Point(12, 467)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(775, 23)
-        Me.Button1.TabIndex = 1
-        Me.Button1.Text = "Save WGET script"
-        Me.Button1.UseVisualStyleBackColor = true
+        Me.SaveButton.Location = New System.Drawing.Point(12, 467)
+        Me.SaveButton.Name = "SaveButton"
+        Me.SaveButton.Size = New System.Drawing.Size(775, 23)
+        Me.SaveButton.TabIndex = 1
+        Me.SaveButton.Text = "Save WGET script"
+        Me.SaveButton.UseVisualStyleBackColor = true
         '
-        'CheckBox1
+        'DownloadIfNotExistCheckbox
         '
-        Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.CheckBox1.AutoSize = true
-        Me.CheckBox1.Location = New System.Drawing.Point(12, 444)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(188, 17)
-        Me.CheckBox1.TabIndex = 2
-        Me.CheckBox1.Text = "Download only if file does not exist"
-        Me.CheckBox1.UseVisualStyleBackColor = true
+        Me.DownloadIfNotExistCheckbox.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.DownloadIfNotExistCheckbox.AutoSize = true
+        Me.DownloadIfNotExistCheckbox.Location = New System.Drawing.Point(12, 444)
+        Me.DownloadIfNotExistCheckbox.Name = "DownloadIfNotExistCheckbox"
+        Me.DownloadIfNotExistCheckbox.Size = New System.Drawing.Size(188, 17)
+        Me.DownloadIfNotExistCheckbox.TabIndex = 2
+        Me.DownloadIfNotExistCheckbox.Text = "Download only if file does not exist"
+        Me.DownloadIfNotExistCheckbox.UseVisualStyleBackColor = true
+        '
+        'CheckChecksumsAfterDownloadsCheckbox
+        '
+        Me.CheckChecksumsAfterDownloadsCheckbox.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.CheckChecksumsAfterDownloadsCheckbox.AutoSize = true
+        Me.CheckChecksumsAfterDownloadsCheckbox.Location = New System.Drawing.Point(206, 444)
+        Me.CheckChecksumsAfterDownloadsCheckbox.Name = "CheckChecksumsAfterDownloadsCheckbox"
+        Me.CheckChecksumsAfterDownloadsCheckbox.Size = New System.Drawing.Size(211, 17)
+        Me.CheckChecksumsAfterDownloadsCheckbox.TabIndex = 3
+        Me.CheckChecksumsAfterDownloadsCheckbox.Text = "Check File checksums after downloads"
+        Me.CheckChecksumsAfterDownloadsCheckbox.UseVisualStyleBackColor = true
         '
         'Download_URLs
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 495)
-        Me.Controls.Add(Me.CheckBox1)
-        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.CheckChecksumsAfterDownloadsCheckbox)
+        Me.Controls.Add(Me.DownloadIfNotExistCheckbox)
+        Me.Controls.Add(Me.SaveButton)
         Me.Controls.Add(Me.RichTextBox1)
         Me.Name = "Download_URLs"
-        Me.Text = "Download_URLs"
+        Me.Text = "Download URLs"
         Me.ResumeLayout(false)
         Me.PerformLayout
 
 End Sub
 
     Friend WithEvents RichTextBox1 As RichTextBox
-    Friend WithEvents Button1 As Button
-    Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents SaveButton As Button
+    Friend WithEvents DownloadIfNotExistCheckbox As CheckBox
+    Friend WithEvents CheckChecksumsAfterDownloadsCheckbox As CheckBox
 End Class
