@@ -133,6 +133,12 @@ Partial Class Form1
         Me.Button4 = New System.Windows.Forms.Button()
         Me.Button7 = New System.Windows.Forms.Button()
         Me.FilesListBox = New System.Windows.Forms.ListBox()
+        Me.FilesContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.OpenInBrowserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DownloadToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SaveChecksumToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GetRawDownloadURLToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.LoggedInAs = New System.Windows.Forms.ToolStripStatusLabel()
@@ -144,11 +150,6 @@ Partial Class Form1
         Me.FreeSpace = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpaceText = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpace = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.FilesContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.DownloadToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SaveChecksumToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.GetRawDownloadURLToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.OpenInBrowserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GroupBox2.SuspendLayout
         Me.MenuStrip1.SuspendLayout
         Me.TableLayoutPanel1.SuspendLayout
@@ -159,8 +160,8 @@ Partial Class Form1
         Me.TableLayoutPanel3.SuspendLayout
         Me.Panel2.SuspendLayout
         Me.Panel1.SuspendLayout
-        Me.StatusStrip1.SuspendLayout
         Me.FilesContextMenu.SuspendLayout
+        Me.StatusStrip1.SuspendLayout
         Me.SuspendLayout
         '
         'Label5
@@ -1127,6 +1128,42 @@ Partial Class Form1
         Me.FilesListBox.Size = New System.Drawing.Size(491, 173)
         Me.FilesListBox.TabIndex = 20
         '
+        'FilesContextMenu
+        '
+        Me.FilesContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenInBrowserToolStripMenuItem, Me.DownloadToolStripMenuItem1, Me.SaveChecksumToolStripMenuItem, Me.GetRawDownloadURLToolStripMenuItem, Me.MoveToolStripMenuItem})
+        Me.FilesContextMenu.Name = "FilesContextMenu"
+        Me.FilesContextMenu.Size = New System.Drawing.Size(199, 114)
+        '
+        'OpenInBrowserToolStripMenuItem
+        '
+        Me.OpenInBrowserToolStripMenuItem.Name = "OpenInBrowserToolStripMenuItem"
+        Me.OpenInBrowserToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.OpenInBrowserToolStripMenuItem.Text = "Open in Browser"
+        '
+        'DownloadToolStripMenuItem1
+        '
+        Me.DownloadToolStripMenuItem1.Name = "DownloadToolStripMenuItem1"
+        Me.DownloadToolStripMenuItem1.Size = New System.Drawing.Size(198, 22)
+        Me.DownloadToolStripMenuItem1.Text = "Download"
+        '
+        'SaveChecksumToolStripMenuItem
+        '
+        Me.SaveChecksumToolStripMenuItem.Name = "SaveChecksumToolStripMenuItem"
+        Me.SaveChecksumToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.SaveChecksumToolStripMenuItem.Text = "Save Checksum(s)"
+        '
+        'GetRawDownloadURLToolStripMenuItem
+        '
+        Me.GetRawDownloadURLToolStripMenuItem.Name = "GetRawDownloadURLToolStripMenuItem"
+        Me.GetRawDownloadURLToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.GetRawDownloadURLToolStripMenuItem.Text = "Get Raw Download URL"
+        '
+        'MoveToolStripMenuItem
+        '
+        Me.MoveToolStripMenuItem.Name = "MoveToolStripMenuItem"
+        Me.MoveToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.MoveToolStripMenuItem.Text = "Move"
+        '
         'Label11
         '
         Me.Label11.AutoSize = true
@@ -1198,36 +1235,6 @@ Partial Class Form1
         Me.TotalSpace.Size = New System.Drawing.Size(43, 17)
         Me.TotalSpace.Text = "0.0 MB"
         '
-        'FilesContextMenu
-        '
-        Me.FilesContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenInBrowserToolStripMenuItem, Me.DownloadToolStripMenuItem1, Me.SaveChecksumToolStripMenuItem, Me.GetRawDownloadURLToolStripMenuItem})
-        Me.FilesContextMenu.Name = "FilesContextMenu"
-        Me.FilesContextMenu.Size = New System.Drawing.Size(199, 114)
-        '
-        'DownloadToolStripMenuItem1
-        '
-        Me.DownloadToolStripMenuItem1.Name = "DownloadToolStripMenuItem1"
-        Me.DownloadToolStripMenuItem1.Size = New System.Drawing.Size(198, 22)
-        Me.DownloadToolStripMenuItem1.Text = "Download"
-        '
-        'SaveChecksumToolStripMenuItem
-        '
-        Me.SaveChecksumToolStripMenuItem.Name = "SaveChecksumToolStripMenuItem"
-        Me.SaveChecksumToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
-        Me.SaveChecksumToolStripMenuItem.Text = "Save Checksum(s)"
-        '
-        'GetRawDownloadURLToolStripMenuItem
-        '
-        Me.GetRawDownloadURLToolStripMenuItem.Name = "GetRawDownloadURLToolStripMenuItem"
-        Me.GetRawDownloadURLToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
-        Me.GetRawDownloadURLToolStripMenuItem.Text = "Get Raw Download URL"
-        '
-        'OpenInBrowserToolStripMenuItem
-        '
-        Me.OpenInBrowserToolStripMenuItem.Name = "OpenInBrowserToolStripMenuItem"
-        Me.OpenInBrowserToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
-        Me.OpenInBrowserToolStripMenuItem.Text = "Open in Browser"
-        '
         'Form1
         '
         Me.AllowDrop = true
@@ -1261,9 +1268,9 @@ Partial Class Form1
         Me.Panel2.PerformLayout
         Me.Panel1.ResumeLayout(false)
         Me.Panel1.PerformLayout
+        Me.FilesContextMenu.ResumeLayout(false)
         Me.StatusStrip1.ResumeLayout(false)
         Me.StatusStrip1.PerformLayout
-        Me.FilesContextMenu.ResumeLayout(false)
         Me.ResumeLayout(false)
         Me.PerformLayout
 
@@ -1393,4 +1400,5 @@ End Sub
     Friend WithEvents DownloadToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents SaveChecksumToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents GetRawDownloadURLToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MoveToolStripMenuItem As ToolStripMenuItem
 End Class

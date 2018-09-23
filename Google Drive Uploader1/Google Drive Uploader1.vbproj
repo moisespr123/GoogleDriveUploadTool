@@ -138,10 +138,10 @@
     <Compile Include="Download_URLs.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Move.Designer.vb">
-      <DependentUpon>Move.vb</DependentUpon>
+    <Compile Include="MoveDialog.Designer.vb">
+      <DependentUpon>MoveDialog.vb</DependentUpon>
     </Compile>
-    <Compile Include="Move.vb">
+    <Compile Include="MoveDialog.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UploadChunkSize.Designer.vb">
@@ -183,8 +183,8 @@
     <EmbeddedResource Include="Download_URLs.resx">
       <DependentUpon>Download_URLs.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Move.resx">
-      <DependentUpon>Move.vb</DependentUpon>
+    <EmbeddedResource Include="MoveDialog.resx">
+      <DependentUpon>MoveDialog.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UploadChunkSize.resx">
       <DependentUpon>UploadChunkSize.vb</DependentUpon>

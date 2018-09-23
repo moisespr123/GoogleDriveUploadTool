@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Move
+Partial Class MoveDialog
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,18 +22,18 @@ Partial Class Move
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.ListBox1 = New System.Windows.Forms.ListBox()
+        Me.FolderListBox = New System.Windows.Forms.ListBox()
         Me.Button1 = New System.Windows.Forms.Button()
-        Me.Button2 = New System.Windows.Forms.Button()
+        Me.BackButton = New System.Windows.Forms.Button()
         Me.SuspendLayout
         '
-        'ListBox1
+        'FolderListBox
         '
-        Me.ListBox1.FormattingEnabled = true
-        Me.ListBox1.Location = New System.Drawing.Point(12, 12)
-        Me.ListBox1.Name = "ListBox1"
-        Me.ListBox1.Size = New System.Drawing.Size(481, 342)
-        Me.ListBox1.TabIndex = 0
+        Me.FolderListBox.FormattingEnabled = true
+        Me.FolderListBox.Location = New System.Drawing.Point(12, 12)
+        Me.FolderListBox.Name = "FolderListBox"
+        Me.FolderListBox.Size = New System.Drawing.Size(481, 342)
+        Me.FolderListBox.TabIndex = 0
         '
         'Button1
         '
@@ -44,30 +44,30 @@ Partial Class Move
         Me.Button1.Text = "Move Here"
         Me.Button1.UseVisualStyleBackColor = true
         '
-        'Button2
+        'BackButton
         '
-        Me.Button2.Location = New System.Drawing.Point(12, 360)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(87, 23)
-        Me.Button2.TabIndex = 2
-        Me.Button2.Text = "Back"
-        Me.Button2.UseVisualStyleBackColor = true
+        Me.BackButton.Location = New System.Drawing.Point(12, 360)
+        Me.BackButton.Name = "BackButton"
+        Me.BackButton.Size = New System.Drawing.Size(87, 23)
+        Me.BackButton.TabIndex = 2
+        Me.BackButton.Text = "Back"
+        Me.BackButton.UseVisualStyleBackColor = true
         '
-        'Move
+        'MoveDialog
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(506, 393)
-        Me.Controls.Add(Me.Button2)
+        Me.Controls.Add(Me.BackButton)
         Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.ListBox1)
-        Me.Name = "Move"
+        Me.Controls.Add(Me.FolderListBox)
+        Me.Name = "MoveDialog"
         Me.Text = "Move"
         Me.ResumeLayout(false)
 
 End Sub
 
-    Friend WithEvents ListBox1 As ListBox
+    Friend WithEvents FolderListBox As ListBox
     Friend WithEvents Button1 As Button
-    Friend WithEvents Button2 As Button
+    Friend WithEvents BackButton As Button
 End Class
