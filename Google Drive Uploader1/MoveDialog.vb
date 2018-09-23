@@ -3,6 +3,7 @@
 Public Class MoveDialog
     Public FolderIDs As New List(Of String)
     Public PreviousFolderId As New List(Of String)
+    Public ItemsToMove As New List(Of String)
     Public CurrentFolder As String = "root"
     Private Sub Move_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         GoToFolder(CurrentFolder, True)

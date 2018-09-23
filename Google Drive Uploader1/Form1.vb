@@ -1106,35 +1106,28 @@ Public Class Form1
             Next
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.C Then
-            If FilesListBox.SelectedIndex <> -1 Then
-                If FilesListBox.SelectedItems.Count > 1 Then
-                    If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5")
-                Else
-                    If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksum.md5") Else SaveChecksumsFile(FilesListBox.SelectedItem.ToString & ".md5")
-                End If
-            End If
+            CheckFilesToSaveChecksums()
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.D Then
             CheckForFilesDownload()
             controlPressed = True
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.U Then
-            Dim URLs As List(Of String) = New List(Of String)
-            Download_URLs.Filenames = New List(Of String)
-            For Each item As String In FilesListBox.SelectedItems
-                URLs.Add(Await GetUrl(FileIdsList.Item(FilesListBox.Items.IndexOf(item))))
-                Download_URLs.Filenames.Add(FilesListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString)
-            Next
-            Download_URLs.RichTextBox1.Clear()
-            For Each item In URLs
-                Download_URLs.RichTextBox1.Text += item
-            Next
-            Download_URLs.URLs = URLs
+            CheckFilesToGetRAWUrl()
             controlPressed = True
             e.SuppressKeyPress = True
-            Download_URLs.ShowDialog()
         End If
         Return
+    End Sub
+
+    Private Sub CheckFilesToSaveChecksums()
+        If FilesListBox.SelectedIndex <> -1 Then
+            If FilesListBox.SelectedItems.Count > 1 Then
+                If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5")
+            Else
+                If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksum.md5") Else SaveChecksumsFile(FilesListBox.SelectedItem.ToString & ".md5")
+            End If
+        End If
     End Sub
 
     Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
@@ -1463,6 +1456,9 @@ Public Class Form1
             MoveDialog.CurrentFolder = CurrentFolder
             MoveDialog.PreviousFolderId = PreviousFolderId
             MoveDialog.FolderIDs = FolderIdsList
+            For Each item As String In FilesListBox.SelectedItems
+                MoveDialog.ItemsToMove.Add(FileIdsList.Item(FilesListBox.Items.IndexOf(item)))
+            Next
             MoveDialog.Show()
         Else
             Translations.MsgAndDialogLang("no_files_selected")
@@ -1471,5 +1467,35 @@ Public Class Form1
 
     Private Sub FilesListBox_MouseClick(sender As Object, e As MouseEventArgs) Handles FilesListBox.MouseClick
 
+    End Sub
+
+    Private Sub DownloadToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles DownloadToolStripMenuItem1.Click
+        CheckForFilesDownload()
+    End Sub
+
+    Private Sub SaveChecksumToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveChecksumToolStripMenuItem.Click
+        CheckFilesToSaveChecksums()
+    End Sub
+
+    Private Async Sub CheckFilesToGetRAWUrl()
+        If FilesListBox.SelectedItems.Count > 0 Then
+            Dim URLs As List(Of String) = New List(Of String)
+            Download_URLs.Filenames = New List(Of String)
+            For Each item As String In FilesListBox.SelectedItems
+                URLs.Add(Await GetUrl(FileIdsList.Item(FilesListBox.Items.IndexOf(item))))
+                Download_URLs.Filenames.Add(FilesListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString)
+            Next
+            Download_URLs.RichTextBox1.Clear()
+            For Each item In URLs
+                Download_URLs.RichTextBox1.Text += item
+            Next
+            Download_URLs.URLs = URLs
+            Download_URLs.ShowDialog()
+        Else
+            MsgBox(Translations.MsgAndDialogLang("no_files_selected"))
+        End If
+    End Sub
+    Private Sub GetRawDownloadURLToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetRawDownloadURLToolStripMenuItem.Click
+        CheckFilesToGetRAWUrl()
     End Sub
 End Class

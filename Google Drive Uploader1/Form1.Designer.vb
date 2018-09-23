@@ -1130,9 +1130,9 @@ Partial Class Form1
         '
         'FilesContextMenu
         '
-        Me.FilesContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenInBrowserToolStripMenuItem, Me.DownloadToolStripMenuItem1, Me.SaveChecksumToolStripMenuItem, Me.GetRawDownloadURLToolStripMenuItem, Me.MoveToolStripMenuItem})
+        Me.FilesContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenInBrowserToolStripMenuItem, Me.DownloadToolStripMenuItem1, Me.MoveToolStripMenuItem, Me.SaveChecksumToolStripMenuItem, Me.GetRawDownloadURLToolStripMenuItem})
         Me.FilesContextMenu.Name = "FilesContextMenu"
-        Me.FilesContextMenu.Size = New System.Drawing.Size(199, 114)
+        Me.FilesContextMenu.Size = New System.Drawing.Size(199, 136)
         '
         'OpenInBrowserToolStripMenuItem
         '
