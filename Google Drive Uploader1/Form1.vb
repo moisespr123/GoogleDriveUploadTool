@@ -1096,7 +1096,7 @@ Public Class Form1
         End If
     End Sub
     Private controlPressed As Boolean = False
-    Private async Sub FilesListBox_KeyDown(sender As Object, e As KeyEventArgs) Handles FilesListBox.KeyDown
+    Private Async Sub FilesListBox_KeyDown(sender As Object, e As KeyEventArgs) Handles FilesListBox.KeyDown
         If e.KeyCode = Keys.Delete Then
             If viewing_trash = False Then
                 If FilesListBox.SelectedItem IsNot Nothing Then
@@ -1136,19 +1136,20 @@ Public Class Form1
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.U Then
             Dim URLs As List(Of String) = New List(Of String)
-            Download_URLs.Filenames = New List(of String)
+            Download_URLs.Filenames = New List(Of String)
             For Each item In FilesListBox.SelectedItems
-                URLs.Add(await GetUrl(FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString))
+                URLs.Add(Await GetUrl(FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString))
                 Download_URLs.Filenames.Add(FilesListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString)
             Next
-            Download_URLs.RichTextBox1.Clear
-            For each item in URLs 
+            Download_URLs.RichTextBox1.Clear()
+
+            For Each item In URLs
                 Download_URLs.RichTextBox1.Text += item
             Next
-            Download_URLs.URLs = Urls
+            Download_URLs.URLs = URLs
             controlPressed = True
             e.SuppressKeyPress = True
-            Download_URLs.ShowDialog 
+            Download_URLs.ShowDialog()
         End If
         Return
     End Sub
@@ -2090,9 +2091,7 @@ Public Class Form1
     End Sub
 
     Private Sub FilesListBox_MouseDoubleClick(sender As Object, e As EventArgs) Handles FilesListBox.MouseDoubleClick
-        If FilesListBox.SelectedItem IsNot Nothing Then
-            Process.Start("https://drive.google.com/file/d/" + FileIdsListBox.Items.Item(FilesListBox.SelectedIndex) + "/view")
-        End If
+        OpenFileInBrowser()
     End Sub
 
     Private Sub ChecksumsEncodeFormatComboBox_DropDownClosed(sender As Object, e As EventArgs) Handles ChecksumsEncodeFormatComboBox.DropDownClosed
@@ -2117,6 +2116,16 @@ Public Class Form1
         If controlPressed Then
             controlPressed = False
             e.Handled = True
+        End If
+    End Sub
+
+    Private Sub OpenInBrowserToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenInBrowserToolStripMenuItem.Click
+        OpenFileInBrowser()
+    End Sub
+
+    Private Sub OpenFileInBrowser()
+        If FilesListBox.SelectedItem IsNot Nothing Then
+            Process.Start("https://drive.google.com/file/d/" + FileIdsListBox.Items.Item(FilesListBox.SelectedIndex) + "/view")
         End If
     End Sub
 End Class

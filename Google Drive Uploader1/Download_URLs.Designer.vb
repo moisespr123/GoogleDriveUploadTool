@@ -29,6 +29,9 @@ Partial Class Download_URLs
         '
         'RichTextBox1
         '
+        Me.RichTextBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.RichTextBox1.Location = New System.Drawing.Point(12, 12)
         Me.RichTextBox1.Name = "RichTextBox1"
         Me.RichTextBox1.Size = New System.Drawing.Size(776, 426)
@@ -37,6 +40,8 @@ Partial Class Download_URLs
         '
         'Button1
         '
+        Me.Button1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         Me.Button1.Location = New System.Drawing.Point(12, 467)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(775, 23)
@@ -46,6 +51,7 @@ Partial Class Download_URLs
         '
         'CheckBox1
         '
+        Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
         Me.CheckBox1.AutoSize = true
         Me.CheckBox1.Location = New System.Drawing.Point(12, 444)
         Me.CheckBox1.Name = "CheckBox1"
