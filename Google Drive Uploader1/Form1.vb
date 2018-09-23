@@ -101,14 +101,7 @@ Public Class Form1
                 GetFolderIDName(False)
             End If
         Catch
-            If My.Settings.Language = "English" Then
-                MsgBox("client_secret.json file not found. Please follow Step 1 in this guide: https://developers.google.com/drive/v3/web/quickstart/dotnet" & vbCr & vbCrLf & "This file should be located in the folder where this software is located.")
-            ElseIf My.Settings.Language = "Spanish" Then
-                MsgBox("El archivo client_secret.json no fue encontrado. Por favor, siga el Paso 1 de esta guía: https://developers.google.com/drive/v3/web/quickstart/dotnet" & vbCr & vbCrLf & "Este archivo debe estar localizado en la carpeta donde se encuentra este programa.")
-            Else
-                'Chinese Translation goes here
-                MsgBox("client_secret.json 檔案找不到.請做: https://developers.google.com/drive/v3/web/quickstart/dotnet" & "的第一歩" & vbCr & vbCrLf & "請將client_secret.json放到軟體的根目錄.")
-            End If
+            Translations.MsgAndDialogLang("client_secrets_not_found")
             Process.Start("https://developers.google.com/drive/v3/web/quickstart/dotnet")
             Me.Close()
         End Try
@@ -157,8 +150,7 @@ Public Class Form1
                 UploadButton.Enabled = False
                 UploadFiles()
             Else
-                Dim Message As String = Translations.MsgAndDialogLang("folder_invaild")
-                If MsgBox(Message, MsgBoxStyle.Question Or MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+                If MsgBox(Translations.MsgAndDialogLang("folder_invaild"), MsgBoxStyle.Question Or MsgBoxStyle.YesNo) = MsgBoxResult.No Then
                     My.Settings.LastFolder = "root"
                     My.Settings.Save()
                     ResumeFromError = False
@@ -660,7 +652,7 @@ Public Class Form1
                 TextBox1.Text = FolderNameMetadata.Name
                 Return True
             Catch ex As Exception
-                If ShowMessage = True Then MsgBox("Folder ID is incorrect.")
+                If ShowMessage = True Then MsgBox(Translations.MsgAndDialogLang("folder_id_incorrect"))
                 Return False
             End Try
         Else
@@ -1192,7 +1184,7 @@ Public Class Form1
 
     End Sub
 
-   
+
 
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
         FolderToUploadFileList.Item(UploadsListBox.SelectedIndex) = CurrentFolder
@@ -1457,7 +1449,7 @@ Public Class Form1
     End Sub
 
     Private Sub OpenInBrowserToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenInBrowserToolStripMenuItem.Click
-        If FilesListBox.SelectedItem IsNot Nothing Then OpenFileInBrowser() Else MsgBox("No file was selected")
+        If FilesListBox.SelectedItem IsNot Nothing Then OpenFileInBrowser() Else Translations.MsgAndDialogLang("no_file_selected")
     End Sub
 
     Private Sub OpenFileInBrowser()
@@ -1467,13 +1459,13 @@ Public Class Form1
     End Sub
 
     Private Sub MoveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MoveToolStripMenuItem.Click
-        If FilesListBox.SelectedItem IsNot Nothing Then
+        If FilesListBox.SelectedItems IsNot Nothing Then
             MoveDialog.CurrentFolder = CurrentFolder
             MoveDialog.PreviousFolderId = PreviousFolderId
             MoveDialog.FolderIDs = FolderIdsList
             MoveDialog.Show()
         Else
-            MsgBox("No file was selected")
+            Translations.MsgAndDialogLang("no_files_selected")
         End If
     End Sub
 

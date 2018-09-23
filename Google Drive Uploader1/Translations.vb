@@ -249,6 +249,26 @@
 
     Public Shared Function MsgAndDialogLang(tag As String) As String
         Select Case tag
+            Case "client_secrets_not_found"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "client_secret.json file not found. Please follow Step 1 in this guide: https://developers.google.com/drive/v3/web/quickstart/dotnet" & vbCr & vbCrLf & "This file should be located in the folder where this software is located."
+                    Case "Spanish"
+                        Return "El archivo client_secret.json no fue encontrado. Por favor, siga el Paso 1 de esta guía: https://developers.google.com/drive/v3/web/quickstart/dotnet" & vbCr & vbCrLf & "Este archivo debe estar localizado en la carpeta donde se encuentra este programa."
+                    Case "TChinese"
+                        Return "client_secret.json 檔案找不到.請做: https://developers.google.com/drive/v3/web/quickstart/dotnet" & "的第一歩" & vbCr & vbCrLf & "請將client_secret.json放到軟體的根目錄."
+                    Case Else
+                End Select
+            Case "folder_id_incorrect"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Folder ID is incorrect."
+                    Case "Spanish"
+                        Return "El ID de la carpeta es incorrecto."
+                    Case "TChinese"
+                        Return "Folder ID is incorrect."
+                    Case Else
+                End Select
             Case "downloads_finished"
                 Select Case My.Settings.Language
                     Case "English"
@@ -647,22 +667,22 @@
                         Return " file"
                     Case Else
                 End Select
-            Case "no_file_selection"
+            Case "no_file_selected"
                 Select Case My.Settings.Language
                     Case "English"
                         Return "No file selected"
                     Case "Spanish"
-                        Return " No seleccionó un archivo"
+                        Return "No seleccionó un archivo"
                     Case "TChinese"
                         Return "No file selected"
                     Case Else
                 End Select
-            Case "no_files_selection"
+            Case "no_files_selected"
                 Select Case My.Settings.Language
                     Case "English"
                         Return "No file(s) selected"
                     Case "Spanish"
-                        Return " No seleccionó archivo(s)"
+                        Return "No seleccionó archivo(s)"
                     Case "TChinese"
                         Return "No file(s) selected"
                     Case Else
