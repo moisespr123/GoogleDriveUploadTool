@@ -10,12 +10,12 @@ Imports System.Collections.Specialized
 Imports System.Net
 
 Public Class Form1
-    Private FileIdsListBox As New ListBox
-    Private FileSizeListBox As New ListBox
-    Private FileMIMEListBox As New ListBox
-    Private FolderToUploadFileListBox As New ListBox
-    Private FileModifiedTimeListBox As New ListBox
-    Private FileCreatedTimeListBox As New ListBox
+    Private FileIdsList As New List(Of String)
+    Private FileSizeList As New List(Of Long?)
+    Private FileMIMEList As New List(Of String)
+    Private FolderToUploadFileList As New List(Of String)
+    Private FileModifiedTimeList As New List(Of Date?)
+    Private FileCreatedTimeList As New List(Of Date?)
     Private FileMD5List As New List(Of String)
     Private FolderIdsList As New List(Of String)
     Private PreviousFolderId As New List(Of String)
@@ -53,7 +53,7 @@ Public Class Form1
         End If
         If My.Settings.UploadQueueFolders.Count > 0 Then
             For Each item In My.Settings.UploadQueueFolders
-                FolderToUploadFileListBox.Items.Add(item)
+                FolderToUploadFileList.Add(item)
             Next
         End If
         'Google Drive initialization
@@ -149,7 +149,7 @@ Public Class Form1
     Private ResumeFromError As Boolean = False
     Private Sub CheckBeforeStartingUpload()
         If UploadsListBox.Items.Count > 0 Then
-            FolderIDTextBox.Text = FolderToUploadFileListBox.Items.Item(0).ToString
+            FolderIDTextBox.Text = FolderToUploadFileList.Item(0)
             If GetFolderIDName(False) Then
                 My.Settings.LastFolder = CurrentFolder
                 My.Settings.Save()
@@ -181,7 +181,7 @@ Public Class Form1
             UploadsListBox.SelectedIndex() = 0
             Try
                 GetFile = UploadsListBox.Items.Item(0).ToString
-                FolderIDTextBox.Text = FolderToUploadFileListBox.Items.Item(0).ToString
+                FolderIDTextBox.Text = FolderToUploadFileList.Item(0)
                 GetFolderIDName(False)
                 If System.IO.File.Exists(GetFile) Then
                     FileSizeLabel.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
@@ -218,11 +218,12 @@ Public Class Form1
                             ProgressBar1.Maximum = CInt(My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                             Me.Update()
                             While UploadStream.Position < UploadStream.Length
-                                Dim RemainingBytes = UploadStream.Length - UploadStream.Position
+                                Dim RemainingBytes As Long = UploadStream.Length - UploadStream.Position
                                 If RemainingBytes <= megabyteMultiplication Then
-                                    Dim buffer(RemainingBytes) As Byte
-                                    UploadStream.Read(buffer, 0, RemainingBytes)
-                                    FileInRAM.Write(buffer, 0, RemainingBytes)
+                                    Dim ChunkSize As Integer = Convert.ToInt32(RemainingBytes)
+                                    Dim buffer(ChunkSize) As Byte
+                                    UploadStream.Read(buffer, 0, ChunkSize)
+                                    FileInRAM.Write(buffer, 0, ChunkSize)
                                 Else
                                     Dim buffer(readChunkSize) As Byte
                                     UploadStream.Read(buffer, 0, readChunkSize)
@@ -311,7 +312,7 @@ Public Class Form1
             End Try
             If UploadFailed = False Then
                 UploadsListBox.Items.RemoveAt(0)
-                FolderToUploadFileListBox.Items.RemoveAt(0)
+                FolderToUploadFileList.RemoveAt(0)
                 My.Settings.UploadQueue.RemoveAt(0)
                 My.Settings.UploadQueueFolders.RemoveAt(0)
                 My.Settings.Save()
@@ -444,32 +445,29 @@ Public Class Form1
         End If
     End Sub
     Private Async Sub BrowseToDownloadFile()
-        FileIdsListBox.SelectedIndex = FilesListBox.SelectedIndex
-        FileSizeListBox.SelectedIndex = FilesListBox.SelectedIndex
-        FileModifiedTimeListBox.SelectedIndex = FilesListBox.SelectedIndex
         SaveFileDialog1.Title = MsgAndDialogLang("location_browse")
         SaveFileDialog1.FileName = FilesListBox.SelectedItem.ToString
         Dim SFDResult As DialogResult = SaveFileDialog1.ShowDialog()
         If SFDResult = DialogResult.OK Then
-            Await DownloadFile(SaveFileDialog1.FileName, FileIdsListBox.SelectedItem.ToString, FileSizeListBox.SelectedItem.ToString, FileModifiedTimeListBox.SelectedItem.ToString)
+            Await DownloadFile(SaveFileDialog1.FileName, FileIdsList.Item(FilesListBox.SelectedIndex), FileSizeList(FilesListBox.SelectedIndex), FileModifiedTimeList(FilesListBox.SelectedIndex))
         End If
     End Sub
-    Private Async Function DownloadFile(Location As String, FileName As String, FileSize As String, ModifiedTime As Date) As Task
+    Private Async Function DownloadFile(Location As String, FileName As String, FileSize As Long?, ModifiedTime As Date?) As Task
         starttime = DateTime.Now
-        FileSizeLabel.Text = String.Format("{0:N2} MB", Convert.ToDouble(FileSize) / 1024 / 1024)
-        ProgressBar1.Maximum = CInt(Convert.ToDouble(FileSize) / 1024 / 1024)
+        FileSizeLabel.Text = String.Format("{0:N2} MB", FileSize / 1024 / 1024)
+        ProgressBar1.Maximum = CInt(FileSize / 1024 / 1024)
         MaxFileSize = Convert.ToDouble(FileSize)
         Dim FileToSave As FileStream = New FileStream(Location, FileMode.Create, FileAccess.Write)
         Dim DownloadRequest As FilesResource.GetRequest = service.Files.Get(FileName)
         AddHandler DownloadRequest.MediaDownloader.ProgressChanged, New Action(Of IDownloadProgress)(AddressOf Download_ProgressChanged)
         Await DownloadRequest.DownloadAsync(FileToSave)
         FileToSave.Close()
-        IO.File.SetLastWriteTime(Location, ModifiedTime)
+        IO.File.SetLastWriteTime(Location, ModifiedTime.Value)
     End Function
     Private Sub Download_ProgressChanged(progress As IDownloadProgress)
         Select Case progress.Status
             Case DownloadStatus.Completed
-                UpdateBytesSent(MaxFileSize, MsgAndDialogLang("uploadstatus_complete"), starttime)
+                UpdateBytesSent(Convert.ToInt64(MaxFileSize), MsgAndDialogLang("uploadstatus_complete"), starttime)
             Case DownloadStatus.Downloading
                 UpdateBytesSent(progress.BytesDownloaded, MsgAndDialogLang("uploadstatus_downloading"), starttime)
             Case DownloadStatus.Failed
@@ -495,12 +493,12 @@ Public Class Form1
             listRequestQFolderString = "mimeType='application/vnd.google-apps.folder' and '" & FolderID & "' in parents and trashed = false"
         End If
         FilesListBox.Items.Clear()
-        FileIdsListBox.Items.Clear()
-        FileSizeListBox.Items.Clear()
-        FileModifiedTimeListBox.Items.Clear()
-        FileCreatedTimeListBox.Items.Clear()
+        FileIdsList.Clear()
+        FileSizeList.Clear()
+        FileModifiedTimeList.Clear()
+        FileCreatedTimeList.Clear()
         FileMD5List.Clear()
-        FileMIMEListBox.Items.Clear()
+        FileMIMEList.Clear()
         Dim PageToken1 As String = String.Empty
         Dim OrderBy As String = My.Settings.SortBy
         If My.Settings.OrderDesc Then OrderBy = OrderBy + " desc,name"
@@ -515,12 +513,12 @@ Public Class Form1
                 If files.Files IsNot Nothing AndAlso files.Files.Count > 0 Then
                     For Each file In files.Files
                         FilesListBox.Items.Add(file.Name)
-                        FileIdsListBox.Items.Add(file.Id)
-                        If file.Size IsNot Nothing Then FileSizeListBox.Items.Add(file.Size) Else FileSizeListBox.Items.Add("0")
-                        FileModifiedTimeListBox.Items.Add(file.ModifiedTime)
-                        FileCreatedTimeListBox.Items.Add(file.CreatedTime)
+                        FileIdsList.Add(file.Id)
+                        If file.Size IsNot Nothing Then FileSizeList.Add(file.Size) Else FileSizeList.Add(0)
+                        FileModifiedTimeList.Add(file.ModifiedTime)
+                        FileCreatedTimeList.Add(file.CreatedTime)
                         If file.Md5Checksum IsNot Nothing Then FileMD5List.Add(file.Md5Checksum) Else FileMD5List.Add("")
-                        FileMIMEListBox.Items.Add(file.MimeType)
+                        FileMIMEList.Add(file.MimeType)
                     Next
                 End If
                 PageToken1 = files.NextPageToken
@@ -567,13 +565,13 @@ Public Class Form1
         For Each path In filepath
             If System.IO.Directory.Exists(path) Then
                 UploadsListBox.Items.Add(path)
-                FolderToUploadFileListBox.Items.Add(CurrentFolder)
+                FolderToUploadFileList.Add(CurrentFolder)
                 My.Settings.UploadQueue.Add(path)
                 My.Settings.UploadQueueFolders.Add(CurrentFolder)
                 GetDirectoriesAndFiles(New IO.DirectoryInfo(path))
             Else
                 UploadsListBox.Items.Add(path)
-                FolderToUploadFileListBox.Items.Add(CurrentFolder)
+                FolderToUploadFileList.Add(CurrentFolder)
                 My.Settings.UploadQueue.Add(path)
                 My.Settings.UploadQueueFolders.Add(CurrentFolder)
             End If
@@ -587,13 +585,13 @@ Public Class Form1
         UploadsListBox.Items.AddRange((From FI As IO.FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
         My.Settings.UploadQueue.AddRange((From FI As IO.FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
         For Each FI As IO.FileInfo In BaseFolder.GetFiles()
-            FolderToUploadFileListBox.Items.Add(CurrentFolder)
+            FolderToUploadFileList.Add(CurrentFolder)
             My.Settings.UploadQueueFolders.Add(CurrentFolder)
         Next
         For Each subF As IO.DirectoryInfo In BaseFolder.GetDirectories()
             Application.DoEvents()
             UploadsListBox.Items.Add(subF.FullName)
-            FolderToUploadFileListBox.Items.Add(CurrentFolder)
+            FolderToUploadFileList.Add(CurrentFolder)
             My.Settings.UploadQueue.Add(subF.FullName)
             My.Settings.UploadQueueFolders.Add(CurrentFolder)
             GetDirectoriesAndFiles(subF)
@@ -636,7 +634,7 @@ Public Class Form1
             Dim CurrentIndex = UploadsListBox.SelectedIndex
             UploadsListBox.Items.RemoveAt(CurrentIndex)
             My.Settings.UploadQueue.RemoveAt(CurrentIndex)
-            FolderToUploadFileListBox.Items.RemoveAt(CurrentIndex)
+            FolderToUploadFileList.RemoveAt(CurrentIndex)
             My.Settings.UploadQueueFolders.RemoveAt(CurrentIndex)
             My.Settings.Save()
         Loop
@@ -645,7 +643,7 @@ Public Class Form1
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         UploadsListBox.Items.Clear()
         My.Settings.UploadQueue.Clear()
-        FolderToUploadFileListBox.Items.Clear()
+        FolderToUploadFileList.Clear()
         My.Settings.UploadQueueFolders.Clear()
         My.Settings.Save()
     End Sub
@@ -657,7 +655,7 @@ Public Class Form1
     Private Function GetFolderIDName(ShowMessage As Boolean) As Boolean
         If String.IsNullOrEmpty(FolderIDTextBox.Text) = False Then
             Try
-                Dim GetFolderName As FilesResource.GetRequest = service.Files.Get(FolderIDTextBox.Text.ToString)
+                Dim GetFolderName As FilesResource.GetRequest = service.Files.Get(FolderIDTextBox.Text)
                 Dim FolderNameMetadata As Data.File = GetFolderName.Execute
                 TextBox1.Text = FolderNameMetadata.Name
                 Return True
@@ -693,7 +691,7 @@ Public Class Form1
             Process.Start("https://drive.google.com/drive/folders/" + FolderIdsList.Item(FolderListBox.SelectedIndex))
         Else
             If viewing_trash = False Then
-                If FolderListBox.SelectedItem IsNot Nothing Then EnterFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem.ToString)))
+                If FolderListBox.SelectedItem IsNot Nothing Then EnterFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
             End If
         End If
     End Sub
@@ -701,7 +699,7 @@ Public Class Form1
         If viewing_trash = False Then
             If CurrentFolder = "root" = False Then
                 If PreviousFolderId.Count > 0 Then
-                    Dim PreviousFolderIdBeforeRemoving As String = PreviousFolderId.Item(PreviousFolderId.Count - 1).ToString
+                    Dim PreviousFolderIdBeforeRemoving As String = PreviousFolderId.Item(PreviousFolderId.Count - 1)
                     PreviousFolderId.RemoveAt(PreviousFolderId.Count - 1)
                     My.Settings.PreviousFolderIDs.RemoveAt(My.Settings.PreviousFolderIDs.Count - 1)
                     CurrentFolder = PreviousFolderIdBeforeRemoving
@@ -723,12 +721,12 @@ Public Class Form1
     Private Sub ListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles FilesListBox.SelectedIndexChanged
         If FilesListBox.SelectedItem IsNot Nothing Then
             TextBox3.Text = FilesListBox.SelectedItem.ToString()
-            TextBox4.Text = FileIdsListBox.Items.Item(FilesListBox.SelectedIndex).ToString
-            TextBox5.Text = FileCreatedTimeListBox.Items.Item(FilesListBox.SelectedIndex).ToString
-            TextBox6.Text = FileModifiedTimeListBox.Items.Item(FilesListBox.SelectedIndex).ToString
-            TextBox7.Text = FileMD5List.Item(FilesListBox.SelectedIndex).ToString
-            TextBox8.Text = FileMIMEListBox.Items.Item(FilesListBox.SelectedIndex).ToString
-            TextBox9.Text = String.Format("{0:N2} MB", Convert.ToDouble(FileSizeListBox.Items.Item(FilesListBox.SelectedIndex)) / 1024 / 1024)
+            TextBox4.Text = FileIdsList.Item(FilesListBox.SelectedIndex)
+            TextBox5.Text = FileCreatedTimeList.Item(FilesListBox.SelectedIndex).ToString
+            TextBox6.Text = FileModifiedTimeList.Item(FilesListBox.SelectedIndex).ToString
+            TextBox7.Text = FileMD5List.Item(FilesListBox.SelectedIndex)
+            TextBox8.Text = FileMIMEList.Item(FilesListBox.SelectedIndex)
+            TextBox9.Text = String.Format("{0:N2} MB", FileSizeList.Item(FilesListBox.SelectedIndex) / 1024 / 1024)
         Else
             TextBox3.Text = ""
             TextBox4.Text = ""
@@ -836,8 +834,8 @@ Public Class Form1
     End Function
     Private Function SaveFileChecksums() As String
         Dim ChecksumString As String = String.Empty
-        For Each item In FilesListBox.SelectedItems
-            ChecksumString = ChecksumString + FileMD5List.Item(FilesListBox.Items.IndexOf(item)).ToString + " *" + item.ToString + GetChecksumsReturnChar()
+        For Each item As String In FilesListBox.SelectedItems
+            ChecksumString = ChecksumString + FileMD5List.Item(FilesListBox.Items.IndexOf(item)) + " *" + item + GetChecksumsReturnChar()
         Next
         Return ChecksumString
     End Function
@@ -886,9 +884,9 @@ Public Class Form1
             Dim FileMetadata As New Data.File With {.Trashed = TrashItem}
             For Each item In Items
                 If IsFile Then
-                    service.Files.Update(FileMetadata, FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString).ExecuteAsync()
+                    service.Files.Update(FileMetadata, FileIdsList.Item(FilesListBox.Items.IndexOf(item))).ExecuteAsync()
                 Else
-                    service.Files.Update(FileMetadata, FolderIdsList.Item(FolderListBox.Items.IndexOf(item)).ToString).ExecuteAsync()
+                    service.Files.Update(FileMetadata, FolderIdsList.Item(FolderListBox.Items.IndexOf(item))).ExecuteAsync()
                 End If
             Next
             Thread.Sleep(1000)
@@ -905,7 +903,7 @@ Public Class Form1
             End If
             e.SuppressKeyPress = True
         ElseIf e.KeyCode = Keys.Enter Then
-            If FolderListBox.SelectedItem IsNot Nothing Then EnterFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem.ToString)))
+            If FolderListBox.SelectedItem IsNot Nothing Then EnterFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
             e.SuppressKeyPress = True
         ElseIf e.KeyCode = Keys.F5 Then
             If viewing_trash = False Then RefreshFileList(CurrentFolder) Else RefreshFileList("trash")
@@ -925,7 +923,7 @@ Public Class Form1
             Next
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.C Then
-            If FolderListBox.SelectedItem IsNot Nothing Then EnterFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem.ToString)))
+            If FolderListBox.SelectedItem IsNot Nothing Then EnterFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
             If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5", True) Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5", True)
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.D Then
@@ -962,13 +960,13 @@ Public Class Form1
     End Sub
     Private Async Function DownloadFiles(Folder As String) As Task
         Dim FileList As New List(Of String)
-        For Each item In FilesListBox.SelectedItems
-            FileList.Add(item.ToString())
+        For Each item As String In FilesListBox.SelectedItems
+            FileList.Add(item)
         Next
-        For Each item In FileList
+        For Each item As String In FileList
             FilesListBox.ClearSelected()
             FilesListBox.SelectedItem = item
-            Await DownloadFile(Folder & "\" & item, FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString, FileSizeListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString, FileModifiedTimeListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString)
+            Await DownloadFile(Folder & "\" & item, FileIdsList.Item(FilesListBox.Items.IndexOf(item)), FileSizeList.Item(FilesListBox.Items.IndexOf(item)), FileModifiedTimeList.Item(FilesListBox.Items.IndexOf(item)))
         Next
     End Function
     Private Sub SaveChecksumsFile(Filename As String, Optional IsFolder As Boolean = False)
@@ -1005,19 +1003,19 @@ Public Class Form1
             Next
         End If
         'Once Full Path has been created, we check for files inside the folder. If there's files, we will store their MD5 checksum.
-        For Each item In FilesListBox.Items
-            ChecksumString = ChecksumString + FileMD5List.Item(FilesListBox.Items.IndexOf(item)).ToString + " *" + FullPath + item.ToString + GetChecksumsReturnChar()
+        For Each item As String In FilesListBox.Items
+            ChecksumString = ChecksumString + FileMD5List.Item(FilesListBox.Items.IndexOf(item)) + " *" + FullPath + item + GetChecksumsReturnChar()
         Next
         'Finally, this loop checks if there are folders inside the folder we are. We start a recursion loop by calling this same function for each folder inside the folder.
         If FolderListBox.Items.Count > 0 Then
             Dim FolderList As New List(Of String)
-            For Each FolderInList In FolderListBox.Items
-                FolderList.Add(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderInList)).ToString)
+            For Each FolderInList As String In FolderListBox.Items
+                FolderList.Add(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderInList)))
             Next
-            For Each Folder2 In FolderList
-                Path.Add(FolderIdsList.Item(FolderIdsList.IndexOf(Folder2)).ToString)
+            For Each Folder2 As String In FolderList
+                Path.Add(FolderIdsList.Item(FolderIdsList.IndexOf(Folder2)))
                 FolderListBox.SelectedItem = FolderListBox.Items.Item(FolderIdsList.IndexOf(Folder2))
-                EnterFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem.ToString)))
+                EnterFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
                 ChecksumString = GetFileFolderChecksum(Path, ChecksumString)
                 GoBack()
                 Path.Remove(Folder2)
@@ -1052,24 +1050,24 @@ Public Class Form1
         End If
         'Once Full Path has been created, we check for files inside the folder. If there's files, we will download them
         Dim FolderFiles As New List(Of String)
-        For Each item In FilesListBox.Items
-            FolderFiles.Add(item.ToString)
+        For Each item As String In FilesListBox.Items
+            FolderFiles.Add(item)
         Next
         For Each item In FolderFiles
             FilesListBox.ClearSelected()
             FilesListBox.SelectedItem = item
-            Await DownloadFile(Location & "\" & FullPath & item, FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString, FileSizeListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString, FileModifiedTimeListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString)
+            Await DownloadFile(Location & "\" & FullPath & item, FileIdsList.Item(FilesListBox.Items.IndexOf(item)), FileSizeList.Item(FilesListBox.Items.IndexOf(item)), FileModifiedTimeList.Item(FilesListBox.Items.IndexOf(item)))
         Next
         'Finally, this loop checks if there are folders inside the folder we are. We start a recursion loop by calling this same function for each folder inside the folder.
         If FolderListBox.Items.Count > 0 Then
             Dim FolderList As New List(Of String)
-            For Each FolderInList In FolderListBox.Items
-                FolderList.Add(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderInList)).ToString)
+            For Each FolderInList As String In FolderListBox.Items
+                FolderList.Add(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderInList)))
             Next
-            For Each Folder2 In FolderList
-                Path.Add(FolderIdsList.Item(FolderIdsList.IndexOf(Folder2)).ToString)
+            For Each Folder2 As String In FolderList
+                Path.Add(FolderIdsList.Item(FolderIdsList.IndexOf(Folder2)))
                 FolderListBox.SelectedItem = FolderListBox.Items.Item(FolderIdsList.IndexOf(Folder2))
-                EnterFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem.ToString)))
+                EnterFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
                 Await DownloadFolder(Path, Location)
                 GoBack()
                 Path.Remove(Folder2)
@@ -1106,7 +1104,7 @@ Public Class Form1
                 If viewing_trash Then
                     WorkWithTrash(FilesListBox.SelectedItems, True, False)
                 Else
-                    RenameFileOrFolder(FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(FilesListBox.SelectedItem)).ToString)
+                    RenameFileOrFolder(FileIdsList.Item(FilesListBox.Items.IndexOf(FilesListBox.SelectedItem)))
                 End If
             End If
             e.SuppressKeyPress = True
@@ -1131,12 +1129,11 @@ Public Class Form1
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.U Then
             Dim URLs As List(Of String) = New List(Of String)
             Download_URLs.Filenames = New List(Of String)
-            For Each item In FilesListBox.SelectedItems
-                URLs.Add(Await GetUrl(FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString))
+            For Each item As String In FilesListBox.SelectedItems
+                URLs.Add(Await GetUrl(FileIdsList.Item(FilesListBox.Items.IndexOf(item))))
                 Download_URLs.Filenames.Add(FilesListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString)
             Next
             Download_URLs.RichTextBox1.Clear()
-
             For Each item In URLs
                 Download_URLs.RichTextBox1.Text += item
             Next
@@ -1167,8 +1164,6 @@ Public Class Form1
             Button12.Enabled = False
             RestoreToolStripMenuItem.Enabled = True
             MoveToTrashToolStripMenuItem.Enabled = False
-            'PreviousFolderId.Items.Clear()
-            'FolderIdsListBox.Items.Clear()
             Lang_Select()
             RefreshFileList("trash")
         Else
@@ -1186,7 +1181,7 @@ Public Class Form1
 
     Private Sub ListBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles UploadsListBox.SelectedIndexChanged
         If UploadsListBox.SelectedIndex <> -1 Then
-            FolderIDTextBox.Text = FolderToUploadFileListBox.Items.Item(UploadsListBox.SelectedIndex).ToString
+            FolderIDTextBox.Text = FolderToUploadFileList.Item(UploadsListBox.SelectedIndex)
             GetFolderIDName(False)
             Button13.Visible = True
             Button14.Enabled = True
@@ -1852,7 +1847,7 @@ Public Class Form1
     End Function
 
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
-        FolderToUploadFileListBox.Items.Item(UploadsListBox.SelectedIndex) = CurrentFolder
+        FolderToUploadFileList.Item(UploadsListBox.SelectedIndex) = CurrentFolder
         FolderIDTextBox.Text = CurrentFolder
         GetFolderIDName(False)
     End Sub
@@ -1954,7 +1949,7 @@ Public Class Form1
         If DialogResultVar = DialogResult.OK Then
             If OpenFileDialog1.FileNames IsNot Nothing Then
                 UploadsListBox.Items.AddRange(OpenFileDialog1.FileNames)
-                FolderToUploadFileListBox.Items.Add(CurrentFolder)
+                FolderToUploadFileList.Add(CurrentFolder)
                 My.Settings.UploadQueue.AddRange(OpenFileDialog1.FileNames)
                 My.Settings.UploadQueueFolders.Add(CurrentFolder)
             End If
@@ -1966,7 +1961,7 @@ Public Class Form1
         Dim FolderBrowserDialogResponse As DialogResult = FolderBrowserDialog1.ShowDialog
         If FolderBrowserDialogResponse = DialogResult.OK Then
             UploadsListBox.Items.Add(FolderBrowserDialog1.SelectedPath)
-            FolderToUploadFileListBox.Items.Add(CurrentFolder)
+            FolderToUploadFileList.Add(CurrentFolder)
             My.Settings.UploadQueue.Add(FolderBrowserDialog1.SelectedPath)
             My.Settings.UploadQueueFolders.Add(CurrentFolder)
             GetDirectoriesAndFiles(New IO.DirectoryInfo(FolderBrowserDialog1.SelectedPath))
@@ -1991,7 +1986,7 @@ Public Class Form1
     End Sub
     Private Sub CheckForFolderDownload()
         If FolderListBox.SelectedItem IsNot Nothing Then
-            EnterFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem.ToString)))
+            EnterFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
             DownloadFilesAndFolders(True)
         End If
     End Sub
@@ -2041,13 +2036,13 @@ Public Class Form1
 
     Private Sub SelectedFileToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SelectedFileToolStripMenuItem1.Click
         If FilesListBox.SelectedItem IsNot Nothing Then
-            RenameFileOrFolder(FileIdsListBox.Items.Item(FilesListBox.Items.IndexOf(FilesListBox.SelectedItem)).ToString)
+            RenameFileOrFolder(FileIdsList.Item(FilesListBox.Items.IndexOf(FilesListBox.SelectedItem)))
         End If
     End Sub
 
     Private Sub SelectedFolderToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SelectedFolderToolStripMenuItem1.Click
         If FolderListBox.SelectedItem IsNot Nothing Then
-            RenameFileOrFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)).ToString)
+            RenameFileOrFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
         End If
     End Sub
 
@@ -2119,7 +2114,7 @@ Public Class Form1
 
     Private Sub OpenFileInBrowser()
         If FilesListBox.SelectedItem IsNot Nothing Then
-            Process.Start("https://drive.google.com/file/d/" + FileIdsListBox.Items.Item(FilesListBox.SelectedIndex).ToString + "/view")
+            Process.Start("https://drive.google.com/file/d/" + FileIdsList.Item(FilesListBox.SelectedIndex) + "/view")
         End If
     End Sub
 
