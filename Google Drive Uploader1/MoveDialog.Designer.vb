@@ -23,7 +23,7 @@ Partial Class MoveDialog
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.FolderListBox = New System.Windows.Forms.ListBox()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.MoveButton = New System.Windows.Forms.Button()
         Me.BackButton = New System.Windows.Forms.Button()
         Me.SuspendLayout
         '
@@ -35,14 +35,14 @@ Partial Class MoveDialog
         Me.FolderListBox.Size = New System.Drawing.Size(481, 342)
         Me.FolderListBox.TabIndex = 0
         '
-        'Button1
+        'MoveButton
         '
-        Me.Button1.Location = New System.Drawing.Point(105, 360)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(388, 23)
-        Me.Button1.TabIndex = 1
-        Me.Button1.Text = "Move Here"
-        Me.Button1.UseVisualStyleBackColor = true
+        Me.MoveButton.Location = New System.Drawing.Point(105, 360)
+        Me.MoveButton.Name = "MoveButton"
+        Me.MoveButton.Size = New System.Drawing.Size(388, 23)
+        Me.MoveButton.TabIndex = 1
+        Me.MoveButton.Text = "Move Here"
+        Me.MoveButton.UseVisualStyleBackColor = true
         '
         'BackButton
         '
@@ -59,7 +59,7 @@ Partial Class MoveDialog
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(506, 393)
         Me.Controls.Add(Me.BackButton)
-        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.MoveButton)
         Me.Controls.Add(Me.FolderListBox)
         Me.Name = "MoveDialog"
         Me.Text = "Move"
@@ -68,6 +68,6 @@ Partial Class MoveDialog
 End Sub
 
     Friend WithEvents FolderListBox As ListBox
-    Friend WithEvents Button1 As Button
+    Friend WithEvents MoveButton As Button
     Friend WithEvents BackButton As Button
 End Class

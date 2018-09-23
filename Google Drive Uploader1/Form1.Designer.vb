@@ -24,34 +24,34 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Me.Label5 = New System.Windows.Forms.Label()
+        Me.UploadInstructionsLabel = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.UploadsListBox = New System.Windows.Forms.ListBox()
         Me.FolderListBox = New System.Windows.Forms.ListBox()
-        Me.Label17 = New System.Windows.Forms.Label()
+        Me.FolderLabel = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.TextBox9 = New System.Windows.Forms.TextBox()
-        Me.Label24 = New System.Windows.Forms.Label()
-        Me.TextBox8 = New System.Windows.Forms.TextBox()
-        Me.Label23 = New System.Windows.Forms.Label()
-        Me.TextBox7 = New System.Windows.Forms.TextBox()
-        Me.Label22 = New System.Windows.Forms.Label()
-        Me.TextBox6 = New System.Windows.Forms.TextBox()
-        Me.Label21 = New System.Windows.Forms.Label()
-        Me.TextBox5 = New System.Windows.Forms.TextBox()
-        Me.Label20 = New System.Windows.Forms.Label()
-        Me.TextBox4 = New System.Windows.Forms.TextBox()
-        Me.Label19 = New System.Windows.Forms.Label()
-        Me.TextBox3 = New System.Windows.Forms.TextBox()
-        Me.Label18 = New System.Windows.Forms.Label()
-        Me.Button10 = New System.Windows.Forms.Button()
-        Me.Button12 = New System.Windows.Forms.Button()
+        Me.SaveChecksumFileButton = New System.Windows.Forms.Button()
+        Me.FileSizeTextbox = New System.Windows.Forms.TextBox()
+        Me.FileSizeLabel = New System.Windows.Forms.Label()
+        Me.MIMETypeTextbox = New System.Windows.Forms.TextBox()
+        Me.MIMETypeLabel = New System.Windows.Forms.Label()
+        Me.MD5ChecksumTextbox = New System.Windows.Forms.TextBox()
+        Me.MD5ChecksumLabel = New System.Windows.Forms.Label()
+        Me.DateModifiedTextbox = New System.Windows.Forms.TextBox()
+        Me.DateModifiedLabel = New System.Windows.Forms.Label()
+        Me.DateCreatedTextbox = New System.Windows.Forms.TextBox()
+        Me.DateCreatedLabel = New System.Windows.Forms.Label()
+        Me.FileIDTextbox = New System.Windows.Forms.TextBox()
+        Me.FileIdLabel = New System.Windows.Forms.Label()
+        Me.FileNameTextBox = New System.Windows.Forms.TextBox()
+        Me.FileNameLabel = New System.Windows.Forms.Label()
+        Me.BackButton = New System.Windows.Forms.Button()
+        Me.CreateNewFolderButton = New System.Windows.Forms.Button()
         Me.SaveFileDialog2 = New System.Windows.Forms.SaveFileDialog()
         Me.btnLogout = New System.Windows.Forms.Button()
-        Me.Button11 = New System.Windows.Forms.Button()
-        Me.Button13 = New System.Windows.Forms.Button()
+        Me.ViewTrashButton = New System.Windows.Forms.Button()
+        Me.UploadToSelectedFolderButton = New System.Windows.Forms.Button()
         Me.CurrentFolderLabel = New System.Windows.Forms.Label()
         Me.GoToRootLink = New System.Windows.Forms.LinkLabel()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
@@ -63,7 +63,6 @@ Partial Class Form1
         Me.DownloadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectedFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectedFolderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ActionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CreateNewFolderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RenameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -100,38 +99,38 @@ Partial Class Form1
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.UploadButton = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
+        Me.FileSizeUploadLabel = New System.Windows.Forms.Label()
+        Me.ProcessedFileSizeUploadLabel = New System.Windows.Forms.Label()
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
-        Me.FileSizeLabel = New System.Windows.Forms.Label()
-        Me.ProcessedFileSizeLabel = New System.Windows.Forms.Label()
-        Me.Button9 = New System.Windows.Forms.Button()
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.Label16 = New System.Windows.Forms.Label()
+        Me.FileSizeFromCurrentUploadLabel = New System.Windows.Forms.Label()
+        Me.ProcessedFileSizeFromCurrentUploadLabel = New System.Windows.Forms.Label()
+        Me.GetFolderIdNameButton = New System.Windows.Forms.Button()
+        Me.AboutLabel = New System.Windows.Forms.Label()
+        Me.FolderNameTextbox = New System.Windows.Forms.TextBox()
+        Me.UploadStatusLabel = New System.Windows.Forms.Label()
+        Me.FolderNameLabel = New System.Windows.Forms.Label()
         Me.StatusLabel = New System.Windows.Forms.Label()
-        Me.Label9 = New System.Windows.Forms.Label()
+        Me.UploadPercentLabel = New System.Windows.Forms.Label()
         Me.PercentLabel = New System.Windows.Forms.Label()
-        Me.Label12 = New System.Windows.Forms.Label()
+        Me.UploadToThisFolderIDLabel = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.RadioButton3 = New System.Windows.Forms.RadioButton()
-        Me.RadioButton2 = New System.Windows.Forms.RadioButton()
-        Me.RadioButton1 = New System.Windows.Forms.RadioButton()
+        Me.TChineseRButton = New System.Windows.Forms.RadioButton()
+        Me.SpanishRButton = New System.Windows.Forms.RadioButton()
+        Me.EnglishRButton = New System.Windows.Forms.RadioButton()
         Me.FolderIDTextBox = New System.Windows.Forms.TextBox()
         Me.TimeRemainingLabel = New System.Windows.Forms.Label()
-        Me.Label13 = New System.Windows.Forms.Label()
+        Me.UploadTimeLeftLabel = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
-        Me.Button14 = New System.Windows.Forms.Button()
-        Me.Button6 = New System.Windows.Forms.Button()
-        Me.Button3 = New System.Windows.Forms.Button()
+        Me.DeselectItemFromUploadQueueButton = New System.Windows.Forms.Button()
+        Me.RemoveSelectedFilesFromList = New System.Windows.Forms.Button()
+        Me.ClearUploadQueueButton = New System.Windows.Forms.Button()
         Me.TableLayoutPanel3 = New System.Windows.Forms.TableLayoutPanel()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.FileCount = New System.Windows.Forms.Label()
-        Me.Button5 = New System.Windows.Forms.Button()
-        Me.Button4 = New System.Windows.Forms.Button()
-        Me.Button7 = New System.Windows.Forms.Button()
+        Me.DownloadFileButton = New System.Windows.Forms.Button()
+        Me.RefreshListButton = New System.Windows.Forms.Button()
+        Me.SaveSelectedFilesChecksumButton = New System.Windows.Forms.Button()
         Me.FilesListBox = New System.Windows.Forms.ListBox()
         Me.FilesContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.OpenInBrowserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -139,7 +138,7 @@ Partial Class Form1
         Me.SaveChecksumToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GetRawDownloadURLToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Label11 = New System.Windows.Forms.Label()
+        Me.FilesLabel = New System.Windows.Forms.Label()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.LoggedInAs = New System.Windows.Forms.ToolStripStatusLabel()
         Me.LoggedUsername = New System.Windows.Forms.ToolStripStatusLabel()
@@ -164,14 +163,14 @@ Partial Class Form1
         Me.StatusStrip1.SuspendLayout
         Me.SuspendLayout
         '
-        'Label5
+        'UploadInstructionsLabel
         '
-        Me.Label5.AutoSize = true
-        Me.Label5.Location = New System.Drawing.Point(3, 0)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(205, 13)
-        Me.Label5.TabIndex = 9
-        Me.Label5.Text = "Drag and Drop Files to add them to the list"
+        Me.UploadInstructionsLabel.AutoSize = true
+        Me.UploadInstructionsLabel.Location = New System.Drawing.Point(3, 0)
+        Me.UploadInstructionsLabel.Name = "UploadInstructionsLabel"
+        Me.UploadInstructionsLabel.Size = New System.Drawing.Size(205, 13)
+        Me.UploadInstructionsLabel.TabIndex = 9
+        Me.UploadInstructionsLabel.Text = "Drag and Drop Files to add them to the list"
         '
         'OpenFileDialog1
         '
@@ -204,33 +203,33 @@ Partial Class Form1
         Me.FolderListBox.Size = New System.Drawing.Size(491, 173)
         Me.FolderListBox.TabIndex = 39
         '
-        'Label17
+        'FolderLabel
         '
-        Me.Label17.AutoSize = true
-        Me.Label17.Location = New System.Drawing.Point(3, 0)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(44, 13)
-        Me.Label17.TabIndex = 38
-        Me.Label17.Text = "Folders:"
+        Me.FolderLabel.AutoSize = true
+        Me.FolderLabel.Location = New System.Drawing.Point(3, 0)
+        Me.FolderLabel.Name = "FolderLabel"
+        Me.FolderLabel.Size = New System.Drawing.Size(44, 13)
+        Me.FolderLabel.TabIndex = 38
+        Me.FolderLabel.Text = "Folders:"
         '
         'GroupBox2
         '
         Me.GroupBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.GroupBox2.Controls.Add(Me.Button1)
-        Me.GroupBox2.Controls.Add(Me.TextBox9)
-        Me.GroupBox2.Controls.Add(Me.Label24)
-        Me.GroupBox2.Controls.Add(Me.TextBox8)
-        Me.GroupBox2.Controls.Add(Me.Label23)
-        Me.GroupBox2.Controls.Add(Me.TextBox7)
-        Me.GroupBox2.Controls.Add(Me.Label22)
-        Me.GroupBox2.Controls.Add(Me.TextBox6)
-        Me.GroupBox2.Controls.Add(Me.Label21)
-        Me.GroupBox2.Controls.Add(Me.TextBox5)
-        Me.GroupBox2.Controls.Add(Me.Label20)
-        Me.GroupBox2.Controls.Add(Me.TextBox4)
-        Me.GroupBox2.Controls.Add(Me.Label19)
-        Me.GroupBox2.Controls.Add(Me.TextBox3)
-        Me.GroupBox2.Controls.Add(Me.Label18)
+        Me.GroupBox2.Controls.Add(Me.SaveChecksumFileButton)
+        Me.GroupBox2.Controls.Add(Me.FileSizeTextbox)
+        Me.GroupBox2.Controls.Add(Me.FileSizeLabel)
+        Me.GroupBox2.Controls.Add(Me.MIMETypeTextbox)
+        Me.GroupBox2.Controls.Add(Me.MIMETypeLabel)
+        Me.GroupBox2.Controls.Add(Me.MD5ChecksumTextbox)
+        Me.GroupBox2.Controls.Add(Me.MD5ChecksumLabel)
+        Me.GroupBox2.Controls.Add(Me.DateModifiedTextbox)
+        Me.GroupBox2.Controls.Add(Me.DateModifiedLabel)
+        Me.GroupBox2.Controls.Add(Me.DateCreatedTextbox)
+        Me.GroupBox2.Controls.Add(Me.DateCreatedLabel)
+        Me.GroupBox2.Controls.Add(Me.FileIDTextbox)
+        Me.GroupBox2.Controls.Add(Me.FileIdLabel)
+        Me.GroupBox2.Controls.Add(Me.FileNameTextBox)
+        Me.GroupBox2.Controls.Add(Me.FileNameLabel)
         Me.GroupBox2.Location = New System.Drawing.Point(1030, 27)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(281, 326)
@@ -238,146 +237,146 @@ Partial Class Form1
         Me.GroupBox2.TabStop = false
         Me.GroupBox2.Text = "File Information:"
         '
-        'Button1
+        'SaveChecksumFileButton
         '
-        Me.Button1.Location = New System.Drawing.Point(141, 291)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(134, 23)
-        Me.Button1.TabIndex = 14
-        Me.Button1.Text = "Save Checksum File"
-        Me.Button1.UseVisualStyleBackColor = true
+        Me.SaveChecksumFileButton.Location = New System.Drawing.Point(141, 291)
+        Me.SaveChecksumFileButton.Name = "SaveChecksumFileButton"
+        Me.SaveChecksumFileButton.Size = New System.Drawing.Size(134, 23)
+        Me.SaveChecksumFileButton.TabIndex = 14
+        Me.SaveChecksumFileButton.Text = "Save Checksum File"
+        Me.SaveChecksumFileButton.UseVisualStyleBackColor = true
         '
-        'TextBox9
+        'FileSizeTextbox
         '
-        Me.TextBox9.Location = New System.Drawing.Point(6, 111)
-        Me.TextBox9.Name = "TextBox9"
-        Me.TextBox9.Size = New System.Drawing.Size(269, 20)
-        Me.TextBox9.TabIndex = 13
+        Me.FileSizeTextbox.Location = New System.Drawing.Point(6, 111)
+        Me.FileSizeTextbox.Name = "FileSizeTextbox"
+        Me.FileSizeTextbox.Size = New System.Drawing.Size(269, 20)
+        Me.FileSizeTextbox.TabIndex = 13
         '
-        'Label24
+        'FileSizeLabel
         '
-        Me.Label24.AutoSize = true
-        Me.Label24.Location = New System.Drawing.Point(3, 94)
-        Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(49, 13)
-        Me.Label24.TabIndex = 12
-        Me.Label24.Text = "File Size:"
+        Me.FileSizeLabel.AutoSize = true
+        Me.FileSizeLabel.Location = New System.Drawing.Point(3, 94)
+        Me.FileSizeLabel.Name = "FileSizeLabel"
+        Me.FileSizeLabel.Size = New System.Drawing.Size(49, 13)
+        Me.FileSizeLabel.TabIndex = 12
+        Me.FileSizeLabel.Text = "File Size:"
         '
-        'TextBox8
+        'MIMETypeTextbox
         '
-        Me.TextBox8.Location = New System.Drawing.Point(6, 150)
-        Me.TextBox8.Name = "TextBox8"
-        Me.TextBox8.Size = New System.Drawing.Size(269, 20)
-        Me.TextBox8.TabIndex = 11
+        Me.MIMETypeTextbox.Location = New System.Drawing.Point(6, 150)
+        Me.MIMETypeTextbox.Name = "MIMETypeTextbox"
+        Me.MIMETypeTextbox.Size = New System.Drawing.Size(269, 20)
+        Me.MIMETypeTextbox.TabIndex = 11
         '
-        'Label23
+        'MIMETypeLabel
         '
-        Me.Label23.AutoSize = true
-        Me.Label23.Location = New System.Drawing.Point(3, 133)
-        Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(65, 13)
-        Me.Label23.TabIndex = 10
-        Me.Label23.Text = "MIME Type:"
+        Me.MIMETypeLabel.AutoSize = true
+        Me.MIMETypeLabel.Location = New System.Drawing.Point(3, 133)
+        Me.MIMETypeLabel.Name = "MIMETypeLabel"
+        Me.MIMETypeLabel.Size = New System.Drawing.Size(65, 13)
+        Me.MIMETypeLabel.TabIndex = 10
+        Me.MIMETypeLabel.Text = "MIME Type:"
         '
-        'TextBox7
+        'MD5ChecksumTextbox
         '
-        Me.TextBox7.Location = New System.Drawing.Point(6, 265)
-        Me.TextBox7.Name = "TextBox7"
-        Me.TextBox7.Size = New System.Drawing.Size(269, 20)
-        Me.TextBox7.TabIndex = 9
+        Me.MD5ChecksumTextbox.Location = New System.Drawing.Point(6, 265)
+        Me.MD5ChecksumTextbox.Name = "MD5ChecksumTextbox"
+        Me.MD5ChecksumTextbox.Size = New System.Drawing.Size(269, 20)
+        Me.MD5ChecksumTextbox.TabIndex = 9
         '
-        'Label22
+        'MD5ChecksumLabel
         '
-        Me.Label22.AutoSize = true
-        Me.Label22.Location = New System.Drawing.Point(3, 250)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(86, 13)
-        Me.Label22.TabIndex = 8
-        Me.Label22.Text = "MD5 Checksum:"
+        Me.MD5ChecksumLabel.AutoSize = true
+        Me.MD5ChecksumLabel.Location = New System.Drawing.Point(3, 250)
+        Me.MD5ChecksumLabel.Name = "MD5ChecksumLabel"
+        Me.MD5ChecksumLabel.Size = New System.Drawing.Size(86, 13)
+        Me.MD5ChecksumLabel.TabIndex = 8
+        Me.MD5ChecksumLabel.Text = "MD5 Checksum:"
         '
-        'TextBox6
+        'DateModifiedTextbox
         '
-        Me.TextBox6.Location = New System.Drawing.Point(6, 228)
-        Me.TextBox6.Name = "TextBox6"
-        Me.TextBox6.Size = New System.Drawing.Size(269, 20)
-        Me.TextBox6.TabIndex = 7
+        Me.DateModifiedTextbox.Location = New System.Drawing.Point(6, 228)
+        Me.DateModifiedTextbox.Name = "DateModifiedTextbox"
+        Me.DateModifiedTextbox.Size = New System.Drawing.Size(269, 20)
+        Me.DateModifiedTextbox.TabIndex = 7
         '
-        'Label21
+        'DateModifiedLabel
         '
-        Me.Label21.AutoSize = true
-        Me.Label21.Location = New System.Drawing.Point(3, 211)
-        Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(76, 13)
-        Me.Label21.TabIndex = 6
-        Me.Label21.Text = "Date Modified:"
+        Me.DateModifiedLabel.AutoSize = true
+        Me.DateModifiedLabel.Location = New System.Drawing.Point(3, 211)
+        Me.DateModifiedLabel.Name = "DateModifiedLabel"
+        Me.DateModifiedLabel.Size = New System.Drawing.Size(76, 13)
+        Me.DateModifiedLabel.TabIndex = 6
+        Me.DateModifiedLabel.Text = "Date Modified:"
         '
-        'TextBox5
+        'DateCreatedTextbox
         '
-        Me.TextBox5.Location = New System.Drawing.Point(6, 189)
-        Me.TextBox5.Name = "TextBox5"
-        Me.TextBox5.Size = New System.Drawing.Size(269, 20)
-        Me.TextBox5.TabIndex = 5
+        Me.DateCreatedTextbox.Location = New System.Drawing.Point(6, 189)
+        Me.DateCreatedTextbox.Name = "DateCreatedTextbox"
+        Me.DateCreatedTextbox.Size = New System.Drawing.Size(269, 20)
+        Me.DateCreatedTextbox.TabIndex = 5
         '
-        'Label20
+        'DateCreatedLabel
         '
-        Me.Label20.AutoSize = true
-        Me.Label20.Location = New System.Drawing.Point(3, 172)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(73, 13)
-        Me.Label20.TabIndex = 4
-        Me.Label20.Text = "Date Created:"
+        Me.DateCreatedLabel.AutoSize = true
+        Me.DateCreatedLabel.Location = New System.Drawing.Point(3, 172)
+        Me.DateCreatedLabel.Name = "DateCreatedLabel"
+        Me.DateCreatedLabel.Size = New System.Drawing.Size(73, 13)
+        Me.DateCreatedLabel.TabIndex = 4
+        Me.DateCreatedLabel.Text = "Date Created:"
         '
-        'TextBox4
+        'FileIDTextbox
         '
-        Me.TextBox4.Location = New System.Drawing.Point(6, 72)
-        Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(269, 20)
-        Me.TextBox4.TabIndex = 3
+        Me.FileIDTextbox.Location = New System.Drawing.Point(6, 72)
+        Me.FileIDTextbox.Name = "FileIDTextbox"
+        Me.FileIDTextbox.Size = New System.Drawing.Size(269, 20)
+        Me.FileIDTextbox.TabIndex = 3
         '
-        'Label19
+        'FileIdLabel
         '
-        Me.Label19.AutoSize = true
-        Me.Label19.Location = New System.Drawing.Point(3, 55)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(40, 13)
-        Me.Label19.TabIndex = 2
-        Me.Label19.Text = "File ID:"
+        Me.FileIdLabel.AutoSize = true
+        Me.FileIdLabel.Location = New System.Drawing.Point(3, 55)
+        Me.FileIdLabel.Name = "FileIdLabel"
+        Me.FileIdLabel.Size = New System.Drawing.Size(40, 13)
+        Me.FileIdLabel.TabIndex = 2
+        Me.FileIdLabel.Text = "File ID:"
         '
-        'TextBox3
+        'FileNameTextBox
         '
-        Me.TextBox3.Location = New System.Drawing.Point(6, 33)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(269, 20)
-        Me.TextBox3.TabIndex = 1
+        Me.FileNameTextBox.Location = New System.Drawing.Point(6, 33)
+        Me.FileNameTextBox.Name = "FileNameTextBox"
+        Me.FileNameTextBox.Size = New System.Drawing.Size(269, 20)
+        Me.FileNameTextBox.TabIndex = 1
         '
-        'Label18
+        'FileNameLabel
         '
-        Me.Label18.AutoSize = true
-        Me.Label18.Location = New System.Drawing.Point(3, 16)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(57, 13)
-        Me.Label18.TabIndex = 0
-        Me.Label18.Text = "File Name:"
+        Me.FileNameLabel.AutoSize = true
+        Me.FileNameLabel.Location = New System.Drawing.Point(3, 16)
+        Me.FileNameLabel.Name = "FileNameLabel"
+        Me.FileNameLabel.Size = New System.Drawing.Size(57, 13)
+        Me.FileNameLabel.TabIndex = 0
+        Me.FileNameLabel.Text = "File Name:"
         '
-        'Button10
+        'BackButton
         '
-        Me.Button10.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Button10.Location = New System.Drawing.Point(6, 192)
-        Me.Button10.Name = "Button10"
-        Me.Button10.Size = New System.Drawing.Size(75, 23)
-        Me.Button10.TabIndex = 41
-        Me.Button10.Text = "Back"
-        Me.Button10.UseVisualStyleBackColor = true
+        Me.BackButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.BackButton.Location = New System.Drawing.Point(6, 192)
+        Me.BackButton.Name = "BackButton"
+        Me.BackButton.Size = New System.Drawing.Size(75, 23)
+        Me.BackButton.TabIndex = 41
+        Me.BackButton.Text = "Back"
+        Me.BackButton.UseVisualStyleBackColor = true
         '
-        'Button12
+        'CreateNewFolderButton
         '
-        Me.Button12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Button12.Location = New System.Drawing.Point(87, 192)
-        Me.Button12.Name = "Button12"
-        Me.Button12.Size = New System.Drawing.Size(108, 23)
-        Me.Button12.TabIndex = 43
-        Me.Button12.Text = "Create new folder"
-        Me.Button12.UseVisualStyleBackColor = true
+        Me.CreateNewFolderButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.CreateNewFolderButton.Location = New System.Drawing.Point(87, 192)
+        Me.CreateNewFolderButton.Name = "CreateNewFolderButton"
+        Me.CreateNewFolderButton.Size = New System.Drawing.Size(108, 23)
+        Me.CreateNewFolderButton.TabIndex = 43
+        Me.CreateNewFolderButton.Text = "Create new folder"
+        Me.CreateNewFolderButton.UseVisualStyleBackColor = true
         '
         'btnLogout
         '
@@ -389,26 +388,26 @@ Partial Class Form1
         Me.btnLogout.Text = "Logout"
         Me.btnLogout.UseVisualStyleBackColor = true
         '
-        'Button11
+        'ViewTrashButton
         '
-        Me.Button11.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.Button11.Location = New System.Drawing.Point(1030, 456)
-        Me.Button11.Name = "Button11"
-        Me.Button11.Size = New System.Drawing.Size(101, 25)
-        Me.Button11.TabIndex = 45
-        Me.Button11.Text = "View Trash"
-        Me.Button11.UseVisualStyleBackColor = true
+        Me.ViewTrashButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.ViewTrashButton.Location = New System.Drawing.Point(1030, 456)
+        Me.ViewTrashButton.Name = "ViewTrashButton"
+        Me.ViewTrashButton.Size = New System.Drawing.Size(101, 25)
+        Me.ViewTrashButton.TabIndex = 45
+        Me.ViewTrashButton.Text = "View Trash"
+        Me.ViewTrashButton.UseVisualStyleBackColor = true
         '
-        'Button13
+        'UploadToSelectedFolderButton
         '
-        Me.Button13.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.Button13.Location = New System.Drawing.Point(301, 192)
-        Me.Button13.Name = "Button13"
-        Me.Button13.Size = New System.Drawing.Size(196, 23)
-        Me.Button13.TabIndex = 46
-        Me.Button13.Text = "Upload selected file(s) to current folder"
-        Me.Button13.UseVisualStyleBackColor = true
-        Me.Button13.Visible = false
+        Me.UploadToSelectedFolderButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.UploadToSelectedFolderButton.Location = New System.Drawing.Point(301, 192)
+        Me.UploadToSelectedFolderButton.Name = "UploadToSelectedFolderButton"
+        Me.UploadToSelectedFolderButton.Size = New System.Drawing.Size(196, 23)
+        Me.UploadToSelectedFolderButton.TabIndex = 46
+        Me.UploadToSelectedFolderButton.Text = "Upload selected file(s) to current folder"
+        Me.UploadToSelectedFolderButton.UseVisualStyleBackColor = true
+        Me.UploadToSelectedFolderButton.Visible = false
         '
         'CurrentFolderLabel
         '
@@ -452,45 +451,40 @@ Partial Class Form1
         '
         Me.UploadToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem1, Me.FolderToolStripMenuItem})
         Me.UploadToolStripMenuItem.Name = "UploadToolStripMenuItem"
-        Me.UploadToolStripMenuItem.Size = New System.Drawing.Size(121, 22)
+        Me.UploadToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.UploadToolStripMenuItem.Text = "Upload"
         '
         'FileToolStripMenuItem1
         '
         Me.FileToolStripMenuItem1.Name = "FileToolStripMenuItem1"
-        Me.FileToolStripMenuItem1.Size = New System.Drawing.Size(107, 22)
+        Me.FileToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.FileToolStripMenuItem1.Text = "File(s)"
         '
         'FolderToolStripMenuItem
         '
         Me.FolderToolStripMenuItem.Name = "FolderToolStripMenuItem"
-        Me.FolderToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
+        Me.FolderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.FolderToolStripMenuItem.Text = "Folder"
         '
         'DownloadToolStripMenuItem
         '
-        Me.DownloadToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFileToolStripMenuItem, Me.SelectedFolderToolStripMenuItem, Me.ToolStripSeparator2})
+        Me.DownloadToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFileToolStripMenuItem, Me.SelectedFolderToolStripMenuItem})
         Me.DownloadToolStripMenuItem.Name = "DownloadToolStripMenuItem"
         Me.DownloadToolStripMenuItem.ShowShortcutKeys = false
-        Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(121, 22)
+        Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.DownloadToolStripMenuItem.Text = "Download"
         '
         'SelectedFileToolStripMenuItem
         '
         Me.SelectedFileToolStripMenuItem.Name = "SelectedFileToolStripMenuItem"
-        Me.SelectedFileToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
+        Me.SelectedFileToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SelectedFileToolStripMenuItem.Text = "Selected File(s)"
         '
         'SelectedFolderToolStripMenuItem
         '
         Me.SelectedFolderToolStripMenuItem.Name = "SelectedFolderToolStripMenuItem"
-        Me.SelectedFolderToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
+        Me.SelectedFolderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SelectedFolderToolStripMenuItem.Text = "Selected Folder"
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(151, 6)
         '
         'ActionsToolStripMenuItem
         '
@@ -502,14 +496,14 @@ Partial Class Form1
         'CreateNewFolderToolStripMenuItem
         '
         Me.CreateNewFolderToolStripMenuItem.Name = "CreateNewFolderToolStripMenuItem"
-        Me.CreateNewFolderToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
+        Me.CreateNewFolderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CreateNewFolderToolStripMenuItem.Text = "Create New Folder"
         '
         'RenameToolStripMenuItem
         '
         Me.RenameToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFileToolStripMenuItem1, Me.SelectedFolderToolStripMenuItem1})
         Me.RenameToolStripMenuItem.Name = "RenameToolStripMenuItem"
-        Me.RenameToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
+        Me.RenameToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.RenameToolStripMenuItem.Text = "Rename"
         '
         'SelectedFileToolStripMenuItem1
@@ -527,14 +521,14 @@ Partial Class Form1
         'RefreshListToolStripMenuItem
         '
         Me.RefreshListToolStripMenuItem.Name = "RefreshListToolStripMenuItem"
-        Me.RefreshListToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
+        Me.RefreshListToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.RefreshListToolStripMenuItem.Text = "Refresh List"
         '
         'SaveChecksumsToolStripMenuItem
         '
         Me.SaveChecksumsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFilesToolStripMenuItem2, Me.SelectedFolderToolStripMenuItem2})
         Me.SaveChecksumsToolStripMenuItem.Name = "SaveChecksumsToolStripMenuItem"
-        Me.SaveChecksumsToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
+        Me.SaveChecksumsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SaveChecksumsToolStripMenuItem.Text = "Save Checksums"
         '
         'SelectedFilesToolStripMenuItem2
@@ -552,13 +546,13 @@ Partial Class Form1
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(168, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
         '
         'MoveToTrashToolStripMenuItem
         '
         Me.MoveToTrashToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFilesToolStripMenuItem, Me.SelectedFoldersToolStripMenuItem})
         Me.MoveToTrashToolStripMenuItem.Name = "MoveToTrashToolStripMenuItem"
-        Me.MoveToTrashToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
+        Me.MoveToTrashToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.MoveToTrashToolStripMenuItem.Text = "Move to Trash"
         '
         'SelectedFilesToolStripMenuItem
@@ -578,7 +572,7 @@ Partial Class Form1
         Me.RestoreToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFilesToolStripMenuItem1, Me.SelectedFoldersToolStripMenuItem1})
         Me.RestoreToolStripMenuItem.Enabled = false
         Me.RestoreToolStripMenuItem.Name = "RestoreToolStripMenuItem"
-        Me.RestoreToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
+        Me.RestoreToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.RestoreToolStripMenuItem.Text = "Restore"
         '
         'SelectedFilesToolStripMenuItem1
@@ -738,24 +732,24 @@ Partial Class Form1
         'Panel4
         '
         Me.Panel4.Controls.Add(Me.UploadButton)
-        Me.Panel4.Controls.Add(Me.Label1)
-        Me.Panel4.Controls.Add(Me.Label2)
+        Me.Panel4.Controls.Add(Me.FileSizeUploadLabel)
+        Me.Panel4.Controls.Add(Me.ProcessedFileSizeUploadLabel)
         Me.Panel4.Controls.Add(Me.ProgressBar1)
-        Me.Panel4.Controls.Add(Me.FileSizeLabel)
-        Me.Panel4.Controls.Add(Me.ProcessedFileSizeLabel)
-        Me.Panel4.Controls.Add(Me.Button9)
-        Me.Panel4.Controls.Add(Me.Label6)
-        Me.Panel4.Controls.Add(Me.TextBox1)
-        Me.Panel4.Controls.Add(Me.Label7)
-        Me.Panel4.Controls.Add(Me.Label16)
+        Me.Panel4.Controls.Add(Me.FileSizeFromCurrentUploadLabel)
+        Me.Panel4.Controls.Add(Me.ProcessedFileSizeFromCurrentUploadLabel)
+        Me.Panel4.Controls.Add(Me.GetFolderIdNameButton)
+        Me.Panel4.Controls.Add(Me.AboutLabel)
+        Me.Panel4.Controls.Add(Me.FolderNameTextbox)
+        Me.Panel4.Controls.Add(Me.UploadStatusLabel)
+        Me.Panel4.Controls.Add(Me.FolderNameLabel)
         Me.Panel4.Controls.Add(Me.StatusLabel)
-        Me.Panel4.Controls.Add(Me.Label9)
+        Me.Panel4.Controls.Add(Me.UploadPercentLabel)
         Me.Panel4.Controls.Add(Me.PercentLabel)
-        Me.Panel4.Controls.Add(Me.Label12)
+        Me.Panel4.Controls.Add(Me.UploadToThisFolderIDLabel)
         Me.Panel4.Controls.Add(Me.GroupBox1)
         Me.Panel4.Controls.Add(Me.FolderIDTextBox)
         Me.Panel4.Controls.Add(Me.TimeRemainingLabel)
-        Me.Panel4.Controls.Add(Me.Label13)
+        Me.Panel4.Controls.Add(Me.UploadTimeLeftLabel)
         Me.Panel4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel4.Location = New System.Drawing.Point(3, 260)
         Me.Panel4.Name = "Panel4"
@@ -773,25 +767,25 @@ Partial Class Form1
         Me.UploadButton.Text = "Upload"
         Me.UploadButton.UseVisualStyleBackColor = true
         '
-        'Label1
+        'FileSizeUploadLabel
         '
-        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Label1.AutoSize = true
-        Me.Label1.Location = New System.Drawing.Point(11, 98)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(49, 13)
-        Me.Label1.TabIndex = 3
-        Me.Label1.Text = "File Size:"
+        Me.FileSizeUploadLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.FileSizeUploadLabel.AutoSize = true
+        Me.FileSizeUploadLabel.Location = New System.Drawing.Point(11, 98)
+        Me.FileSizeUploadLabel.Name = "FileSizeUploadLabel"
+        Me.FileSizeUploadLabel.Size = New System.Drawing.Size(49, 13)
+        Me.FileSizeUploadLabel.TabIndex = 3
+        Me.FileSizeUploadLabel.Text = "File Size:"
         '
-        'Label2
+        'ProcessedFileSizeUploadLabel
         '
-        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Label2.AutoSize = true
-        Me.Label2.Location = New System.Drawing.Point(11, 111)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(60, 13)
-        Me.Label2.TabIndex = 4
-        Me.Label2.Text = "Processed:"
+        Me.ProcessedFileSizeUploadLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.ProcessedFileSizeUploadLabel.AutoSize = true
+        Me.ProcessedFileSizeUploadLabel.Location = New System.Drawing.Point(11, 111)
+        Me.ProcessedFileSizeUploadLabel.Name = "ProcessedFileSizeUploadLabel"
+        Me.ProcessedFileSizeUploadLabel.Size = New System.Drawing.Size(60, 13)
+        Me.ProcessedFileSizeUploadLabel.TabIndex = 4
+        Me.ProcessedFileSizeUploadLabel.Text = "Processed:"
         '
         'ProgressBar1
         '
@@ -802,75 +796,75 @@ Partial Class Form1
         Me.ProgressBar1.Size = New System.Drawing.Size(463, 23)
         Me.ProgressBar1.TabIndex = 5
         '
-        'FileSizeLabel
+        'FileSizeFromCurrentUploadLabel
         '
-        Me.FileSizeLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.FileSizeLabel.AutoSize = true
-        Me.FileSizeLabel.Location = New System.Drawing.Point(80, 98)
-        Me.FileSizeLabel.Name = "FileSizeLabel"
-        Me.FileSizeLabel.Size = New System.Drawing.Size(27, 13)
-        Me.FileSizeLabel.TabIndex = 6
-        Me.FileSizeLabel.Text = "N/A"
+        Me.FileSizeFromCurrentUploadLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.FileSizeFromCurrentUploadLabel.AutoSize = true
+        Me.FileSizeFromCurrentUploadLabel.Location = New System.Drawing.Point(80, 98)
+        Me.FileSizeFromCurrentUploadLabel.Name = "FileSizeFromCurrentUploadLabel"
+        Me.FileSizeFromCurrentUploadLabel.Size = New System.Drawing.Size(27, 13)
+        Me.FileSizeFromCurrentUploadLabel.TabIndex = 6
+        Me.FileSizeFromCurrentUploadLabel.Text = "N/A"
         '
-        'ProcessedFileSizeLabel
+        'ProcessedFileSizeFromCurrentUploadLabel
         '
-        Me.ProcessedFileSizeLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.ProcessedFileSizeLabel.AutoSize = true
-        Me.ProcessedFileSizeLabel.Location = New System.Drawing.Point(80, 111)
-        Me.ProcessedFileSizeLabel.Name = "ProcessedFileSizeLabel"
-        Me.ProcessedFileSizeLabel.Size = New System.Drawing.Size(27, 13)
-        Me.ProcessedFileSizeLabel.TabIndex = 7
-        Me.ProcessedFileSizeLabel.Text = "N/A"
+        Me.ProcessedFileSizeFromCurrentUploadLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.ProcessedFileSizeFromCurrentUploadLabel.AutoSize = true
+        Me.ProcessedFileSizeFromCurrentUploadLabel.Location = New System.Drawing.Point(80, 111)
+        Me.ProcessedFileSizeFromCurrentUploadLabel.Name = "ProcessedFileSizeFromCurrentUploadLabel"
+        Me.ProcessedFileSizeFromCurrentUploadLabel.Size = New System.Drawing.Size(27, 13)
+        Me.ProcessedFileSizeFromCurrentUploadLabel.TabIndex = 7
+        Me.ProcessedFileSizeFromCurrentUploadLabel.Text = "N/A"
         '
-        'Button9
+        'GetFolderIdNameButton
         '
-        Me.Button9.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.Button9.Location = New System.Drawing.Point(261, 69)
-        Me.Button9.Name = "Button9"
-        Me.Button9.Size = New System.Drawing.Size(162, 23)
-        Me.Button9.TabIndex = 37
-        Me.Button9.Text = "Get Folder Name"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"Obtener Nombre de la carpeta"
-        Me.Button9.UseVisualStyleBackColor = true
+        Me.GetFolderIdNameButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.GetFolderIdNameButton.Location = New System.Drawing.Point(261, 69)
+        Me.GetFolderIdNameButton.Name = "GetFolderIdNameButton"
+        Me.GetFolderIdNameButton.Size = New System.Drawing.Size(162, 23)
+        Me.GetFolderIdNameButton.TabIndex = 37
+        Me.GetFolderIdNameButton.Text = "Get Folder Name"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"Obtener Nombre de la carpeta"
+        Me.GetFolderIdNameButton.UseVisualStyleBackColor = true
         '
-        'Label6
+        'AboutLabel
         '
-        Me.Label6.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Label6.AutoSize = true
-        Me.Label6.Location = New System.Drawing.Point(11, 153)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(98, 26)
-        Me.Label6.TabIndex = 11
-        Me.Label6.Text = "By Moisés Cardona"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"v1.8.6"
+        Me.AboutLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.AboutLabel.AutoSize = true
+        Me.AboutLabel.Location = New System.Drawing.Point(11, 153)
+        Me.AboutLabel.Name = "AboutLabel"
+        Me.AboutLabel.Size = New System.Drawing.Size(98, 26)
+        Me.AboutLabel.TabIndex = 11
+        Me.AboutLabel.Text = "By Moisés Cardona"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"v1.8.6"
         '
-        'TextBox1
+        'FolderNameTextbox
         '
-        Me.TextBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left)  _
+        Me.FolderNameTextbox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left)  _
             Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.TextBox1.Location = New System.Drawing.Point(14, 72)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.ReadOnly = true
-        Me.TextBox1.Size = New System.Drawing.Size(241, 20)
-        Me.TextBox1.TabIndex = 36
+        Me.FolderNameTextbox.Location = New System.Drawing.Point(14, 72)
+        Me.FolderNameTextbox.Name = "FolderNameTextbox"
+        Me.FolderNameTextbox.ReadOnly = true
+        Me.FolderNameTextbox.Size = New System.Drawing.Size(241, 20)
+        Me.FolderNameTextbox.TabIndex = 36
         '
-        'Label7
+        'UploadStatusLabel
         '
-        Me.Label7.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.Label7.AutoSize = true
-        Me.Label7.Location = New System.Drawing.Point(336, 111)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(40, 13)
-        Me.Label7.TabIndex = 12
-        Me.Label7.Text = "Status:"
+        Me.UploadStatusLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.UploadStatusLabel.AutoSize = true
+        Me.UploadStatusLabel.Location = New System.Drawing.Point(336, 111)
+        Me.UploadStatusLabel.Name = "UploadStatusLabel"
+        Me.UploadStatusLabel.Size = New System.Drawing.Size(40, 13)
+        Me.UploadStatusLabel.TabIndex = 12
+        Me.UploadStatusLabel.Text = "Status:"
         '
-        'Label16
+        'FolderNameLabel
         '
-        Me.Label16.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Label16.AutoSize = true
-        Me.Label16.Location = New System.Drawing.Point(11, 56)
-        Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(70, 13)
-        Me.Label16.TabIndex = 35
-        Me.Label16.Text = "Folder Name:"
+        Me.FolderNameLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.FolderNameLabel.AutoSize = true
+        Me.FolderNameLabel.Location = New System.Drawing.Point(11, 56)
+        Me.FolderNameLabel.Name = "FolderNameLabel"
+        Me.FolderNameLabel.Size = New System.Drawing.Size(70, 13)
+        Me.FolderNameLabel.TabIndex = 35
+        Me.FolderNameLabel.Text = "Folder Name:"
         '
         'StatusLabel
         '
@@ -882,15 +876,15 @@ Partial Class Form1
         Me.StatusLabel.TabIndex = 13
         Me.StatusLabel.Text = "N/A"
         '
-        'Label9
+        'UploadPercentLabel
         '
-        Me.Label9.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.Label9.AutoSize = true
-        Me.Label9.Location = New System.Drawing.Point(337, 98)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(44, 13)
-        Me.Label9.TabIndex = 14
-        Me.Label9.Text = "Percent"
+        Me.UploadPercentLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.UploadPercentLabel.AutoSize = true
+        Me.UploadPercentLabel.Location = New System.Drawing.Point(337, 98)
+        Me.UploadPercentLabel.Name = "UploadPercentLabel"
+        Me.UploadPercentLabel.Size = New System.Drawing.Size(44, 13)
+        Me.UploadPercentLabel.TabIndex = 14
+        Me.UploadPercentLabel.Text = "Percent"
         '
         'PercentLabel
         '
@@ -902,22 +896,22 @@ Partial Class Form1
         Me.PercentLabel.TabIndex = 15
         Me.PercentLabel.Text = "0%"
         '
-        'Label12
+        'UploadToThisFolderIDLabel
         '
-        Me.Label12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Label12.AutoSize = true
-        Me.Label12.Location = New System.Drawing.Point(11, 10)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(264, 13)
-        Me.Label12.TabIndex = 23
-        Me.Label12.Text = "Upload to this folder ID (""root"" to upload to root folder):"
+        Me.UploadToThisFolderIDLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.UploadToThisFolderIDLabel.AutoSize = true
+        Me.UploadToThisFolderIDLabel.Location = New System.Drawing.Point(11, 10)
+        Me.UploadToThisFolderIDLabel.Name = "UploadToThisFolderIDLabel"
+        Me.UploadToThisFolderIDLabel.Size = New System.Drawing.Size(264, 13)
+        Me.UploadToThisFolderIDLabel.TabIndex = 23
+        Me.UploadToThisFolderIDLabel.Text = "Upload to this folder ID (""root"" to upload to root folder):"
         '
         'GroupBox1
         '
         Me.GroupBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.GroupBox1.Controls.Add(Me.RadioButton3)
-        Me.GroupBox1.Controls.Add(Me.RadioButton2)
-        Me.GroupBox1.Controls.Add(Me.RadioButton1)
+        Me.GroupBox1.Controls.Add(Me.TChineseRButton)
+        Me.GroupBox1.Controls.Add(Me.SpanishRButton)
+        Me.GroupBox1.Controls.Add(Me.EnglishRButton)
         Me.GroupBox1.Location = New System.Drawing.Point(272, 153)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(216, 37)
@@ -925,36 +919,36 @@ Partial Class Form1
         Me.GroupBox1.TabStop = false
         Me.GroupBox1.Text = "Language / Idioma"
         '
-        'RadioButton3
+        'TChineseRButton
         '
-        Me.RadioButton3.AutoSize = true
-        Me.RadioButton3.Location = New System.Drawing.Point(137, 14)
-        Me.RadioButton3.Name = "RadioButton3"
-        Me.RadioButton3.Size = New System.Drawing.Size(73, 17)
-        Me.RadioButton3.TabIndex = 2
-        Me.RadioButton3.TabStop = true
-        Me.RadioButton3.Text = "正體中文"
-        Me.RadioButton3.UseVisualStyleBackColor = true
+        Me.TChineseRButton.AutoSize = true
+        Me.TChineseRButton.Location = New System.Drawing.Point(137, 14)
+        Me.TChineseRButton.Name = "TChineseRButton"
+        Me.TChineseRButton.Size = New System.Drawing.Size(73, 17)
+        Me.TChineseRButton.TabIndex = 2
+        Me.TChineseRButton.TabStop = true
+        Me.TChineseRButton.Text = "正體中文"
+        Me.TChineseRButton.UseVisualStyleBackColor = true
         '
-        'RadioButton2
+        'SpanishRButton
         '
-        Me.RadioButton2.AutoSize = true
-        Me.RadioButton2.Location = New System.Drawing.Point(71, 14)
-        Me.RadioButton2.Name = "RadioButton2"
-        Me.RadioButton2.Size = New System.Drawing.Size(63, 17)
-        Me.RadioButton2.TabIndex = 1
-        Me.RadioButton2.Text = "Spanish"
-        Me.RadioButton2.UseVisualStyleBackColor = true
+        Me.SpanishRButton.AutoSize = true
+        Me.SpanishRButton.Location = New System.Drawing.Point(71, 14)
+        Me.SpanishRButton.Name = "SpanishRButton"
+        Me.SpanishRButton.Size = New System.Drawing.Size(63, 17)
+        Me.SpanishRButton.TabIndex = 1
+        Me.SpanishRButton.Text = "Spanish"
+        Me.SpanishRButton.UseVisualStyleBackColor = true
         '
-        'RadioButton1
+        'EnglishRButton
         '
-        Me.RadioButton1.AutoSize = true
-        Me.RadioButton1.Location = New System.Drawing.Point(6, 14)
-        Me.RadioButton1.Name = "RadioButton1"
-        Me.RadioButton1.Size = New System.Drawing.Size(59, 17)
-        Me.RadioButton1.TabIndex = 0
-        Me.RadioButton1.Text = "English"
-        Me.RadioButton1.UseVisualStyleBackColor = true
+        Me.EnglishRButton.AutoSize = true
+        Me.EnglishRButton.Location = New System.Drawing.Point(6, 14)
+        Me.EnglishRButton.Name = "EnglishRButton"
+        Me.EnglishRButton.Size = New System.Drawing.Size(59, 17)
+        Me.EnglishRButton.TabIndex = 0
+        Me.EnglishRButton.Text = "English"
+        Me.EnglishRButton.UseVisualStyleBackColor = true
         '
         'FolderIDTextBox
         '
@@ -975,59 +969,59 @@ Partial Class Form1
         Me.TimeRemainingLabel.TabIndex = 26
         Me.TimeRemainingLabel.Text = "00:00:00"
         '
-        'Label13
+        'UploadTimeLeftLabel
         '
-        Me.Label13.Anchor = System.Windows.Forms.AnchorStyles.Bottom
-        Me.Label13.AutoSize = true
-        Me.Label13.Location = New System.Drawing.Point(164, 111)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(57, 13)
-        Me.Label13.TabIndex = 25
-        Me.Label13.Text = "Time Left: "
+        Me.UploadTimeLeftLabel.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.UploadTimeLeftLabel.AutoSize = true
+        Me.UploadTimeLeftLabel.Location = New System.Drawing.Point(164, 111)
+        Me.UploadTimeLeftLabel.Name = "UploadTimeLeftLabel"
+        Me.UploadTimeLeftLabel.Size = New System.Drawing.Size(57, 13)
+        Me.UploadTimeLeftLabel.TabIndex = 25
+        Me.UploadTimeLeftLabel.Text = "Time Left: "
         '
         'Panel3
         '
-        Me.Panel3.Controls.Add(Me.Button14)
+        Me.Panel3.Controls.Add(Me.DeselectItemFromUploadQueueButton)
         Me.Panel3.Controls.Add(Me.UploadsListBox)
-        Me.Panel3.Controls.Add(Me.Button6)
-        Me.Panel3.Controls.Add(Me.Label5)
-        Me.Panel3.Controls.Add(Me.Button3)
+        Me.Panel3.Controls.Add(Me.RemoveSelectedFilesFromList)
+        Me.Panel3.Controls.Add(Me.UploadInstructionsLabel)
+        Me.Panel3.Controls.Add(Me.ClearUploadQueueButton)
         Me.Panel3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel3.Location = New System.Drawing.Point(3, 3)
         Me.Panel3.Name = "Panel3"
         Me.Panel3.Size = New System.Drawing.Size(500, 251)
         Me.Panel3.TabIndex = 2
         '
-        'Button14
+        'DeselectItemFromUploadQueueButton
         '
-        Me.Button14.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Button14.Enabled = false
-        Me.Button14.Location = New System.Drawing.Point(261, 218)
-        Me.Button14.Name = "Button14"
-        Me.Button14.Size = New System.Drawing.Size(89, 23)
-        Me.Button14.TabIndex = 47
-        Me.Button14.Text = "Deselect"
-        Me.Button14.UseVisualStyleBackColor = true
+        Me.DeselectItemFromUploadQueueButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.DeselectItemFromUploadQueueButton.Enabled = false
+        Me.DeselectItemFromUploadQueueButton.Location = New System.Drawing.Point(261, 218)
+        Me.DeselectItemFromUploadQueueButton.Name = "DeselectItemFromUploadQueueButton"
+        Me.DeselectItemFromUploadQueueButton.Size = New System.Drawing.Size(89, 23)
+        Me.DeselectItemFromUploadQueueButton.TabIndex = 47
+        Me.DeselectItemFromUploadQueueButton.Text = "Deselect"
+        Me.DeselectItemFromUploadQueueButton.UseVisualStyleBackColor = true
         '
-        'Button6
+        'RemoveSelectedFilesFromList
         '
-        Me.Button6.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Button6.Location = New System.Drawing.Point(6, 218)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(168, 23)
-        Me.Button6.TabIndex = 29
-        Me.Button6.Text = "Remove selected file(s) from list"
-        Me.Button6.UseVisualStyleBackColor = true
+        Me.RemoveSelectedFilesFromList.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.RemoveSelectedFilesFromList.Location = New System.Drawing.Point(6, 218)
+        Me.RemoveSelectedFilesFromList.Name = "RemoveSelectedFilesFromList"
+        Me.RemoveSelectedFilesFromList.Size = New System.Drawing.Size(168, 23)
+        Me.RemoveSelectedFilesFromList.TabIndex = 29
+        Me.RemoveSelectedFilesFromList.Text = "Remove selected file(s) from list"
+        Me.RemoveSelectedFilesFromList.UseVisualStyleBackColor = true
         '
-        'Button3
+        'ClearUploadQueueButton
         '
-        Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Button3.Location = New System.Drawing.Point(180, 218)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(75, 23)
-        Me.Button3.TabIndex = 31
-        Me.Button3.Text = "Clear List"
-        Me.Button3.UseVisualStyleBackColor = true
+        Me.ClearUploadQueueButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.ClearUploadQueueButton.Location = New System.Drawing.Point(180, 218)
+        Me.ClearUploadQueueButton.Name = "ClearUploadQueueButton"
+        Me.ClearUploadQueueButton.Size = New System.Drawing.Size(75, 23)
+        Me.ClearUploadQueueButton.TabIndex = 31
+        Me.ClearUploadQueueButton.Text = "Clear List"
+        Me.ClearUploadQueueButton.UseVisualStyleBackColor = true
         '
         'TableLayoutPanel3
         '
@@ -1047,13 +1041,13 @@ Partial Class Form1
         '
         'Panel2
         '
-        Me.Panel2.Controls.Add(Me.Button13)
+        Me.Panel2.Controls.Add(Me.UploadToSelectedFolderButton)
         Me.Panel2.Controls.Add(Me.GoToRootLink)
         Me.Panel2.Controls.Add(Me.FolderListBox)
         Me.Panel2.Controls.Add(Me.CurrentFolderLabel)
-        Me.Panel2.Controls.Add(Me.Button12)
-        Me.Panel2.Controls.Add(Me.Label17)
-        Me.Panel2.Controls.Add(Me.Button10)
+        Me.Panel2.Controls.Add(Me.CreateNewFolderButton)
+        Me.Panel2.Controls.Add(Me.FolderLabel)
+        Me.Panel2.Controls.Add(Me.BackButton)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel2.Location = New System.Drawing.Point(3, 3)
         Me.Panel2.Name = "Panel2"
@@ -1063,11 +1057,11 @@ Partial Class Form1
         'Panel1
         '
         Me.Panel1.Controls.Add(Me.FileCount)
-        Me.Panel1.Controls.Add(Me.Button5)
-        Me.Panel1.Controls.Add(Me.Button4)
-        Me.Panel1.Controls.Add(Me.Button7)
+        Me.Panel1.Controls.Add(Me.DownloadFileButton)
+        Me.Panel1.Controls.Add(Me.RefreshListButton)
+        Me.Panel1.Controls.Add(Me.SaveSelectedFilesChecksumButton)
         Me.Panel1.Controls.Add(Me.FilesListBox)
-        Me.Panel1.Controls.Add(Me.Label11)
+        Me.Panel1.Controls.Add(Me.FilesLabel)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(3, 231)
         Me.Panel1.Name = "Panel1"
@@ -1083,36 +1077,36 @@ Partial Class Form1
         Me.FileCount.TabIndex = 45
         Me.FileCount.Text = "0 Files"
         '
-        'Button5
+        'DownloadFileButton
         '
-        Me.Button5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Button5.Location = New System.Drawing.Point(6, 193)
-        Me.Button5.Name = "Button5"
-        Me.Button5.Size = New System.Drawing.Size(92, 23)
-        Me.Button5.TabIndex = 21
-        Me.Button5.Text = "Download File"
-        Me.Button5.UseVisualStyleBackColor = true
+        Me.DownloadFileButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.DownloadFileButton.Location = New System.Drawing.Point(6, 193)
+        Me.DownloadFileButton.Name = "DownloadFileButton"
+        Me.DownloadFileButton.Size = New System.Drawing.Size(92, 23)
+        Me.DownloadFileButton.TabIndex = 21
+        Me.DownloadFileButton.Text = "Download File"
+        Me.DownloadFileButton.UseVisualStyleBackColor = true
         '
-        'Button4
+        'RefreshListButton
         '
-        Me.Button4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Button4.Location = New System.Drawing.Point(104, 193)
-        Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(91, 23)
-        Me.Button4.TabIndex = 22
-        Me.Button4.Text = "Refresh List"
-        Me.Button4.UseVisualStyleBackColor = true
+        Me.RefreshListButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.RefreshListButton.Location = New System.Drawing.Point(104, 193)
+        Me.RefreshListButton.Name = "RefreshListButton"
+        Me.RefreshListButton.Size = New System.Drawing.Size(91, 23)
+        Me.RefreshListButton.TabIndex = 22
+        Me.RefreshListButton.Text = "Refresh List"
+        Me.RefreshListButton.UseVisualStyleBackColor = true
         '
-        'Button7
+        'SaveSelectedFilesChecksumButton
         '
-        Me.Button7.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
-        Me.Button7.Location = New System.Drawing.Point(198, 194)
-        Me.Button7.Name = "Button7"
-        Me.Button7.Size = New System.Drawing.Size(196, 23)
-        Me.Button7.TabIndex = 44
-        Me.Button7.Text = "Save Checksums for Selected Files"
-        Me.Button7.UseVisualStyleBackColor = true
-        Me.Button7.Visible = false
+        Me.SaveSelectedFilesChecksumButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left),System.Windows.Forms.AnchorStyles)
+        Me.SaveSelectedFilesChecksumButton.Location = New System.Drawing.Point(198, 194)
+        Me.SaveSelectedFilesChecksumButton.Name = "SaveSelectedFilesChecksumButton"
+        Me.SaveSelectedFilesChecksumButton.Size = New System.Drawing.Size(196, 23)
+        Me.SaveSelectedFilesChecksumButton.TabIndex = 44
+        Me.SaveSelectedFilesChecksumButton.Text = "Save Checksums for Selected Files"
+        Me.SaveSelectedFilesChecksumButton.UseVisualStyleBackColor = true
+        Me.SaveSelectedFilesChecksumButton.Visible = false
         '
         'FilesListBox
         '
@@ -1132,7 +1126,7 @@ Partial Class Form1
         '
         Me.FilesContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenInBrowserToolStripMenuItem, Me.DownloadToolStripMenuItem1, Me.MoveToolStripMenuItem, Me.SaveChecksumToolStripMenuItem, Me.GetRawDownloadURLToolStripMenuItem})
         Me.FilesContextMenu.Name = "FilesContextMenu"
-        Me.FilesContextMenu.Size = New System.Drawing.Size(199, 136)
+        Me.FilesContextMenu.Size = New System.Drawing.Size(199, 114)
         '
         'OpenInBrowserToolStripMenuItem
         '
@@ -1164,14 +1158,14 @@ Partial Class Form1
         Me.MoveToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
         Me.MoveToolStripMenuItem.Text = "Move"
         '
-        'Label11
+        'FilesLabel
         '
-        Me.Label11.AutoSize = true
-        Me.Label11.Location = New System.Drawing.Point(3, 0)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(31, 13)
-        Me.Label11.TabIndex = 17
-        Me.Label11.Text = "Files:"
+        Me.FilesLabel.AutoSize = true
+        Me.FilesLabel.Location = New System.Drawing.Point(3, 0)
+        Me.FilesLabel.Name = "FilesLabel"
+        Me.FilesLabel.Size = New System.Drawing.Size(31, 13)
+        Me.FilesLabel.TabIndex = 17
+        Me.FilesLabel.Text = "Files:"
         '
         'StatusStrip1
         '
@@ -1243,7 +1237,7 @@ Partial Class Form1
         Me.ClientSize = New System.Drawing.Size(1318, 515)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.btnLogout)
-        Me.Controls.Add(Me.Button11)
+        Me.Controls.Add(Me.ViewTrashButton)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.MenuStrip1)
         Me.Controls.Add(Me.TableLayoutPanel1)
@@ -1275,34 +1269,34 @@ Partial Class Form1
         Me.PerformLayout
 
 End Sub
-    Friend WithEvents Label5 As Label
+    Friend WithEvents UploadInstructionsLabel As Label
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents SaveFileDialog1 As SaveFileDialog
     Friend WithEvents UploadsListBox As ListBox
     Friend WithEvents FolderListBox As ListBox
-    Friend WithEvents Label17 As Label
+    Friend WithEvents FolderLabel As Label
     Friend WithEvents GroupBox2 As GroupBox
-    Friend WithEvents TextBox4 As TextBox
-    Friend WithEvents Label19 As Label
-    Friend WithEvents TextBox3 As TextBox
-    Friend WithEvents Label18 As Label
-    Friend WithEvents TextBox7 As TextBox
-    Friend WithEvents Label22 As Label
-    Friend WithEvents TextBox6 As TextBox
-    Friend WithEvents Label21 As Label
-    Friend WithEvents TextBox5 As TextBox
-    Friend WithEvents Label20 As Label
-    Friend WithEvents Button10 As Button
-    Friend WithEvents Button12 As Button
-    Friend WithEvents TextBox8 As TextBox
-    Friend WithEvents Label23 As Label
-    Friend WithEvents TextBox9 As TextBox
-    Friend WithEvents Label24 As Label
-    Friend WithEvents Button1 As Button
+    Friend WithEvents FileIDTextbox As TextBox
+    Friend WithEvents FileIdLabel As Label
+    Friend WithEvents FileNameTextBox As TextBox
+    Friend WithEvents FileNameLabel As Label
+    Friend WithEvents MD5ChecksumTextbox As TextBox
+    Friend WithEvents MD5ChecksumLabel As Label
+    Friend WithEvents DateModifiedTextbox As TextBox
+    Friend WithEvents DateModifiedLabel As Label
+    Friend WithEvents DateCreatedTextbox As TextBox
+    Friend WithEvents DateCreatedLabel As Label
+    Friend WithEvents BackButton As Button
+    Friend WithEvents CreateNewFolderButton As Button
+    Friend WithEvents MIMETypeTextbox As TextBox
+    Friend WithEvents MIMETypeLabel As Label
+    Friend WithEvents FileSizeTextbox As TextBox
+    Friend WithEvents FileSizeLabel As Label
+    Friend WithEvents SaveChecksumFileButton As Button
     Friend WithEvents SaveFileDialog2 As SaveFileDialog
     Friend WithEvents btnLogout As Button
-    Friend WithEvents Button11 As Button
-    Friend WithEvents Button13 As Button
+    Friend WithEvents ViewTrashButton As Button
+    Friend WithEvents UploadToSelectedFolderButton As Button
     Friend WithEvents CurrentFolderLabel As Label
     Friend WithEvents GoToRootLink As LinkLabel
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
@@ -1314,7 +1308,6 @@ End Sub
     Friend WithEvents DownloadToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SelectedFileToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SelectedFolderToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
     Friend WithEvents OptionsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PreserveFileModifiedDateToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents StartUploadsAutomaticallyToolStripMenuItem As ToolStripMenuItem
@@ -1359,38 +1352,38 @@ End Sub
     Friend WithEvents FreeSpace As ToolStripStatusLabel
     Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
     Friend WithEvents Panel4 As Panel
-    Friend WithEvents Button14 As Button
-    Friend WithEvents Button6 As Button
+    Friend WithEvents DeselectItemFromUploadQueueButton As Button
+    Friend WithEvents RemoveSelectedFilesFromList As Button
     Friend WithEvents UploadButton As Button
-    Friend WithEvents Label1 As Label
-    Friend WithEvents Label2 As Label
+    Friend WithEvents FileSizeUploadLabel As Label
+    Friend WithEvents ProcessedFileSizeUploadLabel As Label
     Friend WithEvents ProgressBar1 As ProgressBar
-    Friend WithEvents FileSizeLabel As Label
-    Friend WithEvents ProcessedFileSizeLabel As Label
-    Friend WithEvents Button9 As Button
-    Friend WithEvents Label6 As Label
-    Friend WithEvents TextBox1 As TextBox
-    Friend WithEvents Label7 As Label
-    Friend WithEvents Label16 As Label
+    Friend WithEvents FileSizeFromCurrentUploadLabel As Label
+    Friend WithEvents ProcessedFileSizeFromCurrentUploadLabel As Label
+    Friend WithEvents GetFolderIdNameButton As Button
+    Friend WithEvents AboutLabel As Label
+    Friend WithEvents FolderNameTextbox As TextBox
+    Friend WithEvents UploadStatusLabel As Label
+    Friend WithEvents FolderNameLabel As Label
     Friend WithEvents StatusLabel As Label
-    Friend WithEvents Button3 As Button
-    Friend WithEvents Label9 As Label
+    Friend WithEvents ClearUploadQueueButton As Button
+    Friend WithEvents UploadPercentLabel As Label
     Friend WithEvents PercentLabel As Label
-    Friend WithEvents Label12 As Label
+    Friend WithEvents UploadToThisFolderIDLabel As Label
     Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents RadioButton3 As RadioButton
-    Friend WithEvents RadioButton2 As RadioButton
-    Friend WithEvents RadioButton1 As RadioButton
+    Friend WithEvents TChineseRButton As RadioButton
+    Friend WithEvents SpanishRButton As RadioButton
+    Friend WithEvents EnglishRButton As RadioButton
     Friend WithEvents FolderIDTextBox As TextBox
     Friend WithEvents TimeRemainingLabel As Label
-    Friend WithEvents Label13 As Label
+    Friend WithEvents UploadTimeLeftLabel As Label
     Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
     Friend WithEvents Panel1 As Panel
-    Friend WithEvents Button5 As Button
-    Friend WithEvents Button4 As Button
-    Friend WithEvents Button7 As Button
+    Friend WithEvents DownloadFileButton As Button
+    Friend WithEvents RefreshListButton As Button
+    Friend WithEvents SaveSelectedFilesChecksumButton As Button
     Friend WithEvents FilesListBox As ListBox
-    Friend WithEvents Label11 As Label
+    Friend WithEvents FilesLabel As Label
     Friend WithEvents ChecksumsOptionsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EncodeFileFor As ToolStripMenuItem
     Friend WithEvents ChecksumsEncodeFormatComboBox As ToolStripComboBox

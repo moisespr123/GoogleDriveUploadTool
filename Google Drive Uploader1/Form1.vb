@@ -27,7 +27,7 @@ Public Class Form1
     Public service As DriveService
     Public pageToken As String = ""
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load         'Initialize Upload Queue Collection
-        Button10.Enabled = False
+        BackButton.Enabled = False
         If My.Settings.UploadQueue Is Nothing Then
             My.Settings.UploadQueue = New StringCollection
         End If
@@ -112,22 +112,22 @@ Public Class Form1
         If String.IsNullOrEmpty(My.Settings.Language) Then
             My.Settings.Language = "English"
             My.Settings.Save()
-            RadioButton1.Checked = True
+            EnglishRButton.Checked = True
             Translations.EnglishLanguage()
         Else
             Select Case My.Settings.Language
                 Case "English"
                     Translations.EnglishLanguage()
-                    RadioButton1.Checked = True
+                    EnglishRButton.Checked = True
                 Case "Spanish"
                     Translations.SpanishLanguage()
-                    RadioButton2.Checked = True
+                    SpanishRButton.Checked = True
                 Case "TChinese"
                     Translations.TChineseLanguage()
-                    RadioButton3.Checked = True
+                    TChineseRButton.Checked = True
                 Case Else
                     Translations.EnglishLanguage()
-                    RadioButton1.Checked = True
+                    EnglishRButton.Checked = True
             End Select
         End If
     End Sub
@@ -176,7 +176,7 @@ Public Class Form1
                 FolderIDTextBox.Text = FolderToUploadFileList.Item(0)
                 GetFolderIDName(False)
                 If System.IO.File.Exists(GetFile) Then
-                    FileSizeLabel.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
+                    FileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                     ProgressBar1.Maximum = CInt(My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                     Dim FileMetadata As New Data.File With {
                         .Name = My.Computer.FileSystem.GetName(GetFile)
@@ -206,7 +206,7 @@ Public Class Form1
                             Dim readChunkSize = megabyteMultiplication
                             starttime = DateTime.Now()
                             UploadStream.Seek(0, SeekOrigin.Begin)
-                            FileSizeLabel.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
+                            FileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                             ProgressBar1.Maximum = CInt(My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                             Me.Update()
                             While UploadStream.Position < UploadStream.Length
@@ -313,7 +313,7 @@ Public Class Form1
                 UpdateQuota()
             End If
         End While
-        If RadioButton1.Checked = True Then MsgBox(Translations.MsgAndDialogLang("upload_finish"))
+        If EnglishRButton.Checked = True Then MsgBox(Translations.MsgAndDialogLang("upload_finish"))
         FolderCreated = False
         My.Settings.FolderCreated = False
         DirectoryListID.Clear()
@@ -361,7 +361,7 @@ Public Class Form1
             ' An UploadUri from a previous execution is present, ask if a resume should be attempted
             Dim ResumeText1 As String = ""
             Dim ResumeText2 As String = ""
-            If RadioButton1.Checked = True Then
+            If EnglishRButton.Checked = True Then
                 ResumeText1 = "Resume previous upload?{0}{0}{1}"
                 ResumeText2 = "Resume Upload"
 
@@ -390,10 +390,10 @@ Public Class Form1
         Else
             StatusLabel.Text = StatusText
         End If
-        If ProcessedFileSizeLabel.InvokeRequired Then
-            ProcessedFileSizeLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
+        If ProcessedFileSizeFromCurrentUploadLabel.InvokeRequired Then
+            ProcessedFileSizeFromCurrentUploadLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
         Else
-            ProcessedFileSizeLabel.Text = String.Format("{0:N2} MB", BytesSent / 1024 / 1024)
+            ProcessedFileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", BytesSent / 1024 / 1024)
         End If
         If BytesSent > 0 Then
             If ProgressBar1.InvokeRequired Then
@@ -419,7 +419,7 @@ Public Class Form1
         End If
     End Sub
     Private Shared MaxFileSize As Double
-    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles DownloadFileButton.Click
         BrowseToDownloadFile()
     End Sub
 
@@ -446,7 +446,7 @@ Public Class Form1
     End Sub
     Private Async Function DownloadFile(Location As String, FileName As String, FileSize As Long?, ModifiedTime As Date?) As Task
         starttime = DateTime.Now
-        FileSizeLabel.Text = String.Format("{0:N2} MB", FileSize / 1024 / 1024)
+        FileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", FileSize / 1024 / 1024)
         ProgressBar1.Maximum = CInt(FileSize / 1024 / 1024)
         MaxFileSize = Convert.ToDouble(FileSize)
         Dim FileToSave As FileStream = New FileStream(Location, FileMode.Create, FileAccess.Write)
@@ -467,7 +467,7 @@ Public Class Form1
         End Select
     End Sub
 
-    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles RefreshListButton.Click
         If viewing_trash = False Then RefreshFileList(CurrentFolder) Else RefreshFileList("trash")
     End Sub
     Private Delegate Sub RefreshFileListInvoker(FolderID As String)
@@ -547,9 +547,9 @@ Public Class Form1
             End Try
         Loop While PageToken2 = String.Empty = False
         If CurrentFolder = "root" Or CurrentFolder = "trash" Then
-            Button10.Enabled = False
+            BackButton.Enabled = False
         Else
-            Button10.Enabled = True
+            BackButton.Enabled = True
         End If
     End Sub
     Private Sub Form1_DragDrop(sender As Object, e As DragEventArgs) Handles MyBase.DragDrop
@@ -595,8 +595,8 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged
-        If RadioButton1.Checked Then
+    Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles EnglishRButton.CheckedChanged
+        If EnglishRButton.Checked Then
             Translations.EnglishLanguage()
             My.Settings.Language = "English"
             My.Settings.Save()
@@ -604,16 +604,16 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub RadioButton2_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton2.CheckedChanged
-        If RadioButton2.Checked Then
+    Private Sub RadioButton2_CheckedChanged(sender As Object, e As EventArgs) Handles SpanishRButton.CheckedChanged
+        If SpanishRButton.Checked Then
             Translations.SpanishLanguage()
             My.Settings.Language = "Spanish"
             My.Settings.Save()
             If service IsNot Nothing Then RefreshFileList(CurrentFolder)
         End If
     End Sub
-    Private Sub RadioButton3_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton3.CheckedChanged
-        If RadioButton3.Checked Then
+    Private Sub RadioButton3_CheckedChanged(sender As Object, e As EventArgs) Handles TChineseRButton.CheckedChanged
+        If TChineseRButton.Checked Then
             Translations.TChineseLanguage()
             My.Settings.Language = "TChinese"
             My.Settings.Save()
@@ -621,7 +621,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles RemoveSelectedFilesFromList.Click
         Do While (UploadsListBox.SelectedItems.Count > 0)
             Dim CurrentIndex = UploadsListBox.SelectedIndex
             UploadsListBox.Items.RemoveAt(CurrentIndex)
@@ -632,7 +632,7 @@ Public Class Form1
         Loop
     End Sub
 
-    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles ClearUploadQueueButton.Click
         UploadsListBox.Items.Clear()
         My.Settings.UploadQueue.Clear()
         FolderToUploadFileList.Clear()
@@ -640,7 +640,7 @@ Public Class Form1
         My.Settings.Save()
     End Sub
 
-    Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+    Private Sub Button9_Click(sender As Object, e As EventArgs) Handles GetFolderIdNameButton.Click
         GetFolderIDName(True)
     End Sub
 
@@ -649,7 +649,7 @@ Public Class Form1
             Try
                 Dim GetFolderName As FilesResource.GetRequest = service.Files.Get(FolderIDTextBox.Text)
                 Dim FolderNameMetadata As Data.File = GetFolderName.Execute
-                TextBox1.Text = FolderNameMetadata.Name
+                FolderNameTextbox.Text = FolderNameMetadata.Name
                 Return True
             Catch ex As Exception
                 If ShowMessage = True Then MsgBox(Translations.MsgAndDialogLang("folder_id_incorrect"))
@@ -706,37 +706,37 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         GoBack()
     End Sub
 
     Private Sub ListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles FilesListBox.SelectedIndexChanged
         If FilesListBox.SelectedItem IsNot Nothing Then
-            TextBox3.Text = FilesListBox.SelectedItem.ToString()
-            TextBox4.Text = FileIdsList.Item(FilesListBox.SelectedIndex)
-            TextBox5.Text = FileCreatedTimeList.Item(FilesListBox.SelectedIndex).ToString
-            TextBox6.Text = FileModifiedTimeList.Item(FilesListBox.SelectedIndex).ToString
-            TextBox7.Text = FileMD5List.Item(FilesListBox.SelectedIndex)
-            TextBox8.Text = FileMIMEList.Item(FilesListBox.SelectedIndex)
-            TextBox9.Text = String.Format("{0:N2} MB", FileSizeList.Item(FilesListBox.SelectedIndex) / 1024 / 1024)
+            FileNameTextBox.Text = FilesListBox.SelectedItem.ToString()
+            FileIDTextbox.Text = FileIdsList.Item(FilesListBox.SelectedIndex)
+            DateCreatedTextbox.Text = FileCreatedTimeList.Item(FilesListBox.SelectedIndex).ToString
+            DateModifiedTextbox.Text = FileModifiedTimeList.Item(FilesListBox.SelectedIndex).ToString
+            MD5ChecksumTextbox.Text = FileMD5List.Item(FilesListBox.SelectedIndex)
+            MIMETypeTextbox.Text = FileMIMEList.Item(FilesListBox.SelectedIndex)
+            FileSizeTextbox.Text = String.Format("{0:N2} MB", FileSizeList.Item(FilesListBox.SelectedIndex) / 1024 / 1024)
         Else
-            TextBox3.Text = ""
-            TextBox4.Text = ""
-            TextBox8.Text = ""
-            TextBox5.Text = ""
-            TextBox6.Text = ""
-            TextBox7.Text = ""
-            TextBox9.Text = ""
+            FileNameTextBox.Text = ""
+            FileIDTextbox.Text = ""
+            MIMETypeTextbox.Text = ""
+            DateCreatedTextbox.Text = ""
+            DateModifiedTextbox.Text = ""
+            MD5ChecksumTextbox.Text = ""
+            FileSizeTextbox.Text = ""
         End If
         If FilesListBox.SelectedItems.Count > 1 Then
-            Button7.Visible = True
+            SaveSelectedFilesChecksumButton.Visible = True
         Else
-            Button7.Visible = False
+            SaveSelectedFilesChecksumButton.Visible = False
         End If
     End Sub
 
 
-    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
+    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles CreateNewFolderButton.Click
         CreateFolder()
     End Sub
     Private Sub CreateFolder()
@@ -757,12 +757,12 @@ Public Class Form1
             Dim CreateFolder As FilesResource.CreateRequest = service.Files.Create(FolderMetadata)
             CreateFolder.Fields = "id"
             Dim FolderID As Data.File = CreateFolder.Execute
-            If TextBox1.Text = "root" Then
+            If FolderNameTextbox.Text = "root" Then
                 PreviousFolderId.Add("root")
             Else
                 PreviousFolderId.Add(CurrentFolder)
             End If
-            TextBox1.Text = FolderNameToCreate
+            FolderNameTextbox.Text = FolderNameToCreate
             FolderIDTextBox.Text = FolderID.Id
             CurrentFolder = FolderID.Id
             CurrentFolderLabel.Text = GetCurrentFolderIDName()
@@ -783,11 +783,11 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles SaveChecksumFileButton.Click
         If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksum.md5") Else SaveChecksumsFile(FilesListBox.SelectedItem.ToString & ".md5")
     End Sub
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles SaveSelectedFilesChecksumButton.Click
         If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5")
     End Sub
     Private Function SaveChecksumFileDialog(FileOrFolderName As String) As String
@@ -1074,8 +1074,8 @@ Public Class Form1
         CurrentFolder = FolderID
         My.Settings.LastFolder = CurrentFolder
         My.Settings.Save()
-        Button7.Visible = False
-        Button10.Enabled = True
+        SaveSelectedFilesChecksumButton.Visible = False
+        BackButton.Enabled = True
         CurrentFolderLabel.Text = GetCurrentFolderIDName()
         RefreshFileList(FolderID)
     End Sub
@@ -1142,11 +1142,11 @@ Public Class Form1
         Application.Exit()
     End Sub
 
-    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles ViewTrashButton.Click
         If viewing_trash = False Then
             viewing_trash = True
             GoToRootLink.Visible = False
-            Button12.Enabled = False
+            CreateNewFolderButton.Enabled = False
             RestoreToolStripMenuItem.Enabled = True
             MoveToTrashToolStripMenuItem.Enabled = False
             Lang_Select()
@@ -1154,7 +1154,7 @@ Public Class Form1
         Else
             viewing_trash = False
             GoToRootLink.Visible = True
-            Button12.Enabled = True
+            CreateNewFolderButton.Enabled = True
             RestoreToolStripMenuItem.Enabled = False
             MoveToTrashToolStripMenuItem.Enabled = True
             Lang_Select()
@@ -1168,24 +1168,24 @@ Public Class Form1
         If UploadsListBox.SelectedIndex <> -1 Then
             FolderIDTextBox.Text = FolderToUploadFileList.Item(UploadsListBox.SelectedIndex)
             GetFolderIDName(False)
-            Button13.Visible = True
-            Button14.Enabled = True
+            UploadToSelectedFolderButton.Visible = True
+            DeselectItemFromUploadQueueButton.Enabled = True
         Else
-            Button13.Visible = False
-            Button14.Enabled = False
+            UploadToSelectedFolderButton.Visible = False
+            DeselectItemFromUploadQueueButton.Enabled = False
         End If
 
     End Sub
 
 
 
-    Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
+    Private Sub Button13_Click(sender As Object, e As EventArgs) Handles UploadToSelectedFolderButton.Click
         FolderToUploadFileList.Item(UploadsListBox.SelectedIndex) = CurrentFolder
         FolderIDTextBox.Text = CurrentFolder
         GetFolderIDName(False)
     End Sub
 
-    Private Sub Button14_Click(sender As Object, e As EventArgs) Handles Button14.Click
+    Private Sub Button14_Click(sender As Object, e As EventArgs) Handles DeselectItemFromUploadQueueButton.Click
         UploadsListBox.ClearSelected()
     End Sub
 
@@ -1217,9 +1217,9 @@ Public Class Form1
     End Sub
 
     Private Sub ReadmeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReadmeToolStripMenuItem.Click
-        If RadioButton1.Checked Then
+        If EnglishRButton.Checked Then
             Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/README.md")
-        ElseIf RadioButton2.Checked Then
+        ElseIf SpanishRButton.Checked Then
             Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/LEEME.md")
         Else
             Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/README.md")

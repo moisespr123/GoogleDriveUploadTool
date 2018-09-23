@@ -5,6 +5,7 @@ Public Class MoveDialog
     Public PreviousFolderId As New List(Of String)
     Public ItemsToMove As New List(Of String)
     Public CurrentFolder As String = "root"
+    Private service As DriveService = Form1.service
     Private Sub Move_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         GoToFolder(CurrentFolder, True)
     End Sub
@@ -18,7 +19,7 @@ Public Class MoveDialog
         FolderIDs.Clear()
         Dim PageToken2 As String = String.Empty
         Do
-            Dim listRequest As FilesResource.ListRequest = Form1.service.Files.List()
+            Dim listRequest As FilesResource.ListRequest = service.Files.List()
             listRequest.Q = listRequestString
             listRequest.Fields = "nextPageToken, files(id, name)"
             listRequest.OrderBy = My.Settings.SortBy
@@ -43,11 +44,11 @@ Public Class MoveDialog
     End Sub
 
     Private Sub FolderListBox_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles FolderListBox.MouseDoubleClick
-        If FolderListBox.SelectedItem IsNot Nothing Then GoToFolder (FolderIDs.Item(FolderListBox.SelectedIndex).ToString)
+        If FolderListBox.SelectedItem IsNot Nothing Then GoToFolder(FolderIDs.Item(FolderListBox.SelectedIndex).ToString)
     End Sub
     Private Function GetCurrentFolderIDName() As String
         Try
-            Dim GetFolderName As FilesResource.GetRequest = Form1.service.Files.Get(CurrentFolder)
+            Dim GetFolderName As FilesResource.GetRequest = service.Files.Get(CurrentFolder)
             Dim FolderNameMetadata As Data.File = GetFolderName.Execute
             Return FolderNameMetadata.Name
         Catch ex As Exception
@@ -67,5 +68,16 @@ Public Class MoveDialog
 
     Private Sub BackButton_Click(sender As Object, e As EventArgs) Handles BackButton.Click
         GoBack()
+    End Sub
+
+    Private Sub MoveButton_Click(sender As Object, e As EventArgs) Handles MoveButton.Click
+        Dim Parents As New List(Of String) From {
+            CurrentFolder
+        }
+        Dim FileMetadata As New Data.File With {.Parents = Parents}
+        For Each item In ItemsToMove
+            service.Files.Update(FileMetadata, item).ExecuteAsync()
+        Next
+        Me.Close()
     End Sub
 End Class

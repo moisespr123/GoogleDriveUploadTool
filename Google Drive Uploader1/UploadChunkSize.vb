@@ -1,7 +1,7 @@
 ﻿Public Class UploadChunkSize
     Private Sub UploadChunkSize_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         NumericUpDown1.Maximum = Decimal.MaxValue
-        If Form1.RadioButton1.Checked Or Form1.RadioButton3.Checked Then
+        If Form1.EnglishRButton.Checked Or Form1.TChineseRButton.Checked Then
             Me.Text = "Chunk Size"
             Label1.Text = "Enter chunk size"
             Button1.Text = "Save"
