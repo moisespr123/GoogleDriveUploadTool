@@ -1,4 +1,6 @@
 ﻿v1.8.7 or 1.9 (not yet released)
+-Added Right Click context menú to File List
+-Press CTRL + M to move files or folders to another folder.
 -Press CTRL + U when files are selected to get the raw download URL.
 -Updated components
 

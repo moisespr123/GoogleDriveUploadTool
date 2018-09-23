@@ -680,7 +680,7 @@ Public Class Form1
 
     Private Sub ListBox3_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles FolderListBox.MouseDoubleClick
         If My.Computer.Keyboard.ShiftKeyDown Then
-            Process.Start("https://drive.google.com/drive/folders/" + FolderIdsList.Item(FolderListBox.SelectedIndex))
+            OpenInBrowser(True)
         Else
             If viewing_trash = False Then
                 If FolderListBox.SelectedItem IsNot Nothing Then EnterFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
@@ -1420,7 +1420,7 @@ Public Class Form1
     End Sub
 
     Private Sub FilesListBox_MouseDoubleClick(sender As Object, e As EventArgs) Handles FilesListBox.MouseDoubleClick
-        OpenFileInBrowser()
+        OpenInBrowser()
     End Sub
 
     Private Sub ChecksumsEncodeFormatComboBox_DropDownClosed(sender As Object, e As EventArgs) Handles ChecksumsEncodeFormatComboBox.DropDownClosed
@@ -1449,15 +1449,20 @@ Public Class Form1
     End Sub
 
     Private Sub OpenInBrowserToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenInBrowserToolStripMenuItem.Click
-        If FilesListBox.SelectedItem IsNot Nothing Then OpenFileInBrowser() Else Translations.MsgAndDialogLang("no_file_selected")
+        If FilesListBox.SelectedItem IsNot Nothing Then OpenInBrowser() Else Translations.MsgAndDialogLang("no_file_selected")
     End Sub
 
-    Private Sub OpenFileInBrowser()
-        If FilesListBox.SelectedItem IsNot Nothing Then
-            Process.Start("https://drive.google.com/file/d/" + FileIdsList.Item(FilesListBox.SelectedIndex) + "/view")
+    Private Sub OpenInBrowser(Optional Folder As Boolean = False)
+        If Not Folder Then
+            If FilesListBox.SelectedItem IsNot Nothing Then
+                Process.Start("https://drive.google.com/file/d/" + FileIdsList.Item(FilesListBox.SelectedIndex) + "/view")
+            End If
+        Else
+            If FolderListBox.SelectedItem IsNot Nothing Then
+                Process.Start("https://drive.google.com/drive/folders/" + FolderIdsList.Item(FolderListBox.SelectedIndex))
+            End If
         End If
     End Sub
-
     Private Sub MoveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MoveToolStripMenuItem.Click
         MoveFileOrFolder()
     End Sub
@@ -1485,10 +1490,6 @@ Public Class Form1
                 Translations.MsgAndDialogLang("no_folders_selected")
             End If
         End If
-    End Sub
-
-    Private Sub FilesListBox_MouseClick(sender As Object, e As MouseEventArgs) Handles FilesListBox.MouseClick
-
     End Sub
 
     Private Sub DownloadToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles DownloadToolStripMenuItem1.Click
@@ -1519,5 +1520,22 @@ Public Class Form1
     End Sub
     Private Sub GetRawDownloadURLToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetRawDownloadURLToolStripMenuItem.Click
         CheckFilesToGetRAWUrl()
+    End Sub
+
+    Private Sub OpenInBrowserToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles OpenInBrowserToolStripMenuItem1.Click
+        OpenInBrowser(True)
+    End Sub
+
+    Private Sub DownloadToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles DownloadToolStripMenuItem2.Click
+        CheckForFolderDownload()
+    End Sub
+
+    Private Sub MoveToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles MoveToolStripMenuItem1.Click
+        MoveFileOrFolder(True)
+    End Sub
+
+    Private Sub SaveChecksumsToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SaveChecksumsToolStripMenuItem1.Click
+        If FolderListBox.SelectedItem IsNot Nothing Then EnterFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
+        If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5", True) Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5", True)
     End Sub
 End Class

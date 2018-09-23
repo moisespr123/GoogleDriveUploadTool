@@ -29,6 +29,11 @@ Partial Class Form1
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.UploadsListBox = New System.Windows.Forms.ListBox()
         Me.FolderListBox = New System.Windows.Forms.ListBox()
+        Me.FoldersContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.OpenInBrowserToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DownloadToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MoveToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SaveChecksumsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.FolderLabel = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.SaveChecksumFileButton = New System.Windows.Forms.Button()
@@ -135,9 +140,9 @@ Partial Class Form1
         Me.FilesContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.OpenInBrowserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DownloadToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveChecksumToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GetRawDownloadURLToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FilesLabel = New System.Windows.Forms.Label()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.LoggedInAs = New System.Windows.Forms.ToolStripStatusLabel()
@@ -149,6 +154,7 @@ Partial Class Form1
         Me.FreeSpace = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpaceText = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpace = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.FoldersContextMenu.SuspendLayout
         Me.GroupBox2.SuspendLayout
         Me.MenuStrip1.SuspendLayout
         Me.TableLayoutPanel1.SuspendLayout
@@ -195,6 +201,7 @@ Partial Class Form1
         Me.FolderListBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
             Or System.Windows.Forms.AnchorStyles.Left)  _
             Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.FolderListBox.ContextMenuStrip = Me.FoldersContextMenu
         Me.FolderListBox.FormattingEnabled = true
         Me.FolderListBox.HorizontalScrollbar = true
         Me.FolderListBox.Location = New System.Drawing.Point(6, 16)
@@ -202,6 +209,36 @@ Partial Class Form1
         Me.FolderListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
         Me.FolderListBox.Size = New System.Drawing.Size(491, 173)
         Me.FolderListBox.TabIndex = 39
+        '
+        'FoldersContextMenu
+        '
+        Me.FoldersContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenInBrowserToolStripMenuItem1, Me.DownloadToolStripMenuItem2, Me.MoveToolStripMenuItem1, Me.SaveChecksumsToolStripMenuItem1})
+        Me.FoldersContextMenu.Name = "FoldersContextMenu"
+        Me.FoldersContextMenu.Size = New System.Drawing.Size(171, 92)
+        '
+        'OpenInBrowserToolStripMenuItem1
+        '
+        Me.OpenInBrowserToolStripMenuItem1.Name = "OpenInBrowserToolStripMenuItem1"
+        Me.OpenInBrowserToolStripMenuItem1.Size = New System.Drawing.Size(170, 22)
+        Me.OpenInBrowserToolStripMenuItem1.Text = "Open in Browser"
+        '
+        'DownloadToolStripMenuItem2
+        '
+        Me.DownloadToolStripMenuItem2.Name = "DownloadToolStripMenuItem2"
+        Me.DownloadToolStripMenuItem2.Size = New System.Drawing.Size(170, 22)
+        Me.DownloadToolStripMenuItem2.Text = "Download"
+        '
+        'MoveToolStripMenuItem1
+        '
+        Me.MoveToolStripMenuItem1.Name = "MoveToolStripMenuItem1"
+        Me.MoveToolStripMenuItem1.Size = New System.Drawing.Size(170, 22)
+        Me.MoveToolStripMenuItem1.Text = "Move"
+        '
+        'SaveChecksumsToolStripMenuItem1
+        '
+        Me.SaveChecksumsToolStripMenuItem1.Name = "SaveChecksumsToolStripMenuItem1"
+        Me.SaveChecksumsToolStripMenuItem1.Size = New System.Drawing.Size(170, 22)
+        Me.SaveChecksumsToolStripMenuItem1.Text = "Save Checksum(s)"
         '
         'FolderLabel
         '
@@ -451,19 +488,19 @@ Partial Class Form1
         '
         Me.UploadToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem1, Me.FolderToolStripMenuItem})
         Me.UploadToolStripMenuItem.Name = "UploadToolStripMenuItem"
-        Me.UploadToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.UploadToolStripMenuItem.Size = New System.Drawing.Size(121, 22)
         Me.UploadToolStripMenuItem.Text = "Upload"
         '
         'FileToolStripMenuItem1
         '
         Me.FileToolStripMenuItem1.Name = "FileToolStripMenuItem1"
-        Me.FileToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.FileToolStripMenuItem1.Size = New System.Drawing.Size(107, 22)
         Me.FileToolStripMenuItem1.Text = "File(s)"
         '
         'FolderToolStripMenuItem
         '
         Me.FolderToolStripMenuItem.Name = "FolderToolStripMenuItem"
-        Me.FolderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.FolderToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
         Me.FolderToolStripMenuItem.Text = "Folder"
         '
         'DownloadToolStripMenuItem
@@ -471,19 +508,19 @@ Partial Class Form1
         Me.DownloadToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFileToolStripMenuItem, Me.SelectedFolderToolStripMenuItem})
         Me.DownloadToolStripMenuItem.Name = "DownloadToolStripMenuItem"
         Me.DownloadToolStripMenuItem.ShowShortcutKeys = false
-        Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.DownloadToolStripMenuItem.Size = New System.Drawing.Size(121, 22)
         Me.DownloadToolStripMenuItem.Text = "Download"
         '
         'SelectedFileToolStripMenuItem
         '
         Me.SelectedFileToolStripMenuItem.Name = "SelectedFileToolStripMenuItem"
-        Me.SelectedFileToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SelectedFileToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
         Me.SelectedFileToolStripMenuItem.Text = "Selected File(s)"
         '
         'SelectedFolderToolStripMenuItem
         '
         Me.SelectedFolderToolStripMenuItem.Name = "SelectedFolderToolStripMenuItem"
-        Me.SelectedFolderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SelectedFolderToolStripMenuItem.Size = New System.Drawing.Size(154, 22)
         Me.SelectedFolderToolStripMenuItem.Text = "Selected Folder"
         '
         'ActionsToolStripMenuItem
@@ -496,14 +533,14 @@ Partial Class Form1
         'CreateNewFolderToolStripMenuItem
         '
         Me.CreateNewFolderToolStripMenuItem.Name = "CreateNewFolderToolStripMenuItem"
-        Me.CreateNewFolderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CreateNewFolderToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
         Me.CreateNewFolderToolStripMenuItem.Text = "Create New Folder"
         '
         'RenameToolStripMenuItem
         '
         Me.RenameToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFileToolStripMenuItem1, Me.SelectedFolderToolStripMenuItem1})
         Me.RenameToolStripMenuItem.Name = "RenameToolStripMenuItem"
-        Me.RenameToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RenameToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
         Me.RenameToolStripMenuItem.Text = "Rename"
         '
         'SelectedFileToolStripMenuItem1
@@ -521,14 +558,14 @@ Partial Class Form1
         'RefreshListToolStripMenuItem
         '
         Me.RefreshListToolStripMenuItem.Name = "RefreshListToolStripMenuItem"
-        Me.RefreshListToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RefreshListToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
         Me.RefreshListToolStripMenuItem.Text = "Refresh List"
         '
         'SaveChecksumsToolStripMenuItem
         '
         Me.SaveChecksumsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFilesToolStripMenuItem2, Me.SelectedFolderToolStripMenuItem2})
         Me.SaveChecksumsToolStripMenuItem.Name = "SaveChecksumsToolStripMenuItem"
-        Me.SaveChecksumsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SaveChecksumsToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
         Me.SaveChecksumsToolStripMenuItem.Text = "Save Checksums"
         '
         'SelectedFilesToolStripMenuItem2
@@ -546,13 +583,13 @@ Partial Class Form1
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(168, 6)
         '
         'MoveToTrashToolStripMenuItem
         '
         Me.MoveToTrashToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFilesToolStripMenuItem, Me.SelectedFoldersToolStripMenuItem})
         Me.MoveToTrashToolStripMenuItem.Name = "MoveToTrashToolStripMenuItem"
-        Me.MoveToTrashToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.MoveToTrashToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
         Me.MoveToTrashToolStripMenuItem.Text = "Move to Trash"
         '
         'SelectedFilesToolStripMenuItem
@@ -572,7 +609,7 @@ Partial Class Form1
         Me.RestoreToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFilesToolStripMenuItem1, Me.SelectedFoldersToolStripMenuItem1})
         Me.RestoreToolStripMenuItem.Enabled = false
         Me.RestoreToolStripMenuItem.Name = "RestoreToolStripMenuItem"
-        Me.RestoreToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RestoreToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
         Me.RestoreToolStripMenuItem.Text = "Restore"
         '
         'SelectedFilesToolStripMenuItem1
@@ -1140,6 +1177,12 @@ Partial Class Form1
         Me.DownloadToolStripMenuItem1.Size = New System.Drawing.Size(198, 22)
         Me.DownloadToolStripMenuItem1.Text = "Download"
         '
+        'MoveToolStripMenuItem
+        '
+        Me.MoveToolStripMenuItem.Name = "MoveToolStripMenuItem"
+        Me.MoveToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.MoveToolStripMenuItem.Text = "Move"
+        '
         'SaveChecksumToolStripMenuItem
         '
         Me.SaveChecksumToolStripMenuItem.Name = "SaveChecksumToolStripMenuItem"
@@ -1151,12 +1194,6 @@ Partial Class Form1
         Me.GetRawDownloadURLToolStripMenuItem.Name = "GetRawDownloadURLToolStripMenuItem"
         Me.GetRawDownloadURLToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
         Me.GetRawDownloadURLToolStripMenuItem.Text = "Get Raw Download URL"
-        '
-        'MoveToolStripMenuItem
-        '
-        Me.MoveToolStripMenuItem.Name = "MoveToolStripMenuItem"
-        Me.MoveToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
-        Me.MoveToolStripMenuItem.Text = "Move"
         '
         'FilesLabel
         '
@@ -1245,6 +1282,7 @@ Partial Class Form1
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "Form1"
         Me.Text = "Google Drive Uploader & Explorer"
+        Me.FoldersContextMenu.ResumeLayout(false)
         Me.GroupBox2.ResumeLayout(false)
         Me.GroupBox2.PerformLayout
         Me.MenuStrip1.ResumeLayout(false)
@@ -1394,4 +1432,9 @@ End Sub
     Friend WithEvents SaveChecksumToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents GetRawDownloadURLToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MoveToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents FoldersContextMenu As ContextMenuStrip
+    Friend WithEvents OpenInBrowserToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents DownloadToolStripMenuItem2 As ToolStripMenuItem
+    Friend WithEvents MoveToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents SaveChecksumsToolStripMenuItem1 As ToolStripMenuItem
 End Class
