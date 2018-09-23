@@ -1,4 +1,6 @@
 ﻿Imports Google.Apis.Drive.v3
+Imports Google.Apis.Drive.v3.Data
+Imports Google.Apis.Drive.v3.FilesResource
 
 Public Class MoveDialog
     Public FolderIDs As New List(Of String)
@@ -70,14 +72,19 @@ Public Class MoveDialog
         GoBack()
     End Sub
 
-    Private Sub MoveButton_Click(sender As Object, e As EventArgs) Handles MoveButton.Click
-        Dim Parents As New List(Of String) From {
-            CurrentFolder
-        }
-        Dim FileMetadata As New Data.File With {.Parents = Parents}
+    Private Async Sub MoveButton_Click(sender As Object, e As EventArgs) Handles MoveButton.Click
         For Each item In ItemsToMove
-            service.Files.Update(FileMetadata, item).ExecuteAsync()
+            Dim PreviousFileParentsRequest As New GetRequest(service, item) With {.Fields = "parents"}
+            Dim PreviousFileParents As File = Await PreviousFileParentsRequest.ExecuteAsync()
+            Dim UpdateRequest As New UpdateRequest(service, New File(), item) With {.RemoveParents = String.Join(",", PreviousFileParents.Parents), .AddParents = CurrentFolder}
+            Await UpdateRequest.ExecuteAsync()
         Next
+        If ItemsToMove.Count > 1 Then
+            MsgBox(Translations.MsgAndDialogLang("files_moved"))
+        Else
+            MsgBox(Translations.MsgAndDialogLang("file_moved"))
+        End If
+        Form1.RefreshFileList(Form1.CurrentFolder)
         Me.Close()
     End Sub
 End Class

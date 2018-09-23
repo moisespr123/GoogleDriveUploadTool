@@ -21,7 +21,7 @@ Public Class Form1
     Private PreviousFolderId As New List(Of String)
     Public viewing_trash As Boolean = False
     Private credential As UserCredential = Nothing
-    Private CurrentFolder As String = "root"
+    Public CurrentFolder As String = "root"
     Shared Scopes As String() = {DriveService.Scope.DriveFile, DriveService.Scope.Drive}
     Shared SoftwareName As String = "Google Drive Uploader Tool"
     Public service As DriveService
@@ -471,7 +471,7 @@ Public Class Form1
         If viewing_trash = False Then RefreshFileList(CurrentFolder) Else RefreshFileList("trash")
     End Sub
     Private Delegate Sub RefreshFileListInvoker(FolderID As String)
-    Private Sub RefreshFileList(FolderID As String)
+    Public Sub RefreshFileList(FolderID As String)
         If FilesListBox.InvokeRequired Then FilesListBox.Invoke(New RefreshFileListInvoker(AddressOf RefreshFileList), FolderID)
         If FolderListBox.InvokeRequired Then FolderListBox.Invoke(New RefreshFileListInvoker(AddressOf RefreshFileList), FolderID)
         Dim listRequestQString As String = Nothing
@@ -922,8 +922,11 @@ Public Class Form1
             CheckForFolderDownload()
             controlPressed = True
             e.SuppressKeyPress = True
+        ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.M Then
+            MoveFileOrFolder(True)
+            controlPressed = True
+            e.SuppressKeyPress = True
         End If
-
     End Sub
 
     Private Function GetFolderPath() As String
@@ -1080,7 +1083,7 @@ Public Class Form1
         RefreshFileList(FolderID)
     End Sub
     Private controlPressed As Boolean = False
-    Private Async Sub FilesListBox_KeyDown(sender As Object, e As KeyEventArgs) Handles FilesListBox.KeyDown
+    Private Sub FilesListBox_KeyDown(sender As Object, e As KeyEventArgs) Handles FilesListBox.KeyDown
         If e.KeyCode = Keys.Delete Then
             If viewing_trash = False Then
                 If FilesListBox.SelectedItem IsNot Nothing Then
@@ -1110,6 +1113,10 @@ Public Class Form1
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.D Then
             CheckForFilesDownload()
+            controlPressed = True
+            e.SuppressKeyPress = True
+        ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.M Then
+            MoveFileOrFolder()
             controlPressed = True
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.U Then
@@ -1452,16 +1459,31 @@ Public Class Form1
     End Sub
 
     Private Sub MoveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MoveToolStripMenuItem.Click
-        If FilesListBox.SelectedItems IsNot Nothing Then
-            MoveDialog.CurrentFolder = CurrentFolder
-            MoveDialog.PreviousFolderId = PreviousFolderId
-            MoveDialog.FolderIDs = FolderIdsList
-            For Each item As String In FilesListBox.SelectedItems
-                MoveDialog.ItemsToMove.Add(FileIdsList.Item(FilesListBox.Items.IndexOf(item)))
-            Next
-            MoveDialog.Show()
+        MoveFileOrFolder()
+    End Sub
+
+    Private Sub MoveFileOrFolder(Optional IsFolder As Boolean = False)
+        MoveDialog.CurrentFolder = CurrentFolder
+        MoveDialog.PreviousFolderId = PreviousFolderId
+        MoveDialog.FolderIDs = FolderIdsList
+        If Not IsFolder Then
+            If FilesListBox.SelectedItems IsNot Nothing Then
+                For Each item As String In FilesListBox.SelectedItems
+                    MoveDialog.ItemsToMove.Add(FileIdsList.Item(FilesListBox.Items.IndexOf(item)))
+                Next
+                MoveDialog.Show()
+            Else
+                Translations.MsgAndDialogLang("no_files_selected")
+            End If
         Else
-            Translations.MsgAndDialogLang("no_files_selected")
+            If FolderListBox.SelectedItems IsNot Nothing Then
+                For Each item As String In FolderListBox.SelectedItems
+                    MoveDialog.ItemsToMove.Add(FolderIdsList.Item(FolderListBox.Items.IndexOf(item)))
+                Next
+                MoveDialog.Show()
+            Else
+                Translations.MsgAndDialogLang("no_folders_selected")
+            End If
         End If
     End Sub
 

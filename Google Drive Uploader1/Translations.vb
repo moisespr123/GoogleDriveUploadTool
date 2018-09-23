@@ -687,6 +687,36 @@
                         Return "No file(s) selected"
                     Case Else
                 End Select
+            Case "no_folders_selected"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "No folder(s) selected"
+                    Case "Spanish"
+                        Return "No seleccionó carpeta(s)"
+                    Case "TChinese"
+                        Return "No folder(s) selected"
+                    Case Else
+                End Select
+            Case "file_moved"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "File Moved."
+                    Case "Spanish"
+                        Return "El archivo sido movido."
+                    Case "TChinese"
+                        Return "File Moved."
+                    Case Else
+                End Select
+            Case "files_moved"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Files Moved."
+                    Case "Spanish"
+                        Return "Los archivos han sido movidos."
+                    Case "TChinese"
+                        Return "Files Moved."
+                    Case Else
+                End Select
             Case Else
                 Return "Error Typo " & tag
         End Select
