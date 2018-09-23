@@ -19,7 +19,7 @@ Public Class Form1
     Private FileMD5List As New List(Of String)
     Private FolderIdsList As New List(Of String)
     Private PreviousFolderId As New List(Of String)
-    Private viewing_trash As Boolean = False
+    Public viewing_trash As Boolean = False
     Private credential As UserCredential = Nothing
     Private CurrentFolder As String = "root"
     Shared Scopes As String() = {DriveService.Scope.DriveFile, DriveService.Scope.Drive}
@@ -120,20 +120,20 @@ Public Class Form1
             My.Settings.Language = "English"
             My.Settings.Save()
             RadioButton1.Checked = True
-            EnglishLanguage()
+            Translations.EnglishLanguage()
         Else
             Select Case My.Settings.Language
                 Case "English"
-                    EnglishLanguage()
+                    Translations.EnglishLanguage()
                     RadioButton1.Checked = True
                 Case "Spanish"
-                    SpanishLanguage()
+                    Translations.SpanishLanguage()
                     RadioButton2.Checked = True
                 Case "TChinese"
-                    TChineseLanguage()
+                    Translations.TChineseLanguage()
                     RadioButton3.Checked = True
                 Case Else
-                    EnglishLanguage()
+                    Translations.EnglishLanguage()
                     RadioButton1.Checked = True
             End Select
         End If
@@ -157,7 +157,7 @@ Public Class Form1
                 UploadButton.Enabled = False
                 UploadFiles()
             Else
-                Dim Message As String = MsgAndDialogLang("folder_invaild")
+                Dim Message As String = Translations.MsgAndDialogLang("folder_invaild")
                 If MsgBox(Message, MsgBoxStyle.Question Or MsgBoxStyle.YesNo) = MsgBoxResult.No Then
                     My.Settings.LastFolder = "root"
                     My.Settings.Save()
@@ -229,7 +229,7 @@ Public Class Form1
                                     UploadStream.Read(buffer, 0, readChunkSize)
                                     FileInRAM.Write(buffer, 0, readChunkSize)
                                 End If
-                                UpdateBytesSent(UploadStream.Position, MsgAndDialogLang("uploadstatus_copytoram"), starttime)
+                                UpdateBytesSent(UploadStream.Position, Translations.MsgAndDialogLang("uploadstatus_copytoram"), starttime)
                                 Me.Update()
                             End While
                             UsingRAM = True
@@ -321,7 +321,7 @@ Public Class Form1
                 UpdateQuota()
             End If
         End While
-        If RadioButton1.Checked = True Then MsgBox(MsgAndDialogLang("upload_finish"))
+        If RadioButton1.Checked = True Then MsgBox(Translations.MsgAndDialogLang("upload_finish"))
         FolderCreated = False
         My.Settings.FolderCreated = False
         DirectoryListID.Clear()
@@ -340,21 +340,21 @@ Public Class Form1
             Case UploadStatus.Completed
                 UploadFailed = False
                 ResumeFromError = False
-                UpdateBytesSent(My.Computer.FileSystem.GetFileInfo(GetFile).Length, MsgAndDialogLang("uploadstatus_complete"), starttime)
+                UpdateBytesSent(My.Computer.FileSystem.GetFileInfo(GetFile).Length, Translations.MsgAndDialogLang("uploadstatus_complete"), starttime)
             Case UploadStatus.Starting
-                UpdateBytesSent(0, MsgAndDialogLang("uploadstatus_starting"), starttime)
+                UpdateBytesSent(0, Translations.MsgAndDialogLang("uploadstatus_starting"), starttime)
             Case UploadStatus.Uploading
                 UploadFailed = False
-                UpdateBytesSent(uploadStatusInfo.BytesSent, MsgAndDialogLang("uploadstatus_uploading"), starttime)
+                UpdateBytesSent(uploadStatusInfo.BytesSent, Translations.MsgAndDialogLang("uploadstatus_uploading"), starttime)
             Case UploadStatus.Failed
                 UploadFailed = True
-                UpdateBytesSent(uploadStatusInfo.BytesSent, MsgAndDialogLang("uploadstatus_retry"), starttime)
+                UpdateBytesSent(uploadStatusInfo.BytesSent, Translations.MsgAndDialogLang("uploadstatus_retry"), starttime)
                 ResumeFromError = True
                 Thread.Sleep(1000)
         End Select
     End Sub
     Private Sub Upload_ResponseReceived(file As Data.File)
-        UpdateBytesSent(My.Computer.FileSystem.GetFileInfo(GetFile).Length, MsgAndDialogLang("uploadstatus_complete"), starttime)
+        UpdateBytesSent(My.Computer.FileSystem.GetFileInfo(GetFile).Length, Translations.MsgAndDialogLang("uploadstatus_complete"), starttime)
     End Sub
     Private Sub Upload_UploadSessionData(ByVal uploadSessionData As IUploadSessionData)
         ' Save UploadUri.AbsoluteUri and FullPath Filename values for use if program faults and we want to restart the program
@@ -378,7 +378,7 @@ Public Class Form1
                 ResumeText2 = "Resumir"
             End If
             If Ask = True Then
-                If MsgBox(String.Format(MsgAndDialogLang("resume_upload_question"), vbNewLine, GetFile), MsgBoxStyle.Question Or MsgBoxStyle.YesNo, MsgAndDialogLang("resume_upload")) = MsgBoxResult.Yes Then
+                If MsgBox(String.Format(Translations.MsgAndDialogLang("resume_upload_question"), vbNewLine, GetFile), MsgBoxStyle.Question Or MsgBoxStyle.YesNo, Translations.MsgAndDialogLang("resume_upload")) = MsgBoxResult.Yes Then
                     Return New Uri(My.Settings.ResumeUri)
                 Else
                     Return Nothing
@@ -445,7 +445,7 @@ Public Class Form1
         End If
     End Sub
     Private Async Sub BrowseToDownloadFile()
-        SaveFileDialog1.Title = MsgAndDialogLang("location_browse")
+        SaveFileDialog1.Title = Translations.MsgAndDialogLang("location_browse")
         SaveFileDialog1.FileName = FilesListBox.SelectedItem.ToString
         Dim SFDResult As DialogResult = SaveFileDialog1.ShowDialog()
         If SFDResult = DialogResult.OK Then
@@ -467,11 +467,11 @@ Public Class Form1
     Private Sub Download_ProgressChanged(progress As IDownloadProgress)
         Select Case progress.Status
             Case DownloadStatus.Completed
-                UpdateBytesSent(Convert.ToInt64(MaxFileSize), MsgAndDialogLang("uploadstatus_complete"), starttime)
+                UpdateBytesSent(Convert.ToInt64(MaxFileSize), Translations.MsgAndDialogLang("uploadstatus_complete"), starttime)
             Case DownloadStatus.Downloading
-                UpdateBytesSent(progress.BytesDownloaded, MsgAndDialogLang("uploadstatus_downloading"), starttime)
+                UpdateBytesSent(progress.BytesDownloaded, Translations.MsgAndDialogLang("uploadstatus_downloading"), starttime)
             Case DownloadStatus.Failed
-                UpdateBytesSent(progress.BytesDownloaded, MsgAndDialogLang("uploadstatus_failed"), starttime)
+                UpdateBytesSent(progress.BytesDownloaded, Translations.MsgAndDialogLang("uploadstatus_failed"), starttime)
         End Select
     End Sub
 
@@ -527,11 +527,11 @@ Public Class Form1
         Loop While PageToken1 = String.Empty = False
         Dim FileCountNumber = FilesListBox.Items.Count
         If FileCountNumber > 1 Then
-            FileCount.Text = FileCountNumber.ToString + MsgAndDialogLang("files_txt")
+            FileCount.Text = FileCountNumber.ToString + Translations.MsgAndDialogLang("files_txt")
         ElseIf FileCountNumber = 1 Then
-            FileCount.Text = FileCountNumber.ToString + MsgAndDialogLang("file_txt")
+            FileCount.Text = FileCountNumber.ToString + Translations.MsgAndDialogLang("file_txt")
         Else
-            FileCount.Text = "0" + MsgAndDialogLang("files_txt")
+            FileCount.Text = "0" + Translations.MsgAndDialogLang("files_txt")
         End If
         FolderListBox.Items.Clear()
         FolderIdsList.Clear()
@@ -605,7 +605,7 @@ Public Class Form1
 
     Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged
         If RadioButton1.Checked Then
-            EnglishLanguage()
+            Translations.EnglishLanguage()
             My.Settings.Language = "English"
             My.Settings.Save()
             If service IsNot Nothing Then RefreshFileList(CurrentFolder)
@@ -614,7 +614,7 @@ Public Class Form1
 
     Private Sub RadioButton2_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton2.CheckedChanged
         If RadioButton2.Checked Then
-            SpanishLanguage()
+            Translations.SpanishLanguage()
             My.Settings.Language = "Spanish"
             My.Settings.Save()
             If service IsNot Nothing Then RefreshFileList(CurrentFolder)
@@ -622,7 +622,7 @@ Public Class Form1
     End Sub
     Private Sub RadioButton3_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton3.CheckedChanged
         If RadioButton3.Checked Then
-            TChineseLanguage()
+            Translations.TChineseLanguage()
             My.Settings.Language = "TChinese"
             My.Settings.Save()
             If service IsNot Nothing Then RefreshFileList(CurrentFolder)
@@ -750,8 +750,8 @@ Public Class Form1
     Private Sub CreateFolder()
         Dim FolderNameToCreate As String
         Dim Message, Title As String
-        Message = MsgAndDialogLang("enter_name_for_folder")
-        Title = MsgAndDialogLang("create_new_folder")
+        Message = Translations.MsgAndDialogLang("enter_name_for_folder")
+        Title = Translations.MsgAndDialogLang("create_new_folder")
         FolderNameToCreate = InputBox(Message, Title)
         If String.IsNullOrEmpty(FolderNameToCreate) = False Then
             Dim FolderMetadata As New Data.File With {
@@ -780,8 +780,8 @@ Public Class Form1
     Private Sub RenameFileOrFolder(FileOrFolderToRename As String)
         Dim NewName As String
         Dim Message, Title As String
-        Message = MsgAndDialogLang("enter_new_name")
-        Title = MsgAndDialogLang("rename_dialog")
+        Message = Translations.MsgAndDialogLang("enter_new_name")
+        Title = Translations.MsgAndDialogLang("rename_dialog")
         NewName = InputBox(Message, Title, GetIDName(FileOrFolderToRename))
         If String.IsNullOrEmpty(NewName) = False Then
             Dim FileMetadata As New Data.File With {.Name = NewName}
@@ -799,7 +799,7 @@ Public Class Form1
         If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5")
     End Sub
     Private Function SaveChecksumFileDialog(FileOrFolderName As String) As String
-        SaveFileDialog2.Title = MsgAndDialogLang("checksum_location")
+        SaveFileDialog2.Title = Translations.MsgAndDialogLang("checksum_location")
         SaveFileDialog2.FileName = FileOrFolderName
         SaveFileDialog2.Filter = "MD5 Checksum|*.md5"
         Dim SFDResult As DialogResult = SaveFileDialog2.ShowDialog()
@@ -845,37 +845,37 @@ Public Class Form1
         If TrashItem Then
             If IsFile Then
                 If Items.Count > 1 Then
-                    ConfirmMessage = MsgAndDialogLang("move_selected_file2trash")
-                    SuccessMessage = MsgAndDialogLang("files_moved2trash")
+                    ConfirmMessage = Translations.MsgAndDialogLang("move_selected_file2trash")
+                    SuccessMessage = Translations.MsgAndDialogLang("files_moved2trash")
                 Else
-                    ConfirmMessage = MsgAndDialogLang("move_file2trash_part1") & FilesListBox.SelectedItem.ToString & MsgAndDialogLang("move_file2trash_part2")
-                    SuccessMessage = MsgAndDialogLang("file_moved2trash")
+                    ConfirmMessage = Translations.MsgAndDialogLang("move_file2trash_part1") & FilesListBox.SelectedItem.ToString & Translations.MsgAndDialogLang("move_file2trash_part2")
+                    SuccessMessage = Translations.MsgAndDialogLang("file_moved2trash")
                 End If
             Else
                 If Items.Count > 1 Then
-                    ConfirmMessage = MsgAndDialogLang("confirm_move_selected_folder2trash")
-                    SuccessMessage = MsgAndDialogLang("folders_moved2trash")
+                    ConfirmMessage = Translations.MsgAndDialogLang("confirm_move_selected_folder2trash")
+                    SuccessMessage = Translations.MsgAndDialogLang("folders_moved2trash")
                 Else
-                    ConfirmMessage = MsgAndDialogLang("confirm_move_folder2trash_part1") & FolderListBox.SelectedItem.ToString & MsgAndDialogLang("confirm_move_folder2trash_part2")
-                    SuccessMessage = MsgAndDialogLang("folder_moved2trash")
+                    ConfirmMessage = Translations.MsgAndDialogLang("confirm_move_folder2trash_part1") & FolderListBox.SelectedItem.ToString & Translations.MsgAndDialogLang("confirm_move_folder2trash_part2")
+                    SuccessMessage = Translations.MsgAndDialogLang("folder_moved2trash")
                 End If
             End If
         Else
             If IsFile Then
                 If Items.Count > 1 Then
-                    ConfirmMessage = MsgAndDialogLang("confirm_restore_selected_files")
-                    SuccessMessage = MsgAndDialogLang("files_restored")
+                    ConfirmMessage = Translations.MsgAndDialogLang("confirm_restore_selected_files")
+                    SuccessMessage = Translations.MsgAndDialogLang("files_restored")
                 Else
-                    ConfirmMessage = MsgAndDialogLang("restore_file_part1") & FilesListBox.SelectedItem.ToString & MsgAndDialogLang("restore_file_part2")
-                    SuccessMessage = MsgAndDialogLang("file_restored")
+                    ConfirmMessage = Translations.MsgAndDialogLang("restore_file_part1") & FilesListBox.SelectedItem.ToString & Translations.MsgAndDialogLang("restore_file_part2")
+                    SuccessMessage = Translations.MsgAndDialogLang("file_restored")
                 End If
             Else
                 If Items.Count > 1 Then
-                    ConfirmMessage = MsgAndDialogLang("confirm_restore_selected_folders")
-                    SuccessMessage = MsgAndDialogLang("folders_restored")
+                    ConfirmMessage = Translations.MsgAndDialogLang("confirm_restore_selected_folders")
+                    SuccessMessage = Translations.MsgAndDialogLang("folders_restored")
                 Else
-                    ConfirmMessage = MsgAndDialogLang("restore_folder_part1") & FolderListBox.SelectedItem.ToString & MsgAndDialogLang("restore_folder_part2")
-                    SuccessMessage = MsgAndDialogLang("folder_restored")
+                    ConfirmMessage = Translations.MsgAndDialogLang("restore_folder_part1") & FolderListBox.SelectedItem.ToString & Translations.MsgAndDialogLang("restore_folder_part2")
+                    SuccessMessage = Translations.MsgAndDialogLang("folder_restored")
                 End If
             End If
         End If
@@ -955,7 +955,7 @@ Public Class Form1
             Else
                 Await DownloadFiles(FolderPath)
             End If
-            MsgBox(MsgAndDialogLang("downloads_finished"))
+            MsgBox(Translations.MsgAndDialogLang("downloads_finished"))
         End If
     End Sub
     Private Async Function DownloadFiles(Folder As String) As Task
@@ -985,7 +985,7 @@ Public Class Form1
             End If
             If ChecksumString.EndsWith(GetChecksumsReturnChar) Then ChecksumString = ChecksumString.Remove(ChecksumString.LastIndexOf(GetChecksumsReturnChar))
             My.Computer.FileSystem.WriteAllText(Filename, ChecksumString, False, New System.Text.UTF8Encoding(False))
-            MsgBox(MsgAndDialogLang("checksums_saved"))
+            MsgBox(Translations.MsgAndDialogLang("checksums_saved"))
         End If
     End Sub
     Private Function GetFileFolderChecksum(Path As List(Of String), ChecksumString As String) As String
@@ -1153,7 +1153,7 @@ Public Class Form1
             Debug.WriteLine(credfile)
             File.Delete(credfile)
         Next
-        MsgBox(MsgAndDialogLang("logged_out"))
+        MsgBox(Translations.MsgAndDialogLang("logged_out"))
         Application.Exit()
     End Sub
 
@@ -1192,659 +1192,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub EnglishLanguage()
-        Label1.Text = "File Size:"
-        Label2.Text = "Processed:"
-        Label5.Text = "Drag and Drop Files to add them to the list"
-        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.8.6"
-        Label7.Text = "Status:"
-        Label9.Text = "Percent: "
-        Label11.Text = "Files:"
-        Label12.Text = "Upload to this folder ID (""root"" to upload to root folder):"
-        Label13.Text = "Time Left: "
-        Label16.Text = "Folder Name:"
-        Label17.Text = "Folders:"
-        Label18.Text = "File Name:"
-        Label19.Text = "File ID:"
-        Label20.Text = "Date Created:"
-        Label21.Text = "Date Modified:"
-        Label22.Text = "MD5 Checksum:"
-        Label23.Text = "MIME Type:"
-        Label24.Text = "File Size:"
-        Button1.Text = "Save Checksum File"
-        UploadButton.Text = "Upload"
-        Button3.Text = "Clear List"
-        Button4.Text = "Refresh List"
-        Button5.Text = "Download File"
-        Button6.Text = "Remove selected file(s) from list"
-        Button7.Text = "Save Checksums for Selected Files"
-        Button9.Text = "Get Folder Name"
-        Button10.Text = "Back"
-        GroupBox2.Text = "File Information:"
-        If viewing_trash = False Then
-            Button11.Text = "View Trash"
-        ElseIf viewing_trash = True Then
-            Button11.Text = "View Drive"
-        End If
-        Button12.Text = "Create New Folder"
-        Button13.Text = "Upload selected file(s) to current folder"
-        Button14.Text = "Deselect"
-        btnLogout.Text = "Logout"
-        ActionsToolStripMenuItem.Text = "Actions"
-        ChecksumsOptionsToolStripMenuItem.Text = "Checksum Options"
-        CreateNewFolderToolStripMenuItem.Text = "Create New Folder"
-        EncodeFileFor.Text = "Encode file for"
-        RenameToolStripMenuItem.Text = "Rename"
-        SelectedFileToolStripMenuItem1.Text = "Selected File"
-        SelectedFolderToolStripMenuItem1.Text = "Selected Folder"
-        RefreshListToolStripMenuItem.Text = "Refresh List"
-        MoveToTrashToolStripMenuItem.Text = "Move to Trash"
-        SelectedFilesToolStripMenuItem.Text = "Selected file(s)"
-        SelectedFoldersToolStripMenuItem.Text = "Selected folder(s)"
-        RestoreToolStripMenuItem.Text = "Restore"
-        SelectedFilesToolStripMenuItem1.Text = "Selected file(s)"
-        SelectedFoldersToolStripMenuItem1.Text = "Selected folder(s)"
-        SaveChecksumsToolStripMenuItem.Text = "Save Checksums"
-        SelectedFilesToolStripMenuItem2.Text = "Selected file(s)"
-        SelectedFolderToolStripMenuItem2.Text = "Selected folder"
-        CopyFileToRAMBeforeUploadingToolStripMenuItem.Text = "Copy File to RAM before uploading if there's enough Free Memory available"
-        DonationsToolStripMenuItem.Text = "Donations"
-        FileToolStripMenuItem.Text = "File"
-        UploadToolStripMenuItem.Text = "Upload"
-        FileToolStripMenuItem1.Text = "File(s)"
-        FolderToolStripMenuItem.Text = "Folder"
-        DownloadToolStripMenuItem.Text = "Download"
-        SelectedFileToolStripMenuItem.Text = "Selected File(s)"
-        SelectedFolderToolStripMenuItem.Text = "Selected Folder"
-        HelpToolStripMenuItem.Text = "Help"
-        OptionsToolStripMenuItem.Text = "Options"
-        OrderByToolStripMenuItem.Text = "Order By"
-        OrderByComboBox.Items.Clear()
-        OrderByComboBox.Items.AddRange({"Created Time", "Folder", "Modified By Me Time", "Modified Time", "Name", "Natural Name", "Quota Bytes Used", "Recency", "Shared With Me Time", "Starred", "Viewed By Me Time"})
-        OrderByComboBox.SelectedIndex = My.Settings.SortByIndex
-        DescendingOrderToolStripMenuItem.Text = "Descending Order"
-        PreserveFileModifiedDateToolStripMenuItem.Text = "Preserve File Modification Date"
-        SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Text = "Save checksums as checksums.md5"
-        StartUploadsAutomaticallyToolStripMenuItem.Text = "Start Uploads Automatically"
-        SpecifyChunkSizeToolStripMenuItem.Text = "Specify Chunk Size"
-        UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Text = "Update File and Folder views after an upload finishes"
-        ReadmeToolStripMenuItem.Text = "Readme / Help"
-        LoggedInAs.Text = "Logged In As:"
-        UsedSpaceText.Text = "Used Space:"
-        TotalSpaceText.Text = "Total Space:"
-        FreeSpaceText.Text = "Free Space:"
-    End Sub
-
-    Private Sub TChineseLanguage()
-        Label1.Text = "文件大小:"
-        Label2.Text = "Processed:"
-        Label5.Text = "請將文件拖到下方"
-        Label6.Text = "By Moisés Cardona" & vbNewLine & "v1.8.6" & vbNewLine & "Translated by mic4126"
-        Label7.Text = "狀態:"
-        Label9.Text = "百份比: "
-        Label11.Text = "文件:"
-        Label12.Text = "上傳到此文件夾ID (""root"" 指上傳到根目錄):"
-        Label13.Text = "餘下時間: "
-        Label16.Text = "文件夾名稱:"
-        Label18.Text = "文件名稱:"
-        Label19.Text = "文件ID:"
-        Label20.Text = "新建日期:"
-        Label21.Text = "修改日期:"
-        Label22.Text = "MD5 校驗碼:"
-        Label23.Text = "MIME Type:"
-        Label24.Text = "文件大小:"
-        Button1.Text = "儲存校驗碼"
-        UploadButton.Text = "上傳"
-        Button3.Text = "清除列表"
-        Button4.Text = "更新列表"
-        Button5.Text = "下載文件"
-        Button6.Text = "由列表中移除已選文件"
-        Button7.Text = "儲存已選文件校驗碼"
-        Button9.Text = "獲取文件夾名稱"
-        Button10.Text = "返回"
-        GroupBox2.Text = "File Information:"
-        If viewing_trash = False Then
-            Button11.Text = "查看垃圾桶"
-        ElseIf viewing_trash = True Then
-            Button11.Text = "回到Google Drive"
-        End If
-        Button12.Text = "新增文件夾"
-        Button13.Text = "Upload selected file(s) to current folder"
-        Button14.Text = "Deselect"
-        btnLogout.Text = "登岀"
-        ActionsToolStripMenuItem.Text = "Actions"
-        ChecksumsOptionsToolStripMenuItem.Text = "Checksum Options"
-        CreateNewFolderToolStripMenuItem.Text = "Create New Folder"
-        EncodeFileFor.Text = "Encode file for"
-        RenameToolStripMenuItem.Text = "Rename"
-        SelectedFileToolStripMenuItem1.Text = "Selected File"
-        SelectedFolderToolStripMenuItem1.Text = "Selected Folder"
-        RefreshListToolStripMenuItem.Text = "Refresh List"
-        MoveToTrashToolStripMenuItem.Text = "Move to Trash"
-        SelectedFilesToolStripMenuItem.Text = "Selected file(s)"
-        SelectedFoldersToolStripMenuItem.Text = "Selected folder(s)"
-        RestoreToolStripMenuItem.Text = "Restore"
-        SelectedFilesToolStripMenuItem1.Text = "Selected file(s)"
-        SelectedFoldersToolStripMenuItem1.Text = "Selected folder(s)"
-        SaveChecksumsToolStripMenuItem.Text = "Save Checksums"
-        SelectedFilesToolStripMenuItem2.Text = "Selected file(s)"
-        SelectedFolderToolStripMenuItem2.Text = "Selected folder"
-        CopyFileToRAMBeforeUploadingToolStripMenuItem.Text = "Copy File to RAM before uploading if there's enough Free Memory available"
-        DonationsToolStripMenuItem.Text = "捐款"
-        FileToolStripMenuItem.Text = "File"
-        UploadToolStripMenuItem.Text = "Upload"
-        FileToolStripMenuItem1.Text = "File(s)"
-        FolderToolStripMenuItem.Text = "Folder"
-        DownloadToolStripMenuItem.Text = "Download"
-        SelectedFileToolStripMenuItem.Text = "Selected File(s)"
-        SelectedFolderToolStripMenuItem.Text = "Selected Folder"
-        HelpToolStripMenuItem.Text = "Help"
-        OptionsToolStripMenuItem.Text = "Options"
-        OrderByToolStripMenuItem.Text = "Order By"
-        OrderByComboBox.Items.Clear()
-        OrderByComboBox.Items.AddRange({"Created Time", "Folder", "Modified By Me Time", "Modified Time", "Name", "Natural Name", "Quota Bytes Used", "Recency", "Shared With Me Time", "Starred", "Viewed By Me Time"})
-        OrderByComboBox.SelectedIndex = My.Settings.SortByIndex
-        DescendingOrderToolStripMenuItem.Text = "Descending Order"
-        PreserveFileModifiedDateToolStripMenuItem.Text = "Preserve File Modification Date"
-        SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Text = "Save checksums as checksums.md5"
-        StartUploadsAutomaticallyToolStripMenuItem.Text = "Start Uploads Automatically"
-        SpecifyChunkSizeToolStripMenuItem.Text = "Specify Chunk Size"
-        UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Text = "Update File and Folder views after an upload finishes"
-        ReadmeToolStripMenuItem.Text = "Readme / Help"
-        LoggedInAs.Text = "Logged In As:"
-        UsedSpaceText.Text = "Used Space:"
-        TotalSpaceText.Text = "Total Space:"
-        FreeSpaceText.Text = "Free Space:"
-    End Sub
-
-    Private Sub SpanishLanguage()
-        Label1.Text = "Tamaño:"
-        Label2.Text = "Procesado:"
-        Label5.Text = "Arrastre archivos aquí para añadirlos a la lista"
-        Label6.Text = "Por Moisés Cardona" & vbNewLine & "v1.8.6"
-        Label7.Text = "Estado:"
-        Label9.Text = "Porcentaje: "
-        Label11.Text = "Archivos:"
-        Label12.Text = "Subir a este ID de directorio (""root"" para subir a la raíz):"
-        Label13.Text = "Tiempo Est."
-        Label16.Text = "Nombre de la Carpeta:"
-        Label17.Text = "Carpetas:"
-        Label18.Text = "Nombre:"
-        Label19.Text = "ID:"
-        Label20.Text = "Fecha Creada:"
-        Label21.Text = "Fecha Modificada:"
-        Label22.Text = "Checksum MD5:"
-        Label23.Text = "Tipo MIME:"
-        Label24.Text = "Tamaño:"
-        Button1.Text = "Guardar Archivo MD5"
-        UploadButton.Text = "Subir"
-        Button3.Text = "Borrar Lista"
-        Button4.Text = "Refrescar Lista"
-        Button5.Text = "Descargar Archivo"
-        Button6.Text = "Remover archivo(s) de la lista"
-        Button7.Text = "Guardar Checksums de los archivos"
-        Button9.Text = "Obtener Nombre de la Carpeta"
-        Button10.Text = "Atrás"
-        If viewing_trash = False Then
-            Button11.Text = "Ver Basura"
-        ElseIf viewing_trash = True Then
-            Button11.Text = "Ver Drive"
-        End If
-        Button12.Text = "Crear Carpeta"
-        Button13.Text = "Subir archivo(s) a esta carpeta"
-        Button14.Text = "Deseleccionar"
-        btnLogout.Text = "Cerrar Sesión"
-        GroupBox2.Text = "Información del archivo:"
-        ActionsToolStripMenuItem.Text = "Acciones"
-        ChecksumsOptionsToolStripMenuItem.Text = "Opciones de Checksums"
-        CreateNewFolderToolStripMenuItem.Text = "Crear nueva carpeta"
-        EncodeFileFor.Text = "Guardar archivo para"
-        RenameToolStripMenuItem.Text = "Renombrar"
-        SelectedFileToolStripMenuItem1.Text = "Archivo seleccionado"
-        SelectedFolderToolStripMenuItem1.Text = "Carpeta seleccionada"
-        RefreshListToolStripMenuItem.Text = "Refrescar Lista"
-        MoveToTrashToolStripMenuItem.Text = "Mover a la Basura"
-        SelectedFilesToolStripMenuItem.Text = "Archivo(s) seleccionados"
-        SelectedFoldersToolStripMenuItem.Text = "Carpeta(s) seleccionadas"
-        RestoreToolStripMenuItem.Text = "Restaurar"
-        SelectedFilesToolStripMenuItem1.Text = "Archivo(s) seleccionados"
-        SelectedFoldersToolStripMenuItem1.Text = "Carpeta(s) seleccionadas"
-        SaveChecksumsToolStripMenuItem.Text = "Guardar checksums"
-        SelectedFilesToolStripMenuItem2.Text = "Archivo(s) seleccionados"
-        SelectedFolderToolStripMenuItem2.Text = "Carpeta seleccionada"
-        CopyFileToRAMBeforeUploadingToolStripMenuItem.Text = "Copiar archivo a memoria antes de subirlo si hay memoria disponible"
-        DonationsToolStripMenuItem.Text = "Donar"
-        FileToolStripMenuItem.Text = "Archivo"
-        UploadToolStripMenuItem.Text = "Subir"
-        FileToolStripMenuItem1.Text = "Archivo(s)"
-        FolderToolStripMenuItem.Text = "Carpeta"
-        DownloadToolStripMenuItem.Text = "Descargar"
-        SelectedFileToolStripMenuItem.Text = "Archivo(s) seleccionado(s)"
-        SelectedFolderToolStripMenuItem.Text = "Carpeta seleccionada"
-        HelpToolStripMenuItem.Text = "Ayuda"
-        OptionsToolStripMenuItem.Text = "Opciones"
-        OrderByToolStripMenuItem.Text = "Ordenar por"
-        OrderByComboBox.Items.Clear()
-        OrderByComboBox.Items.AddRange({"Fecha de creación", "Carpeta", "Modificado por mí", "Fecha de Modificación", "Nombre", "Nombre Natural", "Espacio usado", "Recientes", "Compartidos conmigo", "Estrellado", "Fecha de Acceso/Visto"})
-        OrderByComboBox.SelectedIndex = My.Settings.SortByIndex
-        DescendingOrderToolStripMenuItem.Text = "Ordenar Descendiente"
-        PreserveFileModifiedDateToolStripMenuItem.Text = "Preservar fecha de modificación"
-        SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Text = "Guardar checksums como checksums.md5"
-        StartUploadsAutomaticallyToolStripMenuItem.Text = "Subir archivos automáticamente"
-        SpecifyChunkSizeToolStripMenuItem.Text = "Especificar tamaño de pedazos"
-        UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Text = "Actualizar vista de archivos y carpetas al terminar de subir un archivo"
-        ReadmeToolStripMenuItem.Text = "Léeme / Ayuda"
-        LoggedInAs.Text = "Usuario:"
-        UsedSpaceText.Text = "Espacio Usado:"
-        TotalSpaceText.Text = "Espacio Total:"
-        FreeSpaceText.Text = "Espacio Libre:"
-    End Sub
-
-    Function MsgAndDialogLang(tag As String) As String
-        Select Case tag
-            Case "downloads_finished"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Download(s) Finished!"
-                    Case "Spanish"
-                        Return "Archivo(s) descargado(s)"
-                    Case "TChinese"
-                        Return "Download(s) Finished!"
-                    Case Else
-                End Select
-            Case "folder_invaild"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "The specified folder is invalid. Do you want to change the folder? If you select No, your files will be uploaded to the root of Google Drive"
-                    Case "Spanish"
-                        Return "La carpeta especificada es invalida. Desea cambiar la carpeta? Si presiona No, sus archivos serán subidos a la raíz de Google Drive"
-                    Case "TChinese"
-                        Return "The specified folder is invalid. Do you want to change the folder? If you select No, your files will be uploaded to the root of Google Drive"
-                    Case Else
-
-                End Select
-            Case "upload_finish"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Uploads Finished!"
-                    Case "Spanish"
-                        Return "Los archivos han terminado de subir."
-                    Case "TChinese"
-                        Return "完成上傳"
-                    Case Else
-
-                End Select
-            Case "uploadstatus_copytoram"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Copying to RAM"
-                    Case "Spanish"
-                        Return "Copiando a RAM"
-                    Case "TChinese"
-                        Return "Copying to RAM"
-                End Select
-            Case "uploadstatus_complete"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Completed!!"
-                    Case "Spanish"
-                        Return "¡Completado!"
-                    Case "TChinese"
-                        Return "完成!!"
-                End Select
-            Case "uploadstatus_downloading"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Downloading..."
-                    Case "Spanish"
-                        Return "Descargando..."
-                    Case "TChinese"
-                        Return "下載中..."
-
-                End Select
-            Case "uploadstatus_starting"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Starting..."
-                    Case "Spanish"
-                        Return "Comenzando..."
-                    Case "TChinese"
-                        Return "開始中..."
-                End Select
-            Case "uploadstatus_uploading"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Uploading..."
-                    Case "Spanish"
-                        Return "Subiendo..."
-                    Case "TChinese"
-                        Return "上傳中..."
-
-                End Select
-            Case "uploadstatus_retry"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Retrying..."
-                    Case "Spanish"
-                        Return "Intentando..."
-                    Case "TChinese"
-                        Return "重試中..."
-
-                End Select
-            Case "uploadstatus_failed"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Failed..."
-                    Case "Spanish"
-                        Return "Error..."
-                    Case "TChinese"
-                        Return "出錯了..."
-
-                End Select
-            Case "resume_upload_question"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Resume previous upload?{0}{0}{1}"
-                    Case "Spanish"
-                        Return "¿Resumir carga anterior?{0}{0}{1}"
-                    Case "TChinese"
-                        Return "要不要恢復上次未完成上傳?{0}{0}{1}"
-                End Select
-            Case "resume_upload"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Resume Upload"
-                    Case "Spanish"
-                        Return "Resumir"
-                    Case "TChinese"
-                        Return "恢復上載"
-                End Select
-            Case "location_browse"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Browse for a location to save the file:"
-                    Case "Spanish"
-                        Return "Busque un lugar para descargar el archivo:"
-                    Case "TChinese"
-                        Return "請選擇地方儲存:"
-                End Select
-            Case "enter_name_for_folder"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Enter a name for the new folder:"
-                    Case "Spanish"
-                        Return "Escriba un nombre para la nueva carpeta:"
-                    Case "TChinese"
-                        Return "請為新文件夾改名:"
-                End Select
-            Case "enter_new_name"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "New Name:"
-                    Case "Spanish"
-                        Return "Nuevo nombre:"
-                    Case "TChinese"
-                        Return "New Name:"
-                End Select
-            Case "create_new_folder"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Create new Folder"
-                    Case "Spanish"
-                        Return "Crear nueva carpeta"
-                    Case "TChinese"
-                        Return "增加新文件夾"
-                End Select
-            Case "rename_dialog"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Rename"
-                    Case "Spanish"
-                        Return "Renombrar"
-                    Case "TChinese"
-                        Return "Rename"
-                End Select
-            Case "checksum_location"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Browse for a location to save the checksum file:"
-                    Case "Spanish"
-                        Return "Busque un lugar para guardar el archivo del checksum:"
-                    Case "TChinese"
-                        Return "請選擇地方儲存校驗碼:"
-                End Select
-            Case "confirm_move_selected_folder2trash"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Do you really want to move the selected folders to the Trash?"
-                    Case "Spanish"
-                        Return "¿Está seguro de querer mover las carpetas seleccionadas a la Basura?"
-                    Case "TChinese"
-                        Return "Do you really want to move the selected folders to the Trash?"
-                End Select
-            Case "folders_moved2trash"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Folders moved to trash"
-                    Case "Spanish"
-                        Return "Las carpetas se movieron a la basura."
-                    Case "TChinese"
-                        Return "文件夾已移到垃圾桶"
-                End Select
-            Case "folder_moved2trash"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Folder moved to trash"
-                    Case "Spanish"
-                        Return "La carpeta se movió a la basura"
-                    Case "TChinese"
-                        Return "文件夾已移到垃圾桶"
-                End Select
-            Case "checksums_saved"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Checksum(s) Saved!"
-                    Case "Spanish"
-                        Return "Los Checksums han sido guardados"
-                    Case "TChinese"
-                        Return "???"
-                End Select
-            Case "confirm_move_folder2trash_part1"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Do you really want to move the folder "
-                    Case "Spanish"
-                        Return "¿Está seguro de querer mover la carpeta "
-                    Case "TChinese"
-                        Return "你真係想將此文件夾 "
-                End Select
-            Case "confirm_move_folder2trash_part2"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return " to the Trash?"
-                    Case "Spanish"
-                        Return " a la Basura?"
-                    Case "TChinese"
-                        Return " 移到垃圾桶?"
-                End Select
-            Case "confirm_restore_selected_files"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Do you want to restore the selected files?"
-                    Case "Spanish"
-                        Return "¿Está seguro de querer restaurar los archivos seleccionados?"
-                    Case "TChinese"
-                        Return "你真係想還原所選的文件夾?"
-                End Select
-            Case "confirm_restore_selected_folders"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Do you want to restore the selected folders?"
-                    Case "Spanish"
-                        Return "¿Está seguro de querer restaurar las carpetas seleccionados?"
-                    Case "TChinese"
-                        Return "你真係想還原所選的文件夾?"
-                End Select
-            Case "restore_folder_part1"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Do you want to restore the folder "
-                    Case "Spanish"
-                        Return "¿Está seguro de querer restaurar la carpeta "
-                    Case "TChinese"
-                        Return "你真係想還原文件夾"
-                End Select
-            Case "restore_folder_part2"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "?"
-                    Case "Spanish"
-                        Return "?"
-                    Case "TChinese"
-                        Return "?"
-                End Select
-            Case "folder_restored"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "The Folder has been restored"
-                    Case "Spanish"
-                        Return "La carpeta ha sido restaurada"
-                    Case "TChinese"
-                        Return "文件夾巳還原"
-                End Select
-            Case "folders_restored"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "The Folders have been restored"
-                    Case "Spanish"
-                        Return "Las carpetas han sido restauradas"
-                    Case "TChinese"
-                        Return "文件夾巳還原"
-                End Select
-            Case "move_selected_file2trash"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Do you really want to move the selected files to the Trash?"
-                    Case "Spanish"
-                        Return "¿Está seguro de querer mover los archivos seleccionados a la Basura?"
-                    Case "TChinese"
-                        Return "Do you really want to move the selected files to the Trash?"
-                End Select
-            Case "file_moved2trash"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "File moved to trash"
-                    Case "Spanish"
-                        Return "El archivo se movió a la basura."
-                    Case "TChinese"
-                        Return "檔案已移到垃圾桶"
-                End Select
-            Case "files_moved2trash"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Files moved to trash"
-                    Case "Spanish"
-                        Return "Los archivos se movieron a la basura."
-                    Case "TChinese"
-                        Return "檔案已移到垃圾桶"
-                End Select
-            Case "move_file2trash_part1"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Do you really want to move the file "
-                    Case "Spanish"
-                        Return "¿Está seguro de querer mover el archivo "
-                    Case "TChinese"
-                        Return "你真係想將 "
-                End Select
-            Case "move_file2trash_part2"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return " to the Trash?"
-                    Case "Spanish"
-                        Return " a la Basura?"
-                    Case "TChinese"
-                        Return " 移到垃圾桶?"
-                End Select
-            Case "confirm_restrore_selected_file"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Do you want to restore the selected files?"
-                    Case "Spanish"
-                        Return "¿Está seguro de querer restaurar los archivos seleccionados?"
-                    Case "TChinese"
-                        Return "Do you want to restore the selected files?"
-                End Select
-            Case "file_restored"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "The File has been restored"
-                    Case "Spanish"
-                        Return "El archivo ha sido restaurado"
-                    Case "TChinese"
-                        Return "文件巳還原"
-                End Select
-            Case "files_restored"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "The Files have been restored"
-                    Case "Spanish"
-                        Return "Los archivos han sido restaurados"
-                    Case "TChinese"
-                        Return "文件巳還原"
-                End Select
-            Case "restore_file_part1"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "Do you want to restore the file "
-                    Case "Spanish"
-                        Return "¿Desea restaurar el archivo "
-                    Case "TChinese"
-                        Return "Do you want to restore the file "
-                End Select
-            Case "restore_file_part2"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "?"
-                    Case "Spanish"
-                        Return "?"
-                    Case "TChinese"
-                        Return "?"
-                End Select
-            Case "logged_out"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return "You have been logged out. The software will now close"
-                    Case "Spanish"
-                        Return "Tu sesión ha sido cerrada. El programa cerrará ahora"
-                    Case "TChinese"
-                        Return "You have been logged out. The software will now close"
-                End Select
-            Case "files_txt"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return " files"
-                    Case "Spanish"
-                        Return " archivos"
-                    Case "TChinese"
-                        Return " files"
-                    Case Else
-                End Select
-            Case "file_txt"
-                Select Case My.Settings.Language
-                    Case "English"
-                        Return " file"
-                    Case "Spanish"
-                        Return " archivo"
-                    Case "TChinese"
-                        Return " file"
-                    Case Else
-                End Select
-            Case Else
-                Return "Error Typo " & tag
-        End Select
-        Return tag & " not found"
-    End Function
+   
 
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
         FolderToUploadFileList.Item(UploadsListBox.SelectedIndex) = CurrentFolder
