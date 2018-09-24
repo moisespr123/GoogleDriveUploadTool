@@ -764,7 +764,7 @@
             Case "move"
                 Select Case My.Settings.Language
                     Case "English"
-                        Return "Move."
+                        Return "Move"
                     Case "Spanish"
                         Return "Mover"
                     Case "TChinese"

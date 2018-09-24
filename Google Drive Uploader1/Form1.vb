@@ -10,6 +10,7 @@ Imports System.Collections.Specialized
 Imports System.Net
 
 Public Class Form1
+    Private FileNameList As New List(Of String)
     Private FileIdsList As New List(Of String)
     Private FileSizeList As New List(Of Long?)
     Private FileMIMEList As New List(Of String)
@@ -17,6 +18,7 @@ Public Class Form1
     Private FileModifiedTimeList As New List(Of Date?)
     Private FileCreatedTimeList As New List(Of Date?)
     Private FileMD5List As New List(Of String)
+    Private FolderNameList As New List(Of String)
     Private FolderIdsList As New List(Of String)
     Private PreviousFolderId As New List(Of String)
     Public viewing_trash As Boolean = False
@@ -101,7 +103,7 @@ Public Class Form1
                 GetFolderIDName(False)
             End If
         Catch
-            Translations.MsgAndDialogLang("client_secrets_not_found")
+            MsgBox(Translations.MsgAndDialogLang("client_secrets_not_found"))
             Process.Start("https://developers.google.com/drive/v3/web/quickstart/dotnet")
             Me.Close()
         End Try
@@ -484,7 +486,7 @@ Public Class Form1
             listRequestQString = "mimeType!='application/vnd.google-apps.folder' and '" & FolderID & "' in parents and trashed = false"
             listRequestQFolderString = "mimeType='application/vnd.google-apps.folder' and '" & FolderID & "' in parents and trashed = false"
         End If
-        FilesListBox.Items.Clear()
+        FileNameList.Clear()
         FileIdsList.Clear()
         FileSizeList.Clear()
         FileModifiedTimeList.Clear()
@@ -504,7 +506,7 @@ Public Class Form1
                 Dim files = listRequest1.Execute()
                 If files.Files IsNot Nothing AndAlso files.Files.Count > 0 Then
                     For Each file In files.Files
-                        FilesListBox.Items.Add(file.Name)
+                        FileNameList.Add(file.Name)
                         FileIdsList.Add(file.Id)
                         If file.Size IsNot Nothing Then FileSizeList.Add(file.Size) Else FileSizeList.Add(0)
                         FileModifiedTimeList.Add(file.ModifiedTime)
@@ -517,7 +519,7 @@ Public Class Form1
             Catch ex As Exception
             End Try
         Loop While PageToken1 = String.Empty = False
-        Dim FileCountNumber = FilesListBox.Items.Count
+        Dim FileCountNumber As Integer = FileNameList.Count
         If FileCountNumber > 1 Then
             FileCount.Text = FileCountNumber.ToString + Translations.MsgAndDialogLang("files_txt")
         ElseIf FileCountNumber = 1 Then
@@ -525,7 +527,7 @@ Public Class Form1
         Else
             FileCount.Text = "0" + Translations.MsgAndDialogLang("files_txt")
         End If
-        FolderListBox.Items.Clear()
+        FolderNameList.Clear()
         FolderIdsList.Clear()
         Dim PageToken2 As String = String.Empty
         Do
@@ -538,7 +540,7 @@ Public Class Form1
                 Dim files = listRequest.Execute()
                 If files.Files IsNot Nothing AndAlso files.Files.Count > 0 Then
                     For Each file In files.Files
-                        FolderListBox.Items.Add(file.Name)
+                        FolderNameList.Add(file.Name)
                         FolderIdsList.Add(file.Id)
                     Next
                 End If
@@ -546,6 +548,10 @@ Public Class Form1
             Catch ex As Exception
             End Try
         Loop While PageToken2 = String.Empty = False
+        FolderListBox.DataSource = Nothing
+        FolderListBox.DataSource = FolderNameList
+        FilesListBox.DataSource = Nothing
+        FilesListBox.DataSource = FileNameList
         If CurrentFolder = "root" Or CurrentFolder = "trash" Then
             BackButton.Enabled = False
         Else
@@ -1468,6 +1474,7 @@ Public Class Form1
     End Sub
 
     Private Sub MoveFileOrFolder(Optional IsFolder As Boolean = False)
+        MoveDialog.FolderIDs = New List(Of String)
         MoveDialog.CurrentFolder = CurrentFolder
         MoveDialog.PreviousFolderId = PreviousFolderId
         MoveDialog.FolderIDs = FolderIdsList
@@ -1504,6 +1511,7 @@ Public Class Form1
         If FilesListBox.SelectedItems.Count > 0 Then
             Dim URLs As List(Of String) = New List(Of String)
             Download_URLs.Filenames = New List(Of String)
+            Download_URLs.Checksums = New List(Of String)
             For Each item As String In FilesListBox.SelectedItems
                 URLs.Add(Await GetUrl(FileIdsList.Item(FilesListBox.Items.IndexOf(item))))
                 Download_URLs.Filenames.Add(FilesListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString)
