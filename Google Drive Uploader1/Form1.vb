@@ -204,8 +204,16 @@ Public Class Form1
                     Dim UsingRAM As Boolean = False
                     If CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked Then
                         If My.Computer.Info.AvailablePhysicalMemory > My.Computer.FileSystem.GetFileInfo(GetFile).Length Then
-                            Dim megabyteMultiplication = 1024 * 1024
-                            Dim readChunkSize = megabyteMultiplication
+                            Dim RAMMultiplier = 1024 * 1024
+                            If My.Computer.FileSystem.FileExists("rammultiplier.txt") Then
+                                If String.IsNullOrEmpty(My.Computer.FileSystem.ReadAllText("rammultiplier.txt")) = False Then
+                                    RAMMultiplier = CInt(My.Computer.FileSystem.ReadAllText("rammultiplier.txt"))
+                                    If RAMMultiplier = 0 Then RAMMultiplier = 4
+                                Else
+                                    RAMMultiplier = 4
+                                End If
+                            End If
+                            Dim readChunkSize = 1024 * RAMMultiplier
                             starttime = DateTime.Now()
                             UploadStream.Seek(0, SeekOrigin.Begin)
                             FileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
@@ -213,7 +221,7 @@ Public Class Form1
                             Me.Update()
                             While UploadStream.Position < UploadStream.Length
                                 Dim RemainingBytes As Long = UploadStream.Length - UploadStream.Position
-                                If RemainingBytes <= megabyteMultiplication Then
+                                If RemainingBytes <= 1024 * RAMMultiplier Then
                                     Dim ChunkSize As Integer = Convert.ToInt32(RemainingBytes)
                                     Dim buffer(ChunkSize) As Byte
                                     UploadStream.Read(buffer, 0, ChunkSize)
@@ -1336,10 +1344,6 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub SpecifyChunkSizeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SpecifyChunkSizeToolStripMenuItem.Click
-        UploadChunkSize.ShowDialog()
-    End Sub
-
     Private Sub CopyFileToRAMBeforeUploadingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CopyFileToRAMBeforeUploadingToolStripMenuItem.Click
         My.Settings.CopyToRAM = CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked
         My.Settings.Save()
@@ -1545,5 +1549,15 @@ Public Class Form1
     Private Sub SaveChecksumsToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SaveChecksumsToolStripMenuItem1.Click
         If FolderListBox.SelectedItem IsNot Nothing Then EnterFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
         If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5", True) Else SaveChecksumsFile(GetCurrentFolderIDName() & ".md5", True)
+    End Sub
+
+    Private Sub UploadChunkToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UploadChunkToolStripMenuItem.Click
+        UploadChunkSize.file = "chunkmultiplier.txt"
+        UploadChunkSize.ShowDialog()
+    End Sub
+
+    Private Sub RAMChunkToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RAMChunkToolStripMenuItem.Click
+        UploadChunkSize.file = "rammultiplier.txt"
+        UploadChunkSize.ShowDialog()
     End Sub
 End Class

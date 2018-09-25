@@ -1,4 +1,5 @@
 ﻿Public Class UploadChunkSize
+    Public file As String = "chunkmultiplier.txt"
     Private Sub UploadChunkSize_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         NumericUpDown1.Maximum = Decimal.MaxValue
         If Form1.EnglishRButton.Checked Or Form1.TChineseRButton.Checked Then
@@ -10,19 +11,26 @@
             Label1.Text = "Introduzca tamaño de pedazo"
             Button1.Text = "Guardar"
         End If
-        If My.Computer.FileSystem.FileExists("chunkmultiplier.txt") Then
-            Dim value As Integer = CInt(My.Computer.FileSystem.ReadAllText("chunkmultiplier.txt")) * 256
-            If value < 256 Then
-                NumericUpDown1.Value = 256
-            Else
-                NumericUpDown1.Value = value
-            End If
+        If file = "chunkmultiplier.txt" Then
+            NumericUpDown1.Minimum = 256
+            unitLabel.Text = "KB"
+            If My.Computer.FileSystem.FileExists(file) Then NumericUpDown1.Value = CInt(My.Computer.FileSystem.ReadAllText(file)) * 256
+            If NumericUpDown1.Value < NumericUpDown1.Minimum Then NumericUpDown1.Value = NumericUpDown1.Minimum
+        Else
+            unitLabel.Text = "MB"
+            NumericUpDown1.Minimum = 1024
+            If My.Computer.FileSystem.FileExists(file) Then NumericUpDown1.Value = CInt(My.Computer.FileSystem.ReadAllText(file))
+            If NumericUpDown1.Value < NumericUpDown1.Minimum Then NumericUpDown1.Value = NumericUpDown1.Minimum
         End If
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Dim result As Integer = CInt(NumericUpDown1.Value / 256)
-        My.Computer.FileSystem.WriteAllText("chunkmultiplier.txt", result.ToString(), False)
+        If file = "chunkmultiplier.txt" Then
+            Dim result As Integer = CInt(NumericUpDown1.Value / 256)
+            My.Computer.FileSystem.WriteAllText(file, result.ToString(), False)
+        Else
+            My.Computer.FileSystem.WriteAllText(file, NumericUpDown1.Value.ToString(), False)
+        End If
         Me.Close()
     End Sub
 
