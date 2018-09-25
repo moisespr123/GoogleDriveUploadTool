@@ -177,19 +177,19 @@ Public Class Form1
                 GetFile = UploadsListBox.Items.Item(0).ToString
                 FolderIDTextBox.Text = FolderToUploadFileList.Item(0)
                 GetFolderIDName(False)
-                If System.IO.File.Exists(GetFile) Then
+                If File.Exists(GetFile) Then
                     FileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                     ProgressBar1.Maximum = CInt(My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                     Dim FileMetadata As New Data.File With {
                         .Name = My.Computer.FileSystem.GetName(GetFile)
                     }
-                    If My.Settings.PreserveModifiedDate Then FileMetadata.ModifiedTime = IO.File.GetLastWriteTimeUtc(GetFile)
+                    If My.Settings.PreserveModifiedDate Then FileMetadata.ModifiedTime = File.GetLastWriteTimeUtc(GetFile)
                     Dim FileFolder As New List(Of String)
                     If FolderCreated = False Then
                         FileFolder.Add(FolderIDTextBox.Text)
                     Else
                         Dim DirectoryName As String = ""
-                        DirectoryName = System.IO.Path.GetDirectoryName(GetFile)
+                        DirectoryName = Path.GetDirectoryName(GetFile)
                         For Each directory In DirectoryList
                             If DirectoryName = directory Then
                                 FileFolder.Add(DirectoryListID.Item(DirectoryList.IndexOf(directory)))
@@ -198,7 +198,7 @@ Public Class Form1
                         If FileFolder.Count = 0 Then FileFolder.Add(FolderIDTextBox.Text)
                     End If
                     FileMetadata.Parents = FileFolder
-                    Dim UploadStream As New FileStream(GetFile, System.IO.FileMode.Open, System.IO.FileAccess.Read)
+                    Dim UploadStream As New FileStream(GetFile, FileMode.Open, FileAccess.Read)
                     Dim FileInRAM As New MemoryTributary.MemoryTributary()
                     Dim UploadFile As FilesResource.CreateMediaUpload = Nothing
                     Dim UsingRAM As Boolean = False
@@ -270,14 +270,11 @@ Public Class Form1
                         UploadStream.Dispose()
                         UploadStream.Close()
                     End If
-                ElseIf IO.Directory.Exists(GetFile) Then
-                    Dim FolderMetadata As New Data.File With {
-                        .Name = My.Computer.FileSystem.GetName(GetFile)
-                    }
+                ElseIf Directory.Exists(GetFile) Then
                     Dim ParentFolder As New List(Of String)
                     If FolderCreated = True Then
                         Dim DirectoryName As String = ""
-                        DirectoryName = System.IO.Path.GetDirectoryName(GetFile)
+                        DirectoryName = Path.GetDirectoryName(GetFile)
                         For Each directory In DirectoryList
                             If DirectoryName = directory Then
                                 ParentFolder.Add(DirectoryListID.Item(DirectoryList.IndexOf(directory)))
@@ -288,9 +285,11 @@ Public Class Form1
                     Else
                         ParentFolder.Add(FolderIDTextBox.Text)
                     End If
-                    FolderMetadata.Parents = ParentFolder
-                    FolderMetadata.MimeType = "application/vnd.google-apps.folder"
-                    Dim CreateFolder As FilesResource.CreateRequest = service.Files.Create(FolderMetadata)
+                    Dim CreateFolder As FilesResource.CreateRequest = service.Files.Create(New Data.File With {
+                        .Name = My.Computer.FileSystem.GetName(GetFile),
+                        .Parents = ParentFolder,
+                        .MimeType = "application/vnd.google-apps.folder"
+                    })
                     CreateFolder.Fields = "id"
                     Dim FolderID As Data.File = CreateFolder.Execute
                     DirectoryList.Add(GetFile)
@@ -328,7 +327,7 @@ Public Class Form1
         UploadButton.Enabled = True
     End Sub
     Private ErrorMessage As String = ""
-    Private UploadCancellationToken As System.Threading.CancellationToken
+    Private UploadCancellationToken As CancellationToken
     Private Sub Upload_ProgressChanged(uploadStatusInfo As IUploadProgress)
         Select Case uploadStatusInfo.Status
             Case UploadStatus.Completed
@@ -456,7 +455,7 @@ Public Class Form1
         AddHandler DownloadRequest.MediaDownloader.ProgressChanged, New Action(Of IDownloadProgress)(AddressOf Download_ProgressChanged)
         Await DownloadRequest.DownloadAsync(FileToSave)
         FileToSave.Close()
-        IO.File.SetLastWriteTime(Location, ModifiedTime.Value)
+        File.SetLastWriteTime(Location, ModifiedTime.Value)
     End Function
     Private Sub Download_ProgressChanged(progress As IDownloadProgress)
         Select Case progress.Status
@@ -561,12 +560,12 @@ Public Class Form1
     Private Sub Form1_DragDrop(sender As Object, e As DragEventArgs) Handles MyBase.DragDrop
         Dim filepath() As String = CType(e.Data.GetData(DataFormats.FileDrop), String())
         For Each path In filepath
-            If System.IO.Directory.Exists(path) Then
+            If Directory.Exists(path) Then
                 UploadsListBox.Items.Add(path)
                 FolderToUploadFileList.Add(CurrentFolder)
                 My.Settings.UploadQueue.Add(path)
                 My.Settings.UploadQueueFolders.Add(CurrentFolder)
-                GetDirectoriesAndFiles(New IO.DirectoryInfo(path))
+                GetDirectoriesAndFiles(New DirectoryInfo(path))
             Else
                 UploadsListBox.Items.Add(path)
                 FolderToUploadFileList.Add(CurrentFolder)
@@ -579,14 +578,14 @@ Public Class Form1
             CheckBeforeStartingUpload()
         End If
     End Sub
-    Private Sub GetDirectoriesAndFiles(ByVal BaseFolder As IO.DirectoryInfo)
-        UploadsListBox.Items.AddRange((From FI As IO.FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
-        My.Settings.UploadQueue.AddRange((From FI As IO.FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
-        For Each FI As IO.FileInfo In BaseFolder.GetFiles()
+    Private Sub GetDirectoriesAndFiles(ByVal BaseFolder As DirectoryInfo)
+        UploadsListBox.Items.AddRange((From FI As FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
+        My.Settings.UploadQueue.AddRange((From FI As FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
+        For Each FI As FileInfo In BaseFolder.GetFiles()
             FolderToUploadFileList.Add(CurrentFolder)
             My.Settings.UploadQueueFolders.Add(CurrentFolder)
         Next
-        For Each subF As IO.DirectoryInfo In BaseFolder.GetDirectories()
+        For Each subF As DirectoryInfo In BaseFolder.GetDirectories()
             Application.DoEvents()
             UploadsListBox.Items.Add(subF.FullName)
             FolderToUploadFileList.Add(CurrentFolder)
@@ -595,7 +594,7 @@ Public Class Form1
             GetDirectoriesAndFiles(subF)
         Next
     End Sub
-    Private Sub Form1_DragEnter(sender As System.Object, e As System.Windows.Forms.DragEventArgs) Handles MyBase.DragEnter
+    Private Sub Form1_DragEnter(sender As Object, e As DragEventArgs) Handles MyBase.DragEnter
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
             e.Effect = DragDropEffects.Copy
         End If
@@ -985,7 +984,7 @@ Public Class Form1
                 ChecksumString = SaveFileChecksums()
             End If
             If ChecksumString.EndsWith(GetChecksumsReturnChar) Then ChecksumString = ChecksumString.Remove(ChecksumString.LastIndexOf(GetChecksumsReturnChar))
-            My.Computer.FileSystem.WriteAllText(Filename, ChecksumString, False, New System.Text.UTF8Encoding(False))
+            My.Computer.FileSystem.WriteAllText(Filename, ChecksumString, False, New Text.UTF8Encoding(False))
             MsgBox(Translations.MsgAndDialogLang("checksums_saved"))
         End If
     End Sub
@@ -1144,7 +1143,7 @@ Public Class Form1
     End Sub
 
     Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
-        Dim credPath As String = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
+        Dim credPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Personal)
         credPath = Path.Combine(credPath, ".credentials\GoogleDriveUploaderTool.json")
         Dim credfiles As String() = Directory.GetFiles(credPath, "*.TokenResponse-user")
         For Each credfile In credfiles
@@ -1310,7 +1309,7 @@ Public Class Form1
             FolderToUploadFileList.Add(CurrentFolder)
             My.Settings.UploadQueue.Add(FolderBrowserDialog1.SelectedPath)
             My.Settings.UploadQueueFolders.Add(CurrentFolder)
-            GetDirectoriesAndFiles(New IO.DirectoryInfo(FolderBrowserDialog1.SelectedPath))
+            GetDirectoriesAndFiles(New DirectoryInfo(FolderBrowserDialog1.SelectedPath))
         End If
     End Sub
 
