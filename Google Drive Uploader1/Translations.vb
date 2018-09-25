@@ -797,6 +797,16 @@
                         Return "Browse to save the shell script"
                     Case Else
                 End Select
+            Case "unlimited"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Unlimited"
+                    Case "Spanish"
+                        Return "Ilimitado"
+                    Case "TChinese"
+                        Return "Unlimited"
+                    Case Else
+                End Select
             Case Else
                 Return "Error Typo " & tag
         End Select
