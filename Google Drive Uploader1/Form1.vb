@@ -502,7 +502,8 @@ Public Class Form1
         FileMIMEList.Clear()
         Dim PageToken1 As String = String.Empty
         Dim OrderBy As String = My.Settings.SortBy
-        If My.Settings.OrderDesc Then OrderBy = OrderBy + " desc,name"
+        If My.Settings.OrderDesc Then OrderBy = OrderBy + " desc"
+        If Not My.Settings.SortBy.Equals("name") Then OrderBy = OrderBy + ",name"
         Do
             Dim listRequest1 As FilesResource.ListRequest = service.Files.List()
             listRequest1.Fields = "nextPageToken, files(id, name, size, createdTime, modifiedTime, md5Checksum, mimeType)"
