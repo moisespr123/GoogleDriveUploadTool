@@ -93,9 +93,7 @@ Public Class Form1
             DescendingOrderToolStripMenuItem.Checked = My.Settings.OrderDesc
             CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked = My.Settings.CopyToRAM
             RefreshFileList(CurrentFolder)
-
             CurrentFolderLabel.Text = GetCurrentFolderIDName()
-            UpdateQuota()
             If UploadsListBox.Items.Count > 0 Then
                 UploadsListBox.SelectedIndex = 0
             Else
@@ -441,8 +439,8 @@ Public Class Form1
             TotalSpace.Text = String.Format("{0:N2} MB", about.StorageQuota.Limit / 1024 / 1024)
             FreeSpace.Text = String.Format("{0:N2} MB", (about.StorageQuota.Limit - about.StorageQuota.Usage) / 1024 / 1024)
         Else
-            TotalSpace.Text = "Unlimited"
-            FreeSpace.Text = "Unlimited"
+            TotalSpace.Text = Translations.MsgAndDialogLang("unlimited")
+            FreeSpace.Text = Translations.MsgAndDialogLang("unlimited")
         End If
     End Sub
     Private Async Sub BrowseToDownloadFile()
@@ -565,6 +563,7 @@ Public Class Form1
         Else
             BackButton.Enabled = True
         End If
+        UpdateQuota()
     End Sub
     Private Sub Form1_DragDrop(sender As Object, e As DragEventArgs) Handles MyBase.DragDrop
         Dim filepath() As String = CType(e.Data.GetData(DataFormats.FileDrop), String())
