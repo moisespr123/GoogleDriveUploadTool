@@ -218,7 +218,7 @@ Partial Class Form1
         '
         Me.FoldersContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenInBrowserToolStripMenuItem1, Me.DownloadToolStripMenuItem2, Me.MoveToolStripMenuItem1, Me.RenameToolStripMenuItem2, Me.SaveChecksumsToolStripMenuItem1})
         Me.FoldersContextMenu.Name = "FoldersContextMenu"
-        Me.FoldersContextMenu.Size = New System.Drawing.Size(181, 136)
+        Me.FoldersContextMenu.Size = New System.Drawing.Size(171, 114)
         '
         'OpenInBrowserToolStripMenuItem1
         '
@@ -888,7 +888,7 @@ Partial Class Form1
         Me.AboutLabel.Name = "AboutLabel"
         Me.AboutLabel.Size = New System.Drawing.Size(98, 26)
         Me.AboutLabel.TabIndex = 11
-        Me.AboutLabel.Text = "By Moisés Cardona"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"v1.8.6"
+        Me.AboutLabel.Text = "By Moisés Cardona"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"v1.9.0"
         '
         'FolderNameTextbox
         '
