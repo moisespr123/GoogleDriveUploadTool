@@ -1560,4 +1560,16 @@ Public Class Form1
         UploadChunkSize.file = "rammultiplier.txt"
         UploadChunkSize.ShowDialog()
     End Sub
+
+    Private Sub RenameToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles RenameToolStripMenuItem1.Click
+           If FilesListBox.SelectedItem IsNot Nothing Then
+            RenameFileOrFolder(FileIdsList.Item(FilesListBox.Items.IndexOf(FilesListBox.SelectedItem)))
+        End If
+    End Sub
+
+    Private Sub RenameToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles RenameToolStripMenuItem2.Click
+          If FolderListBox.SelectedItem IsNot Nothing Then
+            RenameFileOrFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
+        End If
+    End Sub
 End Class
