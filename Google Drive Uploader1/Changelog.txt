@@ -14,7 +14,7 @@ v1.8.5 (5/30/2018)
 
 v1.8.4 (5/25/2018)
 -Files will open in Google Drive when double clicking it in the File List
--Folders will ope in Google Drive when holding the SHIFT key and double clicking it in the Folder List
+-Folders will open in Google Drive when holding the SHIFT key and double clicking it in the Folder List
 -Fixed a message when sending multiple files to Trash
 
 v1.8.3 (5/6/2018)
