@@ -756,21 +756,21 @@
             Case "file_moved"
                 Select Case My.Settings.Language
                     Case "English"
-                        Return "File Moved."
+                        Return "Item Moved."
                     Case "Spanish"
-                        Return "El archivo sido movido."
+                        Return "El item sido movido."
                     Case "TChinese"
-                        Return "File Moved."
+                        Return "Item Moved."
                     Case Else
                 End Select
             Case "files_moved"
                 Select Case My.Settings.Language
                     Case "English"
-                        Return "Files Moved."
+                        Return "Items Moved."
                     Case "Spanish"
-                        Return "Los archivos han sido movidos."
+                        Return "Los items han sido movidos."
                     Case "TChinese"
-                        Return "Files Moved."
+                        Return "Items Moved."
                     Case Else
                 End Select
             Case "move"
