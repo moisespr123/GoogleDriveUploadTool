@@ -1,4 +1,8 @@
-﻿v1.9.0 (10/27/2018)
+﻿v1.9.1 (1/12/2019)
+-Fixed a checksum saving bug where sometimes the software would not enter the correct folder
+-Updated Google Drive components
+
+v1.9.0 (10/27/2018)
 -Added Right Click Context Menú to File and Folder List
 -Press CTRL + M to move files or folders to another folder.
 -Press CTRL + U when files are selected to get the raw download URL.
