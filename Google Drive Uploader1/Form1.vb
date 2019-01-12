@@ -1022,6 +1022,7 @@ Public Class Form1
             Next
             For Each Folder2 As String In FolderList
                 Path.Add(FolderIdsList.Item(FolderIdsList.IndexOf(Folder2)))
+                FolderListBox.ClearSelected()
                 FolderListBox.SelectedItem = FolderListBox.Items.Item(FolderIdsList.IndexOf(Folder2))
                 EnterFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
                 ChecksumString = GetFileFolderChecksum(Path, ChecksumString)
