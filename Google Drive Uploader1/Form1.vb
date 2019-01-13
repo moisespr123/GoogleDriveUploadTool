@@ -132,7 +132,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private starttime As DateTime
+    Private starttime As Date
     Private timespent As TimeSpan
     Private GetFile As String = ""
     Private UploadFailed As Boolean = False
@@ -212,7 +212,7 @@ Public Class Form1
                                 End If
                             End If
                             Dim readChunkSize = 1024 * RAMMultiplier
-                            starttime = DateTime.Now()
+                            starttime = Date.Now()
                             UploadStream.Seek(0, SeekOrigin.Begin)
                             FileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                             ProgressBar1.Maximum = CInt(My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
@@ -257,7 +257,7 @@ Public Class Form1
                     AddHandler UploadFile.UploadSessionData, AddressOf Upload_UploadSessionData
                     UploadCancellationToken = New CancellationToken
                     Dim uploadUri As Uri = Nothing
-                    starttime = DateTime.Now
+                    starttime = Date.Now
                     If ResumeFromError = False Then
                         uploadUri = GetSessionRestartUri(True)
                     Else
@@ -390,8 +390,8 @@ Public Class Form1
         End If
     End Function
 
-    Private Delegate Sub UpdateBytesSentInvoker(BytesSent As Long, StatusText As String, startTime As DateTime)
-    Private Sub UpdateBytesSent(BytesSent As Long, StatusText As String, startTime As DateTime)
+    Private Delegate Sub UpdateBytesSentInvoker(BytesSent As Long, StatusText As String, startTime As Date)
+    Private Sub UpdateBytesSent(BytesSent As Long, StatusText As String, startTime As Date)
         If StatusLabel.InvokeRequired Then
             StatusLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
         Else
@@ -409,7 +409,7 @@ Public Class Form1
                 If ProgressBar1.Maximum >= CInt(BytesSent / 1024 / 1024) Then
                     ProgressBar1.Value = CInt(BytesSent / 1024 / 1024)
                     PercentLabel.Text = String.Format("{0:N2}%", ((ProgressBar1.Value / ProgressBar1.Maximum) * 100))
-                    timespent = DateTime.Now - startTime
+                    timespent = Date.Now - startTime
                     Dim timeFormatted As TimeSpan = Nothing
                     If timespent.TotalSeconds > 0 And ProgressBar1.Value > 0 Then
                         timeFormatted = TimeSpan.FromSeconds(CInt((timespent.TotalSeconds / ProgressBar1.Value * (ProgressBar1.Maximum - ProgressBar1.Value))))
@@ -452,7 +452,7 @@ Public Class Form1
         End If
     End Sub
     Private Async Function DownloadFile(Location As String, FileName As String, FileSize As Long?, ModifiedTime As Date?) As Task
-        starttime = DateTime.Now
+        starttime = Date.Now
         FileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", FileSize / 1024 / 1024)
         ProgressBar1.Maximum = CInt(FileSize / 1024 / 1024)
         MaxFileSize = Convert.ToDouble(FileSize)
