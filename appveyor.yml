@@ -1,5 +1,9 @@
-image: Visual Studio 2015
+image: Visual Studio 2017
 configuration: Release
+
+install:
+ - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+ - nuget Google.Apis.Drive.v3
 
 artifacts:
  - path: '*\bin\Release\*.exe'
