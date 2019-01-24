@@ -1,0 +1,6 @@
+language: csharp
+solution: "Google Drive Uploader1.sln"
+
+os:
+- linux
+- osx
