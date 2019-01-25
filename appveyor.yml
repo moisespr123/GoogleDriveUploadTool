@@ -2,8 +2,8 @@ image: Visual Studio 2017
 configuration: Release
 
 before_build:
-  - ps: mkdir bin\Release
-  - ps: Start-FileDownload https://moisescardona.me/files/MemoryTributary.dll -f 'C:\projects\googledriveuploadtool\bin\Release\MemoryTributary.dll'
+  - ps: mkdir "Google Drive Uploader1\bin\Release"
+  - ps: Start-FileDownload https://moisescardona.me/files/MemoryTributary.dll -f "C:\projects\googledriveuploadtool\Google Drive Uploader1\bin\Release\MemoryTributary.dll"
   - nuget restore
   
 build_script: 
