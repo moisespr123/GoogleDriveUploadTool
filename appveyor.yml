@@ -2,7 +2,16 @@ image: Visual Studio 2017
 configuration: Release
 
 install:
+ - nuget install Google.Apis
+ - nuget install Google.Apis.Auth
+ - nuget install Google.Apis.Core
  - nuget install Google.Apis.Drive.v3
+ - nuget install Newtonsoft.Json
+ - nuget install System.Net.Http
+ - nuget install System.Security.Cryptography.Algorithms
+ - nuget install System.Security.Cryptography.Encoding
+ - nuget install System.Security.Cryptography.Primitives
+ - nuget install System.Security.Cryptography.X509Certificates
  
 build_script: msbuild "Google Drive Uploader1.sln" /p:TargetFrameworkVersion=v4.7.2
 
