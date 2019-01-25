@@ -3,7 +3,7 @@ configuration: Release
 
 before_build:
   - ps: mkdir bin\Release
-  - ps: Start-FileDownload https://moisescardona.me/files/MemoryTributary.dll -f 'bin\Release\MemoryTributary.dll'
+  - ps: Start-FileDownload https://moisescardona.me/files/MemoryTributary.dll -f 'C:\projects\googledriveuploadtool\bin\Release\MemoryTributary.dll'
   - nuget restore
   
 build_script: 
