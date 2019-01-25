@@ -2,6 +2,7 @@ image: Visual Studio 2017
 configuration: Release
 
 before_build:
+  - ps: mkdir bin\Release
   - ps: Start-FileDownload https://moisescardona.me/files/MemoryTributary.dll -f 'bin\Release\MemoryTributary.dll'
   - nuget restore
   
