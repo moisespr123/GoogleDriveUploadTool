@@ -1,4 +1,8 @@
-﻿v1.9.1 (1/12/2019)
+﻿v1.9.2 (2/1/2019)
+-Stability improvements
+-Updated Google Drive components
+
+v1.9.1 (1/12/2019)
 -Fixed a checksum saving bug where sometimes the software would not enter the correct folder
 -Updated Google Drive components
 

@@ -158,6 +158,7 @@ Partial Class Form1
         Me.FreeSpace = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpaceText = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpace = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.DownloadChunkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FoldersContextMenu.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -712,7 +713,7 @@ Partial Class Form1
         '
         'SpecifyChunkSizeToolStripMenuItem
         '
-        Me.SpecifyChunkSizeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UploadChunkToolStripMenuItem, Me.RAMChunkToolStripMenuItem})
+        Me.SpecifyChunkSizeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UploadChunkToolStripMenuItem, Me.RAMChunkToolStripMenuItem, Me.DownloadChunkToolStripMenuItem})
         Me.SpecifyChunkSizeToolStripMenuItem.Name = "SpecifyChunkSizeToolStripMenuItem"
         Me.SpecifyChunkSizeToolStripMenuItem.Size = New System.Drawing.Size(474, 22)
         Me.SpecifyChunkSizeToolStripMenuItem.Text = "Specify Chunk Size"
@@ -894,7 +895,7 @@ Partial Class Form1
         Me.AboutLabel.Name = "AboutLabel"
         Me.AboutLabel.Size = New System.Drawing.Size(98, 26)
         Me.AboutLabel.TabIndex = 11
-        Me.AboutLabel.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.9.1"
+        Me.AboutLabel.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.9.2"
         '
         'FolderNameTextbox
         '
@@ -1295,6 +1296,12 @@ Partial Class Form1
         Me.TotalSpace.Size = New System.Drawing.Size(43, 17)
         Me.TotalSpace.Text = "0.0 MB"
         '
+        'DownloadChunkToolStripMenuItem
+        '
+        Me.DownloadChunkToolStripMenuItem.Name = "DownloadChunkToolStripMenuItem"
+        Me.DownloadChunkToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.DownloadChunkToolStripMenuItem.Text = "Download Chunk"
+        '
         'Form1
         '
         Me.AllowDrop = true
@@ -1470,4 +1477,5 @@ End Sub
     Friend WithEvents RAMChunkToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents RenameToolStripMenuItem2 As ToolStripMenuItem
     Friend WithEvents RenameToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents DownloadChunkToolStripMenuItem As ToolStripMenuItem
 End Class

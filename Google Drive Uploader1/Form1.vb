@@ -900,6 +900,9 @@ Public Class Form1
         End If
     End Sub
     Private Sub FolderListBox_KeyDown(sender As Object, e As KeyEventArgs) Handles FolderListBox.KeyDown
+        If e.Modifiers = Keys.Control Then
+            controlPressed = True
+        End If
         If e.KeyCode = Keys.Delete Then
             If viewing_trash = False Then
                 If FolderListBox.SelectedItem IsNot Nothing Then
@@ -933,11 +936,9 @@ Public Class Form1
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.D Then
             CheckForFolderDownload()
-            controlPressed = True
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.M Then
             MoveFileOrFolder(True)
-            controlPressed = True
             e.SuppressKeyPress = True
         End If
     End Sub
@@ -1098,6 +1099,9 @@ Public Class Form1
     End Sub
     Private controlPressed As Boolean = False
     Private Sub FilesListBox_KeyDown(sender As Object, e As KeyEventArgs) Handles FilesListBox.KeyDown
+        If e.Modifiers = Keys.Control Then
+            controlPressed = True
+        End If
         If e.KeyCode = Keys.Delete Then
             If viewing_trash = False Then
                 If FilesListBox.SelectedItem IsNot Nothing Then
@@ -1127,15 +1131,12 @@ Public Class Form1
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.D Then
             CheckForFilesDownload()
-            controlPressed = True
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.M Then
             MoveFileOrFolder()
-            controlPressed = True
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.U Then
             CheckFilesToGetRAWUrl()
-            controlPressed = True
             e.SuppressKeyPress = True
         End If
         Return
@@ -1563,13 +1564,13 @@ Public Class Form1
     End Sub
 
     Private Sub RenameToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles RenameToolStripMenuItem1.Click
-           If FilesListBox.SelectedItem IsNot Nothing Then
+        If FilesListBox.SelectedItem IsNot Nothing Then
             RenameFileOrFolder(FileIdsList.Item(FilesListBox.Items.IndexOf(FilesListBox.SelectedItem)))
         End If
     End Sub
 
     Private Sub RenameToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles RenameToolStripMenuItem2.Click
-          If FolderListBox.SelectedItem IsNot Nothing Then
+        If FolderListBox.SelectedItem IsNot Nothing Then
             RenameFileOrFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
         End If
     End Sub
