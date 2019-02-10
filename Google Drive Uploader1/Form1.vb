@@ -1138,6 +1138,9 @@ Public Class Form1
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.U Then
             CheckFilesToGetRAWUrl()
             e.SuppressKeyPress = True
+        ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.V Then
+            verifyHash1()
+            e.SuppressKeyPress = True
         End If
         Return
     End Sub
@@ -1573,5 +1576,47 @@ Public Class Form1
         If FolderListBox.SelectedItem IsNot Nothing Then
             RenameFileOrFolder(FolderIdsList.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
         End If
+    End Sub
+    Private Sub verifyHash1()
+        Dim Index As Integer = FilesListBox.SelectedIndex
+        Dim FileBrowser As New OpenFileDialog With {
+            .Title = "Browse for a file to compare the checksum",
+            .Filter = IO.Path.GetFileNameWithoutExtension(FilesListBox.Items.Item(Index).ToString()) + "|*" + IO.Path.GetFileNameWithoutExtension(FilesListBox.Items.Item(Index).ToString()),
+            .FileName = FilesListBox.Items.Item(Index).ToString()}
+        Dim result As DialogResult = FileBrowser.ShowDialog()
+        If result = DialogResult.OK Then
+            Dim BrowserFileName As String = FileBrowser.FileName
+            Dim thread As New Thread(Sub() verifyHash(Index, BrowserFileName))
+            thread.Start()
+        End If
+    End Sub
+    Private Sub verifyHash(Index As Integer, filename As String)
+        ProgressBar1.BeginInvoke(Sub() ProgressBar1.Style = ProgressBarStyle.Marquee)
+        StatusLabel.BeginInvoke(Sub() StatusLabel.Text = "Verifying...")
+        Dim stream As New FileStream(filename, FileMode.Open, FileAccess.Read)
+        Dim MD5Hash As System.Security.Cryptography.MD5 = System.Security.Cryptography.MD5.Create
+        Dim Hash As String = ""
+        MD5Hash.ComputeHash(stream)
+        stream.Close()
+        For Each b In MD5Hash.Hash
+            Hash += b.ToString("x2")
+        Next
+        ProgressBar1.BeginInvoke(Sub()
+                                     ProgressBar1.Style = ProgressBarStyle.Blocks
+                                     ProgressBar1.Minimum = 0
+                                     ProgressBar1.Maximum = 100
+                                     ProgressBar1.Value = 100
+                                 End Sub)
+        StatusLabel.BeginInvoke(Sub() StatusLabel.Text = "Done")
+        Dim ExpectedHash As String = FileMD5List.Item(Index).ToString()
+        If Hash = ExpectedHash Then
+            MsgBox("Hash match for file " + filename + "." + Environment.NewLine + Environment.NewLine + "Computed hash: " + Hash + Environment.NewLine + " Expected Hash: " + ExpectedHash, MsgBoxStyle.Information)
+        Else
+            MsgBox("Hash does not match for file " + filename + "." + Environment.NewLine + Environment.NewLine + "Computed hash: " + Hash + Environment.NewLine + " + Expected Hash: " + ExpectedHash, MsgBoxStyle.Critical)
+        End If
+    End Sub
+
+    Private Sub VerifyChecksumToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VerifyChecksumToolStripMenuItem.Click
+        verifyHash1()
     End Sub
 End Class

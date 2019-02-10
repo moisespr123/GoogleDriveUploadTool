@@ -99,6 +99,7 @@ Partial Class Form1
         Me.SpecifyChunkSizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UploadChunkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RAMChunkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DownloadChunkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CopyFileToRAMBeforeUploadingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReadmeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -158,7 +159,7 @@ Partial Class Form1
         Me.FreeSpace = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpaceText = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpace = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.DownloadChunkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.VerifyChecksumToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FoldersContextMenu.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -721,14 +722,20 @@ Partial Class Form1
         'UploadChunkToolStripMenuItem
         '
         Me.UploadChunkToolStripMenuItem.Name = "UploadChunkToolStripMenuItem"
-        Me.UploadChunkToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.UploadChunkToolStripMenuItem.Size = New System.Drawing.Size(166, 22)
         Me.UploadChunkToolStripMenuItem.Text = "Upload Chunk"
         '
         'RAMChunkToolStripMenuItem
         '
         Me.RAMChunkToolStripMenuItem.Name = "RAMChunkToolStripMenuItem"
-        Me.RAMChunkToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.RAMChunkToolStripMenuItem.Size = New System.Drawing.Size(166, 22)
         Me.RAMChunkToolStripMenuItem.Text = "RAM Chunk"
+        '
+        'DownloadChunkToolStripMenuItem
+        '
+        Me.DownloadChunkToolStripMenuItem.Name = "DownloadChunkToolStripMenuItem"
+        Me.DownloadChunkToolStripMenuItem.Size = New System.Drawing.Size(166, 22)
+        Me.DownloadChunkToolStripMenuItem.Text = "Download Chunk"
         '
         'CopyFileToRAMBeforeUploadingToolStripMenuItem
         '
@@ -1185,9 +1192,9 @@ Partial Class Form1
         '
         'FilesContextMenu
         '
-        Me.FilesContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenInBrowserToolStripMenuItem, Me.DownloadToolStripMenuItem1, Me.MoveToolStripMenuItem, Me.RenameToolStripMenuItem1, Me.SaveChecksumToolStripMenuItem, Me.GetRawDownloadURLToolStripMenuItem})
+        Me.FilesContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenInBrowserToolStripMenuItem, Me.DownloadToolStripMenuItem1, Me.MoveToolStripMenuItem, Me.RenameToolStripMenuItem1, Me.SaveChecksumToolStripMenuItem, Me.VerifyChecksumToolStripMenuItem, Me.GetRawDownloadURLToolStripMenuItem})
         Me.FilesContextMenu.Name = "FilesContextMenu"
-        Me.FilesContextMenu.Size = New System.Drawing.Size(199, 136)
+        Me.FilesContextMenu.Size = New System.Drawing.Size(199, 180)
         '
         'OpenInBrowserToolStripMenuItem
         '
@@ -1287,7 +1294,7 @@ Partial Class Form1
         'TotalSpaceText
         '
         Me.TotalSpaceText.Name = "TotalSpaceText"
-        Me.TotalSpaceText.Size = New System.Drawing.Size(70, 17)
+        Me.TotalSpaceText.Size = New System.Drawing.Size(69, 17)
         Me.TotalSpaceText.Text = "Total Space:"
         '
         'TotalSpace
@@ -1296,11 +1303,11 @@ Partial Class Form1
         Me.TotalSpace.Size = New System.Drawing.Size(43, 17)
         Me.TotalSpace.Text = "0.0 MB"
         '
-        'DownloadChunkToolStripMenuItem
+        'VerifyChecksumToolStripMenuItem
         '
-        Me.DownloadChunkToolStripMenuItem.Name = "DownloadChunkToolStripMenuItem"
-        Me.DownloadChunkToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.DownloadChunkToolStripMenuItem.Text = "Download Chunk"
+        Me.VerifyChecksumToolStripMenuItem.Name = "VerifyChecksumToolStripMenuItem"
+        Me.VerifyChecksumToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.VerifyChecksumToolStripMenuItem.Text = "Verify Checksum"
         '
         'Form1
         '
@@ -1478,4 +1485,5 @@ End Sub
     Friend WithEvents RenameToolStripMenuItem2 As ToolStripMenuItem
     Friend WithEvents RenameToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents DownloadChunkToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents VerifyChecksumToolStripMenuItem As ToolStripMenuItem
 End Class
