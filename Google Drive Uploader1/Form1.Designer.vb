@@ -147,6 +147,7 @@ Partial Class Form1
         Me.MoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RenameToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveChecksumToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.VerifyChecksumToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GetRawDownloadURLToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FilesLabel = New System.Windows.Forms.Label()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
@@ -159,7 +160,6 @@ Partial Class Form1
         Me.FreeSpace = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpaceText = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpace = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.VerifyChecksumToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FoldersContextMenu.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -902,7 +902,7 @@ Partial Class Form1
         Me.AboutLabel.Name = "AboutLabel"
         Me.AboutLabel.Size = New System.Drawing.Size(98, 26)
         Me.AboutLabel.TabIndex = 11
-        Me.AboutLabel.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.9.2"
+        Me.AboutLabel.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.10"
         '
         'FolderNameTextbox
         '
@@ -1194,7 +1194,7 @@ Partial Class Form1
         '
         Me.FilesContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenInBrowserToolStripMenuItem, Me.DownloadToolStripMenuItem1, Me.MoveToolStripMenuItem, Me.RenameToolStripMenuItem1, Me.SaveChecksumToolStripMenuItem, Me.VerifyChecksumToolStripMenuItem, Me.GetRawDownloadURLToolStripMenuItem})
         Me.FilesContextMenu.Name = "FilesContextMenu"
-        Me.FilesContextMenu.Size = New System.Drawing.Size(199, 180)
+        Me.FilesContextMenu.Size = New System.Drawing.Size(199, 158)
         '
         'OpenInBrowserToolStripMenuItem
         '
@@ -1225,6 +1225,12 @@ Partial Class Form1
         Me.SaveChecksumToolStripMenuItem.Name = "SaveChecksumToolStripMenuItem"
         Me.SaveChecksumToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
         Me.SaveChecksumToolStripMenuItem.Text = "Save Checksum(s)"
+        '
+        'VerifyChecksumToolStripMenuItem
+        '
+        Me.VerifyChecksumToolStripMenuItem.Name = "VerifyChecksumToolStripMenuItem"
+        Me.VerifyChecksumToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.VerifyChecksumToolStripMenuItem.Text = "Verify Checksum"
         '
         'GetRawDownloadURLToolStripMenuItem
         '
@@ -1302,12 +1308,6 @@ Partial Class Form1
         Me.TotalSpace.Name = "TotalSpace"
         Me.TotalSpace.Size = New System.Drawing.Size(43, 17)
         Me.TotalSpace.Text = "0.0 MB"
-        '
-        'VerifyChecksumToolStripMenuItem
-        '
-        Me.VerifyChecksumToolStripMenuItem.Name = "VerifyChecksumToolStripMenuItem"
-        Me.VerifyChecksumToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
-        Me.VerifyChecksumToolStripMenuItem.Text = "Verify Checksum"
         '
         'Form1
         '
