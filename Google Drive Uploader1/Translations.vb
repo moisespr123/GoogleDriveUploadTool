@@ -57,6 +57,8 @@
         Form1.SaveChecksumToolStripMenuItem.Text = "Save Checksum(s)"
         Form1.SaveChecksumsToolStripMenuItem.Text = "Save Checksums"
         Form1.SaveChecksumsToolStripMenuItem1.Text = "Save Checksums"
+        Form1.VerifyChecksumToolStripMenuItem.Text = "Verify Checksum"
+        Form1.VerifyChecksumToolStripMenuItem1.Text = "Verify Checksum"
         Form1.SelectedFilesToolStripMenuItem2.Text = "Selected file(s)"
         Form1.SelectedFolderToolStripMenuItem2.Text = "Selected folder"
         Form1.CopyFileToRAMBeforeUploadingToolStripMenuItem.Text = "Copy File to RAM before uploading if there's enough Free Memory available"
@@ -158,6 +160,8 @@
         Form1.SaveChecksumToolStripMenuItem.Text = "Save Checksum(s)"
         Form1.SaveChecksumsToolStripMenuItem.Text = "Save Checksums"
         Form1.SaveChecksumsToolStripMenuItem1.Text = "Save Checksums"
+        Form1.VerifyChecksumToolStripMenuItem.Text = "Verify Checksum"
+        Form1.VerifyChecksumToolStripMenuItem1.Text = "Verify Checksum"
         Form1.SelectedFilesToolStripMenuItem2.Text = "Selected file(s)"
         Form1.SelectedFolderToolStripMenuItem2.Text = "Selected folder"
         Form1.CopyFileToRAMBeforeUploadingToolStripMenuItem.Text = "Copy File to RAM before uploading if there's enough Free Memory available"
@@ -260,6 +264,8 @@
         Form1.SaveChecksumToolStripMenuItem.Text = "Guardar Checksum(s)"
         Form1.SaveChecksumsToolStripMenuItem1.Text = "Guardar Checksums"
         Form1.SaveChecksumsToolStripMenuItem.Text = "Guardar Checksums"
+        Form1.VerifyChecksumToolStripMenuItem.Text = "Verificar Checksum"
+        Form1.VerifyChecksumToolStripMenuItem1.Text = "Verificar Checksum"
         Form1.SelectedFilesToolStripMenuItem2.Text = "Archivo(s) seleccionados"
         Form1.SelectedFolderToolStripMenuItem2.Text = "Carpeta seleccionada"
         Form1.CopyFileToRAMBeforeUploadingToolStripMenuItem.Text = "Copiar archivo a memoria antes de subirlo si hay memoria disponible"
@@ -743,6 +749,16 @@
                         Return "No file(s) selected"
                     Case Else
                 End Select
+            Case "no_files_available"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "There are no files in this folder"
+                    Case "Spanish"
+                        Return "No hay archivos en esta carpeta"
+                    Case "TChinese"
+                        Return "There are no files in this folder"
+                    Case Else
+                End Select
             Case "no_folders_selected"
                 Select Case My.Settings.Language
                     Case "English"
@@ -803,6 +819,66 @@
                         Return "Browse to save the shell script"
                     Case Else
                 End Select
+            Case "browse_file_verify_checksum"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Browse for a file to compare the checksum"
+                    Case "Spanish"
+                        Return "Busque un archivo para comparar el checksum"
+                    Case "TChinese"
+                        Return "Browse for a file to compare the checksum"
+                    Case Else
+                End Select
+            Case "checksum_hash_match_1"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Hash match for file"
+                    Case "Spanish"
+                        Return "El Hash es identico para el archivo"
+                    Case "TChinese"
+                        Return "Hash match for file"
+                    Case Else
+                End Select
+            Case "checksum_hash_not_match_1"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Hash does not match for file"
+                    Case "Spanish"
+                        Return "El Hash no es identico para el archivo"
+                    Case "TChinese"
+                        Return "Hash does not match for file"
+                    Case Else
+                End Select
+            Case "computed_hash"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Computed hash:"
+                    Case "Spanish"
+                        Return "Hash calculado:"
+                    Case "TChinese"
+                        Return "Computed hash:"
+                    Case Else
+                End Select
+            Case "expected_hash"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Expected hash:"
+                    Case "Spanish"
+                        Return "Hash esperado:"
+                    Case "TChinese"
+                        Return "Expected hash:"
+                    Case Else
+                End Select
+            Case "verifying"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Verifying..."
+                    Case "Spanish"
+                        Return "Verificando..."
+                    Case "TChinese"
+                        Return "Verifying..."
+                    Case Else
+                End Select
             Case "unlimited"
                 Select Case My.Settings.Language
                     Case "English"
@@ -811,6 +887,16 @@
                         Return "Ilimitado"
                     Case "TChinese"
                         Return "Unlimited"
+                    Case Else
+                End Select
+            Case "done"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Done"
+                    Case "Spanish"
+                        Return "Listo"
+                    Case "TChinese"
+                        Return "Done"
                     Case Else
                 End Select
             Case Else

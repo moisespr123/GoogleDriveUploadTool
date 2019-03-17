@@ -1409,14 +1409,22 @@ Public Class Form1
     End Sub
 
     Private Sub SelectedFilesToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles SelectedFilesToolStripMenuItem2.Click
-        If My.Settings.SaveAsChecksumsMD5 Then
-            SaveChecksumsFile("checksums.md5")
-        Else
-            If FilesListBox.SelectedItems.Count > 1 Then
-                SaveChecksumsFile(GetCurrentFolderIDName() & ".md5")
+        If FilesListBox.Items.Count > 0 Then
+            If FilesListBox.SelectedItems.Count > 0 Then
+                If My.Settings.SaveAsChecksumsMD5 Then
+                    SaveChecksumsFile("checksums.md5")
+                Else
+                    If FilesListBox.SelectedItems.Count > 1 Then
+                        SaveChecksumsFile(GetCurrentFolderIDName() & ".md5")
+                    Else
+                        SaveChecksumsFile(FilesListBox.SelectedItem.ToString & ".md5")
+                    End If
+                End If
             Else
-                SaveChecksumsFile(FilesListBox.SelectedItem.ToString & ".md5")
+                MsgBox(Translations.MsgAndDialogLang("no_files_selected"))
             End If
+        Else
+            MsgBox(Translations.MsgAndDialogLang("no_files_available"))
         End If
     End Sub
 
@@ -1580,8 +1588,8 @@ Public Class Form1
     Private Sub verifyHash1()
         Dim Index As Integer = FilesListBox.SelectedIndex
         Dim FileBrowser As New OpenFileDialog With {
-            .Title = "Browse for a file to compare the checksum",
-            .Filter = IO.Path.GetFileNameWithoutExtension(FilesListBox.Items.Item(Index).ToString()) + "|*" + IO.Path.GetFileNameWithoutExtension(FilesListBox.Items.Item(Index).ToString()),
+            .Title = Translations.MsgAndDialogLang("browse_file_verify_checksum"),
+            .Filter = FilesListBox.Items.Item(Index).ToString() + "|*" + FilesListBox.Items.Item(Index).ToString(),
             .FileName = FilesListBox.Items.Item(Index).ToString()}
         Dim result As DialogResult = FileBrowser.ShowDialog()
         If result = DialogResult.OK Then
@@ -1592,7 +1600,7 @@ Public Class Form1
     End Sub
     Private Sub verifyHash(Index As Integer, filename As String)
         ProgressBar1.BeginInvoke(Sub() ProgressBar1.Style = ProgressBarStyle.Marquee)
-        StatusLabel.BeginInvoke(Sub() StatusLabel.Text = "Verifying...")
+        StatusLabel.BeginInvoke(Sub() StatusLabel.Text = Translations.MsgAndDialogLang("verifying"))
         Dim stream As New FileStream(filename, FileMode.Open, FileAccess.Read)
         Dim MD5Hash As System.Security.Cryptography.MD5 = System.Security.Cryptography.MD5.Create
         Dim Hash As String = ""
@@ -1607,16 +1615,36 @@ Public Class Form1
                                      ProgressBar1.Maximum = 100
                                      ProgressBar1.Value = 100
                                  End Sub)
-        StatusLabel.BeginInvoke(Sub() StatusLabel.Text = "Done")
+        StatusLabel.BeginInvoke(Sub() StatusLabel.Text = Translations.MsgAndDialogLang("done"))
         Dim ExpectedHash As String = FileMD5List.Item(Index).ToString()
         If Hash = ExpectedHash Then
-            MsgBox("Hash match for file " + filename + "." + Environment.NewLine + Environment.NewLine + "Computed hash: " + Hash + Environment.NewLine + " Expected Hash: " + ExpectedHash, MsgBoxStyle.Information)
+            MsgBox(Translations.MsgAndDialogLang("checksum_hash_match_1") + " " + filename + "." + Environment.NewLine + Environment.NewLine + Translations.MsgAndDialogLang("computed_hash") + " " + Hash + Environment.NewLine + Translations.MsgAndDialogLang("expected_hash") + " " + ExpectedHash, MsgBoxStyle.Information)
         Else
-            MsgBox("Hash does not match for file " + filename + "." + Environment.NewLine + Environment.NewLine + "Computed hash: " + Hash + Environment.NewLine + " + Expected Hash: " + ExpectedHash, MsgBoxStyle.Critical)
+            MsgBox(Translations.MsgAndDialogLang("checksum_hash_not_match_1") + " " + filename + "." + Environment.NewLine + Environment.NewLine + Translations.MsgAndDialogLang("computed_hash") + " " + Hash + Environment.NewLine + Translations.MsgAndDialogLang("expected_hash") + " " + ExpectedHash, MsgBoxStyle.Critical)
         End If
     End Sub
 
     Private Sub VerifyChecksumToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VerifyChecksumToolStripMenuItem.Click
-        verifyHash1()
+        If FilesListBox.Items.Count > 0 Then
+            If FilesListBox.SelectedItem IsNot Nothing Then
+                verifyHash1()
+            Else
+                MsgBox(Translations.MsgAndDialogLang("no_file_selected"))
+            End If
+        Else
+            MsgBox(Translations.MsgAndDialogLang("no_files_available"))
+        End If
+    End Sub
+
+    Private Sub VerifyChecksumToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles VerifyChecksumToolStripMenuItem1.Click
+        If FilesListBox.Items.Count > 0 Then
+            If FilesListBox.SelectedItem IsNot Nothing Then
+                verifyHash1()
+            Else
+                MsgBox(Translations.MsgAndDialogLang("no_file_selected"))
+            End If
+        Else
+            MsgBox(Translations.MsgAndDialogLang("no_files_available"))
+        End If
     End Sub
 End Class

@@ -35,29 +35,29 @@ Una herramienta para subir archivos a Google Drive. El programa resume las subid
 
 # ¿Cómo descargo un archivo?
 1. Seleccione un archivo en la lista de archivos.
-2. Presione el botón "Descargar", presione ALT + D en su teclado, o vaya a Archivo -> Descargar -> Archivo(s) seleccionado(s).
+2. Presione el botón "Descargar", presione CTRL + D en su teclado, o vaya a Archivo -> Descargar -> Archivo(s) seleccionado(s).
 3. Escoja una carpeta para descargar su archivo y presione en "Save".
 4. La descarga comenzará.
 
 # ¿Puedo descargar más de un archivo?
-¡Absolutamente! Simplemente, seleccione los archivos y presione las teclas ALT + D en su teclado, o vaya a Archivo -> Descargar -> Archivo(s) seleccionado(s). Luego, seleccione una carpeta para descargar sus archivos.
+¡Absolutamente! Simplemente, seleccione los archivos y presione las teclas CTRL + D en su teclado, o vaya a Archivo -> Descargar -> Archivo(s) seleccionado(s). Luego, seleccione una carpeta para descargar sus archivos.
 
 # ¿Puedo descargar una carpeta y todo su contenido?
-¡Absolutamente! Simplemente, seleccione la carpeta y presione las teclas ALT + D en su teclado, o vaya a Archivo -> Descargar -> Carpeta seleccionada. Luego, seleccione una carpeta para descargar la carpeta y todo su contenido.
+¡Absolutamente! Simplemente, seleccione la carpeta y presione las teclas CTRL + D en su teclado, o vaya a Archivo -> Descargar -> Carpeta seleccionada. Luego, seleccione una carpeta para descargar la carpeta y todo su contenido.
 
 # ¿Cómo guardo el checksum de un archivo?
 1. Seleccione el archivo.
-2. Presione en "Guardar archivo MD5", presione ALT + C en su teclado, o vaya a Acciones -> Guardar Checksums -> Archivo(s) Seleccionado(s).
+2. Presione en "Guardar archivo MD5", presione CTRL + C en su teclado, o vaya a Acciones -> Guardar Checksums -> Archivo(s) Seleccionado(s).
 3. Busque un lugar para guardar el archivo.
 
 # ¿Cómo guardo el checksum de más de un archivo?
-1. Seleccione los archivo presionando la tecla Ctrl o Shift en su teclado, o presione ALT + A para seleccionar todos los archivos.
-2. Presione el botón "Guardar Checksums de los archivos", presione ALT + C en su teclado,  o vaya a Acciones -> Guardar Checksums -> Archivo(s) Seleccionado(s).
+1. Seleccione los archivo presionando la tecla Ctrl o Shift en su teclado, o presione CTRL + A para seleccionar todos los archivos.
+2. Presione el botón "Guardar Checksums de los archivos", presione CTRL + C en su teclado,  o vaya a Acciones -> Guardar Checksums -> Archivo(s) Seleccionado(s).
 3. Busque un lugar para guardar el archivo.
 
 # ¿Cómo guardo el checksum del contenido de una carpeta?
 1. Seleccione la carpeta para guardar los checksums de su contenido.
-2. Presione ALT + C en su teclado, o vaya a Acciones -> Guardar Checksums -> Carpeta Seleccionada.
+2. Presione CTRL + C en su teclado, o vaya a Acciones -> Guardar Checksums -> Carpeta Seleccionada.
 3. Busque un lugar para guardar el archivo. 
 
 Los checksums utilizados son los que Google Drive genera y almacena.
@@ -73,7 +73,11 @@ Los checksums utilizados son los que Google Drive genera y almacena.
 # ¿Cómo restauro uno o más archivos o carpetas de la basura?
 1. Presione el botón "Ver Basura"
 1. Seleccione el/los archivo(s) o carpeta(s) a restaurar
-2. Presione las teclas ALT + R en su teclado o vaya a Acciones -> Restaurar -> Archivo(s) Seleccionados o Carpeta(s) Seleccionada(s)
+2. Presione las teclas CTRL + R en su teclado o vaya a Acciones -> Restaurar -> Archivo(s) Seleccionados o Carpeta(s) Seleccionada(s)
+
+# ¿Cómo verifico un checksum de un archivo?
+1. Seleccione un archivo en la lista de archivos
+2. Presione CTRL + V o haga click derecho y seleccione "Verificar Checksum".
 
 # ¿Cómo puedo abrir un archivo en la págna de Google Drive desde la aplicación?
 Símplemente, haz doble click en el archivo. Serás dirigido a la página del archivo Google Drive.

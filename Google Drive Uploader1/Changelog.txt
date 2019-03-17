@@ -1,4 +1,8 @@
-﻿v1.9.2 (2/1/2019)
+﻿v1.10 (3/17/2019)
+-Verify a file checksum by pressing CTRL + V oir by right clicking and pressing "Verify Checksum" when a file is selected in the File List.
+-Updated Google Drive components
+
+v1.9.2 (2/1/2019)
 -Stability improvements
 -Updated Google Drive components
 
