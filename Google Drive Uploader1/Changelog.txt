@@ -1,4 +1,7 @@
-﻿v1.10 (3/17/2019)
+﻿v1.10 April 2019 Update (4/5/2019)
+-Updated Google Drive API's
+
+v1.10 (3/17/2019)
 -Verify a file checksum by pressing CTRL + V oir by right clicking and pressing "Verify Checksum" when a file is selected in the File List.
 -Updated Google Drive components
 
