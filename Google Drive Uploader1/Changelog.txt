@@ -1,4 +1,7 @@
-﻿v1.10.3 (5/20/2019)
+﻿v1.10.4 (5/31/2019)
+-Updated Google Drive API
+
+v1.10.3 (5/20/2019)
 -Updated Google APIs
 
 v1.10 release 4/19/2019 (4/19/2019)
