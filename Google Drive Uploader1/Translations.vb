@@ -502,6 +502,15 @@
                     Case "TChinese"
                         Return "請選擇地方儲存校驗碼:"
                 End Select
+            Case "trash"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Trash"
+                    Case "Spanish"
+                        Return "Basura"
+                    Case "TChinese"
+                        Return "Trash"
+                End Select
             Case "confirm_move_selected_folder2trash"
                 Select Case My.Settings.Language
                     Case "English"

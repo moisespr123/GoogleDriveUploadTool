@@ -946,6 +946,11 @@ Public Class Form1
         SaveSelectedFilesChecksumButton.Visible = False
         BackButton.Enabled = True
         CurrentFolderLabel.Text = drive.currentFolderName
+        If drive.currentFolder = "root" Or location = "trash" Then
+            BackButton.Enabled = False
+        Else
+            BackButton.Enabled = True
+        End If
         UpdateQuota()
     End Sub
     Private controlPressed As Boolean = False

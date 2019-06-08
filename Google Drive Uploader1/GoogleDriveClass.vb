@@ -136,12 +136,14 @@ Public Class GoogleDriveClass
             Catch
             End Try
         Loop While PageToken2 IsNot Nothing
-        If Not refreshing AndAlso Not goingBack AndAlso folderId <> "root" AndAlso folderId <> "trash" Then previousFolder.Add(currentFolder)
+        If Not refreshing AndAlso Not goingBack AndAlso folderId <> "root" AndAlso folderId <> "trash" Then
+            If Not currentFolderName = Translations.MsgAndDialogLang("trash") Then previousFolder.Add(currentFolder)
+        End If
         If folderId <> "trash" Then
             currentFolder = folderId
             currentFolderName = GetFolderName(currentFolder)
         Else
-            currentFolderName = "Trash"
+            currentFolderName = Translations.MsgAndDialogLang("trash")
         End If
     End Sub
 
