@@ -10,7 +10,7 @@ Public Class MoveDialog
     Private _service As DriveService = Nothing
 
     Private Sub Move_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        _service = Form1.service
+        _service = Form1.drive.service
         GoToFolder(CurrentFolder, True)
     End Sub
 
@@ -91,7 +91,7 @@ Public Class MoveDialog
         Else
             MsgBox(Translations.MsgAndDialogLang("file_moved"))
         End If
-        Form1.RefreshFileList(Form1.CurrentFolder)
+        Form1.EnterFolder(Form1.drive.currentFolder, True)
         Close()
     End Sub
 End Class

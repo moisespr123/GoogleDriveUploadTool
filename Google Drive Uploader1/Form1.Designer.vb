@@ -78,6 +78,7 @@ Partial Class Form1
         Me.SaveChecksumsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectedFilesToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectedFolderToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.VerifyChecksumToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.MoveToTrashToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectedFilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -160,7 +161,6 @@ Partial Class Form1
         Me.FreeSpace = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpaceText = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpace = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.VerifyChecksumToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.FoldersContextMenu.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -546,14 +546,14 @@ Partial Class Form1
         'CreateNewFolderToolStripMenuItem
         '
         Me.CreateNewFolderToolStripMenuItem.Name = "CreateNewFolderToolStripMenuItem"
-        Me.CreateNewFolderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CreateNewFolderToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
         Me.CreateNewFolderToolStripMenuItem.Text = "Create New Folder"
         '
         'RenameToolStripMenuItem
         '
         Me.RenameToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFileToolStripMenuItem1, Me.SelectedFolderToolStripMenuItem1})
         Me.RenameToolStripMenuItem.Name = "RenameToolStripMenuItem"
-        Me.RenameToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RenameToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
         Me.RenameToolStripMenuItem.Text = "Rename"
         '
         'SelectedFileToolStripMenuItem1
@@ -571,14 +571,14 @@ Partial Class Form1
         'RefreshListToolStripMenuItem
         '
         Me.RefreshListToolStripMenuItem.Name = "RefreshListToolStripMenuItem"
-        Me.RefreshListToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RefreshListToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
         Me.RefreshListToolStripMenuItem.Text = "Refresh List"
         '
         'SaveChecksumsToolStripMenuItem
         '
         Me.SaveChecksumsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFilesToolStripMenuItem2, Me.SelectedFolderToolStripMenuItem2})
         Me.SaveChecksumsToolStripMenuItem.Name = "SaveChecksumsToolStripMenuItem"
-        Me.SaveChecksumsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SaveChecksumsToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
         Me.SaveChecksumsToolStripMenuItem.Text = "Save Checksums"
         '
         'SelectedFilesToolStripMenuItem2
@@ -593,16 +593,22 @@ Partial Class Form1
         Me.SelectedFolderToolStripMenuItem2.Size = New System.Drawing.Size(152, 22)
         Me.SelectedFolderToolStripMenuItem2.Text = "Selected folder"
         '
+        'VerifyChecksumToolStripMenuItem1
+        '
+        Me.VerifyChecksumToolStripMenuItem1.Name = "VerifyChecksumToolStripMenuItem1"
+        Me.VerifyChecksumToolStripMenuItem1.Size = New System.Drawing.Size(171, 22)
+        Me.VerifyChecksumToolStripMenuItem1.Text = "Verify Checksum"
+        '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(168, 6)
         '
         'MoveToTrashToolStripMenuItem
         '
         Me.MoveToTrashToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFilesToolStripMenuItem, Me.SelectedFoldersToolStripMenuItem})
         Me.MoveToTrashToolStripMenuItem.Name = "MoveToTrashToolStripMenuItem"
-        Me.MoveToTrashToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.MoveToTrashToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
         Me.MoveToTrashToolStripMenuItem.Text = "Move to Trash"
         '
         'SelectedFilesToolStripMenuItem
@@ -622,19 +628,19 @@ Partial Class Form1
         Me.RestoreToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedFilesToolStripMenuItem1, Me.SelectedFoldersToolStripMenuItem1})
         Me.RestoreToolStripMenuItem.Enabled = False
         Me.RestoreToolStripMenuItem.Name = "RestoreToolStripMenuItem"
-        Me.RestoreToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RestoreToolStripMenuItem.Size = New System.Drawing.Size(171, 22)
         Me.RestoreToolStripMenuItem.Text = "Restore"
         '
         'SelectedFilesToolStripMenuItem1
         '
         Me.SelectedFilesToolStripMenuItem1.Name = "SelectedFilesToolStripMenuItem1"
-        Me.SelectedFilesToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.SelectedFilesToolStripMenuItem1.Size = New System.Drawing.Size(165, 22)
         Me.SelectedFilesToolStripMenuItem1.Text = "Selected file(s)"
         '
         'SelectedFoldersToolStripMenuItem1
         '
         Me.SelectedFoldersToolStripMenuItem1.Name = "SelectedFoldersToolStripMenuItem1"
-        Me.SelectedFoldersToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.SelectedFoldersToolStripMenuItem1.Size = New System.Drawing.Size(165, 22)
         Me.SelectedFoldersToolStripMenuItem1.Text = "Selected folder(s)"
         '
         'OptionsToolStripMenuItem
@@ -1309,12 +1315,6 @@ Partial Class Form1
         Me.TotalSpace.Name = "TotalSpace"
         Me.TotalSpace.Size = New System.Drawing.Size(43, 17)
         Me.TotalSpace.Text = "0.0 MB"
-        '
-        'VerifyChecksumToolStripMenuItem1
-        '
-        Me.VerifyChecksumToolStripMenuItem1.Name = "VerifyChecksumToolStripMenuItem1"
-        Me.VerifyChecksumToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
-        Me.VerifyChecksumToolStripMenuItem1.Text = "Verify Checksum"
         '
         'Form1
         '
