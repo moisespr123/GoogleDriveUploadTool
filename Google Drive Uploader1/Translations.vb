@@ -32,6 +32,7 @@
             Form1.ViewTrashButton.Text = "View Trash"
         ElseIf Form1.viewing_trash = True Then
             Form1.ViewTrashButton.Text = "View Drive"
+            Form1.CurrentFolderLabel.Text = "Trash"
         End If
         Form1.CreateNewFolderButton.Text = "Create New Folder"
         Form1.UploadToSelectedFolderButton.Text = "Upload selected file(s) to current folder"
@@ -135,6 +136,7 @@
             Form1.ViewTrashButton.Text = "查看垃圾桶"
         ElseIf Form1.viewing_trash = True Then
             Form1.ViewTrashButton.Text = "回到Google Drive"
+            Form1.CurrentFolderLabel.Text = "Trash"
         End If
         Form1.CreateNewFolderButton.Text = "新增文件夾"
         Form1.UploadToSelectedFolderButton.Text = "Upload selected file(s) to current folder"
@@ -238,6 +240,7 @@
             Form1.ViewTrashButton.Text = "Ver Basura"
         ElseIf Form1.viewing_trash = True Then
             Form1.ViewTrashButton.Text = "Ver Drive"
+            Form1.CurrentFolderLabel.Text = "Basura"
         End If
         Form1.CreateNewFolderButton.Text = "Crear Carpeta"
         Form1.UploadToSelectedFolderButton.Text = "Subir archivo(s) a esta carpeta"

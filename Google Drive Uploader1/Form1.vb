@@ -912,11 +912,12 @@ Public Class Form1
             Next
             For Each Folder2 As String In FolderList
                 Path.Add(drive.FolderListID.Item(drive.FolderListID.IndexOf(Folder2)))
+                FolderListBox.ClearSelected()
                 FolderListBox.SelectedItem = FolderListBox.Items.Item(drive.FolderListID.IndexOf(Folder2))
                 EnterFolder(drive.FolderListID.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
                 Await DownloadFolder(Path, Location)
-                GoBack()
                 Path.Remove(Folder2)
+                GoBack()
             Next
         End If
     End Function
@@ -934,19 +935,13 @@ Public Class Form1
         FolderListBox.DataSource = drive.FolderList
         FilesListBox.DataSource = Nothing
         FilesListBox.DataSource = drive.FileList
-        If drive.currentFolder = "root" Or drive.currentFolder = "trash" Then
-            BackButton.Enabled = False
-        Else
-            BackButton.Enabled = True
-        End If
         My.Settings.LastFolder = drive.currentFolder
         My.Settings.PreviousFolderIDs.Clear()
         My.Settings.PreviousFolderIDs.AddRange(drive.previousFolder.ToArray())
         My.Settings.Save()
         SaveSelectedFilesChecksumButton.Visible = False
-        BackButton.Enabled = True
         CurrentFolderLabel.Text = drive.currentFolderName
-        If drive.currentFolder = "root" Or location = "trash" Then
+        If location = "root" Or location = "trash" Then
             BackButton.Enabled = False
         Else
             BackButton.Enabled = True
@@ -1041,7 +1036,7 @@ Public Class Form1
             CurrentFolderLabel.Text = drive.currentFolderName
             CurrentFolderLabel.Visible = True
             Lang_Select()
-            EnterFolder(drive.currentFolder)
+            EnterFolder(drive.currentFolder, True)
         End If
     End Sub
 

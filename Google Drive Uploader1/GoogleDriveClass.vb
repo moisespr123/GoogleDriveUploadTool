@@ -79,8 +79,8 @@ Public Class GoogleDriveClass
         FileCreatedTimeList.Clear()
         FileMD5List.Clear()
         FileMIMEList.Clear()
-        Dim listRequestQString As String = String.Empty
-        Dim listRequestQFolderString As String = String.Empty
+        Dim listRequestQString As String
+        Dim listRequestQFolderString As String
         If folderId = "trash" Then
             currentFolderName = "Trash"
             listRequestQString = "mimeType!='application/vnd.google-apps.folder' and trashed = true"
@@ -137,7 +137,7 @@ Public Class GoogleDriveClass
             End Try
         Loop While PageToken2 IsNot Nothing
         If Not refreshing AndAlso Not goingBack AndAlso folderId <> "root" AndAlso folderId <> "trash" Then
-            If Not currentFolderName = Translations.MsgAndDialogLang("trash") Then previousFolder.Add(currentFolder)
+            previousFolder.Add(currentFolder)
         End If
         If folderId <> "trash" Then
             currentFolder = folderId
