@@ -539,7 +539,7 @@ Public Class Form1
         End Try
     End Function
 
-    Private Sub ListBox3_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles FolderListBox.MouseDoubleClick
+    Private Sub ListBox3_MouseDoubleClick(sender As Object, e As MouseEventArgs)
         If My.Computer.Keyboard.ShiftKeyDown Then
             OpenInBrowser(True)
         Else
@@ -736,7 +736,7 @@ Public Class Form1
             MsgBox(SuccessMessage)
         End If
     End Sub
-    Private Sub FolderListBox_KeyDown(sender As Object, e As KeyEventArgs) Handles FolderListBox.KeyDown
+    Private Sub FolderListBox_KeyDown(sender As Object, e As KeyEventArgs)
         If e.Modifiers = Keys.Control Then
             controlPressed = True
         End If
@@ -1284,7 +1284,7 @@ Public Class Form1
         If My.Settings.SaveAsChecksumsMD5 Then SaveChecksumsFile("checksums.md5") Else SaveChecksumsFile(drive.currentFolderName & ".md5", True)
     End Sub
 
-    Private Sub FolderListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles FolderListBox.SelectedIndexChanged
+    Private Sub FolderListBox_SelectedIndexChanged(sender As Object, e As EventArgs)
         If FolderListBox.SelectedItem IsNot Nothing Then
             If UploadButton.Enabled = True And UploadsListBox.SelectedItem Is Nothing Then
                 FolderIDTextBox.Text = drive.FolderListID.Item(FolderListBox.SelectedIndex)
@@ -1315,7 +1315,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub FolderListBox_KeyPress(sender As Object, e As KeyPressEventArgs) Handles FolderListBox.KeyPress
+    Private Sub FolderListBox_KeyPress(sender As Object, e As KeyPressEventArgs)
         If controlPressed Then
             controlPressed = False
             e.Handled = True
