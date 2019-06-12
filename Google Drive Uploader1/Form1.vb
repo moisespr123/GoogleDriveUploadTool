@@ -937,6 +937,14 @@ Public Class Form1
         FolderListBox.DataSource = drive.FolderList
         FilesListBox.DataSource = Nothing
         FilesListBox.DataSource = drive.FileList
+        Dim FileCountNumber As Integer = drive.FileList.Count
+        If FileCountNumber > 1 Then
+            FileCount.Text = FileCountNumber.ToString + Translations.MsgAndDialogLang("files_txt")
+        ElseIf FileCountNumber = 1 Then
+            FileCount.Text = FileCountNumber.ToString + Translations.MsgAndDialogLang("file_txt")
+        Else
+            FileCount.Text = "0" + Translations.MsgAndDialogLang("files_txt")
+        End If
         My.Settings.LastFolder = drive.currentFolder
         My.Settings.PreviousFolderIDs.Clear()
         My.Settings.PreviousFolderIDs.AddRange(drive.previousFolder.ToArray())
