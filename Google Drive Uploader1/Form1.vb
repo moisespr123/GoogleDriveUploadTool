@@ -922,14 +922,16 @@ Public Class Form1
         End If
     End Function
     Public Sub EnterFolder(ByVal Optional location As String = "root", ByVal Optional refreshing As Boolean = False)
+        Dim OrderBy As String = My.Settings.SortBy
+        If My.Settings.OrderDesc Then OrderBy = OrderBy + " desc"
         If location <> "back" Then
             If Not refreshing Then
-                drive.GetData(location, My.Settings.SortBy)
+                drive.GetData(location, OrderBy)
             Else
-                drive.GetData(location, My.Settings.SortBy, True)
+                drive.GetData(location, OrderBy, True)
             End If
         Else
-            drive.GoBack(My.Settings.SortBy)
+            drive.GoBack(OrderBy)
         End If
         FolderListBox.DataSource = Nothing
         FolderListBox.DataSource = drive.FolderList
