@@ -82,6 +82,8 @@ Public Class MoveDialog
     End Sub
 
     Private Async Sub MoveButton_Click(sender As Object, e As EventArgs) Handles MoveButton.Click
+        MoveButton.Text = "Moving..."
+        MoveButton.Enabled = False
         For Each item In ItemsToMove
             Dim previousFileParents As File = Await New FilesResource.GetRequest(_service, item) With {.Fields = "parents"}.ExecuteAsync()
             Await New FilesResource.UpdateRequest(_service, New File(), item) With {.RemoveParents = String.Join(",", previousFileParents.Parents), .AddParents = CurrentFolder}.ExecuteAsync()

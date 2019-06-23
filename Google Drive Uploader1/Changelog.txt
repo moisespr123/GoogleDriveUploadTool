@@ -1,6 +1,8 @@
 ﻿v1.11 (6/12/2019)
 -Refactored code to improve performance and stability.
 -Updated the Google APIs
+-Disabled "Move" button when moving is in progress
+-Now targets .NET Framework 4.8
 
 v1.10.4 (5/31/2019)
 -Updated Google Drive API
