@@ -1018,7 +1018,7 @@ Public Class Form1
 
     Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
         Dim credPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Personal)
-        credPath = Path.Combine(credPath, ".credentials\GoogleDriveUploaderTool.json")
+        credPath = Path.Combine(credPath, ".credentials\" + SoftwareName + ".json")
         Dim credfiles As String() = Directory.GetFiles(credPath, "*.TokenResponse-user")
         For Each credfile In credfiles
             Debug.WriteLine(credfile)
@@ -1105,11 +1105,11 @@ Public Class Form1
 
     Private Sub ReadmeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReadmeToolStripMenuItem.Click
         If EnglishRButton.Checked Then
-            Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/README.md")
+            Process.Start("https://moisescardona.me/google-drive-uploader-explorer-tool-help/")
         ElseIf SpanishRButton.Checked Then
-            Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/LEEME.md")
+            Process.Start("https://moisescardona.me/ayuda-para-google-drive-uploader-explorer-tool/")
         Else
-            Process.Start("https://github.com/moisesmcardona/GoogleDriveUploadTool/blob/master/README.md")
+            Process.Start("https://moisescardona.me/google-drive-uploader-explorer-tool-help/")
         End If
     End Sub
 

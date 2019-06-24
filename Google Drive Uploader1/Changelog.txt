@@ -1,4 +1,4 @@
-﻿v1.11 (6/12/2019)
+﻿v1.11 (6/24/2019)
 -Refactored code to improve performance and stability.
 -Updated the Google APIs
 -Disabled "Move" button when moving is in progress
