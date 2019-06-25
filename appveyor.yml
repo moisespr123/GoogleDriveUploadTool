@@ -7,7 +7,7 @@ before_build:
   - nuget restore
   
 build_script: 
- - msbuild "Google Drive Uploader1.sln" /p:TargetFrameworkVersion=v4.7.2
+ - msbuild "Google Drive Uploader1.sln" /p:TargetFrameworkVersion=v4.8
 
 artifacts:
  - path: '*\bin\Release\*.exe'
