@@ -1,5 +1,8 @@
 # Google Drive Upload Tool [![Travis Build Status](https://travis-ci.org/moisesmcardona/GoogleDriveUploadTool.svg?branch=master)](https://travis-ci.org/moisesmcardona/GoogleDriveUploadTool) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/moisesmcardona/GoogleDriveUploadTool?branch=master&svg=true)](https://ci.appveyor.com/project/moisesmcardona/GoogleDriveUploadTool)
+
 A tool for Windows to upload files to Google Drive. It resumes uploads in case of an error or failure. Perfect for uploading large files or if your connection is unstable. Additionally, files uploaded with this tool will preserve their Modified Date. Also, the software lets you browse and download your Drive contents.
+
+![Screenshot](https://moisescardona.me/wp-content/uploads/2019/07/GoogleDriveUploadToolv1.11.1-English.png)
 
 # Help:
 

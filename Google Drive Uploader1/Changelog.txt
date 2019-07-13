@@ -1,4 +1,7 @@
-﻿v1.11 (6/24/2019)
+﻿v1.11.1 (7/13/2019)
+-Updated the Google Drive API.
+
+v1.11 (6/24/2019)
 -Refactored code to improve performance and stability.
 -Updated the Google APIs
 -Disabled "Move" button when moving is in progress

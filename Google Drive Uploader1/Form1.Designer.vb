@@ -728,13 +728,13 @@ Partial Class Form1
         'UploadChunkToolStripMenuItem
         '
         Me.UploadChunkToolStripMenuItem.Name = "UploadChunkToolStripMenuItem"
-        Me.UploadChunkToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.UploadChunkToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.UploadChunkToolStripMenuItem.Text = "Upload Chunk"
         '
         'RAMChunkToolStripMenuItem
         '
         Me.RAMChunkToolStripMenuItem.Name = "RAMChunkToolStripMenuItem"
-        Me.RAMChunkToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RAMChunkToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
         Me.RAMChunkToolStripMenuItem.Text = "RAM Chunk"
         '
         'CopyFileToRAMBeforeUploadingToolStripMenuItem
@@ -902,7 +902,7 @@ Partial Class Form1
         Me.AboutLabel.Name = "AboutLabel"
         Me.AboutLabel.Size = New System.Drawing.Size(98, 26)
         Me.AboutLabel.TabIndex = 11
-        Me.AboutLabel.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.11"
+        Me.AboutLabel.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.11.1"
         '
         'FolderNameTextbox
         '

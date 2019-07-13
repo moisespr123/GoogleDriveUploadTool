@@ -1,5 +1,8 @@
 # Google Drive Upload Tool
+
 Una herramienta para subir archivos a Google Drive. El programa resume las subidas en caso de que ocurra una falla. Es perfecto para subir archivos grandes o si tu conexión es inestable. Adicionalmente, los archivos preservarán su fecha de modificación. También, puedes navegar en tu Drive y subir archivos y carpetas a un lugar determinado.
+
+![Screenshot](https://moisescardona.me/wp-content/uploads/2019/07/GoogleDriveUploadToolv1.11.1-Spanish.png)
 
 # Ayuda:
 
