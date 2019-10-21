@@ -34,7 +34,7 @@ Public Class GoogleDriveClass
         If Not SectretsFile = String.Empty Then
             Using stream = New FileStream(SectretsFile, FileMode.Open, FileAccess.Read)
                 Dim credPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Personal)
-                credPath = Path.Combine(credPath, ".credentials/" & SoftwareName & ".json")
+                credPath = Path.Combine(credPath, ".credentials/" & SoftwareName)
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, Scopes, "user", CancellationToken.None, New FileDataStore(credPath, True)).Result
             End Using
             service = New DriveService(New BaseClientService.Initializer() With {

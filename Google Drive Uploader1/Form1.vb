@@ -31,44 +31,49 @@ Public Class Form1
         End If
         'Google Drive initialization
         drive = New GoogleDriveClass(SoftwareName)
-        'Checks whether the language was set. If not, apply English by default
-        Lang_Select()
-        'Checks if there are items to upload and if there are, we add them to the list box
-        If My.Settings.UploadQueue.Count > 0 Then
-            For Each item In My.Settings.UploadQueue
-                UploadsListBox.Items.Add(item)
-            Next
-        End If
-        If My.Settings.UploadQueueFolders.Count > 0 Then
-            For Each item In My.Settings.UploadQueueFolders
-                FolderToUploadFileList.Add(item)
-            Next
-        End If
-        'Loads the last used Folder ID and lists files
-        If My.Settings.PreviousFolderIDs.Count > 0 Then
-            drive.currentFolder = My.Settings.LastFolder 'My.Settings.PreviousFolderIDs.Item(My.Settings.PreviousFolderIDs.Count - 1)
+        If Not drive.connected Then
+            MsgBox(Translations.MsgAndDialogLang("client_secrets_not_found"))
+            Process.Start("https://developers.google.com/drive/v3/web/quickstart/dotnet")
+            Me.Close()
         Else
-            drive.currentFolder = "root"
+            'Checks whether the language was set. If not, apply English by default
+            Lang_Select()
+            'Checks if there are items to upload and if there are, we add them to the list box
+            If My.Settings.UploadQueue.Count > 0 Then
+                For Each item In My.Settings.UploadQueue
+                    UploadsListBox.Items.Add(item)
+                Next
+            End If
+            If My.Settings.UploadQueueFolders.Count > 0 Then
+                For Each item In My.Settings.UploadQueueFolders
+                    FolderToUploadFileList.Add(item)
+                Next
+            End If
+            'Loads the last used Folder ID and lists files
+            If My.Settings.PreviousFolderIDs.Count > 0 Then
+                drive.currentFolder = My.Settings.LastFolder
+            Else
+                drive.currentFolder = "root"
+            End If
+            For Each item In My.Settings.PreviousFolderIDs
+                drive.previousFolder.Add(item)
+            Next
+            SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Checked = My.Settings.SaveAsChecksumsMD5
+            StartUploadsAutomaticallyToolStripMenuItem.Checked = My.Settings.AutomaticUploads
+            PreserveFileModifiedDateToolStripMenuItem.Checked = My.Settings.PreserveModifiedDate
+            UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Checked = My.Settings.UpdateViews
+            ChecksumsEncodeFormatComboBox.SelectedIndex = My.Settings.EncodeChecksumsFormat
+            OrderByComboBox.SelectedIndex = My.Settings.SortByIndex
+            DescendingOrderToolStripMenuItem.Checked = My.Settings.OrderDesc
+            CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked = My.Settings.CopyToRAM
+            EnterFolder(drive.currentFolder, True)
+            CurrentFolderLabel.Text = drive.currentFolderName
+            If UploadsListBox.Items.Count > 0 Then
+                UploadsListBox.SelectedIndex = 0
+            Else
+                FolderIDTextBox.Text = drive.currentFolder
+            End If
         End If
-        For Each item In My.Settings.PreviousFolderIDs
-            drive.previousFolder.Add(item)
-        Next
-        SaveCheckumsAsChecksumsmd5ToolStripMenuItem.Checked = My.Settings.SaveAsChecksumsMD5
-        StartUploadsAutomaticallyToolStripMenuItem.Checked = My.Settings.AutomaticUploads
-        PreserveFileModifiedDateToolStripMenuItem.Checked = My.Settings.PreserveModifiedDate
-        UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Checked = My.Settings.UpdateViews
-        ChecksumsEncodeFormatComboBox.SelectedIndex = My.Settings.EncodeChecksumsFormat
-        OrderByComboBox.SelectedIndex = My.Settings.SortByIndex
-        DescendingOrderToolStripMenuItem.Checked = My.Settings.OrderDesc
-        CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked = My.Settings.CopyToRAM
-        EnterFolder(drive.currentFolder, True)
-        CurrentFolderLabel.Text = drive.currentFolderName
-        If UploadsListBox.Items.Count > 0 Then
-            UploadsListBox.SelectedIndex = 0
-        Else
-            FolderIDTextBox.Text = drive.currentFolder
-        End If
-
     End Sub
 
     Public Sub Lang_Select()
@@ -1018,7 +1023,7 @@ Public Class Form1
 
     Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles btnLogout.Click
         Dim credPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Personal)
-        credPath = Path.Combine(credPath, ".credentials\" + SoftwareName + ".json")
+        credPath = Path.Combine(credPath, ".credentials\" + SoftwareName)
         Dim credfiles As String() = Directory.GetFiles(credPath, "*.TokenResponse-user")
         For Each credfile In credfiles
             Debug.WriteLine(credfile)
