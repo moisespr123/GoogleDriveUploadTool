@@ -1,5 +1,6 @@
 ﻿v1.12.1 (11/09/2019)
 -Updated the Google APIs.
+-Added a missing translation.
 
 v1.12 (10/20/2019)
 -Fixed an initialization issue when client_secret.json or credentials.json file was not found.
