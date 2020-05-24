@@ -782,6 +782,9 @@ Public Class Form1
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.M Then
             MoveFileOrFolder(True)
             e.SuppressKeyPress = True
+        ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.U Then
+            Initiate_FolderCheckFilesToGetRAWUrl()
+            e.SuppressKeyPress = True
         End If
     End Sub
 
@@ -1002,7 +1005,7 @@ Public Class Form1
             MoveFileOrFolder()
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.U Then
-            CheckFilesToGetRAWUrl()
+            Initiate_CheckFilesToGetRAWUrl("", FilesListBox.SelectedIndices)
             e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.V Then
             verifyHash1()
@@ -1067,8 +1070,6 @@ Public Class Form1
         End If
 
     End Sub
-
-
 
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles UploadToSelectedFolderButton.Click
         FolderToUploadFileList.Item(UploadsListBox.SelectedIndex) = drive.currentFolder
@@ -1317,12 +1318,6 @@ Public Class Form1
         My.Settings.Save()
     End Sub
 
-    Private Async Function GetUrl(ID As String) As Task(Of String)
-        Dim request As WebRequest = WebRequest.Create("https://www.googleapis.com/drive/v3/files/" + ID + "?alt=media&access_token=" + Await drive.credential.GetAccessTokenForRequestAsync())
-        Dim response As WebResponse = request.GetResponse
-        Return response.ResponseUri.OriginalString
-    End Function
-
     Private Sub FilesListBox_KeyPress(sender As Object, e As KeyPressEventArgs) Handles FilesListBox.KeyPress
         If controlPressed Then
             controlPressed = False
@@ -1389,29 +1384,78 @@ Public Class Form1
     Private Sub SaveChecksumToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveChecksumToolStripMenuItem.Click
         CheckFilesToSaveChecksums()
     End Sub
-
-    Private Async Sub CheckFilesToGetRAWUrl()
-        If FilesListBox.SelectedItems.Count > 0 Then
-            Dim URLs As List(Of String) = New List(Of String)
-            Download_URLs.Filenames = New List(Of String)
-            Download_URLs.Checksums = New List(Of String)
-            For Each item As String In FilesListBox.SelectedItems
-                URLs.Add(Await GetUrl(drive.FileListID.Item(FilesListBox.Items.IndexOf(item))))
-                Download_URLs.Filenames.Add(FilesListBox.Items.Item(FilesListBox.Items.IndexOf(item)).ToString)
-                Download_URLs.Checksums.Add(drive.FileMD5List.Item(FilesListBox.Items.IndexOf(item)))
+    Private Sub Initiate_FolderCheckFilesToGetRAWUrl()
+        If FolderListBox.SelectedItem IsNot Nothing Then
+            Dim Path As String = drive.FolderListID.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)).ToString
+            EnterFolder(drive.FolderListID.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
+            Initiate_CheckFilesToGetRAWUrl(Path)
+        End If
+    End Sub
+    Private Sub Initiate_CheckFilesToGetRAWUrl(Optional Initial_path As String = "", Optional SelectedIndices As ListBox.SelectedIndexCollection = Nothing)
+        Dim DownloadUrls As New Download_URLs
+        Dim Path As New List(Of String)
+        If Not String.IsNullOrWhiteSpace(Initial_path) Then
+            Path.Add(Initial_path)
+        End If
+        CheckFilesToGetRAWUrl(Path, DownloadUrls, SelectedIndices)
+        If DownloadUrls.URLs.Count > 0 Then
+            For Each item In DownloadUrls.URLs
+                DownloadUrls.RichTextBox1.Text += item + vbCrLf
             Next
-            Download_URLs.RichTextBox1.Clear()
-            For Each item In URLs
-                Download_URLs.RichTextBox1.Text += item
-            Next
-            Download_URLs.URLs = URLs
-            Download_URLs.ShowDialog()
+            DownloadUrls.ShowDialog()
         Else
             MsgBox(Translations.MsgAndDialogLang("no_files_selected"))
         End If
     End Sub
+
+    Private Function CheckFilesToGetRAWUrl(Path As List(Of String), DownloadUrls As Download_URLs, Optional SelectedIndices As ListBox.SelectedIndexCollection = Nothing) As Download_URLs
+        'This creates the full path of the file by getting the ID Name.
+        Dim FullPath As String = ""
+        If Path.Count > 0 Then
+            For Each item In Path
+                Try
+                    Dim GetFolderName As FilesResource.GetRequest = drive.service.Files.Get(item)
+                    Dim FolderNameMetadata As Data.File = GetFolderName.Execute
+                    FullPath = FullPath + FolderNameMetadata.Name + "/"
+                Catch ex As Exception
+
+                End Try
+            Next
+        End If
+        'Once Full Path has been created, we check for files inside the folder. If there's files, we will store their URL, Path, and MD5 checksum.
+        If SelectedIndices Is Nothing Then
+            For Each item As String In FilesListBox.Items
+                DownloadUrls.URLs.Add("https://www.googleapis.com/drive/v3/files/" + drive.FileListID.Item(FilesListBox.Items.IndexOf(item)) + "?alt=media")
+                DownloadUrls.Path.Add(FullPath + item)
+                DownloadUrls.Checksums.Add(drive.FileMD5List.Item(FilesListBox.Items.IndexOf(item)))
+            Next
+        Else
+            For Each index As Integer In SelectedIndices
+                DownloadUrls.URLs.Add("https://www.googleapis.com/drive/v3/files/" + drive.FileListID.Item(index) + "?alt=media")
+                DownloadUrls.Path.Add(FullPath + FilesListBox.Items(index).ToString)
+                DownloadUrls.Checksums.Add(drive.FileMD5List.Item(index))
+            Next
+        End If
+        'Finally, this loop checks if there are folders inside the folder we are. We start a recursion loop by calling this same function for each folder inside the folder.
+        If FolderListBox.Items.Count > 0 Then
+            Dim FolderList As New List(Of String)
+            For Each FolderInList As String In FolderListBox.Items
+                FolderList.Add(drive.FolderListID.Item(FolderListBox.Items.IndexOf(FolderInList)))
+            Next
+            For Each Folder2 As String In FolderList
+                Path.Add(drive.FolderListID.Item(drive.FolderListID.IndexOf(Folder2)))
+                FolderListBox.ClearSelected()
+                FolderListBox.SelectedItem = FolderListBox.Items.Item(drive.FolderListID.IndexOf(Folder2))
+                EnterFolder(drive.FolderListID.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
+                DownloadUrls = CheckFilesToGetRAWUrl(Path, DownloadUrls)
+                GoBack()
+                Path.Remove(Folder2)
+            Next
+        End If
+        Return DownloadUrls
+    End Function
     Private Sub GetRawDownloadURLToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetRawDownloadURLToolStripMenuItem.Click
-        CheckFilesToGetRAWUrl()
+        Initiate_CheckFilesToGetRAWUrl("", FilesListBox.SelectedIndices)
     End Sub
 
     Private Sub OpenInBrowserToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles OpenInBrowserToolStripMenuItem1.Click
@@ -1515,4 +1559,7 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub GetRawDownloadURLsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetRawDownloadURLsToolStripMenuItem.Click
+        Initiate_FolderCheckFilesToGetRAWUrl()
+    End Sub
 End Class

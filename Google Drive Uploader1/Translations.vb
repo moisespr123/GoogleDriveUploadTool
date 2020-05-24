@@ -99,10 +99,6 @@
         Form1.GoToRootLink.Text = "Go to root."
         MoveDialog.BackButton.Text = "Back"
         MoveDialog.MoveButton.Text = "Move"
-        Download_URLs.Text = "Download URLs"
-        Download_URLs.DownloadIfNotExistCheckbox.Text = "Download only if file does not exist"
-        Download_URLs.CheckChecksumsAfterDownloadsCheckbox.Text = "Check File checksums after downloads"
-        Download_URLs.SaveButton.Text = "Save WGET script"
     End Sub
 
     Public Shared Sub TChineseLanguage()
@@ -204,10 +200,6 @@
         Form1.GoToRootLink.Text = "Go to root."
         MoveDialog.BackButton.Text = "Back"
         MoveDialog.MoveButton.Text = "Move"
-        Download_URLs.Text = "Download URLs"
-        Download_URLs.DownloadIfNotExistCheckbox.Text = "Download only if file does not exist"
-        Download_URLs.CheckChecksumsAfterDownloadsCheckbox.Text = "Check File checksums after downloads"
-        Download_URLs.SaveButton.Text = "Save WGET script"
     End Sub
 
     Public Shared Sub SpanishLanguage()
@@ -309,10 +301,6 @@
         Form1.FreeSpaceText.Text = "Espacio Libre:"
         MoveDialog.BackButton.Text = "Atrás"
         MoveDialog.MoveButton.Text = "Mover"
-        Download_URLs.Text = "Enlaces de descarga"
-        Download_URLs.DownloadIfNotExistCheckbox.Text = "Descargar si el archivo no existe"
-        Download_URLs.CheckChecksumsAfterDownloadsCheckbox.Text = "Verificar checksums luego de descargas"
-        Download_URLs.SaveButton.Text = "Guardar script WGET"
     End Sub
 
     Public Shared Function MsgAndDialogLang(tag As String) As String

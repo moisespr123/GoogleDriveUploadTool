@@ -160,6 +160,7 @@ Partial Class Form1
         Me.FreeSpace = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpaceText = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpace = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.GetRawDownloadURLsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FoldersContextMenu.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -218,9 +219,9 @@ Partial Class Form1
         '
         'FoldersContextMenu
         '
-        Me.FoldersContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenInBrowserToolStripMenuItem1, Me.DownloadToolStripMenuItem2, Me.MoveToolStripMenuItem1, Me.RenameToolStripMenuItem2, Me.SaveChecksumsToolStripMenuItem1})
+        Me.FoldersContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenInBrowserToolStripMenuItem1, Me.DownloadToolStripMenuItem2, Me.MoveToolStripMenuItem1, Me.RenameToolStripMenuItem2, Me.SaveChecksumsToolStripMenuItem1, Me.GetRawDownloadURLsToolStripMenuItem})
         Me.FoldersContextMenu.Name = "FoldersContextMenu"
-        Me.FoldersContextMenu.Size = New System.Drawing.Size(171, 114)
+        Me.FoldersContextMenu.Size = New System.Drawing.Size(204, 158)
         '
         'OpenInBrowserToolStripMenuItem1
         '
@@ -902,7 +903,7 @@ Partial Class Form1
         Me.AboutLabel.Name = "AboutLabel"
         Me.AboutLabel.Size = New System.Drawing.Size(98, 26)
         Me.AboutLabel.TabIndex = 11
-        Me.AboutLabel.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.12.2"
+        Me.AboutLabel.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.13"
         '
         'FolderNameTextbox
         '
@@ -1309,6 +1310,12 @@ Partial Class Form1
         Me.TotalSpace.Size = New System.Drawing.Size(43, 17)
         Me.TotalSpace.Text = "0.0 MB"
         '
+        'GetRawDownloadURLsToolStripMenuItem
+        '
+        Me.GetRawDownloadURLsToolStripMenuItem.Name = "GetRawDownloadURLsToolStripMenuItem"
+        Me.GetRawDownloadURLsToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+        Me.GetRawDownloadURLsToolStripMenuItem.Text = "Get Raw Download URLs"
+        '
         'Form1
         '
         Me.AllowDrop = true
@@ -1486,4 +1493,5 @@ End Sub
     Friend WithEvents RenameToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents VerifyChecksumToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents VerifyChecksumToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents GetRawDownloadURLsToolStripMenuItem As ToolStripMenuItem
 End Class
