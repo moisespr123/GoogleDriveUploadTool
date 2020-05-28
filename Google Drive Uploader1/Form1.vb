@@ -494,6 +494,7 @@ Public Class Form1
             Translations.EnglishLanguage()
             My.Settings.Language = "English"
             My.Settings.Save()
+            UpdateFileCountLabel()
         End If
     End Sub
 
@@ -502,6 +503,7 @@ Public Class Form1
             Translations.SpanishLanguage()
             My.Settings.Language = "Spanish"
             My.Settings.Save()
+            UpdateFileCountLabel()
         End If
     End Sub
     Private Sub RadioButton3_CheckedChanged(sender As Object, e As EventArgs) Handles TChineseRButton.CheckedChanged
@@ -509,6 +511,7 @@ Public Class Form1
             Translations.TChineseLanguage()
             My.Settings.Language = "TChinese"
             My.Settings.Save()
+            UpdateFileCountLabel()
         End If
     End Sub
 
@@ -929,6 +932,17 @@ Public Class Form1
             Next
         End If
     End Function
+
+    Public Sub UpdateFileCountLabel()
+        Dim FileCountNumber As Integer = drive.FileList.Count
+        If FileCountNumber > 1 Then
+            FileCount.Text = FileCountNumber.ToString + Translations.MsgAndDialogLang("files_txt")
+        ElseIf FileCountNumber = 1 Then
+            FileCount.Text = FileCountNumber.ToString + Translations.MsgAndDialogLang("file_txt")
+        Else
+            FileCount.Text = "0" + Translations.MsgAndDialogLang("files_txt")
+        End If
+    End Sub
     Public Sub EnterFolder(ByVal Optional location As String = "root", ByVal Optional refreshing As Boolean = False)
         Dim OrderBy As String = My.Settings.SortBy
         If My.Settings.OrderDesc Then OrderBy = OrderBy + " desc"
@@ -945,14 +959,7 @@ Public Class Form1
         FolderListBox.DataSource = drive.FolderList
         FilesListBox.DataSource = Nothing
         FilesListBox.DataSource = drive.FileList
-        Dim FileCountNumber As Integer = drive.FileList.Count
-        If FileCountNumber > 1 Then
-            FileCount.Text = FileCountNumber.ToString + Translations.MsgAndDialogLang("files_txt")
-        ElseIf FileCountNumber = 1 Then
-            FileCount.Text = FileCountNumber.ToString + Translations.MsgAndDialogLang("file_txt")
-        Else
-            FileCount.Text = "0" + Translations.MsgAndDialogLang("files_txt")
-        End If
+        UpdateFileCountLabel()
         My.Settings.LastFolder = drive.currentFolder
         My.Settings.PreviousFolderIDs.Clear()
         My.Settings.PreviousFolderIDs.AddRange(drive.previousFolder.ToArray())

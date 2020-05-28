@@ -281,6 +281,7 @@
         Form1.HelpToolStripMenuItem.Text = "Ayuda"
         Form1.OpenInBrowserToolStripMenuItem.Text = "Abrir en Navegador"
         Form1.OpenInBrowserToolStripMenuItem1.Text = "Abrir en Navegador"
+        Form1.OptionsToolStripMenuItem.Text = "Opciones"
         Form1.OrderByToolStripMenuItem.Text = "Ordenar por"
         Form1.OrderByComboBox.Items.Clear()
         Form1.OrderByComboBox.Items.AddRange({"Fecha de creación", "Carpeta", "Modificado por mí", "Fecha de Modificación", "Nombre", "Nombre Natural", "Espacio usado", "Recientes", "Compartidos conmigo", "Estrellado", "Fecha de Acceso/Visto"})
