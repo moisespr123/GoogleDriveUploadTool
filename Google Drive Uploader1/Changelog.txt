@@ -1,4 +1,10 @@
-﻿v1.12.1 (11/09/2019)
+﻿v1.13 (5/28/2020)
+-Fixed the Raw download URL generation.
+-Added nested RAW download URL generation (CTRL + U on folders, or right click and select the RAW Url option).
+-Added option to generate cURL script.
+-Updated the Google APIs.
+
+v1.12.1 (11/09/2019)
 -Updated the Google APIs.
 -Added a missing translation.
 
