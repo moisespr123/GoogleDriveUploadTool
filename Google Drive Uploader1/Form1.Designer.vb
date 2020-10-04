@@ -35,6 +35,7 @@ Partial Class Form1
         Me.MoveToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.RenameToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveChecksumsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GetRawDownloadURLsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FolderLabel = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.SaveChecksumFileButton = New System.Windows.Forms.Button()
@@ -107,6 +108,7 @@ Partial Class Form1
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
         Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.OpenFolderId = New System.Windows.Forms.Button()
         Me.UploadButton = New System.Windows.Forms.Button()
         Me.FileSizeUploadLabel = New System.Windows.Forms.Label()
         Me.ProcessedFileSizeUploadLabel = New System.Windows.Forms.Label()
@@ -160,7 +162,6 @@ Partial Class Form1
         Me.FreeSpace = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpaceText = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpace = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.GetRawDownloadURLsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FoldersContextMenu.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -221,37 +222,43 @@ Partial Class Form1
         '
         Me.FoldersContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenInBrowserToolStripMenuItem1, Me.DownloadToolStripMenuItem2, Me.MoveToolStripMenuItem1, Me.RenameToolStripMenuItem2, Me.SaveChecksumsToolStripMenuItem1, Me.GetRawDownloadURLsToolStripMenuItem})
         Me.FoldersContextMenu.Name = "FoldersContextMenu"
-        Me.FoldersContextMenu.Size = New System.Drawing.Size(204, 158)
+        Me.FoldersContextMenu.Size = New System.Drawing.Size(204, 136)
         '
         'OpenInBrowserToolStripMenuItem1
         '
         Me.OpenInBrowserToolStripMenuItem1.Name = "OpenInBrowserToolStripMenuItem1"
-        Me.OpenInBrowserToolStripMenuItem1.Size = New System.Drawing.Size(170, 22)
+        Me.OpenInBrowserToolStripMenuItem1.Size = New System.Drawing.Size(203, 22)
         Me.OpenInBrowserToolStripMenuItem1.Text = "Open in Browser"
         '
         'DownloadToolStripMenuItem2
         '
         Me.DownloadToolStripMenuItem2.Name = "DownloadToolStripMenuItem2"
-        Me.DownloadToolStripMenuItem2.Size = New System.Drawing.Size(170, 22)
+        Me.DownloadToolStripMenuItem2.Size = New System.Drawing.Size(203, 22)
         Me.DownloadToolStripMenuItem2.Text = "Download"
         '
         'MoveToolStripMenuItem1
         '
         Me.MoveToolStripMenuItem1.Name = "MoveToolStripMenuItem1"
-        Me.MoveToolStripMenuItem1.Size = New System.Drawing.Size(170, 22)
+        Me.MoveToolStripMenuItem1.Size = New System.Drawing.Size(203, 22)
         Me.MoveToolStripMenuItem1.Text = "Move"
         '
         'RenameToolStripMenuItem2
         '
         Me.RenameToolStripMenuItem2.Name = "RenameToolStripMenuItem2"
-        Me.RenameToolStripMenuItem2.Size = New System.Drawing.Size(170, 22)
+        Me.RenameToolStripMenuItem2.Size = New System.Drawing.Size(203, 22)
         Me.RenameToolStripMenuItem2.Text = "Rename"
         '
         'SaveChecksumsToolStripMenuItem1
         '
         Me.SaveChecksumsToolStripMenuItem1.Name = "SaveChecksumsToolStripMenuItem1"
-        Me.SaveChecksumsToolStripMenuItem1.Size = New System.Drawing.Size(170, 22)
+        Me.SaveChecksumsToolStripMenuItem1.Size = New System.Drawing.Size(203, 22)
         Me.SaveChecksumsToolStripMenuItem1.Text = "Save Checksum(s)"
+        '
+        'GetRawDownloadURLsToolStripMenuItem
+        '
+        Me.GetRawDownloadURLsToolStripMenuItem.Name = "GetRawDownloadURLsToolStripMenuItem"
+        Me.GetRawDownloadURLsToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+        Me.GetRawDownloadURLsToolStripMenuItem.Text = "Get Raw Download URLs"
         '
         'FolderLabel
         '
@@ -800,6 +807,7 @@ Partial Class Form1
         '
         'Panel4
         '
+        Me.Panel4.Controls.Add(Me.OpenFolderId)
         Me.Panel4.Controls.Add(Me.UploadButton)
         Me.Panel4.Controls.Add(Me.FileSizeUploadLabel)
         Me.Panel4.Controls.Add(Me.ProcessedFileSizeUploadLabel)
@@ -824,6 +832,16 @@ Partial Class Form1
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(500, 194)
         Me.Panel4.TabIndex = 55
+        '
+        'OpenFolderId
+        '
+        Me.OpenFolderId.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.OpenFolderId.Location = New System.Drawing.Point(429, 69)
+        Me.OpenFolderId.Name = "OpenFolderId"
+        Me.OpenFolderId.Size = New System.Drawing.Size(59, 23)
+        Me.OpenFolderId.TabIndex = 38
+        Me.OpenFolderId.Text = "Open"
+        Me.OpenFolderId.UseVisualStyleBackColor = True
         '
         'UploadButton
         '
@@ -903,7 +921,7 @@ Partial Class Form1
         Me.AboutLabel.Name = "AboutLabel"
         Me.AboutLabel.Size = New System.Drawing.Size(98, 26)
         Me.AboutLabel.TabIndex = 11
-        Me.AboutLabel.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.13"
+        Me.AboutLabel.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.14"
         '
         'FolderNameTextbox
         '
@@ -1310,12 +1328,6 @@ Partial Class Form1
         Me.TotalSpace.Size = New System.Drawing.Size(43, 17)
         Me.TotalSpace.Text = "0.0 MB"
         '
-        'GetRawDownloadURLsToolStripMenuItem
-        '
-        Me.GetRawDownloadURLsToolStripMenuItem.Name = "GetRawDownloadURLsToolStripMenuItem"
-        Me.GetRawDownloadURLsToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
-        Me.GetRawDownloadURLsToolStripMenuItem.Text = "Get Raw Download URLs"
-        '
         'Form1
         '
         Me.AllowDrop = true
@@ -1494,4 +1506,5 @@ End Sub
     Friend WithEvents VerifyChecksumToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents VerifyChecksumToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents GetRawDownloadURLsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents OpenFolderId As Button
 End Class

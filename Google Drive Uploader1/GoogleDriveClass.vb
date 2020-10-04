@@ -62,14 +62,18 @@ Public Class GoogleDriveClass
             Return Translations.MsgAndDialogLang("folder_id_incorrect")
         End If
     End Function
-    Public Sub GoBack(ByVal OrderBy As String)
+    Public Function GoBack(ByVal OrderBy As String) As Boolean
+        Dim succeeded As Boolean = True
         If previousFolder.Count > 0 Then
-            GetData(previousFolder(previousFolder.Count - 1), OrderBy, True)
-            previousFolder.RemoveAt(previousFolder.Count - 1)
+            succeeded = GetData(previousFolder(previousFolder.Count - 1), OrderBy, True)
+            If succeeded Then
+                previousFolder.RemoveAt(previousFolder.Count - 1)
+            End If
         End If
-    End Sub
+        Return succeeded
+    End Function
 
-    Public Sub GetData(ByVal folderId As String, ByVal OrderBy As String, ByVal Optional goingBack As Boolean = False, ByVal Optional refreshing As Boolean = False)
+    Public Function GetData(ByVal folderId As String, ByVal OrderBy As String, ByVal Optional goingBack As Boolean = False, ByVal Optional refreshing As Boolean = False) As Boolean
         FolderList.Clear()
         FolderListID.Clear()
         FileList.Clear()
@@ -112,6 +116,7 @@ Public Class GoogleDriveClass
                 PageToken1 = files.NextPageToken
             Catch ex As Exception
                 MsgBox("Error")
+                Return False
             End Try
         Loop While PageToken1 IsNot Nothing
         Dim PageToken2 As String = String.Empty
@@ -123,7 +128,6 @@ Public Class GoogleDriveClass
             listRequest.PageToken = PageToken2
             Try
                 Dim files = listRequest.Execute()
-
                 If files.Files IsNot Nothing AndAlso files.Files.Count > 0 Then
 
                     For Each file In files.Files
@@ -131,9 +135,9 @@ Public Class GoogleDriveClass
                         FolderListID.Add(file.Id)
                     Next
                 End If
-
                 PageToken2 = files.NextPageToken
             Catch
+                Return False
             End Try
         Loop While PageToken2 IsNot Nothing
         If Not refreshing AndAlso Not goingBack AndAlso folderId <> "root" AndAlso folderId <> "trash" Then
@@ -145,7 +149,8 @@ Public Class GoogleDriveClass
         Else
             currentFolderName = Translations.MsgAndDialogLang("trash")
         End If
-    End Sub
+        Return True
+    End Function
 
     Public Sub DownloadFile(ByVal Id As String, ByVal stream As FileStream)
         Dim getRequest As FilesResource.GetRequest = service.Files.[Get](Id)

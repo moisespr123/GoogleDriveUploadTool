@@ -24,9 +24,9 @@
                 End If
                 If DownloadIfNotExistCheckbox.Checked Then
                     If wget.Checked Then
-                        FileStream.Write("[ ! -f " + Path.Item(URLs.IndexOf(URL)) + " ] && wget --header=""Authorization: Bearer " + AuthorizationToken + """ " + URL + " -O """ + pathTxt.Text + "/" + Path.Item(URLs.IndexOf(URL)) + """" + vbLf)
+                        FileStream.Write("[ ! -f """ + Path.Item(URLs.IndexOf(URL)) + """ ] && wget --header=""Authorization: Bearer " + AuthorizationToken + """ " + URL + " -O """ + pathTxt.Text + "/" + Path.Item(URLs.IndexOf(URL)) + """" + vbLf)
                     Else
-                        FileStream.Write("[ ! -f " + Path.Item(URLs.IndexOf(URL)) + " ] && curl --header ""Authorization: Bearer " + AuthorizationToken + """ " + URL + " -o """ + pathTxt.Text + "/" + Path.Item(URLs.IndexOf(URL)) + """" + vbLf)
+                        FileStream.Write("[ ! -f """ + Path.Item(URLs.IndexOf(URL)) + """ ] && curl --header ""Authorization: Bearer " + AuthorizationToken + """ " + URL + " -o """ + pathTxt.Text + "/" + Path.Item(URLs.IndexOf(URL)) + """" + vbLf)
                     End If
                 Else
                     If wget.Checked Then

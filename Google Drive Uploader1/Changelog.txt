@@ -1,4 +1,10 @@
-﻿v1.13 (5/28/2020)
+﻿v1.14 (10/4/2020)
+-Added an Open button to go directly to a Folder ID.
+-Can now copy the folder name by clicking it.
+-Bug fixes.
+-Updated Google APIs.
+
+v1.13 (5/28/2020)
 -Fixed the Raw download URL generation.
 -Added nested RAW download URL generation (CTRL + U on folders, or right click and select the RAW Url option).
 -Added option to generate cURL script.
@@ -35,7 +41,7 @@ v1.10 April 2019 Update (4/5/2019)
 -Updated Google Drive API's
 
 v1.10 (3/17/2019)
--Verify a file checksum by pressing CTRL + V oir by right clicking and pressing "Verify Checksum" when a file is selected in the File List.
+-Verify a file checksum by pressing CTRL + V or by right clicking and pressing "Verify Checksum" when a file is selected in the File List.
 -Updated Google Drive components
 
 v1.9.2 (2/1/2019)

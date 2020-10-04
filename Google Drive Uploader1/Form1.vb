@@ -66,7 +66,11 @@ Public Class Form1
             OrderByComboBox.SelectedIndex = My.Settings.SortByIndex
             DescendingOrderToolStripMenuItem.Checked = My.Settings.OrderDesc
             CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked = My.Settings.CopyToRAM
-            EnterFolder(drive.currentFolder, True)
+            Try
+                EnterFolder(drive.currentFolder, True)
+            Catch
+                GoToRoot()
+            End Try
             CurrentFolderLabel.Text = drive.currentFolderName
             If UploadsListBox.Items.Count > 0 Then
                 UploadsListBox.SelectedIndex = 0
@@ -943,17 +947,21 @@ Public Class Form1
             FileCount.Text = "0" + Translations.MsgAndDialogLang("files_txt")
         End If
     End Sub
-    Public Sub EnterFolder(ByVal Optional location As String = "root", ByVal Optional refreshing As Boolean = False)
+    Public Function EnterFolder(ByVal Optional location As String = "root", ByVal Optional refreshing As Boolean = False) As Boolean
         Dim OrderBy As String = My.Settings.SortBy
         If My.Settings.OrderDesc Then OrderBy = OrderBy + " desc"
+        Dim succeeded As Boolean = False
         If location <> "back" Then
             If Not refreshing Then
-                drive.GetData(location, OrderBy)
+                succeeded = drive.GetData(location, OrderBy)
             Else
-                drive.GetData(location, OrderBy, True)
+                succeeded = drive.GetData(location, OrderBy, True)
             End If
         Else
-            drive.GoBack(OrderBy)
+            succeeded = drive.GoBack(OrderBy)
+        End If
+        If succeeded = False Then
+            Return False
         End If
         FolderListBox.DataSource = Nothing
         FolderListBox.DataSource = drive.FolderList
@@ -972,7 +980,8 @@ Public Class Form1
             BackButton.Enabled = True
         End If
         UpdateQuota()
-    End Sub
+        Return True
+    End Function
     Private controlPressed As Boolean = False
     Private Sub FilesListBox_KeyDown(sender As Object, e As KeyEventArgs) Handles FilesListBox.KeyDown
         If e.Modifiers = Keys.Control Then
@@ -1097,6 +1106,10 @@ Public Class Form1
     End Sub
 
     Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles GoToRootLink.LinkClicked
+        GoToRoot()
+    End Sub
+
+    Private Sub GoToRoot()
         My.Settings.PreviousFolderIDs.Clear()
         My.Settings.LastFolder = "root"
         My.Settings.Save()
@@ -1105,7 +1118,6 @@ Public Class Form1
         CurrentFolderLabel.Text = drive.currentFolderName
         EnterFolder(drive.currentFolder)
     End Sub
-
     Private Sub PreserveFileModifiedDateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PreserveFileModifiedDateToolStripMenuItem.Click
         My.Settings.PreserveModifiedDate = PreserveFileModifiedDateToolStripMenuItem.Checked
         My.Settings.Save()
@@ -1568,5 +1580,17 @@ Public Class Form1
 
     Private Sub GetRawDownloadURLsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetRawDownloadURLsToolStripMenuItem.Click
         Initiate_FolderCheckFilesToGetRAWUrl()
+    End Sub
+
+    Private Sub OpenFolderId_Click(sender As Object, e As EventArgs) Handles OpenFolderId.Click
+        Try
+            EnterFolder(FolderIDTextBox.Text)
+        Catch
+            MessageBox.Show(Translations.MsgAndDialogLang("folder_id_incorrect"))
+        End Try
+    End Sub
+
+    Private Sub CurrentFolderLabel_Click(sender As Object, e As EventArgs) Handles CurrentFolderLabel.Click
+        Clipboard.SetText(drive.currentFolderName)
     End Sub
 End Class
