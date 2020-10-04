@@ -379,6 +379,15 @@
                     Case "TChinese"
                         Return "完成!!"
                 End Select
+            Case "uploadstatus_stopped"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Stopped"
+                    Case "Spanish"
+                        Return "Detenido"
+                    Case "TChinese"
+                        Return "Stopped"
+                End Select
             Case "uploadstatus_downloading"
                 Select Case My.Settings.Language
                     Case "English"
@@ -387,7 +396,6 @@
                         Return "Descargando..."
                     Case "TChinese"
                         Return "下載中..."
-
                 End Select
             Case "uploadstatus_starting"
                 Select Case My.Settings.Language
@@ -406,7 +414,6 @@
                         Return "Subiendo..."
                     Case "TChinese"
                         Return "上傳中..."
-
                 End Select
             Case "uploadstatus_retry"
                 Select Case My.Settings.Language
@@ -416,7 +423,6 @@
                         Return "Intentando..."
                     Case "TChinese"
                         Return "重試中..."
-
                 End Select
             Case "uploadstatus_failed"
                 Select Case My.Settings.Language
@@ -426,7 +432,24 @@
                         Return "Error..."
                     Case "TChinese"
                         Return "出錯了..."
-
+                End Select
+            Case "uploadbtn_stop"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Stop"
+                    Case "Spanish"
+                        Return "Detener"
+                    Case "TChinese"
+                        Return "Stop"
+                End Select
+            Case "uploadbtn_start"
+                Select Case My.Settings.Language
+                    Case "English"
+                        Return "Upload"
+                    Case "Spanish"
+                        Return "Subir"
+                    Case "TChinese"
+                        Return "上傳"
                 End Select
             Case "resume_upload_question"
                 Select Case My.Settings.Language

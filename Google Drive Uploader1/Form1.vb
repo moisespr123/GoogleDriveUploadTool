@@ -12,6 +12,7 @@ Public Class Form1
     Shared SoftwareName As String = "Google Drive Uploader Tool"
     Public pageToken As String = ""
     Public Shared drive As GoogleDriveClass
+    Private UploadCancellationToken As CancellationTokenSource
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load         'Initialize Upload Queue Collection
         BackButton.Enabled = False
         If My.Settings.UploadQueue Is Nothing Then
@@ -108,25 +109,35 @@ Public Class Form1
     Private timespent As TimeSpan
     Private GetFile As String = ""
     Private UploadFailed As Boolean = False
+    Private Uploading As Boolean = False
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles UploadButton.Click
         CheckBeforeStartingUpload()
     End Sub
     Private ResumeFromError As Boolean = False
     Private Sub CheckBeforeStartingUpload()
-        If UploadsListBox.Items.Count > 0 Then
-            FolderIDTextBox.Text = FolderToUploadFileList.Item(0)
-            If drive.GetFolderName(FolderToUploadFileList.Item(0)) <> Translations.MsgAndDialogLang("folder_id_incorrect") Then
-                My.Settings.LastFolder = drive.currentFolder
-                My.Settings.Save()
-                ResumeFromError = False
-                UploadButton.Enabled = False
-                UploadFiles()
-            Else
-                If MsgBox(Translations.MsgAndDialogLang("folder_invaild"), MsgBoxStyle.Question Or MsgBoxStyle.YesNo) = MsgBoxResult.No Then
-                    My.Settings.LastFolder = "root"
+        If Uploading Then
+            UploadCancellationToken.Cancel()
+            Uploading = False
+            UploadButton.Text = Translations.MsgAndDialogLang("uploadbtn_start")
+        Else
+            If UploadsListBox.Items.Count > 0 Then
+                FolderIDTextBox.Text = FolderToUploadFileList.Item(0)
+                If drive.GetFolderName(FolderToUploadFileList.Item(0)) <> Translations.MsgAndDialogLang("folder_id_incorrect") Then
+                    My.Settings.LastFolder = drive.currentFolder
                     My.Settings.Save()
                     ResumeFromError = False
+                    Uploading = True
+                    UploadButton.Text = Translations.MsgAndDialogLang("uploadbtn_stop")
                     UploadFiles()
+                Else
+                    If MsgBox(Translations.MsgAndDialogLang("folder_invaild"), MsgBoxStyle.Question Or MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+                        My.Settings.LastFolder = "root"
+                        My.Settings.Save()
+                        ResumeFromError = False
+                        Uploading = True
+                        UploadButton.Text = Translations.MsgAndDialogLang("uploadbtn_stop")
+                        UploadFiles()
+                    End If
                 End If
             End If
         End If
@@ -227,7 +238,7 @@ Public Class Form1
                     AddHandler UploadFile.ProgressChanged, New Action(Of IUploadProgress)(AddressOf Upload_ProgressChanged)
                     AddHandler UploadFile.ResponseReceived, New Action(Of Data.File)(AddressOf Upload_ResponseReceived)
                     AddHandler UploadFile.UploadSessionData, AddressOf Upload_UploadSessionData
-                    UploadCancellationToken = New CancellationToken
+                    UploadCancellationToken = New CancellationTokenSource
                     Dim uploadUri As Uri = Nothing
                     starttime = Date.Now
                     If ResumeFromError = False Then
@@ -236,9 +247,9 @@ Public Class Form1
                         uploadUri = GetSessionRestartUri(False)
                     End If
                     If uploadUri = Nothing Then
-                        Await UploadFile.UploadAsync(UploadCancellationToken)
+                        Await UploadFile.UploadAsync(UploadCancellationToken.Token)
                     Else
-                        Await UploadFile.ResumeAsync(uploadUri, UploadCancellationToken)
+                        Await UploadFile.ResumeAsync(uploadUri, UploadCancellationToken.Token)
                     End If
                     If UsingRAM Then
                         FileInRAM.Dispose()
@@ -279,6 +290,9 @@ Public Class Form1
                     My.Settings.Save()
                 End If
             Catch ex As Exception
+                If UploadCancellationToken.IsCancellationRequested Then
+                    Exit Sub
+                End If
                 UploadFailed = True
             End Try
             If UploadFailed = False Then
@@ -292,7 +306,8 @@ Public Class Form1
                 UpdateQuota()
             End If
         End While
-        If EnglishRButton.Checked = True Then MsgBox(Translations.MsgAndDialogLang("upload_finish"))
+        MsgBox(Translations.MsgAndDialogLang("upload_finish"))
+        UploadButton.Text = Translations.MsgAndDialogLang("uploadbtn_start")
         FolderCreated = False
         My.Settings.FolderCreated = False
         DirectoryListID.Clear()
@@ -305,24 +320,28 @@ Public Class Form1
         UploadButton.Enabled = True
     End Sub
     Private ErrorMessage As String = ""
-    Private UploadCancellationToken As CancellationToken
+
     Private Sub Upload_ProgressChanged(uploadStatusInfo As IUploadProgress)
-        Select Case uploadStatusInfo.Status
-            Case UploadStatus.Completed
-                UploadFailed = False
-                ResumeFromError = False
-                UpdateBytesSent(My.Computer.FileSystem.GetFileInfo(GetFile).Length, Translations.MsgAndDialogLang("uploadstatus_complete"), starttime)
-            Case UploadStatus.Starting
-                UpdateBytesSent(0, Translations.MsgAndDialogLang("uploadstatus_starting"), starttime)
-            Case UploadStatus.Uploading
-                UploadFailed = False
-                UpdateBytesSent(uploadStatusInfo.BytesSent, Translations.MsgAndDialogLang("uploadstatus_uploading"), starttime)
-            Case UploadStatus.Failed
-                UploadFailed = True
-                UpdateBytesSent(uploadStatusInfo.BytesSent, Translations.MsgAndDialogLang("uploadstatus_retry"), starttime)
-                ResumeFromError = True
-                Thread.Sleep(1000)
-        End Select
+        If UploadCancellationToken.IsCancellationRequested Then
+            UpdateBytesSent(uploadStatusInfo.BytesSent, Translations.MsgAndDialogLang("uploadstatus_stopped"), starttime)
+        Else
+            Select Case uploadStatusInfo.Status
+                Case UploadStatus.Completed
+                    UploadFailed = False
+                    ResumeFromError = False
+                    UpdateBytesSent(My.Computer.FileSystem.GetFileInfo(GetFile).Length, Translations.MsgAndDialogLang("uploadstatus_complete"), starttime)
+                Case UploadStatus.Starting
+                    UpdateBytesSent(0, Translations.MsgAndDialogLang("uploadstatus_starting"), starttime)
+                Case UploadStatus.Uploading
+                    UploadFailed = False
+                    UpdateBytesSent(uploadStatusInfo.BytesSent, Translations.MsgAndDialogLang("uploadstatus_uploading"), starttime)
+                Case UploadStatus.Failed
+                    UploadFailed = True
+                    UpdateBytesSent(uploadStatusInfo.BytesSent, Translations.MsgAndDialogLang("uploadstatus_retry"), starttime)
+                    ResumeFromError = True
+                    Thread.Sleep(1000)
+            End Select
+        End If
     End Sub
     Private Sub Upload_ResponseReceived(file As Data.File)
         UpdateBytesSent(My.Computer.FileSystem.GetFileInfo(GetFile).Length, Translations.MsgAndDialogLang("uploadstatus_complete"), starttime)
@@ -370,10 +389,10 @@ Public Class Form1
             StatusLabel.Text = StatusText
         End If
         If ProcessedFileSizeFromCurrentUploadLabel.InvokeRequired Then
-            ProcessedFileSizeFromCurrentUploadLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
-        Else
-            ProcessedFileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", BytesSent / 1024 / 1024)
-        End If
+                ProcessedFileSizeFromCurrentUploadLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
+            Else
+                ProcessedFileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", BytesSent / 1024 / 1024)
+            End If
         If BytesSent > 0 Then
             If ProgressBar1.InvokeRequired Then
                 ProgressBar1.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
@@ -498,7 +517,7 @@ Public Class Form1
             Translations.EnglishLanguage()
             My.Settings.Language = "English"
             My.Settings.Save()
-            UpdateFileCountLabel()
+            UpdateTranslations()
         End If
     End Sub
 
@@ -507,7 +526,7 @@ Public Class Form1
             Translations.SpanishLanguage()
             My.Settings.Language = "Spanish"
             My.Settings.Save()
-            UpdateFileCountLabel()
+            UpdateTranslations()
         End If
     End Sub
     Private Sub RadioButton3_CheckedChanged(sender As Object, e As EventArgs) Handles TChineseRButton.CheckedChanged
@@ -515,7 +534,7 @@ Public Class Form1
             Translations.TChineseLanguage()
             My.Settings.Language = "TChinese"
             My.Settings.Save()
-            UpdateFileCountLabel()
+            UpdateTranslations()
         End If
     End Sub
 
@@ -937,7 +956,7 @@ Public Class Form1
         End If
     End Function
 
-    Public Sub UpdateFileCountLabel()
+    Public Sub UpdateTranslations()
         Dim FileCountNumber As Integer = drive.FileList.Count
         If FileCountNumber > 1 Then
             FileCount.Text = FileCountNumber.ToString + Translations.MsgAndDialogLang("files_txt")
@@ -945,6 +964,9 @@ Public Class Form1
             FileCount.Text = FileCountNumber.ToString + Translations.MsgAndDialogLang("file_txt")
         Else
             FileCount.Text = "0" + Translations.MsgAndDialogLang("files_txt")
+        End If
+        If Uploading Then
+            UploadButton.Text = Translations.MsgAndDialogLang("uploadbtn_stop")
         End If
     End Sub
     Public Function EnterFolder(ByVal Optional location As String = "root", ByVal Optional refreshing As Boolean = False) As Boolean
@@ -967,7 +989,7 @@ Public Class Form1
         FolderListBox.DataSource = drive.FolderList
         FilesListBox.DataSource = Nothing
         FilesListBox.DataSource = drive.FileList
-        UpdateFileCountLabel()
+        UpdateTranslations()
         My.Settings.LastFolder = drive.currentFolder
         My.Settings.PreviousFolderIDs.Clear()
         My.Settings.PreviousFolderIDs.AddRange(drive.previousFolder.ToArray())

@@ -1,6 +1,7 @@
 ﻿v1.14 (10/4/2020)
 -Added an Open button to go directly to a Folder ID.
 -Can now copy the folder name by clicking it.
+-Can now stop uploads.
 -Bug fixes.
 -Updated Google APIs.
 
