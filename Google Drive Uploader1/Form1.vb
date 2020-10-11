@@ -5,9 +5,11 @@ Imports Google.Apis.Upload
 Imports Google.Apis.Download
 Imports System.Collections.Specialized
 Imports System.Net
+Imports System.Runtime.InteropServices
 
 Public Class Form1
-    Private FolderToUploadFileList As New List(Of String)
+    Private FolderToUploadOrDownloadIdFileList As New List(Of String)
+    Private ItemInQueueAction As New List(Of Integer)
     Public viewing_trash As Boolean = False
     Shared SoftwareName As String = "Google Drive Uploader Tool"
     Public pageToken As String = ""
@@ -20,6 +22,9 @@ Public Class Form1
         End If
         If My.Settings.UploadQueueFolders Is Nothing Then
             My.Settings.UploadQueueFolders = New StringCollection
+        End If
+        If My.Settings.QueueFileAction Is Nothing Then
+            My.Settings.QueueFileAction = New StringCollection
         End If
         If My.Settings.FoldersCreated Is Nothing Then
             My.Settings.FoldersCreated = New StringCollection
@@ -47,7 +52,12 @@ Public Class Form1
             End If
             If My.Settings.UploadQueueFolders.Count > 0 Then
                 For Each item In My.Settings.UploadQueueFolders
-                    FolderToUploadFileList.Add(item)
+                    FolderToUploadOrDownloadIdFileList.Add(item)
+                Next
+            End If
+            If My.Settings.QueueFileAction.Count > 0 Then
+                For Each item In My.Settings.QueueFileAction
+                    ItemInQueueAction.Add(Convert.ToInt32(item))
                 Next
             End If
             'Loads the last used Folder ID and lists files
@@ -109,6 +119,7 @@ Public Class Form1
     Private timespent As TimeSpan
     Private GetFile As String = ""
     Private UploadFailed As Boolean = False
+    Private DownloadStopped As Boolean = False
     Private Uploading As Boolean = False
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles UploadButton.Click
         CheckBeforeStartingUpload()
@@ -121,8 +132,8 @@ Public Class Form1
             UploadButton.Text = Translations.MsgAndDialogLang("uploadbtn_start")
         Else
             If UploadsListBox.Items.Count > 0 Then
-                FolderIDTextBox.Text = FolderToUploadFileList.Item(0)
-                If drive.GetFolderName(FolderToUploadFileList.Item(0)) <> Translations.MsgAndDialogLang("folder_id_incorrect") Then
+                FolderIDTextBox.Text = FolderToUploadOrDownloadIdFileList.Item(0)
+                If drive.GetFolderName(FolderToUploadOrDownloadIdFileList.Item(0)) <> Translations.MsgAndDialogLang("folder_id_incorrect") Then
                     My.Settings.LastFolder = drive.currentFolder
                     My.Settings.Save()
                     ResumeFromError = False
@@ -154,140 +165,149 @@ Public Class Form1
         End If
         While UploadsListBox.Items.Count > 0
             UploadsListBox.SelectedIndex() = 0
+            UploadCancellationToken = New CancellationTokenSource
+            GetFile = UploadsListBox.Items(0).ToString
             Try
-                GetFile = UploadsListBox.Items.Item(0).ToString
-                FolderIDTextBox.Text = FolderToUploadFileList.Item(0)
-                drive.GetFolderName(FolderToUploadFileList.Item(0))
-                If File.Exists(GetFile) Then
-                    FileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
-                    ProgressBar1.Maximum = CInt(My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
-                    Dim FileMetadata As New Data.File With {
-                        .Name = My.Computer.FileSystem.GetName(GetFile)
-                    }
-                    If My.Settings.PreserveModifiedDate Then FileMetadata.ModifiedTime = File.GetLastWriteTimeUtc(GetFile)
-                    Dim FileFolder As New List(Of String)
-                    If FolderCreated = False Then
-                        FileFolder.Add(FolderIDTextBox.Text)
-                    Else
-                        Dim DirectoryName As String = ""
-                        DirectoryName = Path.GetDirectoryName(GetFile)
-                        For Each directory In DirectoryList
-                            If DirectoryName = directory Then
-                                FileFolder.Add(DirectoryListID.Item(DirectoryList.IndexOf(directory)))
-                            End If
-                        Next
-                        If FileFolder.Count = 0 Then FileFolder.Add(FolderIDTextBox.Text)
+                If ItemInQueueAction.Item(0) = 1 Then
+                    If Not My.Computer.FileSystem.DirectoryExists(Path.GetDirectoryName(GetFile)) Then Directory.CreateDirectory(Path.GetDirectoryName(GetFile))
+                    Await DownloadFile(GetFile, FolderToUploadOrDownloadIdFileList.Item(0), Nothing, Nothing, UploadCancellationToken)
+                    If DownloadStopped = True Then
+                        Exit Sub
                     End If
-                    FileMetadata.Parents = FileFolder
-                    Dim UploadStream As New FileStream(GetFile, FileMode.Open, FileAccess.Read)
-                    Dim FileInRAM As New MemoryTributary.MemoryTributary()
-                    Dim UploadFile As FilesResource.CreateMediaUpload = Nothing
-                    Dim UsingRAM As Boolean = False
-                    If CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked Then
-                        If My.Computer.Info.AvailablePhysicalMemory > My.Computer.FileSystem.GetFileInfo(GetFile).Length Then
-                            Dim RAMMultiplier = 1024 * 1024
-                            If My.Computer.FileSystem.FileExists("rammultiplier.txt") Then
-                                If String.IsNullOrEmpty(My.Computer.FileSystem.ReadAllText("rammultiplier.txt")) = False Then
-                                    RAMMultiplier = CInt(My.Computer.FileSystem.ReadAllText("rammultiplier.txt"))
-                                    If RAMMultiplier = 0 Then RAMMultiplier = 4
-                                Else
-                                    RAMMultiplier = 4
+                Else
+                    FolderIDTextBox.Text = FolderToUploadOrDownloadIdFileList.Item(0)
+                    drive.GetFolderName(FolderToUploadOrDownloadIdFileList.Item(0))
+                    If File.Exists(GetFile) Then
+                        FileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
+                        ProgressBar1.Maximum = CInt(My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
+                        Dim FileMetadata As New Data.File With {
+                            .Name = My.Computer.FileSystem.GetName(GetFile)
+                        }
+                        If My.Settings.PreserveModifiedDate Then FileMetadata.ModifiedTime = File.GetLastWriteTimeUtc(GetFile)
+                        Dim FileFolder As New List(Of String)
+                        If FolderCreated = False Then
+                            FileFolder.Add(FolderIDTextBox.Text)
+                        Else
+                            Dim DirectoryName As String = ""
+                            DirectoryName = Path.GetDirectoryName(GetFile)
+                            For Each directory In DirectoryList
+                                If DirectoryName = directory Then
+                                    FileFolder.Add(DirectoryListID.Item(DirectoryList.IndexOf(directory)))
                                 End If
-                            End If
-                            Dim readChunkSize = 1024 * RAMMultiplier
-                            starttime = Date.Now()
-                            UploadStream.Seek(0, SeekOrigin.Begin)
-                            FileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
-                            ProgressBar1.Maximum = CInt(My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
-                            Me.Update()
-                            While UploadStream.Position < UploadStream.Length
-                                Dim RemainingBytes As Long = UploadStream.Length - UploadStream.Position
-                                If RemainingBytes <= 1024 * RAMMultiplier Then
-                                    Dim ChunkSize As Integer = Convert.ToInt32(RemainingBytes)
-                                    Dim buffer(ChunkSize) As Byte
-                                    UploadStream.Read(buffer, 0, ChunkSize)
-                                    FileInRAM.Write(buffer, 0, ChunkSize)
-                                Else
-                                    Dim buffer(readChunkSize) As Byte
-                                    UploadStream.Read(buffer, 0, readChunkSize)
-                                    FileInRAM.Write(buffer, 0, readChunkSize)
+                            Next
+                            If FileFolder.Count = 0 Then FileFolder.Add(FolderIDTextBox.Text)
+                        End If
+                        FileMetadata.Parents = FileFolder
+                        Dim UploadStream As New FileStream(GetFile, FileMode.Open, FileAccess.Read)
+                        Dim FileInRAM As New MemoryTributary.MemoryTributary()
+                        Dim UploadFile As FilesResource.CreateMediaUpload = Nothing
+                        Dim UsingRAM As Boolean = False
+                        If CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked Then
+                            If My.Computer.Info.AvailablePhysicalMemory > My.Computer.FileSystem.GetFileInfo(GetFile).Length Then
+                                Dim RAMMultiplier = 1024 * 1024
+                                If My.Computer.FileSystem.FileExists("rammultiplier.txt") Then
+                                    If String.IsNullOrEmpty(My.Computer.FileSystem.ReadAllText("rammultiplier.txt")) = False Then
+                                        RAMMultiplier = CInt(My.Computer.FileSystem.ReadAllText("rammultiplier.txt"))
+                                        If RAMMultiplier = 0 Then RAMMultiplier = 4
+                                    Else
+                                        RAMMultiplier = 4
+                                    End If
                                 End If
-                                UpdateBytesSent(UploadStream.Position, Translations.MsgAndDialogLang("uploadstatus_copytoram"), starttime)
+                                Dim readChunkSize = 1024 * RAMMultiplier
+                                starttime = Date.Now()
+                                UploadStream.Seek(0, SeekOrigin.Begin)
+                                FileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
+                                ProgressBar1.Maximum = CInt(My.Computer.FileSystem.GetFileInfo(GetFile).Length / 1024 / 1024)
                                 Me.Update()
-                            End While
-                            UsingRAM = True
-                            UploadStream.Dispose()
-                            UploadStream.Close()
-                            UploadFile = drive.service.Files.Create(FileMetadata, FileInRAM, "")
+                                While UploadStream.Position < UploadStream.Length
+                                    Dim RemainingBytes As Long = UploadStream.Length - UploadStream.Position
+                                    If RemainingBytes <= 1024 * RAMMultiplier Then
+                                        Dim ChunkSize As Integer = Convert.ToInt32(RemainingBytes)
+                                        Dim buffer(ChunkSize) As Byte
+                                        UploadStream.Read(buffer, 0, ChunkSize)
+                                        FileInRAM.Write(buffer, 0, ChunkSize)
+                                    Else
+                                        Dim buffer(readChunkSize) As Byte
+                                        UploadStream.Read(buffer, 0, readChunkSize)
+                                        FileInRAM.Write(buffer, 0, readChunkSize)
+                                    End If
+                                    UpdateBytesSent(UploadStream.Position, Translations.MsgAndDialogLang("uploadstatus_copytoram"), starttime)
+                                    Me.Update()
+                                End While
+                                UsingRAM = True
+                                UploadStream.Dispose()
+                                UploadStream.Close()
+                                UploadFile = drive.service.Files.Create(FileMetadata, FileInRAM, "")
+                            Else
+                                UploadFile = drive.service.Files.Create(FileMetadata, UploadStream, "")
+                            End If
                         Else
                             UploadFile = drive.service.Files.Create(FileMetadata, UploadStream, "")
                         End If
-                    Else
-                        UploadFile = drive.service.Files.Create(FileMetadata, UploadStream, "")
-                    End If
-                    Dim ChunkMultiplier As Integer = 4
-                    If My.Computer.FileSystem.FileExists("chunkmultiplier.txt") Then
-                        If String.IsNullOrEmpty(My.Computer.FileSystem.ReadAllText("chunkmultiplier.txt")) = False Then
-                            ChunkMultiplier = CInt(My.Computer.FileSystem.ReadAllText("chunkmultiplier.txt"))
-                            If ChunkMultiplier = 0 Then ChunkMultiplier = 4
-                        Else
-                            ChunkMultiplier = 4
-                        End If
-                    End If
-                    UploadFile.ChunkSize = ResumableUpload.MinimumChunkSize * ChunkMultiplier
-                    AddHandler UploadFile.ProgressChanged, New Action(Of IUploadProgress)(AddressOf Upload_ProgressChanged)
-                    AddHandler UploadFile.ResponseReceived, New Action(Of Data.File)(AddressOf Upload_ResponseReceived)
-                    AddHandler UploadFile.UploadSessionData, AddressOf Upload_UploadSessionData
-                    UploadCancellationToken = New CancellationTokenSource
-                    Dim uploadUri As Uri = Nothing
-                    starttime = Date.Now
-                    If ResumeFromError = False Then
-                        uploadUri = GetSessionRestartUri(True)
-                    Else
-                        uploadUri = GetSessionRestartUri(False)
-                    End If
-                    If uploadUri = Nothing Then
-                        Await UploadFile.UploadAsync(UploadCancellationToken.Token)
-                    Else
-                        Await UploadFile.ResumeAsync(uploadUri, UploadCancellationToken.Token)
-                    End If
-                    If UsingRAM Then
-                        FileInRAM.Dispose()
-                        FileInRAM.Close()
-                        FileInRAM = New MemoryTributary.MemoryTributary()
-                    Else
-                        UploadStream.Dispose()
-                        UploadStream.Close()
-                    End If
-                ElseIf Directory.Exists(GetFile) Then
-                    Dim ParentFolder As New List(Of String)
-                    If FolderCreated = True Then
-                        Dim DirectoryName As String = ""
-                        DirectoryName = Path.GetDirectoryName(GetFile)
-                        For Each directory In DirectoryList
-                            If DirectoryName = directory Then
-                                ParentFolder.Add(DirectoryListID.Item(DirectoryList.IndexOf(directory)))
-                                Exit For
+                        Dim ChunkMultiplier As Integer = 4
+                        If My.Computer.FileSystem.FileExists("chunkmultiplier.txt") Then
+                            If String.IsNullOrEmpty(My.Computer.FileSystem.ReadAllText("chunkmultiplier.txt")) = False Then
+                                ChunkMultiplier = CInt(My.Computer.FileSystem.ReadAllText("chunkmultiplier.txt"))
+                                If ChunkMultiplier = 0 Then ChunkMultiplier = 4
+                            Else
+                                ChunkMultiplier = 4
                             End If
-                        Next
-                        If ParentFolder.Count = 0 Then ParentFolder.Add(FolderIDTextBox.Text)
-                    Else
-                        ParentFolder.Add(FolderIDTextBox.Text)
+                        End If
+                        UploadFile.ChunkSize = ResumableUpload.MinimumChunkSize * ChunkMultiplier
+                        AddHandler UploadFile.ProgressChanged, New Action(Of IUploadProgress)(AddressOf Upload_ProgressChanged)
+                        AddHandler UploadFile.ResponseReceived, New Action(Of Data.File)(AddressOf Upload_ResponseReceived)
+                        AddHandler UploadFile.UploadSessionData, AddressOf Upload_UploadSessionData
+
+                        Dim uploadUri As Uri = Nothing
+                        starttime = Date.Now
+                        If ResumeFromError = False Then
+                            uploadUri = GetSessionRestartUri(True)
+                        Else
+                            uploadUri = GetSessionRestartUri(False)
+                        End If
+                        If uploadUri = Nothing Then
+                            Await UploadFile.UploadAsync(UploadCancellationToken.Token)
+                        Else
+                            Await UploadFile.ResumeAsync(uploadUri, UploadCancellationToken.Token)
+                        End If
+                        If UsingRAM Then
+                            FileInRAM.Dispose()
+                            FileInRAM.Close()
+                            FileInRAM = New MemoryTributary.MemoryTributary()
+                        Else
+                            UploadStream.Dispose()
+                            UploadStream.Close()
+                        End If
+                    ElseIf Directory.Exists(GetFile) Then
+                        Dim ParentFolder As New List(Of String)
+                        If FolderCreated = True Then
+                            Dim DirectoryName As String = ""
+                            DirectoryName = Path.GetDirectoryName(GetFile)
+                            For Each directory In DirectoryList
+                                If DirectoryName = directory Then
+                                    ParentFolder.Add(DirectoryListID.Item(DirectoryList.IndexOf(directory)))
+                                    Exit For
+                                End If
+                            Next
+                            If ParentFolder.Count = 0 Then ParentFolder.Add(FolderIDTextBox.Text)
+                        Else
+                            ParentFolder.Add(FolderIDTextBox.Text)
+                        End If
+                        Dim CreateFolder As FilesResource.CreateRequest = drive.service.Files.Create(New Data.File With {
+                            .Name = My.Computer.FileSystem.GetName(GetFile),
+                            .Parents = ParentFolder,
+                            .MimeType = "application/vnd.google-apps.folder"
+                        })
+                        CreateFolder.Fields = "id"
+                        Dim FolderID As Data.File = CreateFolder.Execute
+                        DirectoryList.Add(GetFile)
+                        DirectoryListID.Add(FolderID.Id)
+                        My.Settings.FoldersCreated.Add(GetFile)
+                        My.Settings.FoldersCreatedID.Add(FolderID.Id)
+                        FolderCreated = True
+                        My.Settings.FolderCreated = True
+                        My.Settings.Save()
                     End If
-                    Dim CreateFolder As FilesResource.CreateRequest = drive.service.Files.Create(New Data.File With {
-                        .Name = My.Computer.FileSystem.GetName(GetFile),
-                        .Parents = ParentFolder,
-                        .MimeType = "application/vnd.google-apps.folder"
-                    })
-                    CreateFolder.Fields = "id"
-                    Dim FolderID As Data.File = CreateFolder.Execute
-                    DirectoryList.Add(GetFile)
-                    DirectoryListID.Add(FolderID.Id)
-                    My.Settings.FoldersCreated.Add(GetFile)
-                    My.Settings.FoldersCreatedID.Add(FolderID.Id)
-                    FolderCreated = True
-                    My.Settings.FolderCreated = True
-                    My.Settings.Save()
                 End If
             Catch ex As Exception
                 If UploadCancellationToken.IsCancellationRequested Then
@@ -296,17 +316,23 @@ Public Class Form1
                 UploadFailed = True
             End Try
             If UploadFailed = False Then
-                UploadsListBox.Items.RemoveAt(0)
-                FolderToUploadFileList.RemoveAt(0)
-                My.Settings.UploadQueue.RemoveAt(0)
-                My.Settings.UploadQueueFolders.RemoveAt(0)
-                My.Settings.Save()
+                If UploadsListBox.Items.Count > 0 Then
+                    If GetFile = UploadsListBox.Items(0).ToString Then
+                        UploadsListBox.Items.RemoveAt(0)
+                        FolderToUploadOrDownloadIdFileList.RemoveAt(0)
+                        ItemInQueueAction.RemoveAt(0)
+                        My.Settings.UploadQueue.RemoveAt(0)
+                        My.Settings.UploadQueueFolders.RemoveAt(0)
+                        My.Settings.QueueFileAction.RemoveAt(0)
+                        My.Settings.Save()
+                    End If
+                End If
                 ResumeFromError = False
                 If UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem.Checked Then EnterFolder(drive.currentFolder, True)
                 UpdateQuota()
             End If
         End While
-        MsgBox(Translations.MsgAndDialogLang("upload_finish"))
+        Uploading = False
         UploadButton.Text = Translations.MsgAndDialogLang("uploadbtn_start")
         FolderCreated = False
         My.Settings.FolderCreated = False
@@ -317,13 +343,14 @@ Public Class Form1
         My.Settings.FoldersCreated.Clear()
         My.Settings.FoldersCreatedID.Clear()
         My.Settings.Save()
-        UploadButton.Enabled = True
+        MsgBox(Translations.MsgAndDialogLang("upload_finish"))
     End Sub
     Private ErrorMessage As String = ""
 
     Private Sub Upload_ProgressChanged(uploadStatusInfo As IUploadProgress)
         If UploadCancellationToken.IsCancellationRequested Then
             UpdateBytesSent(uploadStatusInfo.BytesSent, Translations.MsgAndDialogLang("uploadstatus_stopped"), starttime)
+            UploadFailed = True
         Else
             Select Case uploadStatusInfo.Status
                 Case UploadStatus.Completed
@@ -389,10 +416,10 @@ Public Class Form1
             StatusLabel.Text = StatusText
         End If
         If ProcessedFileSizeFromCurrentUploadLabel.InvokeRequired Then
-                ProcessedFileSizeFromCurrentUploadLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
-            Else
-                ProcessedFileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", BytesSent / 1024 / 1024)
-            End If
+            ProcessedFileSizeFromCurrentUploadLabel.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
+        Else
+            ProcessedFileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", BytesSent / 1024 / 1024)
+        End If
         If BytesSent > 0 Then
             If ProgressBar1.InvokeRequired Then
                 ProgressBar1.Invoke(New UpdateBytesSentInvoker(AddressOf UpdateBytesSent), BytesSent, StatusText, startTime)
@@ -439,30 +466,47 @@ Public Class Form1
         SaveFileDialog1.FileName = FilesListBox.SelectedItem.ToString
         Dim SFDResult As DialogResult = SaveFileDialog1.ShowDialog()
         If SFDResult = DialogResult.OK Then
-            Await DownloadFile(SaveFileDialog1.FileName, drive.FileListID.Item(FilesListBox.SelectedIndex), drive.FileSizeList(FilesListBox.SelectedIndex), drive.FileModifiedTimeList(FilesListBox.SelectedIndex))
+            Await DownloadFile(SaveFileDialog1.FileName, drive.FileListID.Item(FilesListBox.SelectedIndex), drive.FileSizeList(FilesListBox.SelectedIndex), drive.FileModifiedTimeList(FilesListBox.SelectedIndex), New CancellationTokenSource)
         End If
     End Sub
-    Private Async Function DownloadFile(Location As String, FileName As String, FileSize As Long?, ModifiedTime As Date?) As Task
-        starttime = Date.Now
-        FileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", FileSize / 1024 / 1024)
-        ProgressBar1.Maximum = CInt(FileSize / 1024 / 1024)
-        MaxFileSize = Convert.ToDouble(FileSize)
+    Private Async Function DownloadFile(Location As String, FileName As String, FileSize As Long?, ModifiedTime As Date?, token As CancellationTokenSource) As Task
         Dim FileToSave As FileStream = New FileStream(Location, FileMode.Create, FileAccess.Write)
-        Dim DownloadRequest As FilesResource.GetRequest = drive.service.Files.Get(FileName)
-        AddHandler DownloadRequest.MediaDownloader.ProgressChanged, New Action(Of IDownloadProgress)(AddressOf Download_ProgressChanged)
-        Await DownloadRequest.DownloadAsync(FileToSave)
-        FileToSave.Close()
-        File.SetLastWriteTime(Location, ModifiedTime.Value)
+        Try
+            starttime = Date.Now
+            If FileSize Is Nothing Then
+                Dim FileMetadata As Data.File = drive.GetFileMetadata(FileName)
+                FileSize = FileMetadata.Size
+                ModifiedTime = FileMetadata.ModifiedTime
+            End If
+            FileSizeFromCurrentUploadLabel.Text = String.Format("{0:N2} MB", FileSize / 1024 / 1024)
+            ProgressBar1.Maximum = CInt(FileSize / 1024 / 1024)
+            MaxFileSize = Convert.ToDouble(FileSize)
+            Dim DownloadRequest As FilesResource.GetRequest = drive.service.Files.Get(FileName)
+            AddHandler DownloadRequest.MediaDownloader.ProgressChanged, New Action(Of IDownloadProgress)(AddressOf Download_ProgressChanged)
+            Await DownloadRequest.DownloadAsync(FileToSave, token.Token)
+            FileToSave.Close()
+            File.SetLastWriteTime(Location, ModifiedTime.Value)
+        Catch ex As Exception
+            FileToSave.Close()
+        End Try
     End Function
     Private Sub Download_ProgressChanged(progress As IDownloadProgress)
-        Select Case progress.Status
-            Case DownloadStatus.Completed
-                UpdateBytesSent(Convert.ToInt64(MaxFileSize), Translations.MsgAndDialogLang("uploadstatus_complete"), starttime)
-            Case DownloadStatus.Downloading
-                UpdateBytesSent(progress.BytesDownloaded, Translations.MsgAndDialogLang("uploadstatus_downloading"), starttime)
-            Case DownloadStatus.Failed
-                UpdateBytesSent(progress.BytesDownloaded, Translations.MsgAndDialogLang("uploadstatus_failed"), starttime)
-        End Select
+        If UploadCancellationToken.IsCancellationRequested Then
+            UpdateBytesSent(0, Translations.MsgAndDialogLang("uploadstatus_stopped"), starttime)
+            DownloadStopped = True
+        Else
+            Select Case progress.Status
+                Case DownloadStatus.Completed
+                    UpdateBytesSent(Convert.ToInt64(MaxFileSize), Translations.MsgAndDialogLang("uploadstatus_complete"), starttime)
+                    DownloadStopped = False
+                Case DownloadStatus.Downloading
+                    UpdateBytesSent(progress.BytesDownloaded, Translations.MsgAndDialogLang("uploadstatus_downloading"), starttime)
+                    DownloadStopped = False
+                Case DownloadStatus.Failed
+                    UpdateBytesSent(progress.BytesDownloaded, Translations.MsgAndDialogLang("uploadstatus_failed"), starttime)
+                    DownloadStopped = False
+            End Select
+        End If
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles RefreshListButton.Click
@@ -474,15 +518,19 @@ Public Class Form1
         For Each path In filepath
             If Directory.Exists(path) Then
                 UploadsListBox.Items.Add(path)
-                FolderToUploadFileList.Add(drive.currentFolder)
+                ItemInQueueAction.Add(0)
+                FolderToUploadOrDownloadIdFileList.Add(drive.currentFolder)
                 My.Settings.UploadQueue.Add(path)
                 My.Settings.UploadQueueFolders.Add(drive.currentFolder)
+                My.Settings.QueueFileAction.Add("0")
                 GetDirectoriesAndFiles(New DirectoryInfo(path))
             Else
                 UploadsListBox.Items.Add(path)
-                FolderToUploadFileList.Add(drive.currentFolder)
+                ItemInQueueAction.Add(0)
+                FolderToUploadOrDownloadIdFileList.Add(drive.currentFolder)
                 My.Settings.UploadQueue.Add(path)
                 My.Settings.UploadQueueFolders.Add(drive.currentFolder)
+                My.Settings.QueueFileAction.Add("0")
             End If
         Next
         My.Settings.Save()
@@ -494,15 +542,18 @@ Public Class Form1
         UploadsListBox.Items.AddRange((From FI As FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
         My.Settings.UploadQueue.AddRange((From FI As FileInfo In BaseFolder.GetFiles Select FI.FullName).ToArray)
         For Each FI As FileInfo In BaseFolder.GetFiles()
-            FolderToUploadFileList.Add(drive.currentFolder)
+            FolderToUploadOrDownloadIdFileList.Add(drive.currentFolder)
+            ItemInQueueAction.Add(0)
             My.Settings.UploadQueueFolders.Add(drive.currentFolder)
         Next
         For Each subF As DirectoryInfo In BaseFolder.GetDirectories()
             Application.DoEvents()
             UploadsListBox.Items.Add(subF.FullName)
-            FolderToUploadFileList.Add(drive.currentFolder)
+            FolderToUploadOrDownloadIdFileList.Add(drive.currentFolder)
+            ItemInQueueAction.Add(0)
             My.Settings.UploadQueue.Add(subF.FullName)
             My.Settings.UploadQueueFolders.Add(drive.currentFolder)
+            My.Settings.QueueFileAction.Add("0")
             GetDirectoriesAndFiles(subF)
         Next
     End Sub
@@ -542,18 +593,22 @@ Public Class Form1
         Do While (UploadsListBox.SelectedItems.Count > 0)
             Dim CurrentIndex = UploadsListBox.SelectedIndex
             UploadsListBox.Items.RemoveAt(CurrentIndex)
+            FolderToUploadOrDownloadIdFileList.RemoveAt(CurrentIndex)
+            ItemInQueueAction.RemoveAt(CurrentIndex)
             My.Settings.UploadQueue.RemoveAt(CurrentIndex)
-            FolderToUploadFileList.RemoveAt(CurrentIndex)
             My.Settings.UploadQueueFolders.RemoveAt(CurrentIndex)
+            My.Settings.QueueFileAction.RemoveAt(CurrentIndex)
             My.Settings.Save()
         Loop
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles ClearUploadQueueButton.Click
         UploadsListBox.Items.Clear()
+        FolderToUploadOrDownloadIdFileList.Clear()
+        ItemInQueueAction.Clear()
         My.Settings.UploadQueue.Clear()
-        FolderToUploadFileList.Clear()
         My.Settings.UploadQueueFolders.Clear()
+        My.Settings.QueueFileAction.Clear()
         My.Settings.Save()
     End Sub
 
@@ -808,6 +863,9 @@ Public Class Form1
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.M Then
             MoveFileOrFolder(True)
             e.SuppressKeyPress = True
+        ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.Q Then
+            CheckForFolderAddToQueue()
+            e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.U Then
             Initiate_FolderCheckFilesToGetRAWUrl()
             e.SuppressKeyPress = True
@@ -846,7 +904,7 @@ Public Class Form1
         For Each item As String In FileList
             FilesListBox.ClearSelected()
             FilesListBox.SelectedItem = item
-            Await DownloadFile(Folder & "\" & item, drive.FileListID.Item(FilesListBox.Items.IndexOf(item)), drive.FileSizeList.Item(FilesListBox.Items.IndexOf(item)), drive.FileModifiedTimeList.Item(FilesListBox.Items.IndexOf(item)))
+            Await DownloadFile(Folder & "\" & item, drive.FileListID.Item(FilesListBox.Items.IndexOf(item)), drive.FileSizeList.Item(FilesListBox.Items.IndexOf(item)), drive.FileModifiedTimeList.Item(FilesListBox.Items.IndexOf(item)), New CancellationTokenSource)
         Next
     End Function
     Private Sub SaveChecksumsFile(Filename As String, Optional IsFolder As Boolean = False)
@@ -904,7 +962,62 @@ Public Class Form1
         End If
         Return ChecksumString
     End Function
+    Private Sub AddFolderToDownloadQueue(Path As List(Of String))
+        'This creates the full path of the file by getting the ID Name.
+        Dim FullPath As String = ""
+        Dim count As Integer = 0
+        If Path.Count > 0 Then
+            For Each item In Path
+                Try
+                    Dim FolderName As String = drive.GetFolderName(item).Trim
+                    FullPath = FullPath + FolderName + "\"
+                Catch ex As Exception
 
+                End Try
+                count = count + 1
+            Next
+            count = 0
+        End If
+        'Once Full Path has been created, we check for files inside the folder. If there's files, we will add them to the queue
+        For Each item As String In FilesListBox.Items
+            Dim FileName As String = My.Settings.DownloadLocation + "\" + FullPath & item
+            Dim FileId As String = drive.FileListID.Item(FilesListBox.Items.IndexOf(item))
+            UploadsListBox.Items.Add(FileName)
+            FolderToUploadOrDownloadIdFileList.Add(FileId)
+            ItemInQueueAction.Add(1)
+            My.Settings.UploadQueue.Add(FileName)
+            My.Settings.UploadQueueFolders.Add(FileId)
+            My.Settings.QueueFileAction.Add("1")
+        Next
+        'Finally, this loop checks if there are folders inside the folder we are. We start a recursion loop by calling this same function for each folder inside the folder.
+        If FolderListBox.Items.Count > 0 Then
+            Dim FolderList As New List(Of String)
+            For Each FolderInList As String In FolderListBox.Items
+                FolderList.Add(drive.FolderListID.Item(FolderListBox.Items.IndexOf(FolderInList)))
+            Next
+            For Each Folder2 As String In FolderList
+                Path.Add(drive.FolderListID.Item(drive.FolderListID.IndexOf(Folder2)))
+                FolderListBox.ClearSelected()
+                FolderListBox.SelectedItem = FolderListBox.Items.Item(drive.FolderListID.IndexOf(Folder2))
+                EnterFolder(drive.FolderListID.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
+                AddFolderToDownloadQueue(Path)
+                Path.Remove(Folder2)
+                GoBack()
+            Next
+        End If
+    End Sub
+    Private Sub AddFilesToDownloadQueue()
+        For Each item As String In FilesListBox.SelectedItems
+            Dim FileName As String = My.Settings.DownloadLocation + "\" + drive.currentFolderName.Trim + "\" & item
+            Dim FileId As String = drive.FileListID.Item(FilesListBox.Items.IndexOf(item))
+            UploadsListBox.Items.Add(FileName)
+            FolderToUploadOrDownloadIdFileList.Add(FileId)
+            ItemInQueueAction.Add(1)
+            My.Settings.UploadQueue.Add(FileName)
+            My.Settings.UploadQueueFolders.Add(FileId)
+            My.Settings.QueueFileAction.Add("1")
+        Next
+    End Sub
     Private Async Function DownloadFolder(Path As List(Of String), Location As String) As Task
         'This creates the full path of the file by getting the ID Name.
         Dim FullPath As String = ""
@@ -913,7 +1026,7 @@ Public Class Form1
         If Path.Count > 0 Then
             For Each item In Path
                 Try
-                    Dim FolderName As String = drive.GetFolderName(item)
+                    Dim FolderName As String = drive.GetFolderName(item).Trim
                     If Path.Count = count + 1 Then
                         FolderToCreatePath = FolderToCreatePath + FolderName
                         My.Computer.FileSystem.CreateDirectory(Location + "\" + FolderToCreatePath)
@@ -936,7 +1049,7 @@ Public Class Form1
         For Each item In FolderFiles
             FilesListBox.ClearSelected()
             FilesListBox.SelectedItem = item
-            Await DownloadFile(Location & "\" & FullPath & item, drive.FileListID.Item(FilesListBox.Items.IndexOf(item)), drive.FileSizeList.Item(FilesListBox.Items.IndexOf(item)), drive.FileModifiedTimeList.Item(FilesListBox.Items.IndexOf(item)))
+            Await DownloadFile(Location & "\" & FullPath & item, drive.FileListID.Item(FilesListBox.Items.IndexOf(item)), drive.FileSizeList.Item(FilesListBox.Items.IndexOf(item)), drive.FileModifiedTimeList.Item(FilesListBox.Items.IndexOf(item)), New CancellationTokenSource)
         Next
         'Finally, this loop checks if there are folders inside the folder we are. We start a recursion loop by calling this same function for each folder inside the folder.
         If FolderListBox.Items.Count > 0 Then
@@ -1042,6 +1155,9 @@ Public Class Form1
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.M Then
             MoveFileOrFolder()
             e.SuppressKeyPress = True
+        ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.Q Then
+            AddFilesToDownloadQueue()
+            e.SuppressKeyPress = True
         ElseIf e.Modifiers = Keys.Control And e.KeyCode = Keys.U Then
             Initiate_CheckFilesToGetRAWUrl("", FilesListBox.SelectedIndices)
             e.SuppressKeyPress = True
@@ -1070,6 +1186,7 @@ Public Class Form1
             Debug.WriteLine(credfile)
             File.Delete(credfile)
         Next
+        GoToRoot(True)
         MsgBox(Translations.MsgAndDialogLang("logged_out"))
         Application.Exit()
     End Sub
@@ -1098,10 +1215,12 @@ Public Class Form1
 
     Private Sub ListBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles UploadsListBox.SelectedIndexChanged
         If UploadsListBox.SelectedIndex <> -1 Then
-            FolderIDTextBox.Text = FolderToUploadFileList.Item(UploadsListBox.SelectedIndex)
-            drive.GetFolderName(FolderIDTextBox.Text)
-            UploadToSelectedFolderButton.Visible = True
-            DeselectItemFromUploadQueueButton.Enabled = True
+            If ItemInQueueAction.Item(UploadsListBox.SelectedIndex) = 0 Then
+                FolderIDTextBox.Text = FolderToUploadOrDownloadIdFileList.Item(UploadsListBox.SelectedIndex)
+                drive.GetFolderName(FolderIDTextBox.Text)
+                UploadToSelectedFolderButton.Visible = True
+                DeselectItemFromUploadQueueButton.Enabled = True
+            End If
         Else
             UploadToSelectedFolderButton.Visible = False
             DeselectItemFromUploadQueueButton.Enabled = False
@@ -1110,7 +1229,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles UploadToSelectedFolderButton.Click
-        FolderToUploadFileList.Item(UploadsListBox.SelectedIndex) = drive.currentFolder
+        FolderToUploadOrDownloadIdFileList.Item(UploadsListBox.SelectedIndex) = drive.currentFolder
         FolderIDTextBox.Text = drive.currentFolder
         drive.GetFolderName(FolderIDTextBox.Text)
     End Sub
@@ -1131,14 +1250,16 @@ Public Class Form1
         GoToRoot()
     End Sub
 
-    Private Sub GoToRoot()
+    Private Sub GoToRoot(Optional logout As Boolean = False)
         My.Settings.PreviousFolderIDs.Clear()
         My.Settings.LastFolder = "root"
         My.Settings.Save()
         drive.currentFolder = "root"
         drive.previousFolder.Clear()
         CurrentFolderLabel.Text = drive.currentFolderName
-        EnterFolder(drive.currentFolder)
+        If Not logout Then
+            EnterFolder(drive.currentFolder)
+        End If
     End Sub
     Private Sub PreserveFileModifiedDateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PreserveFileModifiedDateToolStripMenuItem.Click
         My.Settings.PreserveModifiedDate = PreserveFileModifiedDateToolStripMenuItem.Checked
@@ -1212,27 +1333,31 @@ Public Class Form1
     Private Sub FileToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles FileToolStripMenuItem1.Click
         OpenFileDialog1.Title = "Select files to upload"
         OpenFileDialog1.Filter = "All Files (*)|*.*"
-        Dim DialogResultVar As DialogResult = OpenFileDialog1.ShowDialog
-        If DialogResultVar = DialogResult.OK Then
+        If OpenFileDialog1.ShowDialog = DialogResult.OK Then
             If OpenFileDialog1.FileNames IsNot Nothing Then
                 UploadsListBox.Items.AddRange(OpenFileDialog1.FileNames)
-                FolderToUploadFileList.Add(drive.currentFolder)
+                FolderToUploadOrDownloadIdFileList.Add(drive.currentFolder)
+                ItemInQueueAction.Add(0)
                 My.Settings.UploadQueue.AddRange(OpenFileDialog1.FileNames)
                 My.Settings.UploadQueueFolders.Add(drive.currentFolder)
+                My.Settings.QueueFileAction.Add("0")
             End If
         End If
+        My.Settings.Save()
     End Sub
 
     Private Sub FolderToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FolderToolStripMenuItem.Click
         FolderBrowserDialog1.ShowNewFolderButton = False
-        Dim FolderBrowserDialogResponse As DialogResult = FolderBrowserDialog1.ShowDialog
-        If FolderBrowserDialogResponse = DialogResult.OK Then
+        If FolderBrowserDialog1.ShowDialog = DialogResult.OK Then
             UploadsListBox.Items.Add(FolderBrowserDialog1.SelectedPath)
-            FolderToUploadFileList.Add(drive.currentFolder)
+            FolderToUploadOrDownloadIdFileList.Add(drive.currentFolder)
+            ItemInQueueAction.Add(0)
             My.Settings.UploadQueue.Add(FolderBrowserDialog1.SelectedPath)
             My.Settings.UploadQueueFolders.Add(drive.currentFolder)
+            My.Settings.QueueFileAction.Add("0")
             GetDirectoriesAndFiles(New DirectoryInfo(FolderBrowserDialog1.SelectedPath))
         End If
+        My.Settings.Save()
     End Sub
 
     Private Sub SelectedFileToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SelectedFileToolStripMenuItem.Click
@@ -1257,7 +1382,13 @@ Public Class Form1
             DownloadFilesAndFolders(True)
         End If
     End Sub
-
+    Private Sub CheckForFolderAddToQueue()
+        If FolderListBox.SelectedItem IsNot Nothing Then
+            EnterFolder(drive.FolderListID.Item(FolderListBox.Items.IndexOf(FolderListBox.SelectedItem)))
+            AddFolderToDownloadQueue(New List(Of String) From {drive.currentFolder})
+            GoBack()
+        End If
+    End Sub
     Private Sub CopyFileToRAMBeforeUploadingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CopyFileToRAMBeforeUploadingToolStripMenuItem.Click
         My.Settings.CopyToRAM = CopyFileToRAMBeforeUploadingToolStripMenuItem.Checked
         My.Settings.Save()
@@ -1343,10 +1474,8 @@ Public Class Form1
 
     Private Sub FolderListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles FolderListBox.SelectedIndexChanged
         If FolderListBox.SelectedItem IsNot Nothing Then
-            If UploadButton.Enabled = True And UploadsListBox.SelectedItem Is Nothing Then
-                FolderIDTextBox.Text = drive.FolderListID.Item(FolderListBox.SelectedIndex)
-                FolderNameTextbox.Text = drive.GetFolderName(FolderIDTextBox.Text)
-            End If
+            FolderIDTextBox.Text = drive.FolderListID.Item(FolderListBox.SelectedIndex)
+            FolderNameTextbox.Text = drive.GetFolderName(FolderIDTextBox.Text)
         End If
     End Sub
 
@@ -1614,5 +1743,17 @@ Public Class Form1
 
     Private Sub CurrentFolderLabel_Click(sender As Object, e As EventArgs) Handles CurrentFolderLabel.Click
         Clipboard.SetText(drive.currentFolderName)
+    End Sub
+
+    Private Sub SetDownloadLocationToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SetDownloadLocationToolStripMenuItem.Click
+        SetDownloadLocationDialog.ShowDialog()
+    End Sub
+
+    Private Sub AddToQueueToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddToQueueToolStripMenuItem.Click
+        AddFilesToDownloadQueue()
+    End Sub
+
+    Private Sub AddToQueueToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles AddToQueueToolStripMenuItem1.Click
+        CheckForFolderAddToQueue()
     End Sub
 End Class

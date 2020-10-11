@@ -30,6 +30,7 @@ Partial Class Form1
         Me.UploadsListBox = New System.Windows.Forms.ListBox()
         Me.FolderListBox = New System.Windows.Forms.ListBox()
         Me.FoldersContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.AddToQueueToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenInBrowserToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.DownloadToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MoveToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
@@ -102,6 +103,7 @@ Partial Class Form1
         Me.UploadChunkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RAMChunkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CopyFileToRAMBeforeUploadingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SetDownloadLocationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReadmeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DonationsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -144,6 +146,7 @@ Partial Class Form1
         Me.SaveSelectedFilesChecksumButton = New System.Windows.Forms.Button()
         Me.FilesListBox = New System.Windows.Forms.ListBox()
         Me.FilesContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.AddToQueueToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenInBrowserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DownloadToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -220,9 +223,15 @@ Partial Class Form1
         '
         'FoldersContextMenu
         '
-        Me.FoldersContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenInBrowserToolStripMenuItem1, Me.DownloadToolStripMenuItem2, Me.MoveToolStripMenuItem1, Me.RenameToolStripMenuItem2, Me.SaveChecksumsToolStripMenuItem1, Me.GetRawDownloadURLsToolStripMenuItem})
+        Me.FoldersContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToQueueToolStripMenuItem1, Me.OpenInBrowserToolStripMenuItem1, Me.DownloadToolStripMenuItem2, Me.MoveToolStripMenuItem1, Me.RenameToolStripMenuItem2, Me.SaveChecksumsToolStripMenuItem1, Me.GetRawDownloadURLsToolStripMenuItem})
         Me.FoldersContextMenu.Name = "FoldersContextMenu"
-        Me.FoldersContextMenu.Size = New System.Drawing.Size(204, 136)
+        Me.FoldersContextMenu.Size = New System.Drawing.Size(204, 158)
+        '
+        'AddToQueueToolStripMenuItem1
+        '
+        Me.AddToQueueToolStripMenuItem1.Name = "AddToQueueToolStripMenuItem1"
+        Me.AddToQueueToolStripMenuItem1.Size = New System.Drawing.Size(203, 22)
+        Me.AddToQueueToolStripMenuItem1.Text = "Add to Queue"
         '
         'OpenInBrowserToolStripMenuItem1
         '
@@ -652,7 +661,7 @@ Partial Class Form1
         '
         'OptionsToolStripMenuItem
         '
-        Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PreserveFileModifiedDateToolStripMenuItem, Me.ChecksumsOptionsToolStripMenuItem, Me.OrderByToolStripMenuItem, Me.StartUploadsAutomaticallyToolStripMenuItem, Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem, Me.SpecifyChunkSizeToolStripMenuItem, Me.CopyFileToRAMBeforeUploadingToolStripMenuItem})
+        Me.OptionsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PreserveFileModifiedDateToolStripMenuItem, Me.ChecksumsOptionsToolStripMenuItem, Me.OrderByToolStripMenuItem, Me.StartUploadsAutomaticallyToolStripMenuItem, Me.UpdateFileAndFolderViewsAfterAnUploadFinishesToolStripMenuItem, Me.SpecifyChunkSizeToolStripMenuItem, Me.CopyFileToRAMBeforeUploadingToolStripMenuItem, Me.SetDownloadLocationToolStripMenuItem})
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
         Me.OptionsToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
         Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
@@ -751,6 +760,12 @@ Partial Class Form1
         Me.CopyFileToRAMBeforeUploadingToolStripMenuItem.Name = "CopyFileToRAMBeforeUploadingToolStripMenuItem"
         Me.CopyFileToRAMBeforeUploadingToolStripMenuItem.Size = New System.Drawing.Size(474, 22)
         Me.CopyFileToRAMBeforeUploadingToolStripMenuItem.Text = "Copy File to RAM before uploading if there's enough Free Memory available"
+        '
+        'SetDownloadLocationToolStripMenuItem
+        '
+        Me.SetDownloadLocationToolStripMenuItem.Name = "SetDownloadLocationToolStripMenuItem"
+        Me.SetDownloadLocationToolStripMenuItem.Size = New System.Drawing.Size(474, 22)
+        Me.SetDownloadLocationToolStripMenuItem.Text = "Set Download Location"
         '
         'HelpToolStripMenuItem
         '
@@ -851,7 +866,7 @@ Partial Class Form1
         Me.UploadButton.Name = "UploadButton"
         Me.UploadButton.Size = New System.Drawing.Size(227, 39)
         Me.UploadButton.TabIndex = 2
-        Me.UploadButton.Text = "Upload"
+        Me.UploadButton.Text = "Start"
         Me.UploadButton.UseVisualStyleBackColor = True
         '
         'FileSizeUploadLabel
@@ -989,9 +1004,9 @@ Partial Class Form1
         Me.UploadToThisFolderIDLabel.AutoSize = True
         Me.UploadToThisFolderIDLabel.Location = New System.Drawing.Point(11, 10)
         Me.UploadToThisFolderIDLabel.Name = "UploadToThisFolderIDLabel"
-        Me.UploadToThisFolderIDLabel.Size = New System.Drawing.Size(264, 13)
+        Me.UploadToThisFolderIDLabel.Size = New System.Drawing.Size(53, 13)
         Me.UploadToThisFolderIDLabel.TabIndex = 23
-        Me.UploadToThisFolderIDLabel.Text = "Upload to this folder ID (""root"" to upload to root folder):"
+        Me.UploadToThisFolderIDLabel.Text = "Folder ID:"
         '
         'GroupBox1
         '
@@ -1211,9 +1226,15 @@ Partial Class Form1
         '
         'FilesContextMenu
         '
-        Me.FilesContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenInBrowserToolStripMenuItem, Me.DownloadToolStripMenuItem1, Me.MoveToolStripMenuItem, Me.RenameToolStripMenuItem1, Me.SaveChecksumToolStripMenuItem, Me.VerifyChecksumToolStripMenuItem, Me.GetRawDownloadURLToolStripMenuItem})
+        Me.FilesContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToQueueToolStripMenuItem, Me.OpenInBrowserToolStripMenuItem, Me.DownloadToolStripMenuItem1, Me.MoveToolStripMenuItem, Me.RenameToolStripMenuItem1, Me.SaveChecksumToolStripMenuItem, Me.VerifyChecksumToolStripMenuItem, Me.GetRawDownloadURLToolStripMenuItem})
         Me.FilesContextMenu.Name = "FilesContextMenu"
-        Me.FilesContextMenu.Size = New System.Drawing.Size(199, 158)
+        Me.FilesContextMenu.Size = New System.Drawing.Size(199, 180)
+        '
+        'AddToQueueToolStripMenuItem
+        '
+        Me.AddToQueueToolStripMenuItem.Name = "AddToQueueToolStripMenuItem"
+        Me.AddToQueueToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.AddToQueueToolStripMenuItem.Text = "Add to Queue"
         '
         'OpenInBrowserToolStripMenuItem
         '
@@ -1507,4 +1528,7 @@ End Sub
     Friend WithEvents VerifyChecksumToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents GetRawDownloadURLsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents OpenFolderId As Button
+    Friend WithEvents SetDownloadLocationToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents AddToQueueToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents AddToQueueToolStripMenuItem As ToolStripMenuItem
 End Class

@@ -1,4 +1,6 @@
-﻿Public Class Translations
+﻿Imports System.Net.Mail
+
+Public Class Translations
     Public Shared Sub EnglishLanguage()
         Form1.FileSizeUploadLabel.Text = "File Size:"
         Form1.ProcessedFileSizeUploadLabel.Text = "Processed:"
@@ -7,7 +9,7 @@
         Form1.UploadStatusLabel.Text = "Status:"
         Form1.UploadPercentLabel.Text = "Percent: "
         Form1.FilesLabel.Text = "Files:"
-        Form1.UploadToThisFolderIDLabel.Text = "Upload to this folder ID (""root"" to upload to root folder):"
+        Form1.UploadToThisFolderIDLabel.Text = "Folder ID:"
         Form1.UploadTimeLeftLabel.Text = "Time Left: "
         Form1.FolderNameLabel.Text = "Folder Name:"
         Form1.FolderLabel.Text = "Folders:"
@@ -19,7 +21,7 @@
         Form1.MIMETypeLabel.Text = "MIME Type:"
         Form1.FileSizeLabel.Text = "File Size:"
         Form1.SaveChecksumFileButton.Text = "Save Checksum File"
-        Form1.UploadButton.Text = "Upload"
+        Form1.UploadButton.Text = "Start"
         Form1.ClearUploadQueueButton.Text = "Clear List"
         Form1.RefreshListButton.Text = "Refresh List"
         Form1.DownloadFileButton.Text = "Download File"
@@ -80,6 +82,8 @@
         Form1.OpenInBrowserToolStripMenuItem1.Text = "Open in Browser"
         Form1.OptionsToolStripMenuItem.Text = "Options"
         Form1.OrderByToolStripMenuItem.Text = "Order By"
+        Form1.AddToQueueToolStripMenuItem.Text = "Add to Queue"
+        Form1.AddToQueueToolStripMenuItem1.Text = "Add to Queue"
         Form1.OrderByComboBox.Items.Clear()
         Form1.OrderByComboBox.Items.AddRange({"Created Time", "Folder", "Modified By Me Time", "Modified Time", "Name", "Natural Name", "Quota Bytes Used", "Recency", "Shared With Me Time", "Starred", "Viewed By Me Time"})
         Form1.OrderByComboBox.SelectedIndex = My.Settings.SortByIndex
@@ -110,7 +114,7 @@
         Form1.UploadStatusLabel.Text = "狀態:"
         Form1.UploadPercentLabel.Text = "百份比: "
         Form1.FilesLabel.Text = "文件:"
-        Form1.UploadToThisFolderIDLabel.Text = "上傳到此文件夾ID (""root"" 指上傳到根目錄):"
+        Form1.UploadToThisFolderIDLabel.Text = "Folder ID:"
         Form1.UploadTimeLeftLabel.Text = "餘下時間: "
         Form1.FolderNameLabel.Text = "文件夾名稱:"
         Form1.FileNameLabel.Text = "文件名稱:"
@@ -121,7 +125,7 @@
         Form1.MIMETypeLabel.Text = "MIME Type:"
         Form1.FileSizeLabel.Text = "文件大小:"
         Form1.SaveChecksumFileButton.Text = "儲存校驗碼"
-        Form1.UploadButton.Text = "上傳"
+        Form1.UploadButton.Text = "Start"
         Form1.ClearUploadQueueButton.Text = "清除列表"
         Form1.RefreshListButton.Text = "更新列表"
         Form1.DownloadFileButton.Text = "下載文件"
@@ -182,6 +186,8 @@
         Form1.OpenInBrowserToolStripMenuItem1.Text = "Open in Browser"
         Form1.OptionsToolStripMenuItem.Text = "Options"
         Form1.OrderByToolStripMenuItem.Text = "Order By"
+        Form1.AddToQueueToolStripMenuItem.Text = "Add to Queue"
+        Form1.AddToQueueToolStripMenuItem1.Text = "Add to Queue"
         Form1.OrderByComboBox.Items.Clear()
         Form1.OrderByComboBox.Items.AddRange({"Created Time", "Folder", "Modified By Me Time", "Modified Time", "Name", "Natural Name", "Quota Bytes Used", "Recency", "Shared With Me Time", "Starred", "Viewed By Me Time"})
         Form1.OrderByComboBox.SelectedIndex = My.Settings.SortByIndex
@@ -212,7 +218,7 @@
         Form1.UploadStatusLabel.Text = "Estado:"
         Form1.UploadPercentLabel.Text = "Porcentaje: "
         Form1.FilesLabel.Text = "Archivos:"
-        Form1.UploadToThisFolderIDLabel.Text = "Subir a este ID de directorio (""root"" para subir a la raíz):"
+        Form1.UploadToThisFolderIDLabel.Text = "ID de la carpeta:"
         Form1.UploadTimeLeftLabel.Text = "Tiempo Est."
         Form1.FolderNameLabel.Text = "Nombre de la Carpeta:"
         Form1.FolderLabel.Text = "Carpetas:"
@@ -224,7 +230,7 @@
         Form1.MIMETypeLabel.Text = "Tipo MIME:"
         Form1.FileSizeLabel.Text = "Tamaño:"
         Form1.SaveChecksumFileButton.Text = "Guardar Archivo MD5"
-        Form1.UploadButton.Text = "Subir"
+        Form1.UploadButton.Text = "Comenzar"
         Form1.ClearUploadQueueButton.Text = "Borrar Lista"
         Form1.RefreshListButton.Text = "Refrescar Lista"
         Form1.DownloadFileButton.Text = "Descargar Archivo"
@@ -285,6 +291,8 @@
         Form1.OpenInBrowserToolStripMenuItem1.Text = "Abrir en Navegador"
         Form1.OptionsToolStripMenuItem.Text = "Opciones"
         Form1.OrderByToolStripMenuItem.Text = "Ordenar por"
+        Form1.AddToQueueToolStripMenuItem.Text = "Añadir a lista"
+        Form1.AddToQueueToolStripMenuItem1.Text = "Añadir a lista"
         Form1.OrderByComboBox.Items.Clear()
         Form1.OrderByComboBox.Items.AddRange({"Fecha de creación", "Carpeta", "Modificado por mí", "Fecha de Modificación", "Nombre", "Nombre Natural", "Espacio usado", "Recientes", "Compartidos conmigo", "Estrellado", "Fecha de Acceso/Visto"})
         Form1.OrderByComboBox.SelectedIndex = My.Settings.SortByIndex

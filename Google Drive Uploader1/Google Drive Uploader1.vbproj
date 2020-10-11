@@ -165,6 +165,12 @@
     <Compile Include="MoveDialog.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="SetDownloadLocationDialog.Designer.vb">
+      <DependentUpon>SetDownloadLocationDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SetDownloadLocationDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Translations.vb" />
     <Compile Include="UploadChunkSize.Designer.vb">
       <DependentUpon>UploadChunkSize.vb</DependentUpon>
@@ -207,6 +213,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MoveDialog.resx">
       <DependentUpon>MoveDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetDownloadLocationDialog.resx">
+      <DependentUpon>SetDownloadLocationDialog.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UploadChunkSize.resx">
       <DependentUpon>UploadChunkSize.vb</DependentUpon>

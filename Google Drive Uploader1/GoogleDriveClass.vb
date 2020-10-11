@@ -2,6 +2,7 @@
 Imports System.Threading
 Imports Google.Apis.Auth.OAuth2
 Imports Google.Apis.Drive.v3
+Imports Google.Apis.Drive.v3.Data
 Imports Google.Apis.Services
 Imports Google.Apis.Util.Store
 
@@ -26,9 +27,9 @@ Public Class GoogleDriveClass
     Public Sub New(ByVal AppName As String)
         SoftwareName = AppName
         Dim SectretsFile As String = String.Empty
-        If File.Exists("client_secret.json") Then
+        If IO.File.Exists("client_secret.json") Then
             SectretsFile = "client_secret.json"
-        ElseIf File.Exists("credentials.json") Then
+        ElseIf IO.File.Exists("credentials.json") Then
             SectretsFile = "credentials.json"
         End If
         If Not SectretsFile = String.Empty Then
@@ -72,7 +73,11 @@ Public Class GoogleDriveClass
         End If
         Return succeeded
     End Function
-
+    Public Function GetFileMetadata(ByVal fileId As String) As Data.File
+        Dim FileMetadata As FilesResource.GetRequest = service.Files.Get(fileId)
+        FileMetadata.Fields = "id, name, size, createdTime, modifiedTime, md5Checksum, mimeType"
+        Return FileMetadata.Execute()
+    End Function
     Public Function GetData(ByVal folderId As String, ByVal OrderBy As String, ByVal Optional goingBack As Boolean = False, ByVal Optional refreshing As Boolean = False) As Boolean
         FolderList.Clear()
         FolderListID.Clear()
@@ -129,7 +134,6 @@ Public Class GoogleDriveClass
             Try
                 Dim files = listRequest.Execute()
                 If files.Files IsNot Nothing AndAlso files.Files.Count > 0 Then
-
                     For Each file In files.Files
                         FolderList.Add(file.Name)
                         FolderListID.Add(file.Id)
