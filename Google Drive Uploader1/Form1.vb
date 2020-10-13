@@ -932,9 +932,7 @@ Public Class Form1
         If Path.Count > 0 Then
             For Each item In Path
                 Try
-                    Dim GetFolderName As FilesResource.GetRequest = drive.service.Files.Get(item)
-                    Dim FolderNameMetadata As Data.File = GetFolderName.Execute
-                    FullPath = FullPath + FolderNameMetadata.Name + GetSlashChar()
+                    FullPath = FullPath + drive.GetFolderName(item).Trim + GetSlashChar()
                 Catch ex As Exception
 
                 End Try
@@ -969,8 +967,7 @@ Public Class Form1
         If Path.Count > 0 Then
             For Each item In Path
                 Try
-                    Dim FolderName As String = drive.GetFolderName(item).Trim
-                    FullPath = FullPath + FolderName + "\"
+                    FullPath = FullPath + drive.GetFolderName(item).Trim + "\"
                 Catch ex As Exception
 
                 End Try

@@ -453,11 +453,11 @@ Public Class Translations
             Case "uploadbtn_start"
                 Select Case My.Settings.Language
                     Case "English"
-                        Return "Upload"
+                        Return "Start"
                     Case "Spanish"
-                        Return "Subir"
+                        Return "Comenzar"
                     Case "TChinese"
-                        Return "上傳"
+                        Return "Start"
                 End Select
             Case "resume_upload_question"
                 Select Case My.Settings.Language
