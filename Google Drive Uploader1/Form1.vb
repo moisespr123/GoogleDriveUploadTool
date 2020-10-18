@@ -1217,6 +1217,15 @@ Public Class Form1
                 drive.GetFolderName(FolderIDTextBox.Text)
                 UploadToSelectedFolderButton.Visible = True
                 DeselectItemFromUploadQueueButton.Enabled = True
+            Else
+                Dim FileMetadata As Data.File = drive.GetFileMetadata(FolderToUploadOrDownloadIdFileList.Item(UploadsListBox.SelectedIndex))
+                FileNameTextBox.Text = FileMetadata.Name
+                FileIDTextbox.Text = FileMetadata.Id
+                FileSizeTextbox.Text = String.Format("{0:N2} MB", FileMetadata.Size / 1024 / 1024)
+                MIMETypeTextbox.Text = FileMetadata.MimeType
+                DateCreatedTextbox.Text = FileMetadata.CreatedTime.ToString
+                DateModifiedTextbox.Text = FileMetadata.ModifiedTime.ToString
+                MD5ChecksumTextbox.Text = FileMetadata.Md5Checksum
             End If
         Else
             UploadToSelectedFolderButton.Visible = False
