@@ -470,6 +470,9 @@ Public Class Form1
         End If
     End Sub
     Private Async Function DownloadFile(Location As String, FileName As String, FileSize As Long?, ModifiedTime As Date?, token As CancellationTokenSource) As Task
+        If UploadCancellationToken Is Nothing Then
+            UploadCancellationToken = New CancellationTokenSource
+        End If
         Dim FileToSave As FileStream = New FileStream(Location, FileMode.Create, FileAccess.Write)
         Try
             starttime = Date.Now
@@ -1761,5 +1764,37 @@ Public Class Form1
 
     Private Sub AddToQueueToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles AddToQueueToolStripMenuItem1.Click
         CheckForFolderAddToQueue()
+    End Sub
+
+    Private Sub SendToTrashToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SendToTrashToolStripMenuItem.Click
+        If viewing_trash = False Then
+            If FilesListBox.SelectedItem IsNot Nothing Then
+                WorkWithTrash(FilesListBox.SelectedItems, True, True)
+            End If
+        End If
+    End Sub
+
+    Private Sub FilesContextMenu_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles FilesContextMenu.Opening
+        If viewing_trash Then
+            SendToTrashToolStripMenuItem.Enabled = False
+        Else
+            SendToTrashToolStripMenuItem.Enabled = True
+        End If
+    End Sub
+
+    Private Sub SendToTrashToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SendToTrashToolStripMenuItem1.Click
+        If viewing_trash = False Then
+            If FolderListBox.SelectedItem IsNot Nothing Then
+                WorkWithTrash(FolderListBox.SelectedItems, False, True)
+            End If
+        End If
+    End Sub
+
+    Private Sub FoldersContextMenu_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles FoldersContextMenu.Opening
+        If viewing_trash Then
+            SendToTrashToolStripMenuItem1.Enabled = False
+        Else
+            SendToTrashToolStripMenuItem1.Enabled = True
+        End If
     End Sub
 End Class

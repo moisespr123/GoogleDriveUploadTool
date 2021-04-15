@@ -1,4 +1,10 @@
-﻿v1.14 (10/4/2020)
+﻿v1.15 (4/15/2021)
+-Can now add items to download to the Queue. Right click and select "Add to Queue" or press CTRL + Q.
+-Fixed download bug introduced in v1.14.
+-"Send to Trash" added to the right-click menu.
+-Updated Google APIs.
+
+v1.14 (10/4/2020)
 -Added an Open button to go directly to a Folder ID.
 -Can now copy the folder name by clicking it.
 -Can now stop uploads.

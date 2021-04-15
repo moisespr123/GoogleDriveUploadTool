@@ -165,6 +165,8 @@ Partial Class Form1
         Me.FreeSpace = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpaceText = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpace = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.SendToTrashToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SendToTrashToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.FoldersContextMenu.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -223,9 +225,9 @@ Partial Class Form1
         '
         'FoldersContextMenu
         '
-        Me.FoldersContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToQueueToolStripMenuItem1, Me.OpenInBrowserToolStripMenuItem1, Me.DownloadToolStripMenuItem2, Me.MoveToolStripMenuItem1, Me.RenameToolStripMenuItem2, Me.SaveChecksumsToolStripMenuItem1, Me.GetRawDownloadURLsToolStripMenuItem})
+        Me.FoldersContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToQueueToolStripMenuItem1, Me.OpenInBrowserToolStripMenuItem1, Me.DownloadToolStripMenuItem2, Me.MoveToolStripMenuItem1, Me.RenameToolStripMenuItem2, Me.SendToTrashToolStripMenuItem1, Me.SaveChecksumsToolStripMenuItem1, Me.GetRawDownloadURLsToolStripMenuItem})
         Me.FoldersContextMenu.Name = "FoldersContextMenu"
-        Me.FoldersContextMenu.Size = New System.Drawing.Size(204, 158)
+        Me.FoldersContextMenu.Size = New System.Drawing.Size(204, 202)
         '
         'AddToQueueToolStripMenuItem1
         '
@@ -1226,9 +1228,9 @@ Partial Class Form1
         '
         'FilesContextMenu
         '
-        Me.FilesContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToQueueToolStripMenuItem, Me.OpenInBrowserToolStripMenuItem, Me.DownloadToolStripMenuItem1, Me.MoveToolStripMenuItem, Me.RenameToolStripMenuItem1, Me.SaveChecksumToolStripMenuItem, Me.VerifyChecksumToolStripMenuItem, Me.GetRawDownloadURLToolStripMenuItem})
+        Me.FilesContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToQueueToolStripMenuItem, Me.OpenInBrowserToolStripMenuItem, Me.DownloadToolStripMenuItem1, Me.MoveToolStripMenuItem, Me.RenameToolStripMenuItem1, Me.SendToTrashToolStripMenuItem, Me.SaveChecksumToolStripMenuItem, Me.VerifyChecksumToolStripMenuItem, Me.GetRawDownloadURLToolStripMenuItem})
         Me.FilesContextMenu.Name = "FilesContextMenu"
-        Me.FilesContextMenu.Size = New System.Drawing.Size(199, 180)
+        Me.FilesContextMenu.Size = New System.Drawing.Size(199, 202)
         '
         'AddToQueueToolStripMenuItem
         '
@@ -1348,6 +1350,18 @@ Partial Class Form1
         Me.TotalSpace.Name = "TotalSpace"
         Me.TotalSpace.Size = New System.Drawing.Size(43, 17)
         Me.TotalSpace.Text = "0.0 MB"
+        '
+        'SendToTrashToolStripMenuItem
+        '
+        Me.SendToTrashToolStripMenuItem.Name = "SendToTrashToolStripMenuItem"
+        Me.SendToTrashToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.SendToTrashToolStripMenuItem.Text = "Send to Trash"
+        '
+        'SendToTrashToolStripMenuItem1
+        '
+        Me.SendToTrashToolStripMenuItem1.Name = "SendToTrashToolStripMenuItem1"
+        Me.SendToTrashToolStripMenuItem1.Size = New System.Drawing.Size(203, 22)
+        Me.SendToTrashToolStripMenuItem1.Text = "Send to Trash"
         '
         'Form1
         '
@@ -1531,4 +1545,6 @@ End Sub
     Friend WithEvents SetDownloadLocationToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents AddToQueueToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents AddToQueueToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SendToTrashToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents SendToTrashToolStripMenuItem As ToolStripMenuItem
 End Class
