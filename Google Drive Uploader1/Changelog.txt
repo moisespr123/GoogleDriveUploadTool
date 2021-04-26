@@ -1,4 +1,8 @@
-﻿v1.15 (4/15/2021)
+﻿v1.15.1 (4/26/2021)
+- Fixed upload bug.
+- Updated Google Drive API.
+
+v1.15 (4/15/2021)
 - Can now add items to download to the Queue. Right click and select "Add to Queue" or press CTRL + Q.
 - Fixed download bug introduced in v1.14.
 - "Send to Trash" added to the right-click menu.
@@ -179,5 +183,5 @@ v1.1 (3/19/2017)
 -Can drag and drop a file to upload
 
 v1.0 (3/18/2017)
--Initial Release
--Ability to upload a file and resume if interrupted
+- Initial Release.
+- Ability to upload a file and resume if interrupted.

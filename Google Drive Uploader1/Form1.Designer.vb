@@ -35,6 +35,7 @@ Partial Class Form1
         Me.DownloadToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MoveToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.RenameToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SendToTrashToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveChecksumsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.GetRawDownloadURLsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FolderLabel = New System.Windows.Forms.Label()
@@ -151,6 +152,7 @@ Partial Class Form1
         Me.DownloadToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RenameToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SendToTrashToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveChecksumToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.VerifyChecksumToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GetRawDownloadURLToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -165,8 +167,6 @@ Partial Class Form1
         Me.FreeSpace = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpaceText = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TotalSpace = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.SendToTrashToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SendToTrashToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.FoldersContextMenu.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -227,7 +227,7 @@ Partial Class Form1
         '
         Me.FoldersContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToQueueToolStripMenuItem1, Me.OpenInBrowserToolStripMenuItem1, Me.DownloadToolStripMenuItem2, Me.MoveToolStripMenuItem1, Me.RenameToolStripMenuItem2, Me.SendToTrashToolStripMenuItem1, Me.SaveChecksumsToolStripMenuItem1, Me.GetRawDownloadURLsToolStripMenuItem})
         Me.FoldersContextMenu.Name = "FoldersContextMenu"
-        Me.FoldersContextMenu.Size = New System.Drawing.Size(204, 202)
+        Me.FoldersContextMenu.Size = New System.Drawing.Size(204, 180)
         '
         'AddToQueueToolStripMenuItem1
         '
@@ -258,6 +258,12 @@ Partial Class Form1
         Me.RenameToolStripMenuItem2.Name = "RenameToolStripMenuItem2"
         Me.RenameToolStripMenuItem2.Size = New System.Drawing.Size(203, 22)
         Me.RenameToolStripMenuItem2.Text = "Rename"
+        '
+        'SendToTrashToolStripMenuItem1
+        '
+        Me.SendToTrashToolStripMenuItem1.Name = "SendToTrashToolStripMenuItem1"
+        Me.SendToTrashToolStripMenuItem1.Size = New System.Drawing.Size(203, 22)
+        Me.SendToTrashToolStripMenuItem1.Text = "Send to Trash"
         '
         'SaveChecksumsToolStripMenuItem1
         '
@@ -938,7 +944,7 @@ Partial Class Form1
         Me.AboutLabel.Name = "AboutLabel"
         Me.AboutLabel.Size = New System.Drawing.Size(98, 26)
         Me.AboutLabel.TabIndex = 11
-        Me.AboutLabel.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.15"
+        Me.AboutLabel.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.15.1"
         '
         'FolderNameTextbox
         '
@@ -1262,6 +1268,12 @@ Partial Class Form1
         Me.RenameToolStripMenuItem1.Size = New System.Drawing.Size(198, 22)
         Me.RenameToolStripMenuItem1.Text = "Rename"
         '
+        'SendToTrashToolStripMenuItem
+        '
+        Me.SendToTrashToolStripMenuItem.Name = "SendToTrashToolStripMenuItem"
+        Me.SendToTrashToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.SendToTrashToolStripMenuItem.Text = "Send to Trash"
+        '
         'SaveChecksumToolStripMenuItem
         '
         Me.SaveChecksumToolStripMenuItem.Name = "SaveChecksumToolStripMenuItem"
@@ -1350,18 +1362,6 @@ Partial Class Form1
         Me.TotalSpace.Name = "TotalSpace"
         Me.TotalSpace.Size = New System.Drawing.Size(43, 17)
         Me.TotalSpace.Text = "0.0 MB"
-        '
-        'SendToTrashToolStripMenuItem
-        '
-        Me.SendToTrashToolStripMenuItem.Name = "SendToTrashToolStripMenuItem"
-        Me.SendToTrashToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
-        Me.SendToTrashToolStripMenuItem.Text = "Send to Trash"
-        '
-        'SendToTrashToolStripMenuItem1
-        '
-        Me.SendToTrashToolStripMenuItem1.Name = "SendToTrashToolStripMenuItem1"
-        Me.SendToTrashToolStripMenuItem1.Size = New System.Drawing.Size(203, 22)
-        Me.SendToTrashToolStripMenuItem1.Text = "Send to Trash"
         '
         'Form1
         '

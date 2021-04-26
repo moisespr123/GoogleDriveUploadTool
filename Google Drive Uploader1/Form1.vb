@@ -548,6 +548,7 @@ Public Class Form1
             FolderToUploadOrDownloadIdFileList.Add(drive.currentFolder)
             ItemInQueueAction.Add(0)
             My.Settings.UploadQueueFolders.Add(drive.currentFolder)
+            My.Settings.QueueFileAction.Add("0")
         Next
         For Each subF As DirectoryInfo In BaseFolder.GetDirectories()
             Application.DoEvents()
