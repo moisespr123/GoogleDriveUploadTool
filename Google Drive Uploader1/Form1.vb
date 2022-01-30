@@ -343,7 +343,7 @@ Public Class Form1
         My.Settings.FoldersCreated.Clear()
         My.Settings.FoldersCreatedID.Clear()
         My.Settings.Save()
-        MsgBox(Translations.MsgAndDialogLang("upload_finish"))
+        MsgBox(Translations.MsgAndDialogLang("queue_finish"))
     End Sub
     Private ErrorMessage As String = ""
 

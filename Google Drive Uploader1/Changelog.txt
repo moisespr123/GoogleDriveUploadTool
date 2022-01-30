@@ -1,4 +1,8 @@
-﻿v1.15.1 (4/26/2021)
+﻿v1.15.2 (1/30/2022)
+- Changed "Uploads Finished" text to "Queue Items Processed!" as the queue can be either upload or download items.
+- Updated Google APIs.
+
+v1.15.1 (4/26/2021)
 - Fixed upload bug.
 - Updated Google Drive API.
 

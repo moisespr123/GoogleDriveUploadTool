@@ -944,7 +944,7 @@ Partial Class Form1
         Me.AboutLabel.Name = "AboutLabel"
         Me.AboutLabel.Size = New System.Drawing.Size(98, 26)
         Me.AboutLabel.TabIndex = 11
-        Me.AboutLabel.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.15.1"
+        Me.AboutLabel.Text = "By Moisés Cardona" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "v1.15.2"
         '
         'FolderNameTextbox
         '
